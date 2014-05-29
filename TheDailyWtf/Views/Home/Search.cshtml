@@ -1,0 +1,13 @@
+﻿@model HomeIndexViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Search</h2>
+<p>Searching for articles that contain the query: <strong>@Context.Request.QueryString["q"]</strong></p>
+<div class="twelve columns">
+    @foreach (var article in Model.Articles)
+    { 
+        @Html.Partial(Views.Shared.PartialArticleItem, article)
+    }
+</div>

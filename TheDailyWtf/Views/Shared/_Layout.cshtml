@@ -1,0 +1,107 @@
+﻿@model WtfViewModelBase
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@Model.PageTitle</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="humans.txt" />
+
+    <link rel="icon" href="/favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+    <link rel="stylesheet" href="/content/css/gumby.css" />
+    <link rel="stylesheet" href="/content/css/animate.min.css" />
+    <link rel="stylesheet" href="/content/css/screen.css" />
+    <link rel="stylesheet" href="/content/css/prism.css" />
+    <link rel="stylesheet" href="/content/css/jquery.qtip.min.css" />
+    <link rel="stylesheet" href="/content/css/custom.css" />
+
+    <script src="/scripts/modernizr-2.6.2.min.js"></script>
+
+</head>
+<body class="noise">
+
+    @Html.Partial(Views.Shared.PartialNavigationMenu, Model.NavigationMenu)
+
+    <div id="wrapper">
+        <div class="row">
+            <div class="twelve columns">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <div id="billboard" class="hideNonDesktop">
+        <div class="row">
+            <div class="container da-space">
+                <h6>Advertisement</h6>
+                <hr />
+                <div class="daBlock da-970x250">
+                    <img src="/content/images/banner970x90.jpg" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <footer>
+            <div class="row">
+                <div class="columns eight">
+                    <h5>Recent Articles</h5>
+                    <hr />
+
+                    @Html.Partial(Views.Shared.PartialRecentArticleList, Model.RecentArticles)
+
+                </div>
+            <div class="columns four">
+                <h5>About TheDailyWTF</h5>
+                <hr />
+                <p>The Daily WTF (also called Worse Than Failure from February to December 2007) is a humorous blog dedicated to "Curious Perversions in Information Technology". The blog, run by <a href="/authors/alex-papadimoulis">Alex Papadimoulis</a>, "offers living examples of code that invites the exclamation 'WTF!?'" (What The Fuck!?) and "recounts tales of disastrous development, from project management gone spectacularly bad to inexplicable coding choices."</p>
+                <p>In addition to horror stories, The Daily WTF "serves as a repository of knowledge and discussion forums for inquisitive web designers and developers" and has introduced several anti-patterns, including <a href="/articles/soft-coding">Softcoding</a> and the <a href="/articles/the-inner-platform-effect">Inner-Platform Effect</a>.</p>
+            </div>
+            <hr />
+    </div>
+    <div class="row">
+        <ul>
+            <li><a href="/info/advertise">Advertise</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/info/privacy">Privacy Policy &amp; Disclaimer</a></li>
+            <li><a href="http://syndication.thedailywtf.com/TheDailyWtf">RSS</a></li>
+        </ul>
+        <hr />
+    </div>
+    <div class="row">
+        <p class="hideMobile hideTablet" style="float: right;">Hosted on a <a href="http://www.hivelocity.net/">dedicated server</a> at HiVelocity, deployed with <a href="http://inedo.com/landing/buildmaster">BuildMaster</a></p>
+        <p style="float: left;">&copy; 2004 - 2014 Alex Papadimoulis</p>
+    </div>
+    </footer>
+    </div>
+
+    <!--[if lt IE 9]>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/scripts/jquery-1.10.2.min.js"><\/script>')</script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/scripts/jquery-2.0.1.min.js"><\/script>')</script>
+    <!--<![endif]-->
+    <script src="/scripts/gumby.min.js"></script>
+
+    <script src="/scripts/jquery.qtip-2.2.0.min.js"></script>
+
+    <script src="/scripts/plugins.js"></script>
+    <script src="/scripts/main.js"></script>
+    <script src="/scripts/prism.js"></script>
+
+    <!--[if lt IE 8 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+    <![endif]-->
+</body>
+</html>
+

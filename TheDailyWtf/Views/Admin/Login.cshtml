@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="four columns">
+        <h2>Login</h2>
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <div class="field">
+                <div>Username:</div>
+                <input name="username" class="input" type="text" maxlength="100" />
+            </div>
+            <div class="field">
+                <div>Password:</div>
+                <input name="password" class="input" type="password" maxlength="250" />
+            </div>
+            <div class="medium primary btn">
+                <input class="input" type="submit" value="Login" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+﻿@model ArticleModel
+
+@{
+    ViewBag.Title = "CreateArticle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>New Article</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div class="field">
+        <div>Series:</div>
+        <div class="picker">
+            <select name="series.slug">
+                @foreach (var series in SeriesModel.GetAllSeries()) 
+                {
+                    <option value="@series.Slug">@series.Title</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="field">
+        <div>Title:</div>
+        <input name="title" class="input" type="text" maxlength="255" />
+    </div>
+    <div class="field">
+        <div>Body:</div>
+        <textarea name="body" class="input textarea" rows="8" cols="60"></textarea>
+    </div>
+    <div class="medium primary btn">
+        <input class="input" type="submit" value="Next &raquo;" />
+    </div>
+</form>

@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h2>Advertise</h2>
+
+    <p>If you have a product to showcase to the developer and tech community, The Daily WTF is the place to do it:</p>
+
+    <ul class="advertise-reasons">
+        <li>The Daily WTF reaches over a half million IT professionals every month. Our community includes software developers, 
+	    software architects, software development managers, database administrators, systems administrators, network engineers, 
+	    students, systems/business analysts, and project managers.
+        </li>
+        <li>The majority of readers visit weekly and are highly influential in technology purchasing decisions at their respective companies and 
+        organizations.
+        </li>
+        <li>With multiple articles posted every business day, it's the ideal environment to promote your 
+        product or brand.
+        </li>
+    </ul>
+
+    <h3>Advertising Available</h3>
+    <p>
+        There are two available ad spots on The Daily WTF. The leaderboard (top) is 728x90 and the skyscraper (left) is 
+	160x600. We are happy to allow our sponsors to utilize either or both spaces in a single campaign per availability. 
+	We also post a monthly "Sponsor Thank You" on the site in which we include a text link to our sponsors' sites, 
+	company logos, and brief product/service description for all our readers to see.
+    </p>
+
+    <h4>Are you ready to show off your product?</h4>
+    <p>
+        Give us a ring at <i class="icon-phone"></i>(440) 398-5861 or by using the form below.
+    </p>
+
+    <div>
+        <form method="post" action="/info/advertise">
+
+            <div class="field">
+                <div>Your Name:</div>
+                <input name="name" class="input" type="text" maxlength="50" />
+            </div>
+            <div class="field">
+                <div>Your Email:</div>
+                <input name="email" class="input" type="text" maxlength="250" />
+            </div>
+            <div class="field">
+                <div>Phone Number:</div>
+                <input name="phone" class="input" type="text" maxlength="150" />
+            </div>
+            <div class="field">
+                <div>Message:</div>
+                <textarea name="message" class="input textarea" rows="8" cols="60"></textarea>
+            </div>
+            <div class="field">
+                <div>Captcha:</div>
+                <div class="smaller-text">Prove that you're not a robot. Type in the word you see in the image.</div>
+                <img src="/captcha-image?w=250&amp;h=50&amp;t=XyxNLEksXCxFLFksXyw%5e" />
+                <input class="input" name="captcha" type="text" />
+            </div>
+            <div class="medium primary btn">
+                <input class="input" type="submit" value="Send Message" />
+            </div>
+
+        </form>
+    </div>
+</div>

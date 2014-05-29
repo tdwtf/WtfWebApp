@@ -1,0 +1,29 @@
+﻿@model ViewAuthorViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row author">
+    <div class="three columns animated fadeInDown">
+        <div class="row authorPic">
+            <img src="/content/images/authors/@(Model.Author.Slug).png">
+        </div>
+    </div>
+    <div class="nine columns animated fadeInDown">
+        <h2 class="authorName">@Model.Author.Name</h2>
+        <hr />
+        <div class="author-description">
+            @Html.Raw(Model.Author.DescriptionHtml)
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <hr />
+    <div class="authorListHeader row">
+        <h4>Recent Articles by <strong>@Model.Author.FirstName</strong>:</h4>
+        @foreach (var article in Model.Articles)
+        {
+            @Html.Partial(Views.Shared.PartialArticleItem, article)
+        }
+    </div>
+</div>

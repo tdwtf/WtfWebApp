@@ -1,0 +1,41 @@
+﻿@model ArticleItemViewModel
+
+<div class="articleListItem">
+    <div class="row">
+        @if (Model.DisplayAuthorLink)
+        { 
+            <div class="two columns">
+                <div class="author">by <span class="name"><a href="/author"></a><span class="fakeLink">@Model.Article.Author.Name</span></span></div>
+                <div class="date">
+                    <span class="date">@Model.Article.PublishedDate.Value.ToString("dd")</span>
+                    <span class="month">@Model.Article.PublishedDate.Value.ToString("MMM")</span>
+                    <span class="year">@Model.Article.PublishedDate.Value.Year</span>
+                </div>
+            </div>
+        }
+        <article class="@(Model.DisplayAuthorLink ? "ten" : "twelve") columns articleContainer @Model.Article.SeriesCssClass">
+            <header>
+                <h4>@Model.Article.Title</h4>
+            </header>
+            <div class="container">
+                <p>@Model.Article.Summary</p>
+            </div>
+            <div class="clearfix"></div>
+            <footer>
+                <div class="container">
+                    <i class="icon-comment"></i><span class="comments"><a href="@Model.Article.DiscourseThreadUrl"></a><span class="fakeLink">@Model.Article.CommentCount Comments</span></span> - Last Comment @Model.Article.LastCommentRelativeDate
+                    <div class="social">
+                        <div class="socialButtons">
+                            <div class="pw pw-widget ra1-pw-classicWidget ra1-pw_size_medium pw-layout-horizontal pw-counter-horizontal">
+                                <a class="pw-button pw-button-facebook button-type-square pw-size-medium pw-button-counter-horizontal"><span class="pw-icon ra1-pw-icon ra1-pw-icon-facebook"></span><span class="pw-button-counter"><i class="pw-button-counter__brd"></i><span class="pw-button-counter__count ra1-pw-button-counter-value">0</span></span></a>
+                                <a class="pw-button pw-button-twitter button-type-square pw-size-medium pw-button-counter-horizontal"><span class="pw-icon ra1-pw-icon ra1-pw-icon-twitter"></span><span class="pw-button-counter"><i class="pw-button-counter__brd"></i><span class="pw-button-counter__count ra1-pw-button-counter-value">0</span></span></a>
+                            </div>
+                            <script src="http://i.po.st/static/v3/post-widget.js#publisherKey=dp7ieh60q5f0l3cfg8b4&amp;retina=true" type="text/javascript"></script>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <a href="/articles/@(Model.Article.Slug)" class="readMore"></a>
+        </article>
+    </div>
+</div>

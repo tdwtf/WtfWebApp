@@ -1,0 +1,16 @@
+﻿@model IEnumerable<TheDailyWtf.Models.ArticleModel>
+
+<div class="articleList">
+    <ul>
+        @foreach (var article in Model)
+        { 
+            <li class="@article.Series.CssClass">
+                <div><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
+            </li>
+        }
+        @if (!Model.Any())
+        { 
+            <li>No articles found.</li>
+        }
+    </ul>
+</div>

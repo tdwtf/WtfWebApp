@@ -1,0 +1,59 @@
+﻿@model ViewArticleViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row code" id="articlePage">
+
+    <div class="twelve columns articleWrapper">
+        <div class="content">
+            <div class="row">
+                <div class="container">
+
+                    <h1>@Model.Article.Title</h1>
+                    <span class="articleMeta">By <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a> <span class="date">on  @Model.Article.PublishedDate</span>
+                    </span>
+
+                    <div class="author hideMobile">
+                        <div class="authorPic animated fadeInDown">
+                            <img src="/content/images/authors/@(Model.Article.Author.Slug).png">
+                        </div>
+                        <br />
+
+                        <h4>@Model.Article.Author.Name</h4>
+                        <p>@Html.Raw(Model.Article.Author.DescriptionHtml)</p>
+                    </div>
+
+                    <div class="social">
+                        <div class="socialButtons">
+                            <div class="pw pw-widget ra1-pw-classicWidget ra1-pw_size_medium pw-layout-horizontal pw-counter-horizontal">
+                                <a class="pw-button pw-button-facebook button-type-square pw-size-medium pw-button-counter-horizontal"><span class="pw-icon ra1-pw-icon ra1-pw-icon-facebook"></span><span class="pw-button-counter"><i class="pw-button-counter__brd"></i><span class="pw-button-counter__count ra1-pw-button-counter-value">0</span></span></a>
+                                <a class="pw-button pw-button-twitter button-type-square pw-size-medium pw-button-counter-horizontal"><span class="pw-icon ra1-pw-icon ra1-pw-icon-twitter"></span><span class="pw-button-counter"><i class="pw-button-counter__brd"></i><span class="pw-button-counter__count ra1-pw-button-counter-value">0</span></span></a>
+                            </div>
+                            <script src="http://i.po.st/static/v3/post-widget.js#publisherKey=dp7ieh60q5f0l3cfg8b4&amp;retina=true" type="text/javascript"></script>
+                        </div>
+                    </div>
+
+                    <div class="article-body">
+                        @Html.Raw(Model.Article.Body)
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <hr />
+
+                    <footer class="">
+                        <div class="row">
+                            <div class="four columns">
+                                <h5 class="heading"><i class="icon-doc-text-inv"></i>Similar Articles</h5>
+                                @Html.Partial(Views.Shared.PartialRecentArticleList, Model.SimilarArticles)
+                            </div>
+                            <div class="eight columns">
+                                @Html.Partial(Views.Shared.PartialComments, Model.FeaturedComments)
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

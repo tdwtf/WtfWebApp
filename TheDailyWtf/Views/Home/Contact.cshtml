@@ -1,0 +1,70 @@
+﻿@model HomeIndexViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h2>Contact / Submit WTF</h2>
+
+    <div>Please use the form below. If there are any issues, send an email to alexp-at-WorseThanFailure.com. If you are submitting a WTF moment, please read the guidelines below the form.</div>
+    <hr />
+
+    @Html.ValidationSummary()
+
+    <form method="post" action="/contact" enctype="multipart/form-data">
+        <div class="field">
+            <div>Send To:</div>
+            <div class="picker">
+                <select name="to">
+                    <option value=""></option>
+                    <option value="">-- WTF SUBMISSIONS --</option>
+                    <option value="SUB">Stories / General / Other</option>
+                    <option value="SUBPUP">Error'd</option>
+                    <option value="SUBIVW">Tales from the Interview</option>
+                    <option value="SUBSOD">Code SOD</option>
+                    <option value=""></option>
+                    <option value="">-- WTF STAFFERS --</option>
+                    <option selected="selected" value="AP">Alex Papadimoulis (Owner/Editor)</option>
+                    <option value="JV">Jake Vinson (Author)</option>
+                    <option value="EV">Evgeniy Vigovskiy (Editor, Русский Вариант)</option>
+                    <option value="PZ">Patryk Zawadzki (Editor, Wersja polska)</option>
+                    <option value="CS">Cezary Statkiewicz (Editor, Wersja polska)</option>
+                    <option value="JD">Jocelyn Demoy (Editor, Edition Française)</option>
+                    <option value="MG">Michael Goulis (Advertising)</option>
+                </select>
+            </div>
+        </div>
+        <div class="field">
+            <div>Your Name:</div>
+            @*<input name="name" class="input" type="text" maxlength="50" />*@
+            @Html.TextBox("name")
+        </div>
+        <div class="field">
+            <div>Your Email:</div>
+            <input name="email" class="input" type="text" maxlength="250" />
+        </div>
+        <div class="field">
+            <div>Attachment:</div>
+            <input name="file" class="input" type="file" />
+        </div>
+        <div class="field">
+            <div>Message:</div>
+            <textarea name="message" class="input textarea" rows="8" cols="60"></textarea>
+        </div>
+        <div class="medium primary btn">
+            <input class="input" type="submit" value="Send Message" />
+        </div>
+    </form>
+
+    <h2>Submission Considerations</h2>
+    <div>
+        <ul>
+            <li>I get about ten submissions a day. I post once a day and only on weekdays.</li>
+            <li>I don't care for names like "c0derdude3k" or "axeman." Please use a real-sounding name. Otherwise, I'll just say "submitted anonymously." </li>
+            <li>I rarely reply to submissions. I do, however, read every message.</li>
+            <li>I generally don't post things from messageboards or newsgroups (we gotta be fair from those trying to learn!)</li>
+            <li>If you're pretty sure that what you got isn't front page material, you could always post it to the side-bar. There's quite a few people who read that.</li>
+            <li>Don't hesitate to send me things. Even if I don't post it, I do read everything and share in your pain.</li>
+        </ul>
+    </div>
+</div>
