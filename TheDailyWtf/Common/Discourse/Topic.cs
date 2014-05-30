@@ -15,6 +15,7 @@ namespace TheDailyWtf.Discourse
         public bool Pinned { get; private set; }
         public bool Visible { get; private set; }
         public DateTime CreatedDate { get; private set; }
+        public DateTime? LastPostedAt { get; private set; }
 
         public string Url
         {
@@ -39,7 +40,8 @@ namespace TheDailyWtf.Discourse
                 Posts = posts.AsReadOnly(),
                 Pinned = topic.pinned,
                 Visible = topic.visible,
-                CreatedDate = topic.created_at
+                CreatedDate = topic.created_at,
+                LastPostedAt = topic.last_posted_at
             };
         }
 

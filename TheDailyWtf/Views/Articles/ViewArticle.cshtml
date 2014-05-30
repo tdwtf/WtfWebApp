@@ -49,6 +49,9 @@
                             </div>
                             <div class="eight columns">
                                 @Html.Partial(Views.Shared.PartialComments, Model.FeaturedComments)
+                                <div>
+                                    <a href="@(Model.Article.DiscourseThreadUrl)">View All Comments &raquo;</a>
+                                </div>
                             </div>
                         </div>
                     </footer>

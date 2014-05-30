@@ -1,4 +1,5 @@
-﻿@{
+﻿@model HomeIndexViewModel
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -35,7 +36,7 @@
 
     <div>
         <form method="post" action="/info/advertise">
-
+            @Html.AntiForgeryToken()
             <div class="field">
                 <div>Your Name:</div>
                 <input name="name" class="input" type="text" maxlength="50" />

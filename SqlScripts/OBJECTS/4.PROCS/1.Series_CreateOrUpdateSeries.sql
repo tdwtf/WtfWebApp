@@ -16,7 +16,7 @@ GO
 
 CREATE PROCEDURE [Series_CreateOrUpdateSeries]
 (
-    @Series_Slug NVARCHAR(255) OUT,
+    @Series_Slug NVARCHAR(255),
     @Title_Text NVARCHAR(255),
     @Description_Text NVARCHAR(MAX) = NULL
 )

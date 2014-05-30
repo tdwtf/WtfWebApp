@@ -1,5 +1,5 @@
 EXEC [__AddStoredProcInfo]
-    /* StoredProc_Name         */ 'Articles_GetRecentArticles',
+    /* StoredProc_Name         */ 'Articles_GetOtherRecentArticles',
     /* Internal_Indicator      */ 'N',
     /* ReturnType_Name         */ 'DataTable',
     /* DataTableNames_Csv      */ 'Articles_Extended',
@@ -7,18 +7,16 @@ EXEC [__AddStoredProcInfo]
     /* Description_Text        */ NULL
 GO
 
-IF OBJECT_ID('[Articles_GetRecentArticles]') IS NOT NULL
-	DROP PROCEDURE [Articles_GetRecentArticles]
+IF OBJECT_ID('[Articles_GetOtherRecentArticles]') IS NOT NULL
+	DROP PROCEDURE [Articles_GetOtherRecentArticles]
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [Articles_GetRecentArticles]
+CREATE PROCEDURE [Articles_GetOtherRecentArticles]
 (
     @PublishedStatus_Name VARCHAR(15),
-    @Series_Slug NVARCHAR(255) = NULL,
-    @Author_Slug NVARCHAR(255) = NULL,
     @Article_Count INT = NULL
 )
 AS
@@ -30,13 +28,12 @@ BEGIN
 
     SELECT * FROM [Articles_Extended]
             WHERE (@PublishedStatus_Name IS NULL OR [PublishedStatus_Name] = @PublishedStatus_Name)
-              AND (@Series_Slug IS NULL OR [Series_Slug] = @Series_Slug)
-              AND (@Author_Slug IS NULL OR [Author_Slug] = @Author_Slug)
+              AND ([Series_Slug] NOT IN ('feature-articles', 'code-sod', 'errord'))
               AND [Published_Date] < GETDATE()
          ORDER BY [Published_Date] DESC
 
 END
 GO
 
-GRANT EXECUTE ON [Articles_GetRecentArticles] TO [TheDailyWtfUser_Role]
+GRANT EXECUTE ON [Articles_GetOtherRecentArticles] TO [TheDailyWtfUser_Role]
 GO

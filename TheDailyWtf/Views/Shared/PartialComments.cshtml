@@ -10,10 +10,10 @@
             <li class="comment">
                 <div class="avatarContainer">
                     <div class="imgContainer">
-                        <img src="/content/images/authors/@(comment.Author.Slug).png">
+                        <img src="@(comment.ImageUrl)">
                     </div>
                 </div>
-                <span class="poster"><a href="/authors/@(comment.Author.Slug)">@comment.Author.Name</a></span>
+                <span class="poster">@comment.Username</span>
                 <span class="timestamp">@comment.PublishedDate</span>
                 <div>
                     @Html.Raw(comment.BodyHtml)

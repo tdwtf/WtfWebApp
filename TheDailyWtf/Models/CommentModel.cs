@@ -1,30 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TheDailyWtf.Discourse;
 
 namespace TheDailyWtf.Models
 {
     public class CommentModel
     {
         public string BodyHtml { get; set; }
-        public AuthorModel Author { get; set;}
-        public string PublishedDate { get; set; }
+        public string Username { get; set;}
+        public DateTime PublishedDate { get; set; }
         public int DiscoursePostId { get; set; }
+        public string ImageUrl { get; set; }
 
-        public static IEnumerable<CommentModel> GetFeaturedCommentsForArticle(int articleId)
+        public static IEnumerable<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
         {
-            yield return GetCommentById(1);
-            yield return GetCommentById(2);
-            yield return GetCommentById(3);
+            if (article.DiscourseTopicId != null)
+            {
+                var comments = DiscourseHelper.GetFeaturedCommentsForArticle(article.Id);
+                return comments.Select(c => CommentModel.FromDiscourse(c));
+            }
+
+            return new CommentModel[0];
         }
 
-        private static CommentModel GetCommentById(int id)
+        private static CommentModel FromDiscourse(Post post)
         {
             return new CommentModel()
             {
-                BodyHtml = "hello dears",
-                Author = AuthorModel.GetAuthorBySlug("hdars"),
-                PublishedDate = DateTime.Now.ToString("MMMM dd yyyy"),
-                DiscoursePostId = id
+                BodyHtml = post.BodyHtml,
+                Username = post.Username,
+                PublishedDate = post.PostDate,
+                DiscoursePostId = post.Id,
+                ImageUrl = post.ImageUrl
             };
         }
     }

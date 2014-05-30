@@ -3,7 +3,7 @@ EXEC [__AddStoredProcInfo]
     /* Internal_Indicator      */ 'N',
     /* ReturnType_Name         */ 'void',
     /* DataTableNames_Csv      */ NULL,
-    /* OutputPropertyNames_Csv */ 'Author_Slug',
+    /* OutputPropertyNames_Csv */ NULL,
     /* Description_Text        */ NULL
 GO
 
@@ -16,7 +16,7 @@ GO
 
 CREATE PROCEDURE [Authors_CreateOrUpdateAuthor]
 (
-    @Author_Slug NVARCHAR(255) OUT,
+    @Author_Slug NVARCHAR(255),
     @Display_Name NVARCHAR(255),
     @Admin_Indicator YNINDICATOR,
     @Bio_Html NVARCHAR(MAX),

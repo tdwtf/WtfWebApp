@@ -21,7 +21,7 @@ namespace TheDailyWtf.ViewModels
         {
             get
             {
-                return ArticleModel.GetAllArticlesByMonth(this.ReferenceDate.Reference)
+                return ArticleModel.GetSeriesArticlesByMonth(this.Series, this.ReferenceDate.Reference)
                     .Select(a => new ArticleItemViewModel(a));
             }
         }

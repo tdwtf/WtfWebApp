@@ -3,7 +3,7 @@ EXEC [__AddStoredProcInfo]
     /* Internal_Indicator      */ 'N',
     /* ReturnType_Name         */ 'void',
     /* DataTableNames_Csv      */ NULL,
-    /* OutputPropertyNames_Csv */ 'Artricle_Id',
+    /* OutputPropertyNames_Csv */ 'Article_Id',
     /* Description_Text        */ NULL
 GO
 

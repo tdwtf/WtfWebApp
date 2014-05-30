@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using TheDailyWtf.Models;
+using TheDailyWtf.ViewModels;
 
 namespace TheDailyWtf.Controllers
 {
@@ -10,24 +11,26 @@ namespace TheDailyWtf.Controllers
 
         public ActionResult About()
         {
-            return View();
+            return View(new HomeIndexViewModel());
         }
 
-        [HttpGet]
         public ActionResult Advertise()
         {
-            return View();
+            return View(new HomeIndexViewModel());
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Advertise(AdvertiserContactFormModel advertiser)
         {
+            // send contact email...
+
             return RedirectToAction("advertise");
         }
 
         public ActionResult Privacy()
         {
-            return View();
+            return View(new HomeIndexViewModel());
         }
     }
 }

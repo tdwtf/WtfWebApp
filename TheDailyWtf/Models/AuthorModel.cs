@@ -4,10 +4,6 @@ namespace TheDailyWtf.Models
 {
     public sealed class AuthorModel
     {
-        private AuthorModel()
-        {
-        }
-
         public string Name { get; set; }
         public string FirstName { get { return this.Name.Split(' ')[0]; } }
         public string ShortDescription { get; set; }

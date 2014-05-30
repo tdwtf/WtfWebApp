@@ -13,7 +13,7 @@
                 </div>
             </div>
         }
-        <article class="@(Model.DisplayAuthorLink ? "ten" : "twelve") columns articleContainer @Model.Article.SeriesCssClass">
+        <article class="@(Model.DisplayAuthorLink ? "ten" : "twelve") columns articleContainer @Model.Article.Series.CssClass">
             <header>
                 <h4>@Model.Article.Title</h4>
             </header>
@@ -23,7 +23,7 @@
             <div class="clearfix"></div>
             <footer>
                 <div class="container">
-                    <i class="icon-comment"></i><span class="comments"><a href="@Model.Article.DiscourseThreadUrl"></a><span class="fakeLink">@Model.Article.CommentCount Comments</span></span> - Last Comment @Model.Article.LastCommentRelativeDate
+                    <i class="icon-comment"></i><span class="comments"><a href="@Model.Article.DiscourseThreadUrl"></a><span class="fakeLink">@Model.Article.CommentCount Comments</span></span> - Last Comment @@ @Model.Article.LastCommentDateDescription
                     <div class="social">
                         <div class="socialButtons">
                             <div class="pw pw-widget ra1-pw-classicWidget ra1-pw_size_medium pw-layout-horizontal pw-counter-horizontal">

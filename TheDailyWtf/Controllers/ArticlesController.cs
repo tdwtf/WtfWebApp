@@ -19,6 +19,11 @@ namespace TheDailyWtf.Controllers
             return View(new ViewArticleViewModel(articleSlug));
         }
 
+        public ActionResult ViewLegacyArticle(string articleSlug)
+        {
+            return RedirectToActionPermanent("ViewArticle", new { articleSlug });
+        }
+
         public ActionResult ViewArticlesByMonth(int year, int month)
         {
             var date = new DateTime(year, month, 1);

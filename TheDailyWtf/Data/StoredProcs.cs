@@ -7,11 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using global::Inedo.Data;
 using global::System;
-using global::System.Collections.Generic;
+using global::System.ComponentModel;
 using global::System.Data;
+using global::System.Data.SqlClient;
+using global::System.Collections.Generic;
 using global::System.Linq;
+using global::System.Xml.Linq;
+using global::Inedo.Data;
 
 #pragma warning disable 1591
 namespace TheDailyWtf.Data.StoredProcedures
@@ -36,9 +39,10 @@ namespace TheDailyWtf.Data.StoredProcedures
 		}
 
 		public int? Article_Id { get { return GetParamVal<int?>("@Article_Id"); } }
-		public Tables.Articles_Extended Execute()
+		public int? Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.Articles_Extended>().FirstOrDefault();
+			this.ExecuteNonQuery();
+			return this.Article_Id;
 		}
 	}
 
@@ -78,9 +82,9 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Articles_GetArticles : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Articles_GetArticles(string Series_Title_Text, string PublishedStatus_Name, DateTime? RangeStart_Date, DateTime? RangeEnd_Date)
+		public Articles_GetArticles(string Series_Slug, string PublishedStatus_Name, DateTime? RangeStart_Date, DateTime? RangeEnd_Date)
 		{
-			AddParam("@Series_Title_Text", DbType.String, 255, ParameterDirection.Input, Series_Title_Text);
+			AddParam("@Series_Slug", DbType.String, 255, ParameterDirection.Input, Series_Slug);
 			AddParam("@PublishedStatus_Name", DbType.AnsiString, 15, ParameterDirection.Input, PublishedStatus_Name);
 			AddParam("@RangeStart_Date", DbType.DateTime, 0, ParameterDirection.Input, RangeStart_Date);
 			AddParam("@RangeEnd_Date", DbType.DateTime, 0, ParameterDirection.Input, RangeEnd_Date);
@@ -103,6 +107,22 @@ namespace TheDailyWtf.Data.StoredProcedures
 		public IEnumerable<Tables.FeaturedComments> Execute()
 		{
 			return this.ExecuteDataTable().AsStrongTyped<Tables.FeaturedComments>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Articles_GetOtherRecentArticles : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Articles_GetOtherRecentArticles(string PublishedStatus_Name, int? Article_Count)
+		{
+			AddParam("@PublishedStatus_Name", DbType.AnsiString, 15, ParameterDirection.Input, PublishedStatus_Name);
+			AddParam("@Article_Count", DbType.Int32, 0, ParameterDirection.Input, Article_Count);
+		}
+		public IEnumerable<Tables.Articles_Extended> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Articles_Extended>();
 		}
 	}
 
@@ -161,19 +181,16 @@ namespace TheDailyWtf.Data.StoredProcedures
 	{
 		public Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url)
 		{
-			AddParam("@Author_Slug", DbType.String, 255, ParameterDirection.InputOutput, Author_Slug);
+			AddParam("@Author_Slug", DbType.String, 255, ParameterDirection.Input, Author_Slug);
 			AddParam("@Display_Name", DbType.String, 255, ParameterDirection.Input, Display_Name);
 			AddParam("@Admin_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Input, Admin_Indicator != null ? Admin_Indicator.ToString() : null);
 			AddParam("@Bio_Html", DbType.String, -1, ParameterDirection.Input, Bio_Html);
 			AddParam("@ShortBio_Text", DbType.String, -1, ParameterDirection.Input, ShortBio_Text);
 			AddParam("@Image_Url", DbType.String, 255, ParameterDirection.Input, Image_Url);
 		}
-
-		public string Author_Slug { get { return GetParamVal<string>("@Author_Slug"); } }
-		public string Execute()
+		public void Execute()
 		{
 			this.ExecuteNonQuery();
-			return this.Author_Slug;
 		}
 	}
 
@@ -235,12 +252,10 @@ namespace TheDailyWtf.Data.StoredProcedures
 	{
 		public Series_CreateOrUpdateSeries(string Series_Slug, string Title_Text, string Description_Text)
 		{
-			AddParam("@Series_Slug", DbType.String, 255, ParameterDirection.InputOutput, Series_Slug);
+			AddParam("@Series_Slug", DbType.String, 255, ParameterDirection.Input, Series_Slug);
 			AddParam("@Title_Text", DbType.String, 255, ParameterDirection.Input, Title_Text);
 			AddParam("@Description_Text", DbType.String, -1, ParameterDirection.Input, Description_Text);
 		}
-
-		public string Series_Slug { get { return GetParamVal<string>("@Series_Slug"); } }
 		public Tables.Articles_Extended Execute()
 		{
 			return this.ExecuteDataTable().AsStrongTyped<Tables.Articles_Extended>().FirstOrDefault();
@@ -296,14 +311,19 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_GetArticleBySlug(Article_Slug);
 		}
 
-		public static StoredProcedures.Articles_GetArticles Articles_GetArticles(string Series_Title_Text, string PublishedStatus_Name, DateTime? RangeStart_Date, DateTime? RangeEnd_Date)
+		public static StoredProcedures.Articles_GetArticles Articles_GetArticles(string Series_Slug, string PublishedStatus_Name, DateTime? RangeStart_Date, DateTime? RangeEnd_Date)
 		{
-			return new StoredProcedures.Articles_GetArticles(Series_Title_Text, PublishedStatus_Name, RangeStart_Date, RangeEnd_Date);
+			return new StoredProcedures.Articles_GetArticles(Series_Slug, PublishedStatus_Name, RangeStart_Date, RangeEnd_Date);
 		}
 
 		public static StoredProcedures.Articles_GetFeaturedComments Articles_GetFeaturedComments(int? Article_Id)
 		{
 			return new StoredProcedures.Articles_GetFeaturedComments(Article_Id);
+		}
+
+		public static StoredProcedures.Articles_GetOtherRecentArticles Articles_GetOtherRecentArticles(string PublishedStatus_Name, int? Article_Count = null)
+		{
+			return new StoredProcedures.Articles_GetOtherRecentArticles(PublishedStatus_Name, Article_Count);
 		}
 
 		public static StoredProcedures.Articles_GetRecentArticles Articles_GetRecentArticles(string PublishedStatus_Name, string Series_Slug = null, string Author_Slug = null, int? Article_Count = null)

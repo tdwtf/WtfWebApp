@@ -12,8 +12,21 @@
         </div>
 
         <h5 class="heading"><i class="icon-clock"></i>Recent WTF's</h5>
-        @Html.Partial(Views.Shared.PartialRecentArticleList, Model.RecentWtfsSideBar)
+        @Html.Partial(Views.Shared.PartialRecentArticleList, Model.RecentArticles)
+    </aside>
 
+    <aside>
+        <h5 class="heading"><i class="icon-sound"></i>Sidebar WTF</h5>
+        <div class="articleList">
+            <ul>
+                @foreach (var sidebar in Model.GetSideBarWtfs())
+                { 
+                    <li class="code">
+                        <div><a class="clean" href="@sidebar.Url">@sidebar.Title</a></div>
+                    </li>
+                }
+            </ul>
+        </div>
     </aside>
 
     <aside class="sideMenu hideMobile" style="background-color: #222222;">
@@ -42,4 +55,8 @@
     {
         @Html.Partial(Views.Shared.PartialArticleItem, article)
     }
+</div>
+
+<div style="float: right;">
+    <a href="/articles">View Article Archives &raquo;</a>
 </div>

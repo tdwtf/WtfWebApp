@@ -7,8 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using global::Inedo.Data;
 using global::System;
+using global::System.ComponentModel;
+using global::System.Data;
+using global::System.Data.SqlClient;
+using global::System.Collections.Generic;
+using global::System.Linq;
+using global::System.Xml.Linq;
+using global::Inedo.Data;
 
 #pragma warning disable 1591
 namespace TheDailyWtf.Data

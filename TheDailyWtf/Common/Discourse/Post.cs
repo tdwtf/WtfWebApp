@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace TheDailyWtf.Discourse
 {
     public sealed class Post
@@ -11,6 +12,7 @@ namespace TheDailyWtf.Discourse
         public string Username { get; private set; }
         public string BodyHtml { get; private set; }
         public bool Hidden { get; private set; }
+        public DateTime PostDate { get; private set; }
         public PostType Type { get; private set; }
         public int Sequence { get; private set; }
         public int TopicId { get; private set; }
@@ -27,6 +29,7 @@ namespace TheDailyWtf.Discourse
                 Username = post.username,
                 BodyHtml = post.cooked,
                 Hidden = post.hidden,
+                PostDate = post.created_at,
                 Type = (PostType)post.post_type,
                 Sequence = post.post_number,
                 TopicId = post.topic_id,
