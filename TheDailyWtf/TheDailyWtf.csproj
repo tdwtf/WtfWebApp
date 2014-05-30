@@ -126,8 +126,27 @@
     <Content Include="Content\Css\prism.css" />
     <Content Include="Content\Css\screen.css" />
     <Content Include="Content\Images\Authors\alex-papadimoulis.png" />
+    <Content Include="Content\Images\Authors\brad-morgan.png" />
+    <Content Include="Content\Images\Authors\bruce-johnson.png" />
+    <Content Include="Content\Images\Authors\charles-robinson.png" />
+    <Content Include="Content\Images\Authors\dan-adams-jacobson.png" />
+    <Content Include="Content\Images\Authors\derrick-pallas.png" />
+    <Content Include="Content\Images\Authors\devin-moore.png" />
+    <Content Include="Content\Images\Authors\ellis-morning.png" />
+    <Content Include="Content\Images\Authors\erik-gern.png" />
+    <Content Include="Content\Images\Authors\george-e-mcdougall.png" />
+    <Content Include="Content\Images\Authors\jake-vinson.png" />
+    <Content Include="Content\Images\Authors\john-rasch.png" />
+    <Content Include="Content\Images\Authors\kirby-f.png" />
+    <Content Include="Content\Images\Authors\lorne-kates.png" />
     <Content Include="Content\Images\Authors\mark-bowytz.png" />
+    <Content Include="Content\Images\Authors\michael-casadevall.png" />
+    <Content Include="Content\Images\Authors\mike-nuss.png" />
+    <Content Include="Content\Images\Authors\mohlsen.png" />
     <Content Include="Content\Images\Authors\remy-porter.png" />
+    <Content Include="Content\Images\Authors\scott-selikoff.png" />
+    <Content Include="Content\Images\Authors\snoofle.png" />
+    <Content Include="Content\Images\Authors\tim-gallagher.png" />
     <Content Include="Content\Images\banner300.gif" />
     <Content Include="Content\Images\banner300x600.jpg" />
     <Content Include="Content\Images\banner728.png" />
@@ -217,7 +236,6 @@
   <ItemGroup>
     <Content Include="Views\Admin\CreateArticle.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
