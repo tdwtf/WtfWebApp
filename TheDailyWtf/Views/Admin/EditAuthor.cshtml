@@ -1,0 +1,40 @@
+﻿@model EditAuthorViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>@Model.Heading</h2>
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div class="field">
+        <div>URL Slug:</div>
+        <input type="text" class="input" name="author.slug" value="@Model.Author.Slug" @(Model.Author.Slug != null ? "readonly" : "") />
+    </div>
+    <div class="field">
+        <div>Author Name:</div>
+        <input type="text" class="input" name="author.name" value="@Model.Author.Name" />
+    </div>
+    <div class="field">
+        <div>Short Author Text Bio for Article Page:</div>
+        <input type="text" class="input" name="author.shortdescription" value="@Model.Author.ShortDescription" />
+    </div>
+    <div class="field">
+        <div>Bio HTML for Author Page:</div>
+        <textarea style="font-family: Consolas, 'Courier New', monospace; line-height: inherit;" name="author.descriptionhtml" class="input textarea" rows="8" cols="60">@Model.Author.DescriptionHtml</textarea>
+    </div>
+    <div class="field">
+        <div>Image URL:</div>
+        <input placeholder="@AuthorModel.DefaultImageUrl" type="text" class="input" name="author.imageurl" value="@Model.CustomImageUrl" />
+    </div>
+    <label for="author.isadmin">
+        <input name="author.isadmin" type="checkbox" value="true" @(Model.Author.IsAdmin ? "checked=\"checked\"" : "") />
+        <span></span>Grant Administrator Privileges
+    </label>
+    <div class="field">
+        <div>Set Password for this Author:</div>
+        <input placeholder="Keep current password" type="password" class="input" name="password" />
+    </div>
+    <div class="medium primary btn">
+        <input class="input" type="submit" value="Save" />
+    </div>
+</form>

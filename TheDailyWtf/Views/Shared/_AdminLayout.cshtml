@@ -20,35 +20,40 @@
     <link rel="stylesheet" href="/content/css/prism.css" />
     <link rel="stylesheet" href="/content/css/jquery.qtip.min.css" />
     <link rel="stylesheet" href="/content/css/custom.css" />
+    <link href="/content/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/content/css/jquery.timepicker.css" rel="stylesheet" />
 
     <script src="/scripts/modernizr-2.6.2.min.js"></script>
+    <script src="/scripts/jquery-2.0.1.min.js"></script>
+    <script src="/scripts/gumby.min.js"></script>
+    <script src="/scripts/jquery.qtip-2.2.0.min.js"></script>
+    <script src="/scripts/plugins.js"></script>
+    <script src="/scripts/main.js"></script>
+    <script src="/scripts/prism.js"></script>
+    <script type="text/javascript" src="/scripts/knockout-3.1.0.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.timepicker.min.js"></script>
+    <script type="text/javascript" src="/scripts/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="/scripts/custom.js"></script>
 
 </head>
 <body class="noise">
 
     <div id="wrapper">
         <div class="row">
+            <a href="/admin" style="text-decoration: none;"><img style="vertical-align: text-bottom;" src="/content/images/thedailywtfLogoNav.png" class="logo" /> Administration </a>
+            @if (User != null)
+            {
+                <div class="twelve columns" style="text-align: right;">
+                    Logged in as @User.DisplayName : <a href="/admin/logout">Logout</a>
+                </div>
+            }
+        </div>
+        <div class="row">
             <div class="twelve columns">
                 @RenderBody()
             </div>
         </div>
     </div>
-
-    <!--[if lt IE 9]>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/scripts/jquery-1.10.2.min.js"><\/script>')</script>
-    <![endif]-->
-    <!--[if gte IE 9]><!-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/scripts/jquery-2.0.1.min.js"><\/script>')</script>
-    <!--<![endif]-->
-    <script src="/scripts/gumby.min.js"></script>
-
-    <script src="/scripts/jquery.qtip-2.2.0.min.js"></script>
-
-    <script src="/scripts/plugins.js"></script>
-    <script src="/scripts/main.js"></script>
-    <script src="/scripts/prism.js"></script>
 
     <!--[if lt IE 8 ]>
     <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>

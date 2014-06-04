@@ -1,0 +1,86 @@
+﻿@model EditArticleViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(function () {
+        function ViewModel() {
+            var self = this;
+            self.useCustomSlug = ko.observable(@(Model.UseCustomSlug.ToString().ToLower()));
+            self.titleText = ko.observable('@(Model.Article.Title.Replace("'", "\'"))');
+            self.autoSlugText = ko.computed(function () {
+                return self.titleText().replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase();
+            });
+        }
+        var vm = new ViewModel();
+        ko.applyBindings(vm);
+    });
+
+</script>
+
+<h2>@Model.Heading</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <input name="article.id" type="hidden" value="@Model.ArticleId" />
+    <div class="field">
+        <div>Series:</div>
+        <div class="picker">
+            <select name="article.series.slug">
+                @foreach (var series in Model.AllSeries)
+                {
+                    <option value="@series.Slug" selected="@(Model.Article.Series.Slug == series.Slug)">@series.Title</option>
+                }
+            </select>
+        </div>
+    </div>
+    @if (User.IsAdmin)
+    { 
+        <div class="field">
+            <div>Author:</div>
+            <div class="picker">
+                <select name="article.author.slug">
+                    @foreach (var author in Model.AllAuthors)
+                    {
+                        <option value="@author.Slug" selected="@(Model.Article.Author.Slug == author.Slug)">@author.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+    }
+    <div class="field">
+        <div>Title:</div>
+        <input data-bind="value: titleText, valueUpdate: 'afterkeydown'" id="title-text" name="article.title" class="input" type="text" maxlength="255" value="@Model.Article.Title" />
+    </div>
+    <label for="edit-article-slug">
+        <input data-bind="checked: useCustomSlug" name="article.useCustomSlug" type="checkbox" value="Y" />
+        <span></span>Specify a custom slug...
+    </label>
+    <div class="field">
+        <div><span data-bind="text: useCustomSlug() ? 'Custom' : 'Auto-generated'"></span> URL Slug:</div>
+        <input data-bind="value: autoSlugText, attr: { readonly: useCustomSlug() ? null : 'readonly', placeholder: useCustomSlug() ? '' : 'auto-generated from title...' }" name="article.slug" class="input" type="text" maxlength="255" value="@Model.Article.Slug" />
+    </div>
+    <div class="field">
+        <div>Body HTML:</div>
+        <textarea style="font-family: Consolas, 'Courier New', monospace; line-height: inherit;" name="article.bodyhtml" class="input textarea" rows="8" cols="60">@Model.Article.BodyHtml</textarea>
+    </div>
+    <div class="field">
+        <div>Status:</div>
+        <div class="picker">
+            <select name="article.status">
+                @foreach (string status in Model.ArticleStatuses)
+                { 
+                    <option value="@status" selected="@(Model.Article.Status == status)">@status</option>
+                }
+            </select>
+        </div>
+    </div>
+    @Html.EditorFor(a => a.Article.PublishedDate)
+    <div class="medium primary btn">
+        <input class="input" type="submit" value="Save" />
+    </div>
+
+</form>

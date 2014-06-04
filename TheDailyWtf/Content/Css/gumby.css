@@ -2253,7 +2253,7 @@ label + .xnarrow:last-child, label + .narrow:last-child, label + .normal:last-ch
 
     .picker:first-child { margin-left: 0; }
 
-    .picker select { position: relative; display: block; min-width: 100%; width: 135%; height: 34px; padding: 6px 45px 6px 15px; color: #222; border: none; background: transparent; outline: none; -webkit-appearance: none; z-index: 99; cursor: pointer; font-size: 16px; font-size: 1rem; }
+    .picker select { position: relative; display: block; min-width: 100%; width: 135%; height: 34px; padding: 6px 45px 6px 15px; color: #222; border: none; background: transparent; outline: none; -webkit-appearance: none; /*z-index: 99;*/ cursor: pointer; font-size: 16px; font-size: 1rem; }
 
         .picker select::-ms-expand { display: none; }
 
@@ -2658,7 +2658,7 @@ nav.row { font-size: 120%; text-align: center; text-transform: uppercase; }
 
         .articleContainer .comments a { display: block; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 11; }
 
-    .articleContainer .social { position: relative; width: 110px; z-index: 11; }
+    .articleContainer .social { position: relative; width: 130px; z-index: 11; }
 
         .articleContainer .social .socialButtons { position: absolute; top: 0; right: 0; width: 100%; }
 

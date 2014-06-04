@@ -49,6 +49,21 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class Articles_DeleteArticle : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Articles_DeleteArticle(int? Article_Id)
+		{
+			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
+		}
+		public void Execute()
+		{
+			this.ExecuteNonQuery();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Articles_FeatureComment : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public Articles_FeatureComment(int? Article_Id, int? Discourse_Post_Id)
@@ -59,6 +74,21 @@ namespace TheDailyWtf.Data.StoredProcedures
 		public IEnumerable<Tables.FeaturedComments> Execute()
 		{
 			return this.ExecuteDataTable().AsStrongTyped<Tables.FeaturedComments>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Articles_GetArticleById : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Articles_GetArticleById(int? Article_Id)
+		{
+			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
+		}
+		public Tables.Articles_Extended Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Articles_Extended>().FirstOrDefault();
 		}
 	}
 
@@ -212,6 +242,20 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class Authors_GetAuthors : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Authors_GetAuthors()
+		{
+		}
+		public IEnumerable<Tables.Authors> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Authors>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Authors_SetPassword : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public Authors_SetPassword(string Author_Slug, string Password_Text)
@@ -301,9 +345,19 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_CreateOrUpdateArticle(Article_Id, Article_Slug, Published_Date, PublishedStatus_Name, Author_Slug, Title_Text, Series_Slug, Body_Html, Discourse_Topic_Id, Discourse_Topic_Opened);
 		}
 
+		public static StoredProcedures.Articles_DeleteArticle Articles_DeleteArticle(int? Article_Id)
+		{
+			return new StoredProcedures.Articles_DeleteArticle(Article_Id);
+		}
+
 		public static StoredProcedures.Articles_FeatureComment Articles_FeatureComment(int? Article_Id, int? Discourse_Post_Id)
 		{
 			return new StoredProcedures.Articles_FeatureComment(Article_Id, Discourse_Post_Id);
+		}
+
+		public static StoredProcedures.Articles_GetArticleById Articles_GetArticleById(int? Article_Id)
+		{
+			return new StoredProcedures.Articles_GetArticleById(Article_Id);
 		}
 
 		public static StoredProcedures.Articles_GetArticleBySlug Articles_GetArticleBySlug(string Article_Slug)
@@ -349,6 +403,11 @@ namespace TheDailyWtf.Data
 		public static StoredProcedures.Authors_GetAuthorBySlug Authors_GetAuthorBySlug(string Author_Slug)
 		{
 			return new StoredProcedures.Authors_GetAuthorBySlug(Author_Slug);
+		}
+
+		public static StoredProcedures.Authors_GetAuthors Authors_GetAuthors()
+		{
+			return new StoredProcedures.Authors_GetAuthors();
 		}
 
 		public static StoredProcedures.Authors_SetPassword Authors_SetPassword(string Author_Slug, string Password_Text)

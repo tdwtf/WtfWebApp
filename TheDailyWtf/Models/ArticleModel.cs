@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.Configuration;
-using Inedo;
+using System.Web.Mvc;
 using TheDailyWtf.Data;
 using TheDailyWtf.Discourse;
 
@@ -11,11 +12,18 @@ namespace TheDailyWtf.Models
 {
     public sealed class ArticleModel
     {
+        public ArticleModel()
+        {
+            this.Author = new AuthorModel();
+            this.Series = new SeriesModel();
+        }
+
         public int Id { get; set; }
         public AuthorModel Author { get; set; }
         public string Status { get; set; }
         public string Summary { get; set; }
-        public string Body { get; set; }
+        [AllowHtml]
+        public string BodyHtml { get; set; }
         public string Title { get; set; }
         public int CommentCount { get; set; }
         public DateTime? LastCommentDate { get; set; }
@@ -37,6 +45,10 @@ namespace TheDailyWtf.Models
         public SeriesModel Series { get; set; }
         public string Url { get { return string.Format("//{0}/articles/{1}", WebConfigurationManager.AppSettings["Wtf.Host"], this.Slug); } }
         public string Slug { get; set; }
+        public string TwitterUrl { get { return string.Format("//www.twitter.com/home?status=http:{0}+-+{1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
+        public string FacebookUrl { get { return string.Format("//www.facebook.com/sharer.php?u=http:{0}&t={1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
+        public string RedditUrl { get { return string.Format("//www.reddit.com/submit?url=http:{1}&title={1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
+        public string LinkedInUrl { get { return string.Format("//www.linkedin.com/shareArticle?mini=true&url=http:{0}&title={1}&source=The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
 
         public static IEnumerable<ArticleModel> GetAllArticlesByMonth(DateTime month)
         {
@@ -96,6 +108,12 @@ namespace TheDailyWtf.Models
             return CommentModel.GetFeaturedCommentsForArticle(this);
         }
 
+        public static ArticleModel GetArticleById(int id)
+        {
+            var article = StoredProcs.Articles_GetArticleById(id).Execute();
+            return ArticleModel.FromTable(article);
+        }
+
         public static ArticleModel GetArticleBySlug(string slug)
         {
             var article = StoredProcs.Articles_GetArticleBySlug(slug).Execute();
@@ -111,7 +129,7 @@ namespace TheDailyWtf.Models
                 Id = article.Article_Id,
                 Slug = article.Article_Slug,
                 Author = AuthorModel.FromTable(article),
-                Body = article.Body_Html,
+                BodyHtml = article.Body_Html,
                 CommentCount = 0,
                 DiscourseTopicId = article.Discourse_Topic_Id,
                 LastCommentDate = lastCommentDate,

@@ -4,7 +4,7 @@ using TheDailyWtf.ViewModels;
 
 namespace TheDailyWtf.Controllers
 {
-    public class InfoController : Controller
+    public class InfoController : WtfControllerBase
     {
         //
         // GET: /Info/

@@ -21,6 +21,7 @@ BEGIN
 
     SELECT * FROM [Articles_Extended]
             WHERE [PublishedStatus_Name] <> 'Published'
+               OR ([PublishedStatus_Name] = 'Published' AND [Published_Date] > GETDATE())
 
 END
 GO

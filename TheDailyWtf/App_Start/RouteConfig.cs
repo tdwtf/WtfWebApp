@@ -10,9 +10,21 @@ namespace TheDailyWtf
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "NewArticle",
-                url: "admin/new-article",
-                defaults: new { controller = "Admin", action = "CreateArticle" }
+                name: "ArticleAdmin",
+                url: "admin/article/edit/{id}",
+                defaults: new { controller = "Admin", action = "EditArticle", id = UrlParameter.Optional  }
+            );
+
+            routes.MapRoute(
+                name: "AuthorAdmin",
+                url: "admin/author/edit/{slug}",
+                defaults: new { controller = "Admin", action = "EditAuthor", slug = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "SeriesAdmin",
+                url: "admin/series/edit/{slug}",
+                defaults: new { controller = "Admin", action = "EditSeries", slug = UrlParameter.Optional }
             );
 
             routes.MapRoute(

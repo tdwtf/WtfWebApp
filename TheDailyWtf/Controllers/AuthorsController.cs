@@ -1,9 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System.Security.Principal;
+using System.Web.Mvc;
 using TheDailyWtf.ViewModels;
 
 namespace TheDailyWtf.Controllers
 {
-    public class AuthorsController : Controller
+    public class AuthorsController : WtfControllerBase
     {
         //
         // GET: /Authors/
@@ -16,6 +17,6 @@ namespace TheDailyWtf.Controllers
         public ActionResult ViewAuthor(string authorSlug)
         {
             return View(new ViewAuthorViewModel(authorSlug));
-        }    
+        }
     }
 }

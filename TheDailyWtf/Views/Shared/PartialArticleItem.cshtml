@@ -5,7 +5,7 @@
         @if (Model.DisplayAuthorLink)
         { 
             <div class="two columns">
-                <div class="author">by <span class="name"><a href="/author"></a><span class="fakeLink">@Model.Article.Author.Name</span></span></div>
+                <div class="author">by <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a></div>
                 <div class="date">
                     <span class="date">@Model.Article.PublishedDate.Value.ToString("dd")</span>
                     <span class="month">@Model.Article.PublishedDate.Value.ToString("MMM")</span>
@@ -26,11 +26,12 @@
                     <i class="icon-comment"></i><span class="comments"><a href="@Model.Article.DiscourseThreadUrl"></a><span class="fakeLink">@Model.Article.CommentCount Comments</span></span> - Last Comment @@ @Model.Article.LastCommentDateDescription
                     <div class="social">
                         <div class="socialButtons">
-                            <div class="pw pw-widget ra1-pw-classicWidget ra1-pw_size_medium pw-layout-horizontal pw-counter-horizontal">
-                                <a class="pw-button pw-button-facebook button-type-square pw-size-medium pw-button-counter-horizontal"><span class="pw-icon ra1-pw-icon ra1-pw-icon-facebook"></span><span class="pw-button-counter"><i class="pw-button-counter__brd"></i><span class="pw-button-counter__count ra1-pw-button-counter-value">0</span></span></a>
-                                <a class="pw-button pw-button-twitter button-type-square pw-size-medium pw-button-counter-horizontal"><span class="pw-icon ra1-pw-icon ra1-pw-icon-twitter"></span><span class="pw-button-counter"><i class="pw-button-counter__brd"></i><span class="pw-button-counter__count ra1-pw-button-counter-value">0</span></span></a>
-                            </div>
-                            <script src="http://i.po.st/static/v3/post-widget.js#publisherKey=dp7ieh60q5f0l3cfg8b4&amp;retina=true" type="text/javascript"></script>
+
+                            <a class="social-icon facebook" href="@Model.Article.FacebookUrl">&nbsp;</a>
+                            <a class="social-icon twitter" href="@Model.Article.TwitterUrl">&nbsp;</a>
+                            <a class="social-icon reddit" href="@Model.Article.RedditUrl">&nbsp;</a>
+                            <a class="social-icon linked-in" href="@Model.Article.LinkedInUrl">&nbsp;</a>
+
                         </div>
                     </div>
                 </div>

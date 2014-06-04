@@ -10,3 +10,22 @@ a.clean,
 a:visited.clean
 a:hover.clean { font-weight: inherit; font-style: inherit; border: inherit; text-decoration: inherit; color: inherit; }
 div.nav-article { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+a.social-icon,
+a.social-icon:visited,
+a.social-icon:hover { background-image: url('/content/images/social-icons.png'); width: 24px; height: 24px; display: inline-block; text-decoration: none; } 
+a.social-icon.facebook { background-position: 0 -825px; }
+a.social-icon.twitter { background-position: 0 -175px; }
+a.social-icon.reddit { background-position: 0 -275px; }
+a.social-icon.linked-in { background-position: 0 -600px; }
+
+.datepicker table thead { background-color: inherit; color: inherit; }
+.datepicker.dropdown-menu { z-index: 1000; }
+.field input.date,
+.field input.time { width: inherit; }
+
+table.article-listing td.draft { background-color: #e6d25f; }
+table.article-listing td.pending { background-color: #8ad46a; }
+
+table.authors-listing td span.admin-yes { padding: 4px; background-color: #8ad46a; }
+table.authors-listing td span.admin-no { padding: 4px; background-color: #ce4d4d; }

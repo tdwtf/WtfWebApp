@@ -1,0 +1,25 @@
+﻿@model EditSeriesViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit Series</h2>
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div class="field">
+        <div>URL Slug:</div>
+        <input type="text" class="input" name="series.slug" value="@Model.Series.Slug" />
+    </div>
+    <div class="field">
+        <div>Series Name:</div>
+        <input type="text" class="input" name="series.title" value="@Model.Series.Title" />
+    </div>
+    <div class="field">
+        <div>Description:</div>
+        <textarea name="series.description" class="input textarea" rows="8" cols="60">@Model.Series.Description</textarea>
+    </div>
+    <div class="medium primary btn">
+        <input class="input" type="submit" value="Save" />
+    </div>
+</form>

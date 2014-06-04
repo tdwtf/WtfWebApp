@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row code" id="articlePage">
+<div class="row @Model.Article.Series.CssClass" id="articlePage">
 
     <div class="twelve columns articleWrapper">
         <div class="content">
@@ -15,8 +15,8 @@
                     </span>
 
                     <div class="author hideMobile">
-                        <div class="authorPic animated fadeInDown">
-                            <img src="/content/images/authors/@(Model.Article.Author.Slug).png">
+                        <div class="authorPic fadeInDown">
+                            <img src="@Model.Article.Author.ImageUrl">
                         </div>
                         <br />
 
@@ -26,16 +26,22 @@
 
                     <div class="social">
                         <div class="socialButtons">
-                            <div class="pw pw-widget ra1-pw-classicWidget ra1-pw_size_medium pw-layout-horizontal pw-counter-horizontal">
+                            @*<div class="pw pw-widget ra1-pw-classicWidget ra1-pw_size_medium pw-layout-horizontal pw-counter-horizontal">
                                 <a class="pw-button pw-button-facebook button-type-square pw-size-medium pw-button-counter-horizontal"><span class="pw-icon ra1-pw-icon ra1-pw-icon-facebook"></span><span class="pw-button-counter"><i class="pw-button-counter__brd"></i><span class="pw-button-counter__count ra1-pw-button-counter-value">0</span></span></a>
                                 <a class="pw-button pw-button-twitter button-type-square pw-size-medium pw-button-counter-horizontal"><span class="pw-icon ra1-pw-icon ra1-pw-icon-twitter"></span><span class="pw-button-counter"><i class="pw-button-counter__brd"></i><span class="pw-button-counter__count ra1-pw-button-counter-value">0</span></span></a>
                             </div>
-                            <script src="http://i.po.st/static/v3/post-widget.js#publisherKey=dp7ieh60q5f0l3cfg8b4&amp;retina=true" type="text/javascript"></script>
+                            <script src="http://i.po.st/static/v3/post-widget.js#publisherKey=dp7ieh60q5f0l3cfg8b4&amp;retina=true" type="text/javascript"></script>*@
+                            
+                            <a class="social-icon facebook" href="@Model.Article.FacebookUrl">&nbsp;</a>
+                            <a class="social-icon twitter" href="@Model.Article.TwitterUrl">&nbsp;</a>
+                            <a class="social-icon reddit" href="@Model.Article.RedditUrl">&nbsp;</a>
+                            <a class="social-icon linked-in" href="@Model.Article.LinkedInUrl">&nbsp;</a>
+
                         </div>
                     </div>
 
                     <div class="article-body">
-                        @Html.Raw(Model.Article.Body)
+                        @Html.Raw(Model.Article.BodyHtml)
                     </div>
 
                     <div class="clearfix"></div>
