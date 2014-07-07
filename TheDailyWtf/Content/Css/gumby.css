@@ -2808,7 +2808,11 @@ footer .articleList li { background-color: transparent; }
 
     .modal.active { overflow-y: scroll; display: block; }
 
-#articlePage .author { margin-right: -4.368932%; margin-bottom: 4.368932%; margin-left: 4.368932%; margin-top: -20px; float: right; width: 28.8834951%; padding: 20px 3.8834951%; background-color: #E0DFDA; }
+#articlePage .author { margin-right: -4.368932%; margin-bottom: 4.368932%; margin-left: 4.368932%; margin-top: -20px; float: right; width: 160px; padding: 15px 7px; background-color: #E0DFDA; }
+
+#articlePage .author h4 { font-size: 15px; text-align: center;  }
+
+    #articlePage .author p.short-description { font-size: 12px; color: #aaa; text-align: center; }
 
     #articlePage .author p { font-size: 0.8rem; }
 

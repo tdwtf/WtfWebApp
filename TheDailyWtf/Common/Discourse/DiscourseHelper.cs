@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Caching;
 using System.Web.Configuration;
 using Inedo.Data;
 using TheDailyWtf.Data;
@@ -72,8 +74,14 @@ namespace TheDailyWtf.Discourse
         {
             try
             {
-                var api = new DiscourseApi();
-                return api.GetTopic(topicId);
+                return DiscourseCache.GetOrAdd(
+                    "Topic_" + topicId,
+                    () =>
+                    {
+                        var api = new DiscourseApi();
+                        return api.GetTopic(topicId);
+                    }
+                );
             }
             catch (Exception ex)
             {
@@ -87,14 +95,20 @@ namespace TheDailyWtf.Discourse
         {
             try
             {
-                var api = new DiscourseApi();
+                return DiscourseCache.GetOrAdd(
+                    "FeaturedCommentsForArticle_" + articleId,
+                    () =>
+                    {
+                        var api = new DiscourseApi();
 
-                return StoredProcs.Articles_GetFeaturedComments(articleId)
-                    .Execute()
-                    .Select(c => api.GetReplyPost(c.Discourse_Post_Id))
-                    .Where(p => !p.Hidden)
-                    .ToList()
-                    .AsReadOnly();
+                        return StoredProcs.Articles_GetFeaturedComments(articleId)
+                            .Execute()
+                            .Select(c => api.GetReplyPost(c.Discourse_Post_Id))
+                            .Where(p => !p.Hidden)
+                            .ToList()
+                            .AsReadOnly();
+                    }
+                );
             }
             catch
             {
@@ -111,12 +125,51 @@ namespace TheDailyWtf.Discourse
 
         public static IList<Topic> GetSideBarWtfs()
         {
-            var api = new DiscourseApi();
-            return api.GetTopicsByCategory(new Category(WebConfigurationManager.AppSettings["Discourse.SideBarWtfCategory"]))
-                .Where(topic => !topic.Pinned && topic.Visible)
-                .Take(5)
-                .ToList()
-                .AsReadOnly();
+            try
+            {
+                return DiscourseCache.GetOrAdd(
+                   "SideBarWtfs",
+                   () =>
+                   {
+                       var api = new DiscourseApi();
+                       return api.GetTopicsByCategory(new Category(WebConfigurationManager.AppSettings["Discourse.SideBarWtfCategory"]))
+                           .Where(topic => !topic.Pinned && topic.Visible)
+                           .Take(5)
+                           .ToList()
+                           .AsReadOnly();
+                   }
+               );
+            }
+            catch
+            {
+                return new Topic[0];
+            }
+        }
+
+        private static class DiscourseCache
+        {
+            private static readonly object locker = new object();
+
+            /// <summary>
+            /// Gets an item from the cache if it exists, otherwise creates and adds the item to the cache.
+            /// </summary>
+            /// <typeparam name="TItem">The type of the item.</typeparam>
+            /// <param name="key">The key.</param>
+            /// <param name="getItem">The get item.</param>
+            public static TItem GetOrAdd<TItem>(string key, Func<TItem> getItem)
+                where TItem : class
+            {
+                lock (locker)
+                {
+                    var cached = HttpContext.Current.Cache[key] as TItem;
+                    if (cached != null)
+                        return cached;
+
+                    var item = getItem();
+                    HttpContext.Current.Cache.Add(key, item, null, DateTime.Now.AddMinutes(5), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
+                    return item;
+                }
+            }
         }
     }
 }
