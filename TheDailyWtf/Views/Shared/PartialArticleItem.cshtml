@@ -16,6 +16,7 @@
         <article class="@(Model.DisplayAuthorLink ? "ten" : "twelve") columns articleContainer @Model.Article.Series.CssClass">
             <header>
                 <h4>@Model.Article.Title</h4>
+                <h5>@Model.Article.Series.Title</h5>
             </header>
             <div class="container">
                 <p>@Model.Article.Summary</p>
