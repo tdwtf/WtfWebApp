@@ -29,3 +29,5 @@ table.article-listing td.pending { background-color: #8ad46a; }
 
 table.authors-listing td span.admin-yes { padding: 4px; background-color: #8ad46a; }
 table.authors-listing td span.admin-no { padding: 4px; background-color: #ce4d4d; }
+
+.articleListItem header h5 { margin-left:15px; font-size: 100%; color: #888; }
