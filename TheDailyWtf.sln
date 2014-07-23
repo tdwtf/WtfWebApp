@@ -1,7 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheDailyWtf", "TheDailyWtf\TheDailyWtf.csproj", "{C7C16C09-33E6-4083-9FFD-8E014696591C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{9870781E-D72A-4521-8656-D1BC74FD8F1C}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\ICSharpCode.SharpZipLib.dll = Lib\ICSharpCode.SharpZipLib.dll
+		Lib\InedoLib.dll = Lib\InedoLib.dll
+		Lib\Microsoft.Web.Infrastructure.dll = Lib\Microsoft.Web.Infrastructure.dll
+		Lib\Newtonsoft.Json.dll = Lib\Newtonsoft.Json.dll
+		Lib\System.Web.Helpers.dll = Lib\System.Web.Helpers.dll
+		Lib\System.Web.Mvc.dll = Lib\System.Web.Mvc.dll
+		Lib\System.Web.Razor.dll = Lib\System.Web.Razor.dll
+		Lib\System.Web.WebPages.Deployment.dll = Lib\System.Web.WebPages.Deployment.dll
+		Lib\System.Web.WebPages.dll = Lib\System.Web.WebPages.dll
+		Lib\System.Web.WebPages.Razor.dll = Lib\System.Web.WebPages.Razor.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
