@@ -15,7 +15,7 @@ namespace TheDailyWtf.ViewModels
 
         public WtfViewModelBase()
         {
-            this.PageTitle = "[UNITITLED] The Daily WTF: Curious Perversions in Information Technology";
+            this.PageTitle = "The Daily WTF: Curious Perversions in Information Technology";
         }
 
         public string PageTitle { get; set; }
