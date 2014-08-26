@@ -159,6 +159,20 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class Articles_GetRandomArticle : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Articles_GetRandomArticle()
+		{
+		}
+		public Tables.Articles_Extended Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Articles_Extended>().FirstOrDefault();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Articles_GetRecentArticles : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public Articles_GetRecentArticles(string PublishedStatus_Name, string Series_Slug, string Author_Slug, int? Article_Count)
@@ -378,6 +392,11 @@ namespace TheDailyWtf.Data
 		public static StoredProcedures.Articles_GetOtherRecentArticles Articles_GetOtherRecentArticles(string PublishedStatus_Name, int? Article_Count = null)
 		{
 			return new StoredProcedures.Articles_GetOtherRecentArticles(PublishedStatus_Name, Article_Count);
+		}
+
+		public static StoredProcedures.Articles_GetRandomArticle Articles_GetRandomArticle()
+		{
+			return new StoredProcedures.Articles_GetRandomArticle();
 		}
 
 		public static StoredProcedures.Articles_GetRecentArticles Articles_GetRecentArticles(string PublishedStatus_Name, string Series_Slug = null, string Author_Slug = null, int? Article_Count = null)

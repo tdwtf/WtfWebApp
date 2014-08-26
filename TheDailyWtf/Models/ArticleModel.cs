@@ -120,6 +120,12 @@ namespace TheDailyWtf.Models
             return ArticleModel.FromTable(article);
         }
 
+        public static ArticleModel GetRandomArticle()
+        {
+            var article = StoredProcs.Articles_GetRandomArticle().Execute();
+            return ArticleModel.FromTable(article);
+        }
+
         public static ArticleModel FromTable(Tables.Articles_Extended article)
         {
             DateTime lastCommentDate = DateTime.Now;

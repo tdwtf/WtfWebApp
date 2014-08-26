@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -15,6 +17,12 @@ namespace TheDailyWtf
         public MvcApplication()
         {
             this.AuthenticateRequest += MvcApplication_AuthenticateRequest;
+            this.BeginRequest += MvcApplication_BeginRequest;
+        }
+
+        private void MvcApplication_BeginRequest(object sender, EventArgs e)
+        {
+            SetCustomDateFormat();
         }
 
         protected void Application_Start()
@@ -23,6 +31,19 @@ namespace TheDailyWtf
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+
+        private void SetCustomDateFormat()
+        {
+            var culture = new CultureInfo("en-US");
+
+            culture.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
+            culture.DateTimeFormat.LongDatePattern = "yyyy-MM-dd";
+            culture.DateTimeFormat.ShortTimePattern = "HH:mm";
+            culture.DateTimeFormat.LongTimePattern = "HH:mm";
+
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
         }
 
         private void MvcApplication_AuthenticateRequest(object sender, EventArgs e)

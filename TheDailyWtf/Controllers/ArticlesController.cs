@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using TheDailyWtf.Models;
 using TheDailyWtf.ViewModels;
 
 namespace TheDailyWtf.Controllers
@@ -46,6 +47,12 @@ namespace TheDailyWtf.Controllers
                     ReferenceDate = new ArticlesIndexViewModel.DateInfo(date) 
                 }
             );
+        }
+
+        public ActionResult RandomArticle()
+        {
+            var article = ArticleModel.GetRandomArticle();
+            return RedirectToAction("ViewArticle", new { articleSlug = article.Slug });
         }
     }
 }

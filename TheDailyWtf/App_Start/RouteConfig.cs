@@ -46,6 +46,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "ViewRandomArticle",
+                url: "articles/random",
+                defaults: new { controller = "Articles", action = "RandomArticle" }
+            );
+
+            routes.MapRoute(
                 name: "ViewArticle",
                 url: "articles/{articleSlug}",
                 defaults: new { controller = "Articles", action = "ViewArticle" }

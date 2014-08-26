@@ -11,7 +11,7 @@
                 <div class="container">
 
                     <h1>@Model.Article.Title</h1>
-                    <span class="articleMeta">By <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a> <span class="date">on  @Model.Article.PublishedDate</span>
+                    <span class="articleMeta">By <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a> <span class="date">on  @Model.Article.PublishedDate.Value.ToShortDateString()</span>
                     </span>
 
                     <div class="author hideMobile">
@@ -25,18 +25,11 @@
                     </div>
 
                     <div class="social">
-                        <div class="socialButtons">
-                            @*<div class="pw pw-widget ra1-pw-classicWidget ra1-pw_size_medium pw-layout-horizontal pw-counter-horizontal">
-                                <a class="pw-button pw-button-facebook button-type-square pw-size-medium pw-button-counter-horizontal"><span class="pw-icon ra1-pw-icon ra1-pw-icon-facebook"></span><span class="pw-button-counter"><i class="pw-button-counter__brd"></i><span class="pw-button-counter__count ra1-pw-button-counter-value">0</span></span></a>
-                                <a class="pw-button pw-button-twitter button-type-square pw-size-medium pw-button-counter-horizontal"><span class="pw-icon ra1-pw-icon ra1-pw-icon-twitter"></span><span class="pw-button-counter"><i class="pw-button-counter__brd"></i><span class="pw-button-counter__count ra1-pw-button-counter-value">0</span></span></a>
-                            </div>
-                            <script src="http://i.po.st/static/v3/post-widget.js#publisherKey=dp7ieh60q5f0l3cfg8b4&amp;retina=true" type="text/javascript"></script>*@
-                            
+                        <div class="socialButtons">                            
                             <a class="social-icon facebook" href="@Model.Article.FacebookUrl">&nbsp;</a>
                             <a class="social-icon twitter" href="@Model.Article.TwitterUrl">&nbsp;</a>
                             <a class="social-icon reddit" href="@Model.Article.RedditUrl">&nbsp;</a>
                             <a class="social-icon linked-in" href="@Model.Article.LinkedInUrl">&nbsp;</a>
-
                         </div>
                     </div>
 

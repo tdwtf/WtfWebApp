@@ -11,6 +11,12 @@ namespace TheDailyWtf.ViewModels
             this.Article = ArticleModel.GetArticleBySlug(slug);
         }
 
+        public ViewArticleViewModel(ArticleModel article)
+        {
+            this.Slug = article.Slug;
+            this.Article = article;
+        }
+
         public string Slug { get; private set; }
         public ArticleModel Article { get; private set; }
         public IEnumerable<CommentModel> FeaturedComments { get { return this.Article.GetFeaturedComments(); } }
