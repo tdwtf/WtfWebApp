@@ -2808,7 +2808,7 @@ footer .articleList li { background-color: transparent; }
 
     .modal.active { overflow-y: scroll; display: block; }
 
-#articlePage .author { margin-right: -4.368932%; margin-bottom: 4.368932%; margin-left: 4.368932%; margin-top: -20px; float: right; width: 160px; padding: 15px 7px; background-color: #E0DFDA; }
+#articlePage .author { margin-right: -4.368932%; margin-bottom: 4.368932%; margin-left: 4.368932%; margin-top: -20px; float: right; width: 160px; padding: 15px 7px; background-color: #E0DFDA; text-decoration: none; }
 
 #articlePage .author h4 { font-size: 15px; text-align: center;  }
 
