@@ -19,7 +19,7 @@ AS
 BEGIN
 
     SELECT * FROM [Articles_Extended]
-            WHERE [Article_Id] = @Article_Id
+            ORDER BY NEWID()
 
 END
 GO
