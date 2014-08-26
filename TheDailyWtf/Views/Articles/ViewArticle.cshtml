@@ -14,7 +14,7 @@
                     <span class="articleMeta">By <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a> <span class="date">on  @Model.Article.PublishedDate.Value.ToShortDateString()</span>
                     </span>
 
-                    <div class="author hideMobile">
+                    <a href="/authors/@Model.Article.Author.Slug" class="author hideMobile">
                         <div class="authorPic fadeInDown">
                             <img src="@Model.Article.Author.ImageUrl">
                         </div>
@@ -22,7 +22,7 @@
 
                         <h4>@Model.Article.Author.Name</h4>
                         <p class="short-description">@Model.Article.Author.ShortDescription</p>
-                    </div>
+                    </a>
 
                     <div class="social">
                         <div class="socialButtons">                            
