@@ -2544,13 +2544,13 @@ a { font-weight: 600; color: #2c2c2c; text-decoration: underline; }
 
             .gumby-no-touch .navbar ul li.code .megadropdown .content .featArticle p:after, .gumby-no-touch .navbar ul li.code .dropdown .featArticle p:after { background: -moz-linear-gradient(top, rgba(193,16,59,0) 0%, #c1103b 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(193,16,59,0)), color-stop(100%, #c1103b)); background: -webkit-linear-gradient(top, rgba(193,16,59,0) 0%, #c1103b 100%); background: -o-linear-gradient(top, rgba(193,16,59,0) 0%, #c1103b 100%); background: -ms-linear-gradient(top, rgba(193,16,59,0) 0%, #c1103b 100%); background: linear-gradient(to bottom, rgba(193,16,59,0) 0%,#c1103b 100%); }
 
-    .gumby-no-touch .navbar ul li.errord { border-top: 5px solid #ffc24f; }
+    .gumby-no-touch .navbar ul li.errord { border-top: 5px solid #E4A838; }
 
-        .gumby-no-touch .navbar ul li.errord.active > a, .gumby-no-touch .navbar ul li.errord:hover > a { background: #ffc24f; }
+        .gumby-no-touch .navbar ul li.errord.active > a, .gumby-no-touch .navbar ul li.errord:hover > a { background: #E4A838; }
 
-        .gumby-no-touch .navbar ul li.errord .megadropdown .content, .gumby-no-touch .navbar ul li.errord .dropdown { background-color: #ffc24f; }
+        .gumby-no-touch .navbar ul li.errord .megadropdown .content, .gumby-no-touch .navbar ul li.errord .dropdown { background-color: #E4A838; }
 
-            .gumby-no-touch .navbar ul li.errord .megadropdown .content .featArticle p:after, .gumby-no-touch .navbar ul li.errord .dropdown .featArticle p:after { background: -moz-linear-gradient(top, rgba(255,194,79,0) 0%, #ffc24f 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,194,79,0)), color-stop(100%, #ffc24f)); background: -webkit-linear-gradient(top, rgba(255,194,79,0) 0%, #ffc24f 100%); background: -o-linear-gradient(top, rgba(255,194,79,0) 0%, #ffc24f 100%); background: -ms-linear-gradient(top, rgba(255,194,79,0) 0%, #ffc24f 100%); background: linear-gradient(to bottom, rgba(255,194,79,0) 0%,#ffc24f 100%); }
+            .gumby-no-touch .navbar ul li.errord .megadropdown .content .featArticle p:after, .gumby-no-touch .navbar ul li.errord .dropdown .featArticle p:after { background: -moz-linear-gradient(top, rgba(255,194,79,0) 0%, #E4A838 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,194,79,0)), color-stop(100%, #E4A838)); background: -webkit-linear-gradient(top, rgba(255,194,79,0) 0%, #E4A838 100%); background: -o-linear-gradient(top, rgba(255,194,79,0) 0%, #E4A838 100%); background: -ms-linear-gradient(top, rgba(255,194,79,0) 0%, #E4A838 100%); background: linear-gradient(to bottom, rgba(255,194,79,0) 0%,#E4A838 100%); }
 
     .gumby-no-touch .navbar ul li.tales { border-top: 5px solid #f9622f; }
 
@@ -2630,11 +2630,11 @@ nav.row { font-size: 120%; text-align: center; text-transform: uppercase; }
 
             .articleContainer:hover.code p:after { background: -moz-linear-gradient(top, rgba(193,16,59,0) 0%, #c1103b 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(193,16,59,0)), color-stop(100%, #c1103b)); background: -webkit-linear-gradient(top, rgba(193,16,59,0) 0%, #c1103b 100%); background: -o-linear-gradient(top, rgba(193,16,59,0) 0%, #c1103b 100%); background: -ms-linear-gradient(top, rgba(193,16,59,0) 0%, #c1103b 100%); background: linear-gradient(to bottom, rgba(193,16,59,0) 0%,#c1103b 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); }
 
-        .articleContainer:hover.errord { background-color: #ffc24f; }
+        .articleContainer:hover.errord { background-color: #E4A838; }
 
             .articleContainer:hover.errord .fakeLink, .articleContainer:hover.errord h4, .articleContainer:hover h5 { color: white; }
 
-            .articleContainer:hover.errord p:after { background: -moz-linear-gradient(top, rgba(255,194,79,0) 0%, #ffc24f 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,194,79,0)), color-stop(100%, #ffc24f)); background: -webkit-linear-gradient(top, rgba(255,194,79,0) 0%, #ffc24f 100%); background: -o-linear-gradient(top, rgba(255,194,79,0) 0%, #ffc24f 100%); background: -ms-linear-gradient(top, rgba(255,194,79,0) 0%, #ffc24f 100%); background: linear-gradient(to bottom, rgba(255,194,79,0) 0%,#ffc24f 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); }
+            .articleContainer:hover.errord p:after { background: -moz-linear-gradient(top, rgba(255,194,79,0) 0%, #E4A838 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,194,79,0)), color-stop(100%, #E4A838)); background: -webkit-linear-gradient(top, rgba(255,194,79,0) 0%, #E4A838 100%); background: -o-linear-gradient(top, rgba(255,194,79,0) 0%, #E4A838 100%); background: -ms-linear-gradient(top, rgba(255,194,79,0) 0%, #E4A838 100%); background: linear-gradient(to bottom, rgba(255,194,79,0) 0%,#E4A838 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); }
 
         .articleContainer:hover.tales { background-color: #f9622f; }
 
@@ -2678,7 +2678,7 @@ nav.row { font-size: 120%; text-align: center; text-transform: uppercase; }
 
     .articleContainer.code { border-left: 10px solid #c1103b; }
 
-    .articleContainer.errord { border-left: 10px solid #ffc24f; }
+    .articleContainer.errord { border-left: 10px solid #E4A838; }
 
     .articleContainer.tales { border-left: 10px solid #f9622f; }
 
@@ -2724,11 +2724,11 @@ nav.row { font-size: 120%; text-align: center; text-transform: uppercase; }
 
                 .articleList li.code:hover:after { background: -moz-linear-gradient(left, rgba(193,16,59,0) 0%, #c1103b 100%); background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(193,16,59,0)), color-stop(100%, #c1103b)); background: -webkit-linear-gradient(left, rgba(193,16,59,0) 0%, #c1103b 100%); background: -o-linear-gradient(left, rgba(193,16,59,0) 0%, #c1103b 100%); background: -ms-linear-gradient(left, rgba(193,16,59,0) 0%, #c1103b 100%); background: linear-gradient(to right, rgba(193,16,59,0) 0%,#c1103b 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000073ae', endColorstr='#0073ae',GradientType=1 ); }
 
-        .articleList li.errord { border-left: 10px solid #ffc24f; }
+        .articleList li.errord { border-left: 10px solid #E4A838; }
 
-            .articleList li.errord:hover { background-color: #ffc24f; }
+            .articleList li.errord:hover { background-color: #E4A838; }
 
-                .articleList li.errord:hover:after { background: -moz-linear-gradient(left, rgba(255,194,79,0) 0%, #ffc24f 100%); background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255,194,79,0)), color-stop(100%, #ffc24f)); background: -webkit-linear-gradient(left, rgba(255,194,79,0) 0%, #ffc24f 100%); background: -o-linear-gradient(left, rgba(255,194,79,0) 0%, #ffc24f 100%); background: -ms-linear-gradient(left, rgba(255,194,79,0) 0%, #ffc24f 100%); background: linear-gradient(to right, rgba(255,194,79,0) 0%,#ffc24f 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000073ae', endColorstr='#0073ae',GradientType=1 ); }
+                .articleList li.errord:hover:after { background: -moz-linear-gradient(left, rgba(255,194,79,0) 0%, #E4A838 100%); background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255,194,79,0)), color-stop(100%, #E4A838)); background: -webkit-linear-gradient(left, rgba(255,194,79,0) 0%, #E4A838 100%); background: -o-linear-gradient(left, rgba(255,194,79,0) 0%, #E4A838 100%); background: -ms-linear-gradient(left, rgba(255,194,79,0) 0%, #E4A838 100%); background: linear-gradient(to right, rgba(255,194,79,0) 0%,#E4A838 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000073ae', endColorstr='#0073ae',GradientType=1 ); }
 
         .articleList li.tales { border-left: 10px solid #f9622f; }
 
@@ -2832,7 +2832,7 @@ footer .articleList li { background-color: transparent; }
 
     #articlePage.code .articleMeta:before { border-color: transparent #63081e transparent transparent; }
 
-#articlePage.errord .articleMeta { background-color: #ffc24f; }
+#articlePage.errord .articleMeta { background-color: #E4A838; }
 
     #articlePage.errord .articleMeta:before { border-color: transparent #e89800 transparent transparent; }
 
