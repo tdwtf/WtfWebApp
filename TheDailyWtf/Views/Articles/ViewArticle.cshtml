@@ -38,15 +38,10 @@
                     </div>
 
                     <div class="clearfix"></div>
-                    <hr />
 
                     <footer class="">
                         <div class="row">
-                            <div class="four columns">
-                                <h5 class="heading"><i class="icon-doc-text-inv"></i>Similar Articles</h5>
-                                @Html.Partial(Views.Shared.PartialRecentArticleList, Model.SimilarArticles)
-                            </div>
-                            <div class="eight columns">
+                            <div class="twelve columns">
                                 @Html.Partial(Views.Shared.PartialComments, Model.FeaturedComments)
                                 <div>
                                     <a href="@(Model.Article.DiscourseThreadUrl)">View All Comments &raquo;</a>

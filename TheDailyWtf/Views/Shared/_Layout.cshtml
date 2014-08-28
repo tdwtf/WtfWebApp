@@ -49,19 +49,8 @@
     <div class="container">
         <footer>
             <div class="row">
-                @*<div class="columns eight">
-                    <h5>Recent Articles</h5>
-                    <hr />
-
-                    @Html.Partial(Views.Shared.PartialRecentArticleList, Model.RecentArticles)
-
-                </div>
-            <div class="columns four">
-                
-            </div>
-            <hr />*@
     </div>
-    <div class="row">
+    <div class="row horizontal">
         <ul>
             <li><a href="/info/advertise">Advertise</a></li>
             <li><a href="/contact">Contact</a></li>
@@ -71,7 +60,8 @@
         <hr />
     </div>
     <div class="row">
-        <p class="hideMobile hideTablet" style="float: right;">Hosted on a <a href="http://www.hivelocity.net/">dedicated server</a> at HiVelocity, deployed with <a href="http://inedo.com/landing/buildmaster">BuildMaster</a></p>
+        <p class="hideMobile hideTablet" style="float: right;">Hosted on a <a href="http://www.hivelocity.net/">dedicated server</a> at HiVelocity 
+       &bull; Deployed with <a href="http://inedo.com/landing/buildmaster">BuildMaster</a></p>
         <p style="float: left;">@Model.Copyright - v@(Model.Version)</p>
     </div>
     </footer>

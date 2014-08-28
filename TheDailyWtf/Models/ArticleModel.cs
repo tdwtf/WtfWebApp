@@ -90,11 +90,11 @@ namespace TheDailyWtf.Models
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
-        public static IEnumerable<ArticleModel> GetOtherRecentArticles()
-        {
-            var articles = StoredProcs.Articles_GetOtherRecentArticles(Domains.PublishedStatus.Published, 8).Execute();
-            return articles.Select(a => ArticleModel.FromTable(a));
-        }
+        //public static IEnumerable<ArticleModel> GetOtherRecentArticles()
+        //{
+        //    var articles = StoredProcs.Articles_GetOtherRecentArticles(Domains.PublishedStatus.Published, 8).Execute();
+        //    return articles.Select(a => ArticleModel.FromTable(a));
+        //}
 
         public static IEnumerable<ArticleModel> GetRecentArticlesByAuthor(string slug)
         {

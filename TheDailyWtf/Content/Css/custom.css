@@ -39,3 +39,6 @@ pre { font-family: Consolas, monospace; }
 
 div.previous-article { width: 45%; float: left; }
 div.next-article { width: 45%; float: right; text-align: right; }
+
+div.horizontal { text-align: center; }
+div.horizontal ul li { display: inline-block; margin-right: 25px; }

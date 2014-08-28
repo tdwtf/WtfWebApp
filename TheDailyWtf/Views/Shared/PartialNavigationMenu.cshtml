@@ -79,12 +79,12 @@
                         <div class="content">
                             <div class="row">
                                 <div>
-                                    <h4>Most Recent Articles</h4>
+                                    <h4>Other Series</h4>
                                     <ul>
-                                        @foreach (var article in Model.RecentOtherArticles)
+                                        @foreach (var series in Model.OtherSeries)
                                         { 
                                             <li>
-                                                <div class="nav-article"><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
+                                                <div class="nav-article"><a class="clean" href="/series/@series.Slug">@series.Title</a></div>
                                             </li>
                                         }
                                     </ul>
