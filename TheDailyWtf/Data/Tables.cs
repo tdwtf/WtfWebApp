@@ -47,6 +47,12 @@ namespace TheDailyWtf.Data
 			public string Body_Html { get; set; }
 			public int? Discourse_Topic_Id { get; set; }
 			public string Discourse_Topic_Opened { get; set; }
+			public int? Previous_Article_Id { get; set; }
+			public string Previous_Article_Slug { get; set; }
+			public string Previous_Title_Text { get; set; }
+			public int? Next_Article_Id { get; set; }
+			public string Next_Article_Slug { get; set; }
+			public string Next_Title_Text { get; set; }
 			public string Author_Display_Name { get; set; }
 			public YNIndicator Author_Admin_Indicator { get; set; }
 			public string Author_Bio_Html { get; set; }

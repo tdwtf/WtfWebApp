@@ -15,6 +15,14 @@ CREATE VIEW [Articles_Extended] AS
             ,ART.[Discourse_Topic_Id]
             ,ART.[Discourse_Topic_Opened]
 
+            ,[Previous_Article_Id] = ART_PREV.[Article_Id]
+            ,[Previous_Article_Slug] = ART_PREV.[Article_Slug]
+            ,[Previous_Title_Text] = ART_PREV.[Title_Text]
+
+            ,[Next_Article_Id] = ART_NEXT.[Article_Id]
+            ,[Next_Article_Slug] = ART_NEXT.[Article_Slug]
+            ,[Next_Title_Text] = ART_NEXT.[Title_Text]
+
             ,[Author_Display_Name] = AUTH.[Display_Name]
             ,[Author_Admin_Indicator] = AUTH.[Admin_Indicator]
             ,[Author_Bio_Html] = AUTH.[Bio_Html]
@@ -31,6 +39,18 @@ CREATE VIEW [Articles_Extended] AS
     
   INNER JOIN [Authors] AUTH
           ON AUTH.[Author_Slug] = ART.[Author_Slug]
+
+   LEFT JOIN [Articles] ART_PREV
+          ON ART_PREV.[Article_Id] = (SELECT TOP 1 [Article_Id] 
+                                        FROM [Articles] 
+                                       WHERE [Published_Date] < ART.[Published_Date] 
+                                    ORDER BY [Published_Date] DESC)
+
+   LEFT JOIN [Articles] ART_NEXT
+          ON ART_NEXT.[Article_Id] = (SELECT TOP 1 [Article_Id] 
+                                        FROM [Articles] 
+                                       WHERE [Published_Date] > ART.[Published_Date] 
+                                    ORDER BY [Published_Date] ASC)
 
 GO
 

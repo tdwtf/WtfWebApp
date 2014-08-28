@@ -47,6 +47,12 @@ namespace TheDailyWtf.Data
 			public const string Body_Html = "Body_Html";
 			public const string Discourse_Topic_Id = "Discourse_Topic_Id";
 			public const string Discourse_Topic_Opened = "Discourse_Topic_Opened";
+			public const string Previous_Article_Id = "Previous_Article_Id";
+			public const string Previous_Article_Slug = "Previous_Article_Slug";
+			public const string Previous_Title_Text = "Previous_Title_Text";
+			public const string Next_Article_Id = "Next_Article_Id";
+			public const string Next_Article_Slug = "Next_Article_Slug";
+			public const string Next_Title_Text = "Next_Title_Text";
 			public const string Author_Display_Name = "Author_Display_Name";
 			public const string Author_Admin_Indicator = "Author_Admin_Indicator";
 			public const string Author_Bio_Html = "Author_Bio_Html";

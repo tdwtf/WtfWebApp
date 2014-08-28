@@ -50,6 +50,16 @@ namespace TheDailyWtf.Models
         public string RedditUrl { get { return string.Format("//www.reddit.com/submit?url=http:{1}&title={1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
         public string LinkedInUrl { get { return string.Format("//www.linkedin.com/shareArticle?mini=true&url=http:{0}&title={1}&source=The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
 
+        public int? PreviousArticleId { get; set; }
+        public string PreviousArticleTitle { get; set; }
+        public string PreviousArticleSlug { get; set; }
+        public string PreviousArticleUrl { get { return string.Format("//{0}/articles/{1}", WebConfigurationManager.AppSettings["Wtf.Host"], this.PreviousArticleSlug); } }
+
+        public int? NextArticleId { get; set; }
+        public string NextArticleTitle { get; set; }
+        public string NextArticleSlug { get; set; }
+        public string NextArticleUrl { get { return string.Format("//{0}/articles/{1}", WebConfigurationManager.AppSettings["Wtf.Host"], this.NextArticleSlug); } }
+
         public static IEnumerable<ArticleModel> GetAllArticlesByMonth(DateTime month)
         {
             return GetSeriesArticlesByMonth(null, month);
@@ -143,7 +153,13 @@ namespace TheDailyWtf.Models
                 Series = SeriesModel.FromTable(article),
                 Status = article.PublishedStatus_Name,
                 Summary = ArticleModel.ExtractAndStripFirstParagram(article.Body_Html),
-                Title = article.Title_Text
+                Title = article.Title_Text,
+                PreviousArticleId = article.Previous_Article_Id,
+                PreviousArticleSlug = article.Previous_Article_Slug,
+                PreviousArticleTitle = article.Previous_Title_Text,
+                NextArticleId = article.Next_Article_Id,
+                NextArticleSlug = article.Next_Article_Slug,
+                NextArticleTitle = article.Next_Title_Text
             };
 
             if (article.Discourse_Topic_Id != null)
