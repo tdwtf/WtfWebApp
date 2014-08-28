@@ -13,11 +13,11 @@ div.nav-article { white-space: nowrap; overflow: hidden; text-overflow: ellipsis
 
 a.social-icon,
 a.social-icon:visited,
-a.social-icon:hover { background-image: url('/content/images/social-icons.png'); width: 24px; height: 24px; display: inline-block; text-decoration: none; } 
-a.social-icon.facebook { background-position: 0 -825px; }
-a.social-icon.twitter { background-position: 0 -175px; }
-a.social-icon.reddit { background-position: 0 -275px; }
-a.social-icon.linked-in { background-position: 0 -600px; }
+a.social-icon:hover { width: 24px; height: 24px; display: inline-block; text-decoration: none; } 
+a.social-icon.facebook { background-image: url('/content/images/icons/facebook-24.png'); background-color: #3b5998; }
+a.social-icon.twitter { background-image: url('/content/images/icons/twitter-24.png'); background-color: #00aced; }
+a.social-icon.email { background-image: url('/content/images/icons/email-24.png'); background-color: #999; }
+a.social-icon.google-plus { background-image: url('/content/images/icons/googleplus-24.png'); background-color: #d14836; }
 
 .datepicker table thead { background-color: inherit; color: inherit; }
 .datepicker.dropdown-menu { z-index: 1000; }

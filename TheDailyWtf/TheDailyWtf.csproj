@@ -184,6 +184,10 @@
     <Content Include="Content\Images\banner728.png" />
     <Content Include="Content\Images\banner970x90.jpg" />
     <Content Include="Content\Images\freeswag2.png" />
+    <Content Include="Content\Images\Icons\email-24.png" />
+    <Content Include="Content\Images\Icons\facebook-24.png" />
+    <Content Include="Content\Images\Icons\googleplus-24.png" />
+    <Content Include="Content\Images\Icons\twitter-24.png" />
     <Content Include="Content\Images\placeholder.png" />
     <Content Include="Content\Images\social-icons.png" />
     <Content Include="Content\Images\thedailywtfLogoNav.png" />

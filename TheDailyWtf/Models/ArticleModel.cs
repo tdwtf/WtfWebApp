@@ -47,8 +47,18 @@ namespace TheDailyWtf.Models
         public string Slug { get; set; }
         public string TwitterUrl { get { return string.Format("//www.twitter.com/home?status=http:{0}+-+{1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
         public string FacebookUrl { get { return string.Format("//www.facebook.com/sharer.php?u=http:{0}&t={1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
-        public string RedditUrl { get { return string.Format("//www.reddit.com/submit?url=http:{1}&title={1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
-        public string LinkedInUrl { get { return string.Format("//www.linkedin.com/shareArticle?mini=true&url=http:{0}&title={1}&source=The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
+        public string EmailUrl 
+        { 
+            get 
+            {
+                return string.Format(
+                    "mailto:%20?subject={0}&body={1}",
+                    HttpUtility.UrlPathEncode("Check out this article on The Daily WTF..."),
+                    HttpUtility.UrlPathEncode(string.Format("{0}: {1}", this.Title, this.Url))
+                );
+            } 
+        }
+        public string GooglePlusUrl { get { return string.Format("//plus.google.com/share?url={0}", HttpUtility.UrlEncode(this.Url)); } }
 
         public int? PreviousArticleId { get; set; }
         public string PreviousArticleTitle { get; set; }
@@ -89,12 +99,6 @@ namespace TheDailyWtf.Models
             var articles = StoredProcs.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Series_Slug: slug, Article_Count: 8).Execute();
             return articles.Select(a => ArticleModel.FromTable(a));
         }
-
-        //public static IEnumerable<ArticleModel> GetOtherRecentArticles()
-        //{
-        //    var articles = StoredProcs.Articles_GetOtherRecentArticles(Domains.PublishedStatus.Published, 8).Execute();
-        //    return articles.Select(a => ArticleModel.FromTable(a));
-        //}
 
         public static IEnumerable<ArticleModel> GetRecentArticlesByAuthor(string slug)
         {
