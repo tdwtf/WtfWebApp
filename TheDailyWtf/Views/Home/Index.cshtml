@@ -4,41 +4,47 @@
 }
 
 <div class="four columns">
+
+   <aside>
+      <h5 class="heading"><i class="icon-info-circled"></i>WTF is The Daily WTF?</h5>
+      <div class="about">
+         <p>
+            Founded in 2004 by <a href="/authors/alex-papadimoulis">Alex Papadimoulis</a>, The Daily WTF is your how-not-to guide for developing
+            software. We recount tales of disastrous development, from project management gone spectacularly bad to inexplicable coding choices.
+         </p>
+         <p>
+            <a href="/authors/mark-bowytz">Mark Bowytz</a> is the editor-in-chief and would absolutely love to read your story or see your bad code.
+         </p>
+      </div>
+   </aside>
+
     <aside class="sideMenu">
         <div class="btn">
             <a class="clean" href="/contact">
-                <h4>Submit <i class="icon-publish"></i>your WTF</h4>
+                <h4>Submit <i class="icon-publish"></i> your WTF</h4>
             </a>
         </div>
     </aside>
 
-    <aside>
-        <h5 class="heading"><i class="icon-list"></i>Sidebar WTF</h5>
-        <div class="articleList">
-            <ul>
-                @foreach (var sidebar in Model.GetSideBarWtfs())
-                { 
-                    <li class="code">
-                        <div><a class="clean" href="@sidebar.Url">@sidebar.Title</a></div>
-                    </li>
-                }
-            </ul>
-        </div>
-       
-       <h5 class="heading"><i class="icon-docs"></i>Content</h5>
-       <div class="articleList">
-          <ul>
-             <li><div><a href="/articles/random">Random Article</a></div></li>
-             <li><div><a href="#">Free WTF Swag</a></div></li>
-          </ul>
-       </div>
-    </aside>
-
    <aside>
-      <h5 class="heading"><i class="icon-info-circled"></i>About The Daily WTF</h5>
-      <div class="about">
-         <p>The Daily WTF is a humorous blog dedicated to "Curious Perversions in Information Technology". The blog, run by <a href="/authors/alex-papadimoulis">Alex Papadimoulis</a>, "offers living examples of code that invites the exclamation 'WTF!?'" and "recounts tales of disastrous development, from project management gone spectacularly bad to inexplicable coding choices."</p>
-         <p>In addition to horror stories, The Daily WTF "serves as a repository of knowledge and discussion forums for inquisitive web designers and developers" and has introduced several anti-patterns, including <a href="/articles/soft-coding">Softcoding</a> and the <a href="/articles/the-inner-platform-effect">Inner-Platform Effect</a>.</p>
+      <h5 class="heading"><i class="icon-docs"></i>Contents</h5>
+      <div class="side-bar-list">
+         <ul>
+            <li><div><a href="/articles/random">Random Article</a></div></li>
+            <li>
+               <div>
+                  <strong>Classic Articles</strong>
+                  <ul>
+                     <li><a href="/articles/The_Brillant_Paula_Bean">The Brillant Paula Bean</a></li>
+                     @if (this.User != null && this.User.IsAdmin)
+                     {
+                        <li><a href="https://github.com/tdwtf/WtfWebApp/blob/master/TheDailyWtf/Views/Home/Index.cshtml#L41">Add more...</a></li>
+                     }
+                  </ul>
+               </div>
+            </li>
+            <li><div><a href="/articles">Article Archives</a></div></li>
+         </ul>
       </div>
    </aside>
 
@@ -46,13 +52,65 @@
         <div class="daBlock da-300x250">
             <img src="/content/images/banner300.gif">
         </div>
-
-        <div class="container da-space hideNonDesktop">
-            <div class="daBlock da-300x600">
-                <img src="/content/images/banner300x600.jpg">
-            </div>
-        </div>
     </div>
+
+   <aside>
+      <h5 class="heading"><i class="icon-list"></i>Sidebar WTF</h5>
+      <div class="articleList">
+         <ul>
+            @foreach (var sidebar in Model.GetSideBarWtfs())
+            {
+               <li class="code">
+                  <div><a class="clean" href="@sidebar.Url">@sidebar.Title</a></div>
+               </li>
+            }
+         </ul>
+      </div>
+   </aside>
+
+   <aside>
+      <h5 class="heading"><i class="icon-network"></i>Sponsors</h5>
+      <div class="side-bar-list">
+         <ul>
+            <li class="no-pad">
+               <div class="about">
+                  <p>
+                     These fine folks make it possible to run The Daily WTF.
+                  </p>
+               </div>
+            </li>
+            <li>
+               <div>
+                  <a href="#" target="_blank">
+                     <img src="/content/images/banner300x75.png" />
+                  </a>
+               </div>
+            </li>
+            <li>
+               <div>
+                  <a href="#" target="_blank">
+                     <img src="/content/images/banner300x75.png" />
+                  </a>
+               </div>
+            </li>
+            <li>
+               <div>
+                  <a href="#" target="_blank">
+                     <img src="/content/images/banner300x75.png" />
+                  </a>
+               </div>
+            </li>
+            <li>
+               <div>
+                  <a href="/sponsors" target="_blank">View All Sponsors</a>
+               </div>
+            </li>
+         </ul>
+      </div>
+   </aside>
+
+
+
 </div>
 
 <div class="eight columns">
