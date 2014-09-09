@@ -1,0 +1,122 @@
+﻿@model HomeIndexViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript" src="/scripts/jquery-2.0.1.min.js"></script>
+<script type="text/javascript" src="/scripts/knockout-3.1.0.js"></script>
+
+<script type="text/javascript">
+   $(function () {
+      function ViewModel() {
+         var self = this;
+         self.selectedField = ko.observable('0');
+      }
+      var vm = new ViewModel();
+      ko.applyBindings(vm);
+   });
+</script>
+
+<style type="text/css">
+   .field input[type="radio"] { width: inherit; margin-left: 15px; -webkit-appearance: radio; }
+   .field label { display: inline; }
+</style>
+
+<div>
+    <h2>Submit WTF</h2>
+
+    <div>
+       Your stories are what make The Daily WTF so great, so please, send in your WTF moments! 
+    </div>
+    <hr />
+
+    @Html.ValidationSummary()
+
+    <form method="post" action="/articles/submit" enctype="multipart/form-data">
+        <div class="field">
+           <div>Submission Type:</div>
+           <input data-bind="checked: selectedField" id="code" type="radio" name="type" value="0" />
+           <label for="code">Code</label>
+           <input data-bind="checked: selectedField" id="story" type="radio" name="type" value="1" />
+           <label for="story">Story</label>
+           <input data-bind="checked: selectedField" id="errord" type="radio" name="type" value="2" />
+           <label for="errord">Error'd</label>
+        </div>
+        <div class="field">
+            <div>Your Name:</div>
+            <input name="name" class="input" type="text" maxlength="50" />
+        </div>
+       <div class="field">
+          <div>Name Usage:</div>
+          <div class="picker">
+             <select name="nameusage">
+                <option value="0">Anonymous! Just make something up...</option>
+                <option value="1">First name only</option>
+                <option value="2">First name, last initial</option>
+                <option value="3">I don't care, you can use my name!</option>
+             </select>
+          </div>
+       </div>
+        <div class="field">
+            <div>Your Email:</div>
+            <input name="email" class="input" type="text" maxlength="250" placeholder="Your email address will NOT be posted on the site..." />
+        </div>
+
+       <div data-bind="if: selectedField() == 0">
+          <p>
+             Note that we may post your code snippet/background as is! We do our best to edit out sensitive
+             and/or identifying data such as namespaces, class names, etc., but we may not always know what's
+             only for our eyes, and what's for the public. If there's anything sensitive in the code you are
+             sending, make sure to tell us so we can anonymize as needed.
+          </p>
+          <div class="field">
+             <div>Language(s):</div>
+             <input name="language" class="input" type="text" maxlength="250" />
+          </div>
+          <div class="field">
+             <div>Code Snippet:</div>
+             <textarea name="codesnippet" class="input textarea" rows="8" cols="60" placeholder="Copy/paste your code snippets here..."></textarea>
+          </div>
+          <div class="field">
+             <div>Background:</div>
+             <textarea name="background" class="input textarea" rows="8" cols="60" placeholder="How did this code come to be? Why is it so bad? Etc..."></textarea>
+          </div>
+          <div class="field">
+             <div>Attachment (optional):</div>
+             <input name="codefile" class="input" type="file" />
+          </div>
+       </div>
+
+       <div data-bind="if: selectedField() == 1">
+          <div class="field">
+             <div>Time Frame:</div>
+             <input name="timeframe" class="input" type="text" maxlength="250" placeholder="When did this take place? Recently, years ago, decades ago?" />
+          </div>
+          <div class="field">
+             <div>Core WTF:</div>
+             <textarea name="storycomments" class="input textarea" rows="8" cols="60" placeholder="The ideal submission length is 140 characters or so..."></textarea>
+          </div>
+       </div>
+
+       <div data-bind="if: selectedField() == 2">
+          <p>
+             Aside from a little bit of cropping/resizing, we rarely censor identifying information
+             like names/addresses. If you're going to censor, please black-out only the bare minimum of
+             text, using simple, straight lines.
+          </p>
+          <div class="field">
+             <div>Error'd Image:</div>
+             <input name="errordfile" class="input" type="file" />
+          </div>
+          <div class="field">
+             <div>Snarky Comments:</div>
+             <textarea name="errrordcomments" class="input textarea" rows="8" cols="60" placeholder="Please try to keep to a sentence or two, we'd love to quote you verbatim..."></textarea>
+          </div>
+       </div>
+
+        <div class="medium primary btn">
+            <input class="input" type="submit" value="Submit WTF" />
+        </div>
+
+    </form>
+</div>

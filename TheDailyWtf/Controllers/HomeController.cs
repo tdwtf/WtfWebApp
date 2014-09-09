@@ -34,7 +34,7 @@ namespace TheDailyWtf.Controllers
         [HttpPost]
         public ActionResult Contact(ContactFormModel contact)
         {
-            // send submit WTF or contact email...
+            // send contact email...
 
             return RedirectToAction("contact");
         }

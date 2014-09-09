@@ -4,9 +4,12 @@
 }
 
 <div>
-    <h2>Contact / Submit WTF</h2>
+    <h2>Contact</h2>
 
-    <div>Please use the form below. If there are any issues, send an email to alexp-at-WorseThanFailure.com. If you are submitting a WTF moment, please read the guidelines below the form.</div>
+    <div>
+       Use this form if you'd like to send a personal note to a WTF staffer. For article and story submissions, 
+       please use the <a href="/articles/submit">submission form</a>.
+    </div>
     <hr />
 
     @Html.ValidationSummary()
@@ -16,22 +19,23 @@
             <div>Send To:</div>
             <div class="picker">
                 <select name="to">
-                    <option value=""></option>
-                    <option value="">-- WTF SUBMISSIONS --</option>
-                    <option value="SUB">Stories / General / Other</option>
-                    <option value="SUBPUP">Error'd</option>
-                    <option value="SUBIVW">Tales from the Interview</option>
-                    <option value="SUBSOD">Code SOD</option>
-                    <option value=""></option>
-                    <option value="">-- WTF STAFFERS --</option>
-                    <option selected="selected" value="AP">Alex Papadimoulis (Owner/Editor)</option>
-                    <option value="JV">Jake Vinson (Author)</option>
-                    <option value="EV">Evgeniy Vigovskiy (Editor, Русский Вариант)</option>
-                    <option value="PZ">Patryk Zawadzki (Editor, Wersja polska)</option>
-                    <option value="CS">Cezary Statkiewicz (Editor, Wersja polska)</option>
-                    <option value="JD">Jocelyn Demoy (Editor, Edition Française)</option>
-                    <option value="MG">Michael Goulis (Advertising)</option>
-                </select>
+                  <option value=""></option>
+                   <optgroup label="Editors">
+                      <option value="mark-bowytz">Mark Bowytz (Lead Editor)</option>
+                      <option value="remy-porter">Remy Porter (Editor)</option>
+                   </optgroup>
+                   <optgroup label="Writers">
+                      <option value="snoofle">snoofle (Writer)</option>
+                      <option value="charles-robinson">Charles Robinson (Writer)</option>
+                      <option value="erik-gern">Erik Gern (Writer)</option>
+                      <option value="bruce-johnson">Bruce Johnson (Writer)</option>
+                      <option value="lorne-kates">Lorne Kates (Writer)</option>
+                   </optgroup>
+                   <optgroup label="Admin">
+                      <option value="alex-papadimoulis">Alex Papadimoulis (Founder)</option>
+                      <option value="tim-silvia">Tim Silvia (Sponsorship)</option>
+                   </optgroup>
+               </select>
             </div>
         </div>
         <div class="field">
@@ -42,8 +46,12 @@
             <div>Your Email:</div>
             <input name="email" class="input" type="text" maxlength="250" />
         </div>
+       <div class="field">
+          <div>Subject:</div>
+          <input name="subject" class="input" type="text" maxlength="250" />
+       </div>
         <div class="field">
-            <div>Attachment:</div>
+            <div>Attachment (optional):</div>
             <input name="file" class="input" type="file" />
         </div>
         <div class="field">
@@ -54,16 +62,4 @@
             <input class="input" type="submit" value="Send Message" />
         </div>
     </form>
-
-    <h2>Submission Considerations</h2>
-    <div>
-        <ul>
-            <li>I get about ten submissions a day. I post once a day and only on weekdays.</li>
-            <li>I don't care for names like "c0derdude3k" or "axeman." Please use a real-sounding name. Otherwise, I'll just say "submitted anonymously." </li>
-            <li>I rarely reply to submissions. I do, however, read every message.</li>
-            <li>I generally don't post things from messageboards or newsgroups (we gotta be fair from those trying to learn!)</li>
-            <li>If you're pretty sure that what you got isn't front page material, you could always post it to the side-bar. There's quite a few people who read that.</li>
-            <li>Don't hesitate to send me things. Even if I don't post it, I do read everything and share in your pain.</li>
-        </ul>
-    </div>
 </div>

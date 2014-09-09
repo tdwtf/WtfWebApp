@@ -10,6 +10,7 @@ namespace TheDailyWtf
         {
             public const string Index = "Index";
             public const string ViewArticle = "ViewArticle";
+            public const string Submit = "Submit";
         }
 
         public static class Authors
