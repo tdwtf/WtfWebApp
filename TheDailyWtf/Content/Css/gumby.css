@@ -2825,6 +2825,10 @@ footer .articleList li { background-color: transparent; }
 
     #articlePage.soapbox .articleMeta:before { border-color: transparent #4b1d3e transparent transparent; }
 
+#articlePage.general .articleMeta { background-color: #999; }
+
+    #articlePage.general .articleMeta:before { border-color: transparent #666 transparent transparent; }
+
 #articlePage .articleWrapper { padding: 20px 3.8834951%; background-color: #fff; }
 
 @media only screen and (min-width: 321px) and (max-width: 767px) {

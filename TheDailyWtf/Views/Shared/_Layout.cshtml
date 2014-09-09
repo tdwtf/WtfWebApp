@@ -28,20 +28,15 @@
 
     @Html.Partial(Views.Shared.PartialNavigationMenu, Model.NavigationMenu)
 
+   @if (Model.ShowLeaderboardAd) 
+   {
+      @Html.Partial(Views.Shared.PartialLeaderboardAd, Model.GetNextAd(Dimensions.Leaderboard))
+   }
+
     <div id="wrapper">
         <div class="row">
             <div class="twelve columns">
                 @RenderBody()
-            </div>
-        </div>
-    </div>
-
-    <div id="billboard" class="hideNonDesktop">
-        <div class="row">
-            <div class="container da-space">
-                <div class="daBlock da-970x250">
-                    <img src="/content/images/banner970x90.jpg" />
-                </div>
             </div>
         </div>
     </div>

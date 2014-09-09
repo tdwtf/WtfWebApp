@@ -36,6 +36,8 @@ namespace TheDailyWtf
             public const string PartialComments = "PartialComments";
             public const string PartialNavigationMenu = "PartialNavigationMenu";
             public const string PartialRecentArticleList = "PartialRecentArticleList";
+            public const string PartialLeaderboardAd = "PartialLeaderboardAd";
+            public const string PartialSidebarAd = "PartialSidebarAd";
         }
     }
 }

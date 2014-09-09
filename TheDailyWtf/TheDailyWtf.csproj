@@ -104,6 +104,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Ads\AdRotator.cs" />
     <Compile Include="Common\BaseViewPage.cs" />
     <Compile Include="Common\WtfControllerBase.cs" />
     <Compile Include="Common\Security\AdminOnlyActionFilterAttribute.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Common\Discourse\Post.cs" />
     <Compile Include="Common\Discourse\Topic.cs" />
     <Compile Include="Common\Security\AuthorPrincipal.cs" />
+    <Compile Include="Controllers\AdsController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ArticlesController.cs" />
     <Compile Include="Controllers\AuthorsController.cs" />
@@ -156,6 +158,7 @@
     <Content Include="Content\Css\jquery.timepicker.css" />
     <Content Include="Content\Css\prism.css" />
     <Content Include="Content\Css\screen.css" />
+    <Content Include="Content\Images\ad-load-error.png" />
     <Content Include="Content\Images\Authors\alex-papadimoulis.png" />
     <Content Include="Content\Images\Authors\brad-morgan.png" />
     <Content Include="Content\Images\Authors\bruce-johnson.png" />
@@ -181,6 +184,7 @@
     <Content Include="Content\Images\Authors\tim-gallagher.png" />
     <Content Include="Content\Images\banner300.gif" />
     <Content Include="Content\Images\banner300x600.jpg" />
+    <Content Include="Content\Images\banner300x75.png" />
     <Content Include="Content\Images\banner728.png" />
     <Content Include="Content\Images\banner970x90.jpg" />
     <Content Include="Content\Images\freeswag2.png" />
@@ -190,6 +194,7 @@
     <Content Include="Content\Images\Icons\twitter-24.png" />
     <Content Include="Content\Images\placeholder.png" />
     <Content Include="Content\Images\social-icons.png" />
+    <Content Include="Content\Images\Sponsors\inedo.png" />
     <Content Include="Content\Images\thedailywtfLogoNav.png" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -283,6 +288,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admin\MyArticles.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Sponsors.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PartialLeaderboardAd.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PartialSidebarAd.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Ads\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using Inedo.Web;
 using TheDailyWtf.Models;
 using TheDailyWtf.ViewModels;
 
@@ -19,7 +21,12 @@ namespace TheDailyWtf.Controllers
             return View(new HomeIndexViewModel());
         }
 
-        public ActionResult Contact() 
+        public ActionResult Contact()
+        {
+            return View(new HomeIndexViewModel());
+        }
+
+        public ActionResult Sponsors()
         {
             return View(new HomeIndexViewModel());
         }

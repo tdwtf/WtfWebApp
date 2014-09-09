@@ -221,12 +221,19 @@ namespace TheDailyWtf.Discourse
 
         private static Exception ParseFirstError(WebException wex)
         {
-            string jsonErrors = new StreamReader(wex.Response.GetResponseStream()).ReadToEnd();
-            dynamic json = JsonConvert.DeserializeObject(jsonErrors);
-            if (json == null)
-                return wex;
+            try
+            {
+                string jsonErrors = new StreamReader(wex.Response.GetResponseStream()).ReadToEnd();
+                dynamic json = JsonConvert.DeserializeObject(jsonErrors);
+                if (json == null)
+                    return wex;
 
-            return new InvalidOperationException(json.errors[0].ToString(), wex);
+                return new InvalidOperationException(json.errors[0].ToString(), wex);
+            }
+            catch
+            {
+                return new InvalidOperationException("Unknown error connecting to the forum API. Ensure the host name and API key settings are correct in web.config");
+            }
         }
     }
 }

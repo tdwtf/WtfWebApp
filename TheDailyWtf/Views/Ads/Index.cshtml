@@ -1,0 +1,52 @@
+﻿@model HomeIndexViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+   .ad-info ul { list-style-type: disc; }
+   .ad-info ul, .ad-info ol { padding-left: 10px; margin-left: 10px; }
+   div.error { color: #A00; background-color: white; border: 5px solid #A00; padding: 15px; }
+</style>
+
+@if (AdRotator.LoadException != null)
+{
+   <div class="error">
+      <h4>There was an error loading the Ad server:</h4>
+      @if (@User != null && @User.IsAdmin) 
+      {
+         @AdRotator.LoadException.ToString()
+      }
+      else
+      {
+         <span>Log in to the <a href="/admin">admin site</a> in order to view the message.</span>
+      }
+   </div>
+}
+
+<h2>Loaded Ads</h2>
+<div class="ad-info">
+   @foreach (var root in Model.AllAdDimensions)
+   {
+      <hr />
+      
+      <h3>Dimensions: @root.Dimensions</h3>
+      <h4>Companies</h4>
+      <ul>
+         @foreach (var company in root.Companies)
+         {
+            <li>
+               <h5>@company.Name - (<a href="@company.Url">@company.Url</a>)</h5>
+               <ol>
+                  @foreach (var ad in company.Ads)
+                  {
+                     <li>
+                        <img src="@ad.ImageUrl" />
+                     </li>
+                  }
+               </ol>
+            </li>
+         }
+      </ul>
+   }
+</div>

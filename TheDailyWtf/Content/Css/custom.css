@@ -48,3 +48,8 @@ div.next-article { width: 45%; float: right; text-align: right; }
 
 div.horizontal { text-align: center; }
 div.horizontal ul li { display: inline-block; margin-right: 25px; }
+
+div.sponsor-container > div { float: left; width: 48%; text-align: center; padding: 15px; }
+div.sponsor-container > div img { max-width: 250px; }
+div.sponsor-container > div p { margin-top: 15px; font-size: 12px; }
+div.sponsor-container::after { clear: both; }

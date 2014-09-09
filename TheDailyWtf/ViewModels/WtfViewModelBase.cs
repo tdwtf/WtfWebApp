@@ -16,12 +16,19 @@ namespace TheDailyWtf.ViewModels
         public WtfViewModelBase()
         {
             this.PageTitle = "The Daily WTF: Curious Perversions in Information Technology";
+            this.ShowLeaderboardAd = true;
         }
 
+        public bool ShowLeaderboardAd { get; set; }
         public string PageTitle { get; set; }
         public IEnumerable<ArticleModel> RecentArticles { get { return ArticleModel.GetRecentArticles(); } }
         public NavigationMenuViewModel NavigationMenu { get { return new NavigationMenuViewModel(); } }
         public string Copyright { get { return copyright; } }
         public string Version { get { return version; } }
+        
+        public Ad GetNextAd(Dimensions dimensions)
+        {
+            return AdRotator.GetNextAd(dimensions);
+        }
     }
 }

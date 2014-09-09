@@ -23,5 +23,10 @@ namespace TheDailyWtf.ViewModels
                     .Select(a => new ArticleItemViewModel(a) { DisplayAuthorLink = false }); 
             } 
         }
+
+        public IEnumerable<DimensionRoot> AllAdDimensions
+        {
+            get { return AdRotator.DimensionRoots; }
+        }
     }
 }

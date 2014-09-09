@@ -34,6 +34,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "Sponsors",
+                url: "sponsors",
+                defaults: new { controller = "Home", action = "Sponsors" }
+            );
+
+            routes.MapRoute(
                 name: "Search",
                 url: "search",
                 defaults: new { controller = "Home", action = "Search" }
@@ -79,6 +85,12 @@ namespace TheDailyWtf
                 name: "ViewAuthor",
                 url: "authors/{authorSlug}",
                 defaults: new { controller = "Authors", action = "ViewAuthor" }
+            );
+
+            routes.MapRoute(
+                name: "ViewAd",
+                url: "ads/{id}",
+                defaults: new { controller = "Ads", action = "ViewAd" }
             );
 
             routes.MapRoute(
