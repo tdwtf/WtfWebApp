@@ -32,6 +32,20 @@
    {
       @Html.Partial(Views.Shared.PartialLeaderboardAd, Model.GetNextAd(Dimensions.Leaderboard))
    }
+   
+   @if (Model.SuccessMessage != null)
+   {
+      <div class="message success">
+         @Model.SuccessMessage
+      </div>
+   }
+
+   @if (Model.ErrorMessage != null)
+   {
+      <div class="message error">
+         @Model.ErrorMessage
+      </div>
+   }
 
     <div id="wrapper">
         <div class="row">

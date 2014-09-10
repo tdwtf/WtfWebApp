@@ -61,6 +61,7 @@
       <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -143,8 +144,10 @@
     <Compile Include="ViewModels\Admin\EditSeriesViewModel.cs" />
     <Compile Include="ViewModels\ArticleItemViewModel.cs" />
     <Compile Include="ViewModels\ArticlesIndexViewModel.cs" />
+    <Compile Include="ViewModels\ContactFormViewModel.cs" />
     <Compile Include="ViewModels\HomeIndexViewModel.cs" />
     <Compile Include="ViewModels\NavigationMenuViewModel.cs" />
+    <Compile Include="ViewModels\SubmitWtfViewModel.cs" />
     <Compile Include="ViewModels\ViewArticleViewModel.cs" />
     <Compile Include="ViewModels\ViewAuthorViewModel.cs" />
     <Compile Include="ViewModels\WtfViewModelBase.cs" />
@@ -303,8 +306,9 @@
     <Content Include="Views\Ads\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Articles\Submit.cshtml" />
+    <Content Include="Views\Home\Submit.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

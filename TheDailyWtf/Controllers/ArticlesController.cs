@@ -54,16 +54,5 @@ namespace TheDailyWtf.Controllers
             var article = ArticleModel.GetRandomArticle();
             return RedirectToAction("ViewArticle", new { articleSlug = article.Slug });
         }
-
-        public ActionResult Submit()
-        {
-            return View(new HomeIndexViewModel());
-        }
-
-        [HttpPost]
-        public ActionResult Submit(SubmitWtfModel model)
-        {
-            return Content("asdf");
-        }
     }
 }

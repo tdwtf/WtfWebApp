@@ -58,9 +58,9 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
-                name: "SubmitArticle",
-                url: "articles/submit",
-                defaults: new { controller = "Articles", action = "Submit" }
+                name: "SubmitWtf",
+                url: "submit-wtf",
+                defaults: new { controller = "Home", action = "Submit" }
             );
 
             routes.MapRoute(

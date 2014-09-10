@@ -1,4 +1,4 @@
-﻿@model HomeIndexViewModel
+﻿@model ContactFormViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,55 +8,58 @@
 
     <div>
        Use this form if you'd like to send a personal note to a WTF staffer. For article and story submissions, 
-       please use the <a href="/articles/submit">submission form</a>.
+       please use the <a href="/submit-wtf">submission form</a>.
     </div>
     <hr />
 
     @Html.ValidationSummary()
 
     <form method="post" action="/contact" enctype="multipart/form-data">
+
+         @Html.AntiForgeryToken()
+
         <div class="field">
             <div>Send To:</div>
             <div class="picker">
-                <select name="to">
+                <select name="contactform.to">
                   <option value=""></option>
                    <optgroup label="Editors">
-                      <option value="mark-bowytz">Mark Bowytz (Lead Editor)</option>
-                      <option value="remy-porter">Remy Porter (Editor)</option>
+                      <option value="Mark Bowytz">Mark Bowytz (Lead Editor)</option>
+                      <option value="Remy Porter">Remy Porter (Editor)</option>
                    </optgroup>
                    <optgroup label="Writers">
                       <option value="snoofle">snoofle (Writer)</option>
-                      <option value="charles-robinson">Charles Robinson (Writer)</option>
-                      <option value="erik-gern">Erik Gern (Writer)</option>
-                      <option value="bruce-johnson">Bruce Johnson (Writer)</option>
-                      <option value="lorne-kates">Lorne Kates (Writer)</option>
+                      <option value="Charles Robinson">Charles Robinson (Writer)</option>
+                      <option value="Erik Gern">Erik Gern (Writer)</option>
+                      <option value="Bruce Johnson">Bruce Johnson (Writer)</option>
+                      <option value="Lorne Kates">Lorne Kates (Writer)</option>
                    </optgroup>
                    <optgroup label="Admin">
-                      <option value="alex-papadimoulis">Alex Papadimoulis (Founder)</option>
-                      <option value="tim-silvia">Tim Silvia (Sponsorship)</option>
+                      <option value="Alex Papadimoulis">Alex Papadimoulis (Founder)</option>
+                      <option value="Tim Silvia">Tim Silvia (Sponsorship)</option>
                    </optgroup>
                </select>
             </div>
         </div>
         <div class="field">
             <div>Your Name:</div>
-            <input name="name" class="input" type="text" maxlength="50" />
+           <input name="contactform.name" class="input" type="text" maxlength="50" value="@Model.ContactForm.Name" />
         </div>
         <div class="field">
             <div>Your Email:</div>
-            <input name="email" class="input" type="text" maxlength="250" />
+           <input name="contactform.email" class="input" type="text" maxlength="250" value="@Model.ContactForm.Email" />
         </div>
        <div class="field">
           <div>Subject:</div>
-          <input name="subject" class="input" type="text" maxlength="250" />
+          <input name="contactform.subject" class="input" type="text" maxlength="250" value="@Model.ContactForm.Subject" />
        </div>
         <div class="field">
             <div>Attachment (optional):</div>
-            <input name="file" class="input" type="file" />
+           <input name="contactform.file" class="input" type="file" />
         </div>
         <div class="field">
             <div>Message:</div>
-            <textarea name="message" class="input textarea" rows="8" cols="60"></textarea>
+           <textarea name="contactform.message" class="input textarea" rows="8" cols="60">@Model.ContactForm.Message</textarea>
         </div>
         <div class="medium primary btn">
             <input class="input" type="submit" value="Send Message" />

@@ -25,6 +25,9 @@ namespace TheDailyWtf.ViewModels
         public NavigationMenuViewModel NavigationMenu { get { return new NavigationMenuViewModel(); } }
         public string Copyright { get { return copyright; } }
         public string Version { get { return version; } }
+
+        public string SuccessMessage { get; set; }
+        public string ErrorMessage { get; set; }
         
         public Ad GetNextAd(Dimensions dimensions)
         {

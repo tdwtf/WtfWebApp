@@ -1,4 +1,4 @@
-﻿@model HomeIndexViewModel
+﻿@model SubmitWtfViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -10,7 +10,7 @@
    $(function () {
       function ViewModel() {
          var self = this;
-         self.selectedField = ko.observable('0');
+         self.selectedField = ko.observable('@((int)Model.SubmitForm.Type)');
       }
       var vm = new ViewModel();
       ko.applyBindings(vm);
@@ -23,6 +23,7 @@
 </style>
 
 <div>
+
     <h2>Submit WTF</h2>
 
     <div>
@@ -30,36 +31,39 @@
     </div>
     <hr />
 
-    @Html.ValidationSummary()
+   @Html.ValidationSummary()
 
-    <form method="post" action="/articles/submit" enctype="multipart/form-data">
+    <form method="post" action="/submit-wtf" enctype="multipart/form-data">
+
+         @Html.AntiForgeryToken()
+
         <div class="field">
            <div>Submission Type:</div>
-           <input data-bind="checked: selectedField" id="code" type="radio" name="type" value="0" />
+           <input data-bind="checked: selectedField" id="code" type="radio" name="submitform.type" value="0" />
            <label for="code">Code</label>
-           <input data-bind="checked: selectedField" id="story" type="radio" name="type" value="1" />
+           <input data-bind="checked: selectedField" id="story" type="radio" name="submitform.type" value="1" />
            <label for="story">Story</label>
-           <input data-bind="checked: selectedField" id="errord" type="radio" name="type" value="2" />
+           <input data-bind="checked: selectedField" id="errord" type="radio" name="submitform.type" value="2" />
            <label for="errord">Error'd</label>
         </div>
         <div class="field">
             <div>Your Name:</div>
-            <input name="name" class="input" type="text" maxlength="50" />
+           <input value="@Model.SubmitForm.Name" name="submitform.name" class="input" type="text" maxlength="50" />
         </div>
        <div class="field">
           <div>Name Usage:</div>
           <div class="picker">
-             <select name="nameusage">
-                <option value="0">Anonymous! Just make something up...</option>
-                <option value="1">First name only</option>
-                <option value="2">First name, last initial</option>
-                <option value="3">I don't care, you can use my name!</option>
+             <select name="submitform.nameusage">
+                <option selected="@(Model.SubmitForm.NameUsage == NameUsage.Anonymous)" value="0">Anonymous! Just make something up...</option>
+                <option selected="@(Model.SubmitForm.NameUsage == NameUsage.FirstNameOnly)" value="1">First name only</option>
+                <option selected="@(Model.SubmitForm.NameUsage == NameUsage.FirstNameLastInitial)" value="2">First name, last initial</option>
+                <option selected="@(Model.SubmitForm.NameUsage == NameUsage.FullName)" value="3">I don't care, you can use my name!</option>
              </select>
           </div>
        </div>
         <div class="field">
             <div>Your Email:</div>
-            <input name="email" class="input" type="text" maxlength="250" placeholder="Your email address will NOT be posted on the site..." />
+            <input value="@Model.SubmitForm.Email" name="submitform.email" class="input" type="text" maxlength="250" placeholder="Your email address will NOT be posted on the site..." />
         </div>
 
        <div data-bind="if: selectedField() == 0">
@@ -71,30 +75,30 @@
           </p>
           <div class="field">
              <div>Language(s):</div>
-             <input name="language" class="input" type="text" maxlength="250" />
+             <input value="@Model.SubmitForm.Language" name="submitform.language" class="input" type="text" maxlength="250" />
           </div>
           <div class="field">
              <div>Code Snippet:</div>
-             <textarea name="codesnippet" class="input textarea" rows="8" cols="60" placeholder="Copy/paste your code snippets here..."></textarea>
+             <textarea name="submitform.codesnippet" class="input textarea" rows="8" cols="60" placeholder="Copy/paste your code snippets here...">@Model.SubmitForm.CodeSnippet</textarea>
           </div>
           <div class="field">
              <div>Background:</div>
-             <textarea name="background" class="input textarea" rows="8" cols="60" placeholder="How did this code come to be? Why is it so bad? Etc..."></textarea>
+             <textarea name="submitform.background" class="input textarea" rows="8" cols="60" placeholder="How did this code come to be? Why is it so bad? Etc...">@Model.SubmitForm.Background</textarea>
           </div>
           <div class="field">
              <div>Attachment (optional):</div>
-             <input name="codefile" class="input" type="file" />
+             <input name="submitform.codefile" class="input" type="file" />
           </div>
        </div>
 
        <div data-bind="if: selectedField() == 1">
           <div class="field">
              <div>Time Frame:</div>
-             <input name="timeframe" class="input" type="text" maxlength="250" placeholder="When did this take place? Recently, years ago, decades ago?" />
+             <input value="@Model.SubmitForm.TimeFrame" name="submitform.timeframe" class="input" type="text" maxlength="250" placeholder="When did this take place? Recently, years ago, decades ago?" />
           </div>
           <div class="field">
              <div>Core WTF:</div>
-             <textarea name="storycomments" class="input textarea" rows="8" cols="60" placeholder="The ideal submission length is 140 characters or so..."></textarea>
+             <textarea name="submitform.storycomments" class="input textarea" rows="8" cols="60" placeholder="The ideal submission length is 140 characters or so...">@Model.SubmitForm.StoryComments</textarea>
           </div>
        </div>
 
@@ -106,11 +110,11 @@
           </p>
           <div class="field">
              <div>Error'd Image:</div>
-             <input name="errordfile" class="input" type="file" />
+             <input name="submitform.errordfile" class="input" type="file" />
           </div>
           <div class="field">
              <div>Snarky Comments:</div>
-             <textarea name="errrordcomments" class="input textarea" rows="8" cols="60" placeholder="Please try to keep to a sentence or two, we'd love to quote you verbatim..."></textarea>
+             <textarea name="submitform.errordcomments" class="input textarea" rows="8" cols="60" placeholder="Please try to keep to a sentence or two, we'd love to quote you verbatim...">@Model.SubmitForm.ErrordComments</textarea>
           </div>
        </div>
 

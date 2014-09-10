@@ -47,7 +47,7 @@ namespace TheDailyWtf.ViewModels
             public DateTime NextMonth { get; private set; }
             public DateTime PrevMonth { get; private set; }
 
-            public string CurrentMonthAndYear { get { return this.Reference.ToString("MMMM yyyy"); } }
+            public string CurrentMonthAndYear { get { return this.Reference.ToString("MMM yyyy"); } }
             public string PreviousMonthAndYear { get { return this.PrevMonth.ToString("MMM yy"); } }
             public string NextMonthAndYear { get { return this.NextMonth.ToString("MMM yy"); } }
             public string NextMonthCssClass { get { return this.NextMonth > DateTime.Now ? "disable" : ""; } }

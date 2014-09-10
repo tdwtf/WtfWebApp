@@ -53,3 +53,13 @@ div.sponsor-container > div { float: left; width: 48%; text-align: center; paddi
 div.sponsor-container > div img { max-width: 250px; }
 div.sponsor-container > div p { margin-top: 15px; font-size: 12px; }
 div.sponsor-container::after { clear: both; }
+
+div.message,
+div.validation-summary-errors { background-color: white; border: 5px solid #FFF; padding: 15px; width: 75%; margin: 0 auto; }
+div.message.error { color: #A00; border-color: #A00; }
+div.message.warning { color: #EA8800; border-color: #EA8800; }
+div.message.info { color: #00ACED; border-color: #00ACED; }
+div.message.success { color: #8AD46A; border-color: #8AD46A; }
+
+div.validation-summary-errors { color: #A00; border-color: #A00; }
+div.validation-summary-errors ul li { list-style-type: disc; margin-left: 15px; }
