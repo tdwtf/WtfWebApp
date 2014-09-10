@@ -222,7 +222,7 @@ namespace TheDailyWtf
 
         public override int GetHashCode()
         {
-            return this.Name.GetHashCode();
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(this.Name);
         }
     }
 
