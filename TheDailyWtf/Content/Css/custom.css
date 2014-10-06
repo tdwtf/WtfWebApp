@@ -63,3 +63,9 @@ div.message.success { color: #8AD46A; border-color: #8AD46A; }
 
 div.validation-summary-errors { color: #A00; border-color: #A00; }
 div.validation-summary-errors ul li { list-style-type: disc; margin-left: 15px; }
+
+.comment .timestamp { float: right; font-size: 75%; }
+.comment .avatar { width: 30px; height: 30px; vertical-align: bottom; margin: 3px; }
+.comment .emoji { width: 18px; height: 18px; }
+.comment blockquote { margin: 5px 0; padding: 5px; background-color: #EEE; }
+.comment blockquote p { margin: 0; padding: 5px; }

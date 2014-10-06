@@ -306,6 +306,40 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class Comments_CreateOrUpdateComment : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Comments_CreateOrUpdateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, int? Discourse_Post_Id)
+		{
+			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
+			AddParam("@Body_Html", DbType.String, -1, ParameterDirection.Input, Body_Html);
+			AddParam("@User_Name", DbType.String, 255, ParameterDirection.Input, User_Name);
+			AddParam("@Posted_Date", DbType.DateTime, 0, ParameterDirection.Input, Posted_Date);
+			AddParam("@Discourse_Post_Id", DbType.Int32, 0, ParameterDirection.Input, Discourse_Post_Id);
+		}
+		public void Execute()
+		{
+			this.ExecuteNonQuery();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Comments_GetComments : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Comments_GetComments(int? Article_Id)
+		{
+			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
+		}
+		public IEnumerable<Tables.Comments> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Series_CreateOrUpdateSeries : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public Series_CreateOrUpdateSeries(string Series_Slug, string Title_Text, string Description_Text)
@@ -437,6 +471,16 @@ namespace TheDailyWtf.Data
 		public static StoredProcedures.Authors_ValidateLogin Authors_ValidateLogin(string Author_Slug, string Password_Text, YNIndicator? Valid_Indicator = null)
 		{
 			return new StoredProcedures.Authors_ValidateLogin(Author_Slug, Password_Text, Valid_Indicator);
+		}
+
+		public static StoredProcedures.Comments_CreateOrUpdateComment Comments_CreateOrUpdateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, int? Discourse_Post_Id)
+		{
+			return new StoredProcedures.Comments_CreateOrUpdateComment(Article_Id, Body_Html, User_Name, Posted_Date, Discourse_Post_Id);
+		}
+
+		public static StoredProcedures.Comments_GetComments Comments_GetComments(int? Article_Id)
+		{
+			return new StoredProcedures.Comments_GetComments(Article_Id);
 		}
 
 		public static StoredProcedures.Series_CreateOrUpdateSeries Series_CreateOrUpdateSeries(string Series_Slug, string Title_Text, string Description_Text = null)

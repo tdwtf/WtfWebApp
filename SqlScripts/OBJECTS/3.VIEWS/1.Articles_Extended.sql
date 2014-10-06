@@ -32,6 +32,8 @@ CREATE VIEW [Articles_Extended] AS
             ,[Series_Title_Text] = S.[Title_Text]
             ,[Series_Description_Text] = S.[Description_Text]
 
+            ,[Cached_Comment_Count] = (SELECT COUNT(*) FROM [Comments] WHERE [Article_Id] = ART.[Article_Id])
+
       FROM [Articles] ART    
     
   INNER JOIN [Series] S 

@@ -2871,8 +2871,6 @@ footer .articleList li { background-color: transparent; }
 
     #articlePage .commentsWrapper .comment:hover .gui { display: block; }
 
-    #articlePage .commentsWrapper .comment p { margin-left: 70px; }
-
     #articlePage .commentsWrapper .comment:last-child { border-bottom: none; }
 
 .avatarContainer { width: 50px; height: 100%; float: left; margin-right: 20px; -webkit-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; -o-border-radius: 50%; border-radius: 50%; overflow: hidden; }

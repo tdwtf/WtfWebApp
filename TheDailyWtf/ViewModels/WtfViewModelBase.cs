@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Web.Configuration;
 using TheDailyWtf.Models;
 
 namespace TheDailyWtf.ViewModels

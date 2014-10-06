@@ -1,33 +1,28 @@
 ﻿@model IEnumerable<CommentModel>
 
 <div class="commentsWrapper">
-    <header>
-        <h5>Featured Comments</h5>
-    </header>
-    <ul class="comments">
-        @foreach (var comment in Model)
-        {
-            <li class="comment">
-                <div class="avatarContainer">
-                    <div class="imgContainer">
-                        <img src="@(comment.ImageUrl)">
-                    </div>
-                </div>
-                <span class="poster">@comment.Username</span>
-                <span class="timestamp">@comment.PublishedDate</span>
-                <div>
-                    @Html.Raw(comment.BodyHtml)
-                </div>
-                <ul class="gui animated fadeInRight">
-                    <li><a href="#"><i class="icon-heart"></i></a></li>
-                    <li><a href="#"><i class="icon-link"></i></a></li>
-                    <li><a href="#"><i class="icon-reply"></i></a></li>
-                </ul>
-            </li>
-        }
-        @if (!Model.Any())
-        { 
-            <li>There are no featured comments yet.</li>
-        }
-    </ul>
+   <ul class="comments">
+      @foreach (var comment in Model)
+      {
+         <li class="comment">
+            <div class="avatarContainer">
+               @if (!string.IsNullOrEmpty(comment.ImageUrl))
+               {
+                  <div class="imgContainer">
+                     <img src="@comment.ImageUrl" />
+                  </div>
+               }
+            </div>
+            <span class="poster">@comment.Username</span>
+            <span class="timestamp">@comment.PublishedDate</span>
+            <div>
+               @Html.Raw(comment.BodyHtml)
+            </div>
+         </li>
+      }
+      @if (!Model.Any())
+      {
+         <li>There are no comments yet.</li>
+      }
+   </ul>
 </div>

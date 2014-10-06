@@ -1,0 +1,31 @@
+﻿@model ViewCommentsViewModel
+@{
+   Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row @Model.Article.Series.CssClass" id="articlePage">
+   <div class="twelve columns articleWrapper">
+      <div class="content">
+         <div class="row">
+            <div class="container">
+
+               <h2>@Model.Article.Title</h2>
+               
+                  <div class="row">
+                     <div class="twelve columns">
+                        <h5>Article Comments</h5>
+                        @Html.Partial(Views.Shared.PartialComments, Model.Comments)
+                     </div>
+                  </div>
+               <div>
+                  <a href="@Model.Article.Url">&laquo; Return to Article</a>
+                  @if (Model.Article.DiscourseTopicId != null) 
+                  {
+                     <a class="discourse-link" href="@Model.Article.DiscourseThreadUrl" target="_blank">Continue this discussion on Discourse...</a>
+                  }
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

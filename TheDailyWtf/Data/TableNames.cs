@@ -25,6 +25,7 @@ namespace TheDailyWtf.Data
 		public const string Articles = "Articles";
 		public const string Articles_Extended = "Articles_Extended";
 		public const string Authors = "Authors";
+		public const string Comments = "Comments";
 		public const string FeaturedComments = "FeaturedComments";
 		public const string Series = "Series";
 	}

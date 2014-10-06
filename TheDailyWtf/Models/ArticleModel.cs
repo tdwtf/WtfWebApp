@@ -25,7 +25,8 @@ namespace TheDailyWtf.Models
         [AllowHtml]
         public string BodyHtml { get; set; }
         public string Title { get; set; }
-        public int CommentCount { get; set; }
+        public int DiscourseCommentCount { get; set; }
+        public int CachedCommentCount { get; set; }
         public DateTime? LastCommentDate { get; set; }
         public string LastCommentDateDescription 
         { 
@@ -150,7 +151,8 @@ namespace TheDailyWtf.Models
                 Slug = article.Article_Slug,
                 Author = AuthorModel.FromTable(article),
                 BodyHtml = article.Body_Html,
-                CommentCount = 0,
+                DiscourseCommentCount = (int)article.Cached_Comment_Count,
+                CachedCommentCount = (int)article.Cached_Comment_Count,
                 DiscourseTopicId = article.Discourse_Topic_Id,
                 LastCommentDate = lastCommentDate,
                 PublishedDate = article.Published_Date,
@@ -170,7 +172,7 @@ namespace TheDailyWtf.Models
             {
                 var topic = DiscourseHelper.GetDiscussionTopic((int)article.Discourse_Topic_Id);
                 model.LastCommentDate = topic.LastPostedAt;
-                model.CommentCount = topic.PostsCount;
+                model.DiscourseCommentCount = topic.PostsCount;
                 model.DiscourseTopicSlug = topic.Slug;
             }
 

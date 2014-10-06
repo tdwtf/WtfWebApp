@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="Common\Ads\AdRotator.cs" />
     <Compile Include="Common\BaseViewPage.cs" />
+    <Compile Include="Common\WtfConfig.cs" />
     <Compile Include="Common\WtfControllerBase.cs" />
     <Compile Include="Common\Security\AdminOnlyActionFilterAttribute.cs" />
     <Compile Include="Common\Discourse\Category.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="ViewModels\HomeIndexViewModel.cs" />
     <Compile Include="ViewModels\NavigationMenuViewModel.cs" />
     <Compile Include="ViewModels\SubmitWtfViewModel.cs" />
+    <Compile Include="ViewModels\ViewCommentsViewModel.cs" />
     <Compile Include="ViewModels\ViewArticleViewModel.cs" />
     <Compile Include="ViewModels\ViewAuthorViewModel.cs" />
     <Compile Include="ViewModels\WtfViewModelBase.cs" />
@@ -308,7 +310,9 @@
   <ItemGroup>
     <Content Include="Views\Home\Submit.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Articles\ViewArticleComments.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

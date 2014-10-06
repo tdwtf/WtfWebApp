@@ -146,6 +146,33 @@ namespace TheDailyWtf.Discourse
             }
         }
 
+        public static void PullCommentsFromDiscourse(ArticleModel article)
+        {
+            if (article.DiscourseTopicId == null)
+                return;
+            if (article.CachedCommentCount >= 50)
+                return;
+
+            var cachedComments = StoredProcs.Comments_GetComments(article.Id)
+                .Execute()
+                .ToDictionary(c => c.Discourse_Post_Id);
+
+            var topic = GetDiscussionTopic((int)article.DiscourseTopicId);
+            foreach (var post in topic.Posts.Where(p => !p.Username.Equals("PaulaBean", StringComparison.OrdinalIgnoreCase)).Take(50))
+            {
+                if (cachedComments.ContainsKey(post.Id))
+                    continue;
+
+                StoredProcs.Comments_CreateOrUpdateComment(
+                    article.Id, 
+                    CommentModel.TrySanitizeDiscourseBody(post.BodyHtml), 
+                    post.Username, 
+                    post.PostDate, 
+                    post.Id
+                  ).Execute();
+            }
+        }
+
         private static class DiscourseCache
         {
             private static readonly object locker = new object();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using TheDailyWtf.Discourse;
 using TheDailyWtf.Models;
 using TheDailyWtf.ViewModels;
 
@@ -18,6 +19,15 @@ namespace TheDailyWtf.Controllers
         public ActionResult ViewArticle(string articleSlug)
         {
             return View(new ViewArticleViewModel(articleSlug));
+        }
+
+        public ActionResult ViewArticleComments(string articleSlug)
+        {
+            var article = ArticleModel.GetArticleBySlug(articleSlug);
+                        
+            DiscourseHelper.PullCommentsFromDiscourse(article);
+
+            return View(new ViewCommentsViewModel(article));
         }
 
         public ActionResult ViewLegacyArticle(string articleSlug)

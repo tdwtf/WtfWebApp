@@ -60,6 +60,7 @@ namespace TheDailyWtf.Data
 			public const string Author_Image_Url = "Author_Image_Url";
 			public const string Series_Title_Text = "Series_Title_Text";
 			public const string Series_Description_Text = "Series_Description_Text";
+			public const string Cached_Comment_Count = "Cached_Comment_Count";
 		}
 		public static class Authors
 		{
@@ -71,6 +72,15 @@ namespace TheDailyWtf.Data
 			public const string Bio_Html = "Bio_Html";
 			public const string ShortBio_Text = "ShortBio_Text";
 			public const string Image_Url = "Image_Url";
+		}
+		public static class Comments
+		{
+			public const string Comment_Id = "Comment_Id";
+			public const string Article_Id = "Article_Id";
+			public const string Body_Html = "Body_Html";
+			public const string User_Name = "User_Name";
+			public const string Posted_Date = "Posted_Date";
+			public const string Discourse_Post_Id = "Discourse_Post_Id";
 		}
 		public static class FeaturedComments
 		{

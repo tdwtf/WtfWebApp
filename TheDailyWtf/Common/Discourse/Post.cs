@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TheDailyWtf.Discourse
 {
@@ -7,6 +8,8 @@ namespace TheDailyWtf.Discourse
         public enum PostType { Regular = 1, ModeratorAction = 2 }
 
         private Post() { }
+
+        public static readonly IEqualityComparer<Post> IdComparer = new PostIdEqualityComparer();
 
         public int Id { get; private set; }
         public string Username { get; private set; }
@@ -42,5 +45,21 @@ namespace TheDailyWtf.Discourse
         {
             return string.Format("Post {0} - by {1}: {2}", this.Id, this.Username, this.BodyHtml);
         }
+
+        private sealed class PostIdEqualityComparer : IEqualityComparer<Post>
+        {
+            public bool Equals(Post x, Post y)
+            {
+                if (x == null || y == null)
+                    return false;
+                return x.Id == y.Id;
+            }
+
+            public int GetHashCode(Post obj)
+            {
+                return obj.Id.GetHashCode();
+            }
+        }
+
     }
 }
