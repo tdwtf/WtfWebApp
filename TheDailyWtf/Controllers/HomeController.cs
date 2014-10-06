@@ -100,7 +100,7 @@ namespace TheDailyWtf.Controllers
                             break;
 
                         case SubmissionType.Story:
-                            WriteStoryBody(writer, model.SubmitForm.TimeFrame, model.SubmitForm.StoryComments);
+                            WriteStoryBody(writer, model.SubmitForm.StoryComments);
                             break;
 
                         case SubmissionType.Errord:
@@ -160,10 +160,8 @@ namespace TheDailyWtf.Controllers
             writer.WriteLine(codeSnippet);
         }
 
-        private void WriteStoryBody(TextWriter writer, string timeFrame, string comments)
+        private void WriteStoryBody(TextWriter writer, string comments)
         {
-            writer.WriteLine("Time Frame: {0}", timeFrame);
-            writer.WriteLine();
             writer.WriteLine("Comments:");
             writer.WriteLine("--------------------------------");
             writer.WriteLine(comments);

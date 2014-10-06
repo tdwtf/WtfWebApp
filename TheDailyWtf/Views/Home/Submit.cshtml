@@ -93,12 +93,8 @@
 
        <div data-bind="if: selectedField() == 1">
           <div class="field">
-             <div>Time Frame:</div>
-             <input value="@Model.SubmitForm.TimeFrame" name="submitform.timeframe" class="input" type="text" maxlength="250" placeholder="When did this take place? Recently, years ago, decades ago?" />
-          </div>
-          <div class="field">
              <div>Core WTF:</div>
-             <textarea name="submitform.storycomments" class="input textarea" rows="8" cols="60" placeholder="The ideal submission length is 140 characters or so...">@Model.SubmitForm.StoryComments</textarea>
+             <textarea name="submitform.storycomments" class="input textarea" rows="8" cols="60" placeholder="Describe the who, what, where, and when of the story in approximately 2-5 paragraphs or so; check out the Submission Guidelines for help if you're stuck!">@Model.SubmitForm.StoryComments</textarea>
           </div>
        </div>
 

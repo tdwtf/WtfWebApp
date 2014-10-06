@@ -6,6 +6,11 @@ namespace TheDailyWtf.Models
 {
     public sealed class SubmitWtfModel
     {
+        public SubmitWtfModel()
+        {
+            this.NameUsage = Models.NameUsage.FirstNameLastInitial;
+        }
+
         [Required]
         public SubmissionType Type { get; set; }
         [Required]
@@ -26,7 +31,6 @@ namespace TheDailyWtf.Models
         public string ErrordComments { get; set; }
         public HttpPostedFileBase ErrordFile { get; set; }
 
-        public string TimeFrame { get; set; }
         [AllowHtml]
         public string StoryComments { get; set; }
     }
