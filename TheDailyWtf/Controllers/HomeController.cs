@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Mail;
-using System.Text;
 using System.Web;
-using System.Web.Configuration;
 using System.Web.Mvc;
 using Inedo;
 using TheDailyWtf.Models;
@@ -47,8 +45,8 @@ namespace TheDailyWtf.Controllers
             {
                 var writer = new StringWriter();
 
-                using (var smtp = new SmtpClient(WebConfigurationManager.AppSettings["Wtf.Mail.Host"]))
-                using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.ContactForm.Email, WebConfigurationManager.AppSettings["Wtf.Mail.FromAddress"]), WebConfigurationManager.AppSettings["Wtf.Mail.ToAddress"]))
+                using (var smtp = new SmtpClient(Config.Wtf.Mail.Host))
+                using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.ContactForm.Email, Config.Wtf.Mail.FromAddress), Config.Wtf.Mail.ToAddress))
                 {
                     writer.WriteLine("To: {0}", model.ContactForm.To);
                     writer.WriteLine("From: {0}", model.ContactForm.Name);
@@ -88,9 +86,9 @@ namespace TheDailyWtf.Controllers
             try
             {
                 var writer = new StringWriter();
-
-                using (var smtp = new SmtpClient(WebConfigurationManager.AppSettings["Wtf.Mail.Host"]))
-                using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.SubmitForm.Email, WebConfigurationManager.AppSettings["Wtf.Mail.FromAddress"]), WebConfigurationManager.AppSettings["Wtf.Mail.ToAddress"]))
+                
+                using (var smtp = new SmtpClient(Config.Wtf.Mail.Host))
+                using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.SubmitForm.Email, Config.Wtf.Mail.FromAddress), Config.Wtf.Mail.ToAddress))
                 {
                     WriteCommonBody(writer, model.SubmitForm.Name, model.SubmitForm.NameUsage);
 

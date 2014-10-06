@@ -50,7 +50,7 @@ namespace TheDailyWtf.Models
                         if (value.StartsWith("//"))
                             return string.Format("src=\"{0}\"", value);
 
-                        return string.Format("src=\"//{0}{1}\"", WebConfigurationManager.AppSettings["Discourse.Host"], value);
+                        return string.Format("src=\"//{0}{1}\"", Config.Discourse.Host, value);
                     }
                 );
 

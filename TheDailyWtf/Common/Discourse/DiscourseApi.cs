@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
-using System.Web.Configuration;
 using Newtonsoft.Json;
 
 namespace TheDailyWtf.Discourse
@@ -16,7 +15,7 @@ namespace TheDailyWtf.Discourse
         private string apiKey;
 
         public DiscourseApi()
-            : this(WebConfigurationManager.AppSettings["Discourse.Host"], WebConfigurationManager.AppSettings["Discourse.Username"], WebConfigurationManager.AppSettings["Discourse.ApiKey"])
+            : this(Config.Discourse.Host, Config.Discourse.Username, Config.Discourse.ApiKey)
         {
         }
 

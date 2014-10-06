@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Configuration;
 using System.Web.Mvc;
 using TheDailyWtf.Data;
 using TheDailyWtf.Discourse;
@@ -44,7 +43,7 @@ namespace TheDailyWtf.Models
         public string DiscourseThreadUrl { get { return string.Format("http://what.thedailywtf.com/t/{0}/{1}", this.DiscourseTopicSlug, this.DiscourseTopicId); } }
         public DateTime? PublishedDate { get; set; }
         public SeriesModel Series { get; set; }
-        public string Url { get { return string.Format("//{0}/articles/{1}", WebConfigurationManager.AppSettings["Wtf.Host"], this.Slug); } }
+        public string Url { get { return string.Format("//{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
         public string Slug { get; set; }
         public string TwitterUrl { get { return string.Format("//www.twitter.com/home?status=http:{0}+-+{1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
         public string FacebookUrl { get { return string.Format("//www.facebook.com/sharer.php?u=http:{0}&t={1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
@@ -64,12 +63,12 @@ namespace TheDailyWtf.Models
         public int? PreviousArticleId { get; set; }
         public string PreviousArticleTitle { get; set; }
         public string PreviousArticleSlug { get; set; }
-        public string PreviousArticleUrl { get { return string.Format("//{0}/articles/{1}", WebConfigurationManager.AppSettings["Wtf.Host"], this.PreviousArticleSlug); } }
+        public string PreviousArticleUrl { get { return string.Format("//{0}/articles/{1}", Config.Wtf.Host, this.PreviousArticleSlug); } }
 
         public int? NextArticleId { get; set; }
         public string NextArticleTitle { get; set; }
         public string NextArticleSlug { get; set; }
-        public string NextArticleUrl { get { return string.Format("//{0}/articles/{1}", WebConfigurationManager.AppSettings["Wtf.Host"], this.NextArticleSlug); } }
+        public string NextArticleUrl { get { return string.Format("//{0}/articles/{1}", Config.Wtf.Host, this.NextArticleSlug); } }
 
         public static IEnumerable<ArticleModel> GetAllArticlesByMonth(DateTime month)
         {

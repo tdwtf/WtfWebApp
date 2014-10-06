@@ -3,6 +3,9 @@ using System.Web.Configuration;
 
 namespace TheDailyWtf
 {
+    /// <summary>
+    /// Helper class for strongly-typed configuration values stored in web.config
+    /// </summary>
     public static class Config
     {
         public static class Wtf

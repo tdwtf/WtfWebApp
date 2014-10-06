@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Caching;
-using System.Web.Configuration;
 using Inedo.Data;
 using TheDailyWtf.Data;
 using TheDailyWtf.Models;
@@ -19,7 +18,7 @@ namespace TheDailyWtf.Discourse
             // create topic and embed <!--ARTICLEID:...--> in the body so the hacky JavaScript 
             // for the "Feature" button can append the article ID to each of its query strings
             var topic = api.CreateTopic(
-                new Category(WebConfigurationManager.AppSettings["Discourse.CommentCategory"]),
+                new Category(Config.Discourse.CommentCategory),
                 article.Title,
                 string.Format(
                     "Discussion for the article: http://{0}\r\n\r\n<!--ARTICLEID:{1}-->", 
@@ -132,7 +131,7 @@ namespace TheDailyWtf.Discourse
                    () =>
                    {
                        var api = new DiscourseApi();
-                       return api.GetTopicsByCategory(new Category(WebConfigurationManager.AppSettings["Discourse.SideBarWtfCategory"]))
+                       return api.GetTopicsByCategory(new Category(Config.Discourse.SideBarWtfCategory))
                            .Where(topic => !topic.Pinned && topic.Visible)
                            .Take(5)
                            .ToList()
