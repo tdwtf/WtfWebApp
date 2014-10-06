@@ -25,7 +25,9 @@ namespace TheDailyWtf.Controllers
         {
             var article = ArticleModel.GetArticleBySlug(articleSlug);
                         
-            DiscourseHelper.PullCommentsFromDiscourse(article);
+            bool commentsPulled = DiscourseHelper.PullCommentsFromDiscourse(article);
+            if (commentsPulled)
+                article = ArticleModel.GetArticleBySlug(articleSlug); // reload article with cached comments
 
             return View(new ViewCommentsViewModel(article));
         }

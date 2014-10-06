@@ -145,22 +145,28 @@ namespace TheDailyWtf.Discourse
             }
         }
 
-        public static void PullCommentsFromDiscourse(ArticleModel article)
+        public static bool PullCommentsFromDiscourse(ArticleModel article)
         {
+            const int commentsToPull = 40;
+
             if (article.DiscourseTopicId == null)
-                return;
-            if (article.CachedCommentCount >= 50)
-                return;
+                return false;
+            if (article.CachedCommentCount >= commentsToPull)
+                return false;
 
             var cachedComments = StoredProcs.Comments_GetComments(article.Id)
                 .Execute()
                 .ToDictionary(c => c.Discourse_Post_Id);
 
             var topic = GetDiscussionTopic((int)article.DiscourseTopicId);
-            foreach (var post in topic.Posts.Where(p => !p.Username.Equals("PaulaBean", StringComparison.OrdinalIgnoreCase)).Take(50))
+            bool commentsPulled = false;
+
+            foreach (var post in topic.Posts.Where(p => !p.Username.Equals("PaulaBean", StringComparison.OrdinalIgnoreCase)).Take(commentsToPull))
             {
                 if (cachedComments.ContainsKey(post.Id))
                     continue;
+                
+                commentsPulled = true;
 
                 StoredProcs.Comments_CreateOrUpdateComment(
                     article.Id, 
@@ -170,6 +176,8 @@ namespace TheDailyWtf.Discourse
                     post.Id
                   ).Execute();
             }
+
+            return commentsPulled;
         }
 
         private static class DiscourseCache

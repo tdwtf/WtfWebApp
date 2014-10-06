@@ -44,6 +44,17 @@ namespace TheDailyWtf.Models
         public DateTime? PublishedDate { get; set; }
         public SeriesModel Series { get; set; }
         public string Url { get { return string.Format("//{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
+        public string CommentsUrl { get { return string.Format("//{0}/articles/comments/{1}", Config.Wtf.Host, this.Slug); } }
+        public string CommentsFraction 
+        { 
+            get 
+            { 
+                if (this.CachedCommentCount < this.DiscourseCommentCount)
+                    return string.Format("{0}/{1}", this.CachedCommentCount, Math.Max(this.DiscourseCommentCount, this.CachedCommentCount));
+                else
+                    return this.CachedCommentCount.ToString();
+            } 
+        }
         public string Slug { get; set; }
         public string TwitterUrl { get { return string.Format("//www.twitter.com/home?status=http:{0}+-+{1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
         public string FacebookUrl { get { return string.Format("//www.facebook.com/sharer.php?u=http:{0}&t={1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
