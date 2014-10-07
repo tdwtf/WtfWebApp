@@ -7,6 +7,9 @@ namespace TheDailyWtf.ViewModels
 {
     public class ArticlesIndexViewModel : WtfViewModelBase
     {
+        private static readonly HashSet<string> paginatedSeries 
+            = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "feature-articles", "code-sod", "errord" };
+
         public ArticlesIndexViewModel()
         {
             this.ReferenceDate = new DateInfo(DateTime.Now);
@@ -14,6 +17,7 @@ namespace TheDailyWtf.ViewModels
 
         public DateInfo ReferenceDate { get; set; }
         public string Series { get; set; }
+        public bool PaginateArticleListByMonth { get { return this.Series == null || paginatedSeries.Contains(this.Series); } }
         public string PreviousMonthUrl { get { return this.FormatUrl(this.ReferenceDate.PrevMonth); } }
         public string NextMonthUrl { get { return this.FormatUrl(this.ReferenceDate.NextMonth); } }
 
@@ -21,8 +25,16 @@ namespace TheDailyWtf.ViewModels
         {
             get
             {
-                return ArticleModel.GetSeriesArticlesByMonth(this.Series, this.ReferenceDate.Reference)
-                    .Select(a => new ArticleItemViewModel(a));
+                if (this.PaginateArticleListByMonth)
+                {
+                    return ArticleModel.GetSeriesArticlesByMonth(this.Series, this.ReferenceDate.Reference)
+                        .Select(a => new ArticleItemViewModel(a));
+                }
+                else
+                {
+                    return ArticleModel.GetAllArticlesBySeries(this.Series)
+                        .Select(a => new ArticleItemViewModel(a));
+                }
             }
         }
 

@@ -5,9 +5,11 @@
 
 <div class="row">
     <div class="twelve columns">
-        <h2 class="categoryTitle">Recent Articles</h2>
+        <h2 class="categoryTitle">@(Model.PaginateArticleListByMonth ? "Recent" : "Series") Articles</h2>
 
         <nav class="row">
+           @if (Model.PaginateArticleListByMonth) 
+           {
             <div class="prev">
                 <a href="@Model.PreviousMonthUrl"><i class="icon-left-circled"></i>@Model.ReferenceDate.PreviousMonthAndYear</a>
             </div>
@@ -15,21 +17,19 @@
             <div class="next">
                 <a href="@Model.NextMonthUrl" class="@Model.ReferenceDate.NextMonthCssClass">@Model.ReferenceDate.NextMonthAndYear <i class="icon-right-circled"></i></a>
             </div>
+           }
         </nav>
         @foreach (var article in Model.Articles) 
         { 
             @Html.Partial(Views.Shared.PartialArticleItem, article)
         }
 
+       @if (!Model.Articles.Any())
+       {
+          <p>There are no articles to display.</p>
+       }
+
         <div class="clearfix"></div>
-        
-        <div class="container da-space">
-            <h6>Advertisement</h6>
-            <hr />
-            <div class="daBlock da-728x90">
-                <img src="/content/images/banner728.png">
-            </div>
-        </div>
 
         <hr />
     </div>

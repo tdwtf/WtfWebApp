@@ -81,6 +81,12 @@ namespace TheDailyWtf.Models
         public string NextArticleSlug { get; set; }
         public string NextArticleUrl { get { return string.Format("//{0}/articles/{1}", Config.Wtf.Host, this.NextArticleSlug); } }
 
+        public static IEnumerable<ArticleModel> GetAllArticlesBySeries(string series)
+        {
+            var articles = StoredProcs.Articles_GetArticles(series, Domains.PublishedStatus.Published, null, null).Execute();
+            return articles.Select(a => ArticleModel.FromTable(a));
+        }
+
         public static IEnumerable<ArticleModel> GetAllArticlesByMonth(DateTime month)
         {
             return GetSeriesArticlesByMonth(null, month);

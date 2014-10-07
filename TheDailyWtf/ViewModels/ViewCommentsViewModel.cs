@@ -10,7 +10,7 @@ namespace TheDailyWtf.ViewModels
         {
             this.Article = article;
             this.Comments = CommentModel.FromArticle(article);
-            this.MaxDiscoursePostId = this.Comments.Max(c => c.DiscoursePostId);
+            this.MaxDiscoursePostId = this.Comments.Any() ? this.Comments.Max(c => c.DiscoursePostId) : 0;
             if (this.MaxDiscoursePostId > 0)
                 this.DiscourseTopicUrl = this.Article.DiscourseThreadUrl + "/" + this.MaxDiscoursePostId;
             else
