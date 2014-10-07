@@ -1,4 +1,4 @@
-﻿using TheDailyWtf.Models;
+using TheDailyWtf.Models;
 
 namespace TheDailyWtf.ViewModels
 {

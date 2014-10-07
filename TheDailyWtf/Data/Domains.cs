@@ -1,4 +1,4 @@
-﻿using Inedo.Data;
+using Inedo.Data;
 
 #pragma warning disable 1591
 

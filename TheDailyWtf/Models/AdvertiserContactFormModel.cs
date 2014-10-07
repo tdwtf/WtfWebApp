@@ -1,4 +1,4 @@
-﻿
+
 namespace TheDailyWtf.Models
 {
     public class AdvertiserContactFormModel
