@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 @import url(//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font: inherit; font-size: 100%; vertical-align: baseline; }
@@ -1711,9 +1711,9 @@ img { -ms-interpolation-mode: bicubic; }
         .navbar a.toggle:active, .navbar a.toggle.active { background: #3e4043; }
 }
 
-.navbar .logo { display: inline-block; margin: 0 1.94175% 0 0; padding: 0; height: 60px; line-height: 58px; }
+.navbar .logo { display: inline-block; margin: 0 1.94175% 0 0; padding: 0; line-height: 58px; }
 
-    .navbar .logo a { display: block; padding: 0; overflow: hidden; height: 60px; line-height: 58px; }
+    .navbar .logo a { display: block; padding: 0; overflow: hidden;  line-height: 58px; }
 
         .navbar .logo a img { max-height: 95%; }
 
@@ -1722,7 +1722,7 @@ img { -ms-interpolation-mode: bicubic; }
 
         .navbar .logo a { padding: 0; }
 
-            .navbar .logo a img { width: auto; height: auto; max-width: 100%; }
+            .navbar .logo a img {  max-width: 100%; }
 }
 
 .navbar ul { display: table; vertical-align: middle; margin: 0; float: none; }
@@ -2491,7 +2491,7 @@ a { font-weight: 600; color: #2c2c2c; text-decoration: underline; }
 
     .navbar.dailywtf.fixed { -webkit-box-shadow: 0 1px 5px rgba(50,50,50,0.4); -moz-box-shadow: 0 1px 5px rgba(50,50,50,0.4); box-shadow: 0 1px 5px rgba(50,50,50,0.4); }
 
-        .navbar.dailywtf.fixed .logo { display: block; width: 129px; height: 45px; margin: 6px 6px 6px 0; float: left; }
+        .navbar.dailywtf.fixed .logo { display: block; margin: 11px 6px 6px -11px; float: left; }
 
     .navbar.dailywtf li > a { text-shadow: none !important; color: #333; text-transform: uppercase; font-weight: 800; }
 
