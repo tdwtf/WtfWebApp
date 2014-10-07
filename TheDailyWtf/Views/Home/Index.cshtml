@@ -6,7 +6,7 @@
 <div class="four columns">
 
    <aside>
-      <h5 class="heading"><i class="icon-info-circled"></i>WTF is The Daily WTF?</h5>
+      <h5 class="heading"><a class="clean" href="#"><i class="icon-info-circled"></i>WTF is The Daily WTF?</a></h5>
       <div class="about">
          <p>
             Founded in 2004 by <a href="/authors/alex-papadimoulis">Alex Papadimoulis</a>, The Daily WTF is your how-not-to guide for developing
@@ -22,8 +22,8 @@
    </aside>
 
    <aside>
-      <h5 class="heading"><i class="icon-docs"></i>Contents</h5>
-      <div class="side-bar-list">
+      <h5 class="heading"><a href="#" class="clean"><i class="icon-docs"></i>Contents</a></h5>
+      <div class="side-bar-list hideNonDesktop">
          <ul>
             <li><div><a href="/articles/random">Random Article</a></div></li>
             <li>
@@ -46,8 +46,8 @@
     @Html.Partial(Views.Shared.PartialSidebarAd, Model.GetNextAd(Dimensions.SideBar))
 
    <aside>
-      <h5 class="heading"><i class="icon-list"></i>Sidebar WTF</h5>
-      <div class="articleList">
+      <h5 class="heading"><a class="clean" href="#"><i class="icon-list"></i>Sidebar WTF</a></h5>
+      <div class="articleList hideNonDesktop">
          <ul>
             @foreach (var sidebar in Model.GetSideBarWtfs())
             {
@@ -60,8 +60,8 @@
    </aside>
 
    <aside>
-      <h5 class="heading"><i class="icon-network"></i>Sponsors</h5>
-      <div class="side-bar-list">
+      <h5 class="heading"><a class="clean" href="#"><i class="icon-network"></i>Sponsors</a></h5>
+      <div class="side-bar-list hideNonDesktop">
          <ul>
             <li class="no-pad">
                <div class="about">

@@ -2669,8 +2669,6 @@ nav.row { font-size: 120%; text-align: center; text-transform: uppercase; }
 
     .articleContainer p { position: relative; }
 
-        .articleContainer p:after { content: ""; position: absolute; width: 100%; height: 3em; bottom: 0; left: 0; background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, #fff 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,255,255,0)), color-stop(100%, #fff)); background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, #fff 100%); background: -o-linear-gradient(top, rgba(255,255,255,0) 0%, #fff 100%); background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, #fff 100%); background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,#ffffff 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); }
-
     .articleContainer header { padding: 10px 10px 0; }
 
         .articleContainer header h4 { text-transform: uppercase; font-weight: 800; letter-spacing: -1px; }
