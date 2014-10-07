@@ -11,16 +11,19 @@ namespace TheDailyWtf.Controllers
         //
         // GET: /Articles/
 
+        [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
         public ActionResult Index()
         {
             return View(new ArticlesIndexViewModel());
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
         public ActionResult ViewArticle(string articleSlug)
         {
             return View(new ViewArticleViewModel(articleSlug));
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
         public ActionResult ViewArticleComments(string articleSlug)
         {
             var article = ArticleModel.GetArticleBySlug(articleSlug);
@@ -37,17 +40,20 @@ namespace TheDailyWtf.Controllers
             return RedirectToActionPermanent("ViewArticle", new { articleSlug });
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
         public ActionResult ViewArticlesByMonth(int year, int month)
         {
             var date = new DateTime(year, month, 1);
             return View(Views.Articles.Index, new ArticlesIndexViewModel() { ReferenceDate = new ArticlesIndexViewModel.DateInfo(date) });
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewArticlesBySeries(string series)
         {
             return View(Views.Articles.Index, new ArticlesIndexViewModel() { Series = series });
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewArticlesBySeriesAndMonth(int year, int month, string series)
         {
             var date = new DateTime(year, month, 1);

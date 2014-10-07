@@ -9,11 +9,7 @@ namespace TheDailyWtf.Controllers
         //
         // GET: /Authors/
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewAuthor(string authorSlug)
         {
             return View(new ViewAuthorViewModel(authorSlug));

@@ -14,6 +14,7 @@ namespace TheDailyWtf.Controllers
         //
         // GET: /Home/
 
+        [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
         public ActionResult Index()
         {
             return View(new HomeIndexViewModel());
@@ -29,6 +30,7 @@ namespace TheDailyWtf.Controllers
             return View(new ContactFormViewModel());
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult Sponsors()
         {
             return View(new HomeIndexViewModel());
@@ -43,8 +45,7 @@ namespace TheDailyWtf.Controllers
 
             try
             {
-                var writer = new StringWriter();
-
+                using(var writer = new StringWriter())
                 using (var smtp = new SmtpClient(Config.Wtf.Mail.Host))
                 using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.ContactForm.Email, Config.Wtf.Mail.FromAddress), Config.Wtf.Mail.ToAddress))
                 {
@@ -85,8 +86,7 @@ namespace TheDailyWtf.Controllers
 
             try
             {
-                var writer = new StringWriter();
-                
+                using(var writer = new StringWriter())
                 using (var smtp = new SmtpClient(Config.Wtf.Mail.Host))
                 using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.SubmitForm.Email, Config.Wtf.Mail.FromAddress), Config.Wtf.Mail.ToAddress))
                 {

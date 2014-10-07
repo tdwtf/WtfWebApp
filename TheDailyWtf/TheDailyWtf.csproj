@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="Common\Ads\AdRotator.cs" />
     <Compile Include="Common\BaseViewPage.cs" />
+    <Compile Include="Common\CacheProfile.cs" />
     <Compile Include="Common\WtfConfig.cs" />
     <Compile Include="Common\WtfControllerBase.cs" />
     <Compile Include="Common\Security\AdminOnlyActionFilterAttribute.cs" />
