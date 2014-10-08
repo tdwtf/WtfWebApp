@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Configuration;
+using TheDailyWtf.Discourse;
 using TheDailyWtf.Models;
 
 namespace TheDailyWtf.ViewModels
@@ -29,6 +30,14 @@ namespace TheDailyWtf.ViewModels
 
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
+        public string DiscourseMessage
+        {
+            get
+            {
+                var ex = DiscourseHelper.DiscourseException;
+                return ex == null ? null : "There was an issue connecting to the Discourse API: " + ex.Message;
+            }
+        }
         
         public Ad GetNextAd(Dimensions dimensions)
         {

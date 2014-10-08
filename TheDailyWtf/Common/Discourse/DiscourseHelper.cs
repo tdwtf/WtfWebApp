@@ -11,9 +11,34 @@ namespace TheDailyWtf.Discourse
 {
     public static class DiscourseHelper
     {
+        private static DateTime nextDiscourseConnectionAttemptDate;
+
+        public static bool DiscourseWorking { get { return DiscourseException == null; } }
+        public static Exception DiscourseException { get; private set; }
+
+        internal static void PauseDiscourseConnections(Exception ex, int minutes)
+        {
+            DiscourseException = ex;
+            nextDiscourseConnectionAttemptDate = DateTime.UtcNow.AddMinutes(minutes);
+        }
+
+        public static IDiscourseApi CreateApi()
+        {
+            if (DiscourseWorking)
+                return new DiscourseApi(Config.Discourse.Host, Config.Discourse.Username, Config.Discourse.ApiKey);
+
+            if (nextDiscourseConnectionAttemptDate < DateTime.UtcNow)
+            {
+                DiscourseException = null;
+                return new DiscourseApi(Config.Discourse.Host, Config.Discourse.Username, Config.Discourse.ApiKey);
+            }
+
+            return new MockDiscourseApi();
+        }
+
         public static void CreateCommentDiscussion(ArticleModel article)
         {
-            var api = new DiscourseApi();
+            var api = DiscourseHelper.CreateApi();
 
             // create topic and embed <!--ARTICLEID:...--> in the body so the hacky JavaScript 
             // for the "Feature" button can append the article ID to each of its query strings
@@ -38,7 +63,7 @@ namespace TheDailyWtf.Discourse
         {
             try
             {
-                var api = new DiscourseApi();
+                var api = DiscourseHelper.CreateApi();
 
                 api.SetVisibility(topicId, true);
 
@@ -77,7 +102,7 @@ namespace TheDailyWtf.Discourse
                     "Topic_" + topicId,
                     () =>
                     {
-                        var api = new DiscourseApi();
+                        var api = DiscourseHelper.CreateApi();
                         return api.GetTopic(topicId);
                     }
                 );
@@ -98,7 +123,7 @@ namespace TheDailyWtf.Discourse
                     "FeaturedCommentsForArticle_" + articleId,
                     () =>
                     {
-                        var api = new DiscourseApi();
+                        var api = DiscourseHelper.CreateApi();
 
                         return StoredProcs.Articles_GetFeaturedComments(articleId)
                             .Execute()
@@ -130,7 +155,7 @@ namespace TheDailyWtf.Discourse
                    "SideBarWtfs",
                    () =>
                    {
-                       var api = new DiscourseApi();
+                       var api = DiscourseHelper.CreateApi();
                        return api.GetTopicsByCategory(new Category(Config.Discourse.SideBarWtfCategory))
                            .Where(topic => !topic.Pinned && topic.Visible)
                            .Take(5)
@@ -200,6 +225,9 @@ namespace TheDailyWtf.Discourse
                         return cached;
 
                     var item = getItem();
+                    if (item == null)
+                        return null;
+
                     HttpContext.Current.Cache.Add(key, item, null, DateTime.Now.AddMinutes(5), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
                     return item;
                 }

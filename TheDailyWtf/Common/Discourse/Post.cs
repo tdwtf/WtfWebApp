@@ -7,6 +7,8 @@ namespace TheDailyWtf.Discourse
     {
         public enum PostType { Regular = 1, ModeratorAction = 2 }
 
+        public static readonly Post Null = new Post() { Username = "", BodyHtml = "", TopicSlug = "" };
+
         private Post() { }
 
         public static readonly IEqualityComparer<Post> IdComparer = new PostIdEqualityComparer();

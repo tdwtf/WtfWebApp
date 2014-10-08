@@ -36,6 +36,7 @@ namespace TheDailyWtf
             public static string Host { get { return ReadFromFile(); } }
             public static string Username { get { return ReadFromFile(); } }
             public static string ApiKey { get { return ReadFromFile(); } }
+            public static int ApiRequestTimeout { get { return int.Parse(ReadFromFile()); } }
             public static string CommentCategory { get { return ReadFromFile(); } }
             public static string SideBarWtfCategory { get { return ReadFromFile(); } }
             

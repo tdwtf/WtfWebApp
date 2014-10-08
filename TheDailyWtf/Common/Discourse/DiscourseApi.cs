@@ -8,16 +8,11 @@ using Newtonsoft.Json;
 
 namespace TheDailyWtf.Discourse
 {
-    public sealed class DiscourseApi
+    public sealed class DiscourseApi : IDiscourseApi
     {
         private string baseUrl;
         private string apiUsername;
         private string apiKey;
-
-        public DiscourseApi()
-            : this(Config.Discourse.Host, Config.Discourse.Username, Config.Discourse.ApiKey)
-        {
-        }
 
         public DiscourseApi(string discourseUrl, string apiUsername, string apiKey)
         {
@@ -164,12 +159,19 @@ namespace TheDailyWtf.Discourse
 
             var request = WebRequest.Create(requestUrl);
             request.Method = method;
+            request.Timeout = Config.Discourse.ApiRequestTimeout;
             try
             {
-                using (var stream = request.GetResponse().GetResponseStream())
+                using (var response = request.GetResponse())
+                using (var stream = response.GetResponseStream())
                 {
                     return new StreamReader(stream).ReadToEnd();
                 }
+            }
+            catch (TimeoutException tex)
+            {
+                DiscourseHelper.PauseDiscourseConnections(tex, 10);
+                throw;
             }
             catch (WebException wex)
             {
@@ -193,6 +195,7 @@ namespace TheDailyWtf.Discourse
 
             var request = WebRequest.Create(requestUrl);
             request.Method = method;
+            request.Timeout = Config.Discourse.ApiRequestTimeout;
             request.ContentType = "application/x-www-form-urlencoded";
             try
             {
@@ -205,12 +208,17 @@ namespace TheDailyWtf.Discourse
                     }
 
                     writer.Flush();
-                    var response = request.GetResponse();
+                    using (var response = request.GetResponse())
                     using (var stream = response.GetResponseStream())
                     {
                         return new StreamReader(stream).ReadToEnd();
                     }
                 }
+            }
+            catch (TimeoutException tex)
+            {
+                DiscourseHelper.PauseDiscourseConnections(tex, 10);
+                throw;
             }
             catch (WebException wex)
             {
@@ -223,6 +231,7 @@ namespace TheDailyWtf.Discourse
             try
             {
                 string jsonErrors = new StreamReader(wex.Response.GetResponseStream()).ReadToEnd();
+                wex.Response.Dispose();
                 dynamic json = JsonConvert.DeserializeObject(jsonErrors);
                 if (json == null)
                     return wex;
@@ -231,7 +240,9 @@ namespace TheDailyWtf.Discourse
             }
             catch
             {
-                return new InvalidOperationException("Unknown error connecting to the forum API. Ensure the host name and API key settings are correct in web.config");
+                var ex = new InvalidOperationException("Unknown error connecting to the forum API. Ensure the host name and API key settings are correct in web.config. The comment and sidebar categories must also exist on Discourse.");
+                DiscourseHelper.PauseDiscourseConnections(ex, 10);
+                return ex;
             }
         }
     }

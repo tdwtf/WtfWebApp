@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TheDailyWtf.Discourse
 {
     public sealed class Topic
     {
+        public static readonly Topic Null = new Topic() { Slug = "", Title = "Empty Topic", Posts = Enumerable.Empty<Post>() };
+
         private Topic() { }
 
         public int Id { get; private set; }
@@ -19,7 +22,7 @@ namespace TheDailyWtf.Discourse
 
         public string Url
         {
-            get { return string.Format("/t/{0}/{1}", this.Slug, this.Id); }
+            get { return string.Format("//{0}/t/{1}/{2}", Config.Discourse.Host, this.Slug, this.Id); }
         }
 
         public static Topic CreateFromJson(dynamic topic)
