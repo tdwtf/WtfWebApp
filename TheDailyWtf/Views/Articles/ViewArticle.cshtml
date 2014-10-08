@@ -1,73 +1,80 @@
 ﻿@model ViewArticleViewModel
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+   Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row @Model.Article.Series.CssClass" id="articlePage">
 
-    <div class="twelve columns articleWrapper">
-        <div class="content">
-            <div class="row">
-                <div class="container">
+   <div class="twelve columns articleWrapper">
+      <div class="content">
+         <div class="row">
+            <div class="container">
 
-                    <h1>@Model.Article.Title</h1>
-                    <span class="articleMeta">@Model.Article.Series.Title by <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a> <span class="date">on  @Model.Article.PublishedDate.Value.ToShortDateString()</span>
-                    </span>
+               <h1>@Model.Article.Title</h1>
+               <span class="articleMeta">
+                  @Model.Article.Series.Title by <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a> <span class="date">on  @Model.Article.PublishedDate.Value.ToShortDateString()</span>
+               </span>
 
-                    <a href="/authors/@Model.Article.Author.Slug" class="author hideMobile">
-                        <div class="authorPic fadeInDown">
-                            <img src="@Model.Article.Author.ImageUrl">
+               <a href="/authors/@Model.Article.Author.Slug" class="author hideMobile">
+                  <div class="authorPic fadeInDown">
+                     <img src="@Model.Article.Author.ImageUrl">
+                  </div>
+                  <br />
+
+                  <h4>@Model.Article.Author.Name</h4>
+                  <p class="short-description">@Model.Article.Author.ShortDescription</p>
+               </a>
+
+               <div class="article-body">
+                  @Html.Raw(Model.Article.BodyHtml)
+               </div>
+
+               <div class="social">
+                  <div class="socialButtons">
+                     <a class="social-icon facebook" href="@Model.Article.FacebookUrl">&nbsp;</a>
+                     <a class="social-icon twitter" href="@Model.Article.TwitterUrl">&nbsp;</a>
+                     <a class="social-icon email" href="@Model.Article.EmailUrl">&nbsp;</a>
+                     <a class="social-icon google-plus" href="@Model.Article.GooglePlusUrl">&nbsp;</a>
+                  </div>
+               </div>
+
+               <div class="clearfix"></div>
+
+               @if (Model.FeaturedComments.Any())
+               {
+                  <footer class="">
+                     <div class="row">
+                        <div class="twelve columns">
+                           <h5>Featured Comments</h5>
+                           @Html.Partial(Views.Shared.PartialComments, Model.FeaturedComments)
+                           <div>
+                              <a href="/articles/comments/@Model.Article.Slug">View All Comments &raquo;</a>
+                           </div>
                         </div>
-                        <br />
+                     </div>
+                  </footer>
+               }
 
-                        <h4>@Model.Article.Author.Name</h4>
-                        <p class="short-description">@Model.Article.Author.ShortDescription</p>
-                    </a>
+               <a class="discourse-link" href="/articles/comments/@Model.Article.Slug">View All Comments &raquo;</a>
 
-                    <div class="article-body">
-                        @Html.Raw(Model.Article.BodyHtml)
-                    </div>
+               <hr />
 
+               @if (Model.Article.PreviousArticleId != null)
+               {
+                  <div class="previous-article">
+                     <a href="@Model.Article.PreviousArticleUrl">&laquo; @Model.Article.PreviousArticleTitle</a>
+                  </div>
+               }
 
-                   <div class="social">
-                      <div class="socialButtons">
-                         <a class="social-icon facebook" href="@Model.Article.FacebookUrl">&nbsp;</a>
-                         <a class="social-icon twitter" href="@Model.Article.TwitterUrl">&nbsp;</a>
-                         <a class="social-icon email" href="@Model.Article.EmailUrl">&nbsp;</a>
-                         <a class="social-icon google-plus" href="@Model.Article.GooglePlusUrl">&nbsp;</a>
-                      </div>
-                   </div>
+               @if (Model.Article.NextArticleId != null)
+               {
+                  <div class="next-article">
+                     <a href="@Model.Article.NextArticleUrl">@Model.Article.NextArticleTitle &raquo;</a>
+                  </div>
+               }
 
-                    <div class="clearfix"></div>
-
-                    <footer class="">
-                        <div class="row">
-                            <div class="twelve columns">
-                               <h5>Featured Comments</h5>
-                                @Html.Partial(Views.Shared.PartialComments, Model.FeaturedComments)
-                                <div>
-                                    <a href="/articles/comments/@Model.Article.Slug">View All Comments &raquo;</a>
-                                </div>
-                            </div>
-                        </div>
-                    </footer>
-
-                   <hr />
-                   
-                   @if (Model.Article.PreviousArticleId != null) {
-                   <div class="previous-article">
-                      <a href="@Model.Article.PreviousArticleUrl">&laquo; @Model.Article.PreviousArticleTitle</a>
-                   </div>
-                   }
-                   
-                   @if (Model.Article.NextArticleId != null) {
-                   <div class="next-article">
-                      <a href="@Model.Article.NextArticleUrl">@Model.Article.NextArticleTitle &raquo;</a>
-                   </div>
-                   }
-
-                </div>
             </div>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
 </div>

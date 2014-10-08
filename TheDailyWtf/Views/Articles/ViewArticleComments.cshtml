@@ -9,14 +9,15 @@
          <div class="row">
             <div class="container">
 
-               <h2>@Model.Article.Title</h2>               
+               <h1>@Model.Article.Title</h1>      
+               <span class="articleMeta">@Model.ViewCommentsHeading</span>         
                   <div class="row">
                      <div class="twelve columns">
                         @if (Model.Article.DiscourseTopicId != null)
                         {
                            <a style="float: right;" href="@Model.DiscourseTopicUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
                         }
-                        <h5>Article Comments (Viewing @Model.Article.CommentsFraction comments)</h5>
+                        
                         @Html.Partial(Views.Shared.PartialComments, Model.Comments)
                      </div>
                   </div>

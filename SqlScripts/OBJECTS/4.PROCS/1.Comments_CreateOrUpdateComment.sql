@@ -45,7 +45,8 @@ BEGIN
             [Body_Html],
             [User_Name],
             [Posted_Date],
-            [Discourse_Post_Id]
+            [Discourse_Post_Id],
+            [Featured_Indicator]
         )
         VALUES
         (
@@ -53,7 +54,8 @@ BEGIN
             @Body_Html,
             @User_Name,
             @Posted_Date,
-            @Discourse_Post_Id
+            @Discourse_Post_Id,
+            'N'
         )
 
     END

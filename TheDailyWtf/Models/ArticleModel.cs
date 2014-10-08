@@ -45,16 +45,6 @@ namespace TheDailyWtf.Models
         public SeriesModel Series { get; set; }
         public string Url { get { return string.Format("//{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
         public string CommentsUrl { get { return string.Format("//{0}/articles/comments/{1}", Config.Wtf.Host, this.Slug); } }
-        public string CommentsFraction 
-        { 
-            get 
-            { 
-                if (this.CachedCommentCount < this.DiscourseCommentCount)
-                    return string.Format("{0}/{1}", this.CachedCommentCount, Math.Max(this.DiscourseCommentCount, this.CachedCommentCount));
-                else
-                    return this.CachedCommentCount.ToString();
-            } 
-        }
         public string Slug { get; set; }
         public string TwitterUrl { get { return string.Format("//www.twitter.com/home?status=http:{0}+-+{1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
         public string FacebookUrl { get { return string.Format("//www.facebook.com/sharer.php?u=http:{0}&t={1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
@@ -240,6 +230,77 @@ namespace TheDailyWtf.Models
         private static string StripHtml(string text)
         {
             return Regex.Replace(text, @"<(.|\n)*?>", string.Empty);
+        }
+
+        private static string FormatComment(string text)
+        {
+            return BbCodeToHtml(HttpUtility.HtmlEncode(text));
+        }
+
+        private static string BbCodeToHtml(string encodedString)
+        {
+            // Bold, Italic, Underline
+            encodedString = BbCodeRegexes.Bold.Replace(encodedString, "<b>$1</b>");
+            encodedString = BbCodeRegexes.Italic.Replace(encodedString, "<i>$1</i>");
+            encodedString = BbCodeRegexes.Underline.Replace(encodedString, "<u>$1</u>");
+
+            // Quote
+            if (BbCodeRegexes.QuoteEndBbCode.Matches(encodedString).Count ==
+                BbCodeRegexes.QuoteStartBbCode.Matches(encodedString).Count + BbCodeRegexes.EmptyQuoteStartBbCode.Matches(encodedString).Count)
+            {
+                encodedString = BbCodeRegexes.QuoteStartBbCode.Replace(encodedString, "<BLOCKQUOTE class=\"Quote\"><div><img src=\"/Resources/images/buttons/comments-quote.png\"> <strong>$1:</strong></div><div>");
+                encodedString = BbCodeRegexes.QuoteEndBbCode.Replace(encodedString, "</div></BLOCKQUOTE>");
+
+                encodedString = BbCodeRegexes.EmptyQuoteStartBbCode.Replace(encodedString, "<BLOCKQUOTE class=\"Quote\"><div>");
+                encodedString = BbCodeRegexes.EmptyQuoteEndBbCode.Replace(encodedString, "</div></BLOCKQUOTE>");
+            };
+
+            // Code
+            encodedString = BbCodeRegexes.Code.Replace(encodedString, "<pre>$1</pre>");
+
+            // Anchors
+            encodedString = BbCodeRegexes.Url1.Replace(encodedString, "<a rel=\"nofollow\" href=\"http://www.$1\" target=\"_blank\" title=\"$1\">$1</a>");
+            encodedString = BbCodeRegexes.Url2.Replace(encodedString, "<a rel=\"nofollow\" href=\"$1\" target=\"_blank\" title=\"$1\">$1</a>");
+            encodedString = BbCodeRegexes.Url3.Replace(encodedString, "<a rel=\"nofollow\" href=\"$1\" target=\"_blank\" title=\"$1\">$3</a>");
+            encodedString = BbCodeRegexes.Url4.Replace(encodedString, "<a rel=\"nofollow\" href=\"$1\" target=\"_blank\" title=\"$1\">$3</a>");
+            encodedString = BbCodeRegexes.Link1.Replace(encodedString, "<a rel=\"nofollow\" href=\"$1\" target=\"_blank\" title=\"$1\">$1</a>");
+            encodedString = BbCodeRegexes.Link2.Replace(encodedString, "<a rel=\"nofollow\" href=\"$1\" target=\"_blank\" title=\"$1\">$3</a>");
+
+            // Image
+            encodedString = BbCodeRegexes.Img1.Replace(encodedString, "<img src=\"$1\" border=\"0\" />");
+            encodedString = BbCodeRegexes.Img2.Replace(encodedString, "<img width=\"$1\" height=\"$3\" src=\"$5\" border=\"0\" />");
+
+            // Color
+            encodedString = BbCodeRegexes.Color.Replace(encodedString, "<span style=\"color:$1;\">$3</span>");
+
+            encodedString = encodedString.Replace("\n", "<br />");
+
+            return encodedString;
+        }
+
+        private static class BbCodeRegexes
+        {
+            private static readonly RegexOptions Options = RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant;
+
+            public static readonly Regex Bold = new Regex(@"\[b(?:\s*)\]((.|\n)*?)\[/b(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Italic = new Regex(@"\[i(?:\s*)\]((.|\n)*?)\[/i(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Underline = new Regex(@"\[u(?:\s*)\]((.|\n)*?)\[/u(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Code = new Regex(@"\[code(?:\s*)\]((.|\n)*?)\[/code(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Url1 = new Regex(@"\[url(?:\s*)\]www\.(.*?)\[/url(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Url2 = new Regex(@"\[url(?:\s*)\]((.|\n)*?)\[/url(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Url3 = new Regex(@"\[url=(?:""|&quot;|&#34;)((.|\n)*?)(?:\s*)(?:""|&quot;|&#34;)\]((.|\n)*?)\[/url(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Url4 = new Regex(@"\[url=((.|\n)*?)(?:\s*)\]((.|\n)*?)\[/url(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Link1 = new Regex(@"\[link(?:\s*)\]((.|\n)*?)\[/link(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Link2 = new Regex(@"\[link=((.|\n)*?)(?:\s*)\]((.|\n)*?)\[/link(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Img1 = new Regex(@"\[img(?:\s*)\]((.|\n)*?)\[/img(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Img2 = new Regex(@"\[img=((.|\n)*?)x((.|\n)*?)(?:\s*)\]((.|\n)*?)\[/img(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Color = new Regex(@"\[color=((.|\n)*?)(?:\s*)\]((.|\n)*?)\[/color(?:\s*)\]", BbCodeRegexes.Options);
+
+            public static readonly Regex QuoteStartBbCode = new Regex("\\[quote(?:\\s*)user=(?:\"|&quot;|&#34;)(.*?)(?:\"|&quot;|&#34;)\\]", BbCodeRegexes.Options);
+            public static readonly Regex QuoteEndBbCode = new Regex("\\[/quote(\\s*)\\]", BbCodeRegexes.Options);
+
+            public static readonly Regex EmptyQuoteStartBbCode = new Regex("\\[quote(\\s*)\\]", BbCodeRegexes.Options);
+            public static readonly Regex EmptyQuoteEndBbCode = new Regex("\\[/quote(\\s*)\\]", BbCodeRegexes.Options);
         }
     }
 }
