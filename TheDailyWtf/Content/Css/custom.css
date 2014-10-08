@@ -24,7 +24,7 @@ a.social-icon.google-plus { background-image: url('/content/images/icons/googlep
 .field input.date,
 .field input.time { width: inherit; }
 
-.search-container { position: absolute; right: -45px; width: 200px; }
+.search-container { position: absolute; right: -80px; width: 200px; }
 
 table.article-listing td.draft { background-color: #e6d25f; }
 table.article-listing td.pending { background-color: #8ad46a; }
