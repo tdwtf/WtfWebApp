@@ -24,6 +24,8 @@ a.social-icon.google-plus { background-image: url('/content/images/icons/googlep
 .field input.date,
 .field input.time { width: inherit; }
 
+.search-container { position: absolute; right: -45px; width: 200px; }
+
 table.article-listing td.draft { background-color: #e6d25f; }
 table.article-listing td.pending { background-color: #8ad46a; }
 
@@ -73,7 +75,7 @@ div.validation-summary-errors ul li { list-style-type: disc; margin-left: 15px; 
 .discourse-link { float: right; color: #08c; background: #e0f5ff; padding: 8px 20px; margin-left: 10px; font-size: 16px; vertical-align: top; }
 
 @media (min-width: 767px) {
-    .navbar.dailywtf.fixed .logo { margin: 9px 6px 6px -70px; max-width: inherit; height: 45px; }
+    .navbar.dailywtf.fixed .logo { margin: 9px 6px 6px 0; max-width: inherit; height: 45px; }
 }
 @media (max-width: 767px) {
     .navbar.dailywtf.fixed .logo { max-width: inherit; height: 60px; }
