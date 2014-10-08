@@ -80,7 +80,8 @@ namespace TheDailyWtf.Data
 			public string Body_Html { get; set; }
 			public string User_Name { get; set; }
 			public DateTime Posted_Date { get; set; }
-			public int Discourse_Post_Id { get; set; }
+			public int? Discourse_Post_Id { get; set; }
+			public YNIndicator Featured_Indicator { get; set; }
 		}
 		public class FeaturedComments
 		{

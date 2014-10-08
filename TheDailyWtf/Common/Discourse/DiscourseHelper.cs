@@ -181,7 +181,8 @@ namespace TheDailyWtf.Discourse
 
             var cachedComments = StoredProcs.Comments_GetComments(article.Id)
                 .Execute()
-                .ToDictionary(c => c.Discourse_Post_Id);
+                .Where(c => c.Discourse_Post_Id != null)
+                .ToDictionary(c => (int)c.Discourse_Post_Id);
 
             var topic = GetDiscussionTopic((int)article.DiscourseTopicId);
             bool commentsPulled = false;

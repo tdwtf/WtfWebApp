@@ -81,6 +81,7 @@ namespace TheDailyWtf.Data
 			public const string User_Name = "User_Name";
 			public const string Posted_Date = "Posted_Date";
 			public const string Discourse_Post_Id = "Discourse_Post_Id";
+			public const string Featured_Indicator = "Featured_Indicator";
 		}
 		public static class FeaturedComments
 		{

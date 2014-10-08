@@ -15,7 +15,7 @@ namespace TheDailyWtf.Models
         public string BodyHtml { get; set; }
         public string Username { get; set;}
         public DateTime PublishedDate { get; set; }
-        public int DiscoursePostId { get; set; }
+        public int? DiscoursePostId { get; set; }
         public string ImageUrl { get; set; }
 
         public static IEnumerable<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
