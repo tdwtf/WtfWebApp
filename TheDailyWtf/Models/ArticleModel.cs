@@ -193,34 +193,34 @@ namespace TheDailyWtf.Models
 
         private static string ExtractSummary(string articleText, int paragraphCount, bool skipRule)
         {
-            const string HR_PATTERN = @"\<hr\s*\/?\s*\>";
-            const string P_PATTERN = @"\<(p)[^>]*\>";
-
-            string summary = string.Empty; int idx = 0;
+            string summary = string.Empty; 
+            int index = 0;
 
             //Skip past first HR
             if (skipRule)
             {
-                Match hrMatch = Regex.Match(articleText, HR_PATTERN, RegexOptions.IgnoreCase);
-                if (hrMatch != null) idx += hrMatch.Index + hrMatch.Length;
+                var hrMatch = Regexes.Hr.Match(articleText);
+                if (hrMatch != null) 
+                    index += hrMatch.Index + hrMatch.Length;
             }
 
             //Skip past the first paragraph
             for (int i = 0; i <= paragraphCount; i++)
             {
-                Match pMatch = Regex.Match(articleText.Substring(idx), P_PATTERN, RegexOptions.IgnoreCase);
-                if (pMatch == null) break;
+                var pMatch = Regexes.P.Match(articleText.Substring(index));
+                if (pMatch == null) 
+                    break;
 
-                idx += pMatch.Index;
-                if (i < paragraphCount) idx += pMatch.Length;
+                index += pMatch.Index;
+                if (i < paragraphCount) 
+                    index += pMatch.Length;
             }
 
-            //Get Summary
-            summary += (idx == 0) ? articleText : articleText.Substring(0, idx);
+            summary += (index == 0) ? articleText : articleText.Substring(0, index);
 
             //Close Blockquotes
-            MatchCollection quotMatches = Regex.Matches(summary, @"\<blockquote[^>]*\>", RegexOptions.IgnoreCase);
-            MatchCollection quotClosMatches = Regex.Matches(summary, @"\<\/blockquote[^>]*\>", RegexOptions.IgnoreCase);
+            var quotMatches = Regexes.BlockQuoteStart.Matches(summary);
+            var quotClosMatches = Regexes.BlockQuoteEnd.Matches(summary);
             for (int i = 0; i < quotMatches.Count - quotClosMatches.Count; i++)
                 summary += "</blockquote>";
 
@@ -232,75 +232,15 @@ namespace TheDailyWtf.Models
             return Regex.Replace(text, @"<(.|\n)*?>", string.Empty);
         }
 
-        private static string FormatComment(string text)
-        {
-            return BbCodeToHtml(HttpUtility.HtmlEncode(text));
-        }
-
-        private static string BbCodeToHtml(string encodedString)
-        {
-            // Bold, Italic, Underline
-            encodedString = BbCodeRegexes.Bold.Replace(encodedString, "<b>$1</b>");
-            encodedString = BbCodeRegexes.Italic.Replace(encodedString, "<i>$1</i>");
-            encodedString = BbCodeRegexes.Underline.Replace(encodedString, "<u>$1</u>");
-
-            // Quote
-            if (BbCodeRegexes.QuoteEndBbCode.Matches(encodedString).Count ==
-                BbCodeRegexes.QuoteStartBbCode.Matches(encodedString).Count + BbCodeRegexes.EmptyQuoteStartBbCode.Matches(encodedString).Count)
-            {
-                encodedString = BbCodeRegexes.QuoteStartBbCode.Replace(encodedString, "<BLOCKQUOTE class=\"Quote\"><div><img src=\"/Resources/images/buttons/comments-quote.png\"> <strong>$1:</strong></div><div>");
-                encodedString = BbCodeRegexes.QuoteEndBbCode.Replace(encodedString, "</div></BLOCKQUOTE>");
-
-                encodedString = BbCodeRegexes.EmptyQuoteStartBbCode.Replace(encodedString, "<BLOCKQUOTE class=\"Quote\"><div>");
-                encodedString = BbCodeRegexes.EmptyQuoteEndBbCode.Replace(encodedString, "</div></BLOCKQUOTE>");
-            };
-
-            // Code
-            encodedString = BbCodeRegexes.Code.Replace(encodedString, "<pre>$1</pre>");
-
-            // Anchors
-            encodedString = BbCodeRegexes.Url1.Replace(encodedString, "<a rel=\"nofollow\" href=\"http://www.$1\" target=\"_blank\" title=\"$1\">$1</a>");
-            encodedString = BbCodeRegexes.Url2.Replace(encodedString, "<a rel=\"nofollow\" href=\"$1\" target=\"_blank\" title=\"$1\">$1</a>");
-            encodedString = BbCodeRegexes.Url3.Replace(encodedString, "<a rel=\"nofollow\" href=\"$1\" target=\"_blank\" title=\"$1\">$3</a>");
-            encodedString = BbCodeRegexes.Url4.Replace(encodedString, "<a rel=\"nofollow\" href=\"$1\" target=\"_blank\" title=\"$1\">$3</a>");
-            encodedString = BbCodeRegexes.Link1.Replace(encodedString, "<a rel=\"nofollow\" href=\"$1\" target=\"_blank\" title=\"$1\">$1</a>");
-            encodedString = BbCodeRegexes.Link2.Replace(encodedString, "<a rel=\"nofollow\" href=\"$1\" target=\"_blank\" title=\"$1\">$3</a>");
-
-            // Image
-            encodedString = BbCodeRegexes.Img1.Replace(encodedString, "<img src=\"$1\" border=\"0\" />");
-            encodedString = BbCodeRegexes.Img2.Replace(encodedString, "<img width=\"$1\" height=\"$3\" src=\"$5\" border=\"0\" />");
-
-            // Color
-            encodedString = BbCodeRegexes.Color.Replace(encodedString, "<span style=\"color:$1;\">$3</span>");
-
-            encodedString = encodedString.Replace("\n", "<br />");
-
-            return encodedString;
-        }
-
-        private static class BbCodeRegexes
+        private static class Regexes
         {
             private static readonly RegexOptions Options = RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant;
 
-            public static readonly Regex Bold = new Regex(@"\[b(?:\s*)\]((.|\n)*?)\[/b(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Italic = new Regex(@"\[i(?:\s*)\]((.|\n)*?)\[/i(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Underline = new Regex(@"\[u(?:\s*)\]((.|\n)*?)\[/u(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Code = new Regex(@"\[code(?:\s*)\]((.|\n)*?)\[/code(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Url1 = new Regex(@"\[url(?:\s*)\]www\.(.*?)\[/url(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Url2 = new Regex(@"\[url(?:\s*)\]((.|\n)*?)\[/url(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Url3 = new Regex(@"\[url=(?:""|&quot;|&#34;)((.|\n)*?)(?:\s*)(?:""|&quot;|&#34;)\]((.|\n)*?)\[/url(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Url4 = new Regex(@"\[url=((.|\n)*?)(?:\s*)\]((.|\n)*?)\[/url(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Link1 = new Regex(@"\[link(?:\s*)\]((.|\n)*?)\[/link(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Link2 = new Regex(@"\[link=((.|\n)*?)(?:\s*)\]((.|\n)*?)\[/link(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Img1 = new Regex(@"\[img(?:\s*)\]((.|\n)*?)\[/img(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Img2 = new Regex(@"\[img=((.|\n)*?)x((.|\n)*?)(?:\s*)\]((.|\n)*?)\[/img(?:\s*)\]", BbCodeRegexes.Options);
-            public static readonly Regex Color = new Regex(@"\[color=((.|\n)*?)(?:\s*)\]((.|\n)*?)\[/color(?:\s*)\]", BbCodeRegexes.Options);
+            public static readonly Regex Hr = new Regex(@"\<hr\s*\/?\s*\>", Regexes.Options);
+            public static readonly Regex P = new Regex(@"\<(p)[^>]*\>", Regexes.Options);
 
-            public static readonly Regex QuoteStartBbCode = new Regex("\\[quote(?:\\s*)user=(?:\"|&quot;|&#34;)(.*?)(?:\"|&quot;|&#34;)\\]", BbCodeRegexes.Options);
-            public static readonly Regex QuoteEndBbCode = new Regex("\\[/quote(\\s*)\\]", BbCodeRegexes.Options);
-
-            public static readonly Regex EmptyQuoteStartBbCode = new Regex("\\[quote(\\s*)\\]", BbCodeRegexes.Options);
-            public static readonly Regex EmptyQuoteEndBbCode = new Regex("\\[/quote(\\s*)\\]", BbCodeRegexes.Options);
+            public static readonly Regex BlockQuoteStart = new Regex(@"\<blockquote[^>]*\>", Regexes.Options);
+            public static readonly Regex BlockQuoteEnd = new Regex(@"\<\/blockquote[^>]*\>", Regexes.Options);
         }
     }
 }
