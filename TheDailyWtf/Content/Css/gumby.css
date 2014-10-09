@@ -25,7 +25,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 * html { font-size: 100%; }
 
-html { font-size: 16px; line-height: 1.625em; }
+html { font-size: 15px; line-height: 1.625em; }
 
 * { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 
@@ -651,7 +651,7 @@ h4 { font-size: 26px; font-size: 1.625rem; }
 
 h5 { font-size: 18px; font-size: 1.125rem; }
 
-h6 { font-size: 16px; font-size: 1rem; }
+h6 { font-size: 15px; font-size: 1rem; }
 
 @media only screen and (max-width: 767px) {
     h1 { font-size: 42px; font-size: 2.625rem; }
@@ -661,7 +661,7 @@ h6 { font-size: 16px; font-size: 1rem; }
 
 .subhead { color: #777; font-weight: normal; margin-bottom: 20px; }
 
-p { font-family: "Open Sans"; font-weight: 400; font-size: 16px; font-size: 1rem; margin-bottom: 13px; line-height: 1.625em; }
+p { font-family: "Open Sans"; font-weight: 400; font-size: 15px; font-size: 1rem; margin-bottom: 13px; line-height: 1.625em; }
 
     p.lead { font-size: 20px; font-size: 1.25rem; margin-bottom: 18px; }
 
@@ -695,7 +695,7 @@ li { padding-bottom: 0.273em; }
 
 ul.large li { line-height: 21px; }
 
-dl dt { font-weight: bold; font-size: 16px; font-size: 1rem; }
+dl dt { font-weight: bold; font-size: 15px; font-size: 1rem; }
 
 @media only screen and (max-width: 768px) {
     ul, ol, dl, p { text-align: left; }
@@ -1739,7 +1739,7 @@ img { -ms-interpolation-mode: bicubic; }
     .navbar ul li { display: block; position: relative; min-height: 50px; max-height: 320px; height: auto; width: 100%; border-right: 0 !important; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; -webkit-transition-duration: 0.5s; -moz-transition-duration: 0.5s; -o-transition-duration: 0.5s; transition-duration: 0.5s; }
 }
 
-.navbar ul li > a { display: block; padding: 0 16px; white-space: nowrap; color: #fff; text-shadow: 0 1px 2px #191a1b,0 1px 0 #191a1b; height: 60px; line-height: 58px; font-size: 16px; font-size: 1rem; }
+.navbar ul li > a { display: block; padding: 0 16px; white-space: nowrap; color: #fff; text-shadow: 0 1px 2px #191a1b,0 1px 0 #191a1b; height: 60px; line-height: 58px; font-size: 15px; font-size: 1rem; }
 
     .navbar ul li > a i.icon-popup { position: absolute; }
 
@@ -1907,7 +1907,7 @@ img { -ms-interpolation-mode: bicubic; }
 
             .btn.large.icon-right a:after, .skiplink.large.icon-right a:after { right: 17.33333px; }
 
-    .btn.medium, .skiplink.medium { font-size: 16px; font-size: 1rem; height: 36px; line-height: 34px; }
+    .btn.medium, .skiplink.medium { font-size: 15px; font-size: 1rem; height: 36px; line-height: 34px; }
 
         .btn.medium a, .skiplink.medium a { position: relative; padding: 0 16px; }
 
@@ -2055,7 +2055,7 @@ i[class^="icon-"], i[class*=" icon-"] { display: inline-block; position: static;
 
 form { margin: 0 0 18px; }
 
-    form label { display: block; font-size: 16px; font-size: 1rem; line-height: 1.625em; cursor: pointer; margin-bottom: 9px; }
+    form label { display: block; font-size: 15px; font-size: 1rem; line-height: 1.625em; cursor: pointer; margin-bottom: 9px; }
 
         form label.inline { display: inline-block; padding-right: 20px; }
 
@@ -2069,13 +2069,13 @@ form { margin: 0 0 18px; }
 
         form fieldset legend { padding: 5px 10px; }
 
-.field { position: relative; max-width: 100%; margin-bottom: 10px; vertical-align: middle; font-size: 16px; overflow: hidden; }
+.field { position: relative; max-width: 100%; margin-bottom: 10px; vertical-align: middle; font-size: 15px; overflow: hidden; }
 
     .field.metro, .field .metro { -webkit-border-radius: 0; -moz-border-radius: 0; -ms-border-radius: 0; -o-border-radius: 0; border-radius: 0; }
 
-    .field input, .field input[type="*"], .field textarea { max-width: 100%; width: 100%; padding: 0; margin: 0; border: none; outline: none; resize: none; -webkit-appearance: none; font-family: "Open Sans"; font-weight: 300; font-size: 16px; font-size: 1rem; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
+    .field input, .field input[type="*"], .field textarea { max-width: 100%; width: 100%; padding: 0; margin: 0; border: none; outline: none; resize: none; -webkit-appearance: none; font-family: "Open Sans"; font-weight: 300; font-size: 15px; font-size: 1rem; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
 
-    .field .input { position: relative; padding: 0 10px; background: #fff; border: 1px solid #d8d8d8; height: 36px; line-height: 34px; font-size: 16px; font-size: 1rem; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; }
+    .field .input { position: relative; padding: 0 10px; background: #fff; border: 1px solid #d8d8d8; height: 36px; line-height: 34px; font-size: 15px; font-size: 1rem; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; }
 
         .field .input.search { height: 36px; line-height: 34px; -webkit-border-radius: 1000px; -moz-border-radius: 1000px; -ms-border-radius: 1000px; -o-border-radius: 1000px; border-radius: 1000px; padding-right: 0; }
 
@@ -2151,7 +2151,7 @@ label + .xnarrow:last-child, label + .narrow:last-child, label + .normal:last-ch
 
         .prepend .btn a, .prepend .btn input, .prepend .btn button, .append .btn a, .append .btn input, .append .btn button { padding: 0 12px; }
 
-    .prepend .adjoined, .append .adjoined { padding: 0 10px 0 10px; background: #f2f2f2; border: 1px solid #d8d8d8; font-family: "Open Sans"; font-weight: 600; color: #222; font-size: 16px; font-size: 1rem; height: 36px; line-height: 34px; }
+    .prepend .adjoined, .append .adjoined { padding: 0 10px 0 10px; background: #f2f2f2; border: 1px solid #d8d8d8; font-family: "Open Sans"; font-weight: 600; color: #222; font-size: 15px; font-size: 1rem; height: 36px; line-height: 34px; }
 
     .prepend .adjoined, .prepend .btn { margin-right: -1px; }
 
@@ -2169,7 +2169,7 @@ label + .xnarrow:last-child, label + .narrow:last-child, label + .normal:last-ch
 
 .field input, .field .input, .field textarea, .field .textarea, .field .radio span, .field .checkbox span, .field .picker { -webkit-transition-duration: 0.2s; -moz-transition-duration: 0.2s; -o-transition-duration: 0.2s; transition-duration: 0.2s; }
 
-.field.danger:after { font-family: "entypo"; content: "\2716"; font-size: 16px; position: absolute; top: 14%; right: 15px; z-index: 999; color: #ca3838; }
+.field.danger:after { font-family: "entypo"; content: "\2716"; font-size: 15px; position: absolute; top: 14%; right: 15px; z-index: 999; color: #ca3838; }
 
 .field.danger.no-icon:after { display: none; }
 
@@ -2179,7 +2179,7 @@ label + .xnarrow:last-child, label + .narrow:last-child, label + .normal:last-ch
 
     .field.danger input, .field.danger .input, .field.danger textarea, .field.danger .textarea, .field.danger .radio span, .field.danger .checkbox span, .field.danger .picker, .field.danger input::-webkit-input-placeholder, .field.danger textarea::-webkit-input-placeholder, .field.danger input:-moz-placeholder, .field.danger textarea:-moz-placeholder textarea { color: #ca3838; }
 
-.field.warning:after { font-family: "entypo"; content: "\26a0"; font-size: 16px; position: absolute; top: 14%; right: 15px; z-index: 999; color: #f6b83f; }
+.field.warning:after { font-family: "entypo"; content: "\26a0"; font-size: 1px; position: absolute; top: 14%; right: 15px; z-index: 999; color: #f6b83f; }
 
 .field.warning.no-icon:after { display: none; }
 
@@ -2189,7 +2189,7 @@ label + .xnarrow:last-child, label + .narrow:last-child, label + .normal:last-ch
 
     .field.warning input, .field.warning .input, .field.warning textarea, .field.warning .textarea, .field.warning .radio span, .field.warning .checkbox span, .field.warning .picker, .field.warning input::-webkit-input-placeholder, .field.warning textarea::-webkit-input-placeholder, .field.warning input:-moz-placeholder, .field.warning textarea:-moz-placeholder textarea { color: #f6b83f; }
 
-.field.success:after { font-family: "entypo"; content: "\2713"; font-size: 16px; position: absolute; top: 14%; right: 15px; z-index: 999; color: #58c026; }
+.field.success:after { font-family: "entypo"; content: "\2713"; font-size: 15px; position: absolute; top: 14%; right: 15px; z-index: 999; color: #58c026; }
 
 .field.success.no-icon:after { display: none; }
 
@@ -2253,7 +2253,7 @@ label + .xnarrow:last-child, label + .narrow:last-child, label + .normal:last-ch
 
     .picker:first-child { margin-left: 0; }
 
-    .picker select { position: relative; display: block; min-width: 100%; width: 135%; height: 34px; padding: 6px 45px 6px 15px; color: #222; border: none; background: transparent; outline: none; -webkit-appearance: none; /*z-index: 99;*/ cursor: pointer; font-size: 16px; font-size: 1rem; }
+    .picker select { position: relative; display: block; min-width: 100%; width: 135%; height: 34px; padding: 6px 45px 6px 15px; color: #222; border: none; background: transparent; outline: none; -webkit-appearance: none; /*z-index: 99;*/ cursor: pointer; font-size: 15px; font-size: 1rem; }
 
         .picker select::-ms-expand { display: none; }
 
@@ -2407,13 +2407,13 @@ table { display: table; background-color: #fff; border-collapse: collapse; borde
 
     table thead th, table tbody td, table tr td { display: table-cell; padding: 10px; vertical-align: top; text-align: left; border-top: 1px solid #e5e5e5; }
 
-    table tr td, table tbody tr td { font-size: 16px; }
+    table tr td, table tbody tr td { font-size: 15px; }
 
         table tr td:first-child { font-weight: bold; }
 
     table thead { background-color: #c1103b; color: #fff; }
 
-        table thead tr th { font-size: 16px; font-weight: bold; vertical-align: bottom; }
+        table thead tr th { font-size: 15px; font-weight: bold; vertical-align: bottom; }
 
     table.striped tr:nth-of-type(even), table table tr.stripe, table table tr.striped { background-color: #e5e5e5; }
 
@@ -2431,7 +2431,7 @@ table { display: table; background-color: #fff; border-collapse: collapse; borde
 
 .ttip { position: relative; cursor: pointer; }
 
-    .ttip:after { display: block; background: #c1103b; border: 1px solid #c1103b; border-bottom: 0; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px; padding: 0.5em 0.75em; width: auto; min-width: 130px; max-width: 500px; position: absolute; left: 0; bottom: 101%; margin-bottom: 8px; text-align: left; color: #fff; content: attr(data-tooltip); line-height: 1.5; font-size: 16px; font-weight: normal; font-style: normal; -webkit-transition: opacity 0.1s ease; -moz-transition: opacity 0.1s ease; -o-transition: opacity 0.1s ease; transition: opacity 0.1s ease; filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0); opacity: 0; pointer-events: none; }
+    .ttip:after { display: block; background: #c1103b; border: 1px solid #c1103b; border-bottom: 0; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px; padding: 0.5em 0.75em; width: auto; min-width: 130px; max-width: 500px; position: absolute; left: 0; bottom: 101%; margin-bottom: 8px; text-align: left; color: #fff; content: attr(data-tooltip); line-height: 1.5; font-size: 15px; font-weight: normal; font-style: normal; -webkit-transition: opacity 0.1s ease; -moz-transition: opacity 0.1s ease; -o-transition: opacity 0.1s ease; transition: opacity 0.1s ease; filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0); opacity: 0; pointer-events: none; }
 
     .ttip:before { content: " "; width: 0; height: 0; position: absolute; bottom: 101%; left: 8px; border-top: 9px solid #c1103b !important; border-left: 9px solid transparent; border-right: 9px solid transparent; -webkit-transition: opacity 0.1s ease; -moz-transition: opacity 0.1s ease; -o-transition: opacity 0.1s ease; transition: opacity 0.1s ease; filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0); opacity: 0; pointer-events: none; }
 
