@@ -47,15 +47,12 @@
                         <div class="twelve columns">
                            <h5>Featured Comments</h5>
                            @Html.Partial(Views.Shared.PartialComments, Model.FeaturedComments)
-                           <div>
-                              <a href="/articles/comments/@Model.Article.Slug">View All Comments &raquo;</a>
-                           </div>
                         </div>
                      </div>
                   </footer>
                }
 
-               <a class="discourse-link" href="/articles/comments/@Model.Article.Slug">View All Comments &raquo;</a>
+               <a class="discourse-link" href="/articles/comments/@Model.Article.Slug">@Model.ViewCommentsText &raquo;</a>
 
                <hr />
 

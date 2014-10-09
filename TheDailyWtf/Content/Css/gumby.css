@@ -2853,7 +2853,7 @@ footer .articleList li { background-color: transparent; }
 
 #articlePage .commentsWrapper .poster { font-weight: 800; }
 
-#articlePage .commentsWrapper .comments { border-top: 10px solid #2c2c2c; padding-top: 20px; }
+#articlePage .commentsWrapper .comments { border-top: 1px solid #888; padding-top: 20px; }
 
 #articlePage .commentsWrapper .comment { border-bottom: 1px solid #e6eae9; margin-bottom: 20px; position: relative; }
 
