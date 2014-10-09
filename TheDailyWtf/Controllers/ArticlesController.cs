@@ -20,13 +20,19 @@ namespace TheDailyWtf.Controllers
         [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
         public ActionResult ViewArticle(string articleSlug)
         {
-            return View(new ViewArticleViewModel(articleSlug));
+            var article = ArticleModel.GetArticleBySlug(articleSlug);
+            if (article == null)
+                return HttpNotFound();
+
+            return View(new ViewArticleViewModel(article));
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
         public ActionResult ViewArticleComments(string articleSlug)
         {
             var article = ArticleModel.GetArticleBySlug(articleSlug);
+            if (article == null)
+                return HttpNotFound();
                         
             bool commentsPulled = DiscourseHelper.PullCommentsFromDiscourse(article);
             if (commentsPulled)

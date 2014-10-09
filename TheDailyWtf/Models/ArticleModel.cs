@@ -132,12 +132,16 @@ namespace TheDailyWtf.Models
         public static ArticleModel GetArticleById(int id)
         {
             var article = StoredProcs.Articles_GetArticleById(id).Execute();
+            if (article == null)
+                return null;
             return ArticleModel.FromTable(article);
         }
 
         public static ArticleModel GetArticleBySlug(string slug)
         {
             var article = StoredProcs.Articles_GetArticleBySlug(slug).Execute();
+            if (article == null)
+                return null;
             return ArticleModel.FromTable(article);
         }
 
