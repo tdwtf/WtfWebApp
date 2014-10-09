@@ -40,6 +40,11 @@ namespace TheDailyWtf.Controllers
             return RedirectToActionPermanent("ViewArticle", new { articleSlug });
         }
 
+        public ActionResult ViewLegacyArticleComments(string articleSlug)
+        {
+            return RedirectToActionPermanent("ViewArticleComments", new { articleSlug });
+        }
+
         [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
         public ActionResult ViewArticlesByMonth(int year, int month)
         {
