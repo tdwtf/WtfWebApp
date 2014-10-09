@@ -2741,9 +2741,9 @@ nav.row { font-size: 120%; text-align: center; text-transform: uppercase; }
 
         .sideMenu .block ul li:last-child { padding-bottom: 0; }
 
-.da-space { padding: 10px; background-color: #e6eae9; margin-top: 20px; margin-bottom: 20px; }
+.da-space { padding: 10px; background-color: #e6eae9; margin-top: 0px; margin-bottom: 10px; text-align: center; }
 
-    .da-space .da-728x90 { max-width: 728px; margin-left: auto; margin-right: auto; }
+    /*.da-space .da-728x90 { max-width: 728px; margin-left: auto; margin-right: auto; }*/
 
 footer h1, footer h2, footer h3, footer h4, footer h5, footer h6 { color: #222; text-transform: uppercase; font-weight: 400; }
 
