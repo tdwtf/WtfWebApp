@@ -291,9 +291,6 @@
     <Content Include="Views\Admin\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Admin\EditArticle.cshtml" />
   </ItemGroup>
   <ItemGroup>
