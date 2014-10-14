@@ -78,7 +78,29 @@
             </select>
         </div>
     </div>
-    @Html.EditorFor(a => a.Article.PublishedDate)
+   <div class="field">
+      <div>Publish Date:</div>
+      <div class="date-pair">
+         <input name="date" class="input date" type="text" maxlength="255" value="@Model.Date" />
+         <input name="time" class="input time" type="text" maxlength="255" value="@Model.Time" />
+      </div>
+   </div>
+
+   <script type="text/javascript">
+      $(document).ready(function () {
+
+         $('.date-pair .time').timepicker({
+            'showDuration': false,
+            'timeFormat': 'G:i'
+         });
+
+         $('.date-pair .date').datepicker({
+            'format': 'yyyy-m-d',
+            'autoclose': true
+         });
+
+      });
+   </script>
     <div class="medium primary btn">
         <input class="input" type="submit" value="Save" />
     </div>

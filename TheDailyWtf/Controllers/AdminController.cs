@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Inedo.Data;
 using Newtonsoft.Json;
 using TheDailyWtf.Data;
 using TheDailyWtf.Models;
@@ -80,18 +81,18 @@ namespace TheDailyWtf.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditArticle(EditArticleViewModel post)
-        {
+        {            
             StoredProcs.Articles_CreateOrUpdateArticle(
                 post.Article.Id,
                 post.Article.Slug,
-                post.Article.PublishedDate,
+                post.PublishedDate,
                 post.Article.Status,
                 post.Article.Author.Slug,
                 post.Article.Title,
                 post.Article.Series.Slug,
                 post.Article.BodyHtml,
                 null,
-                null
+                YNIndicator.No
               ).Execute();
 
             return RedirectToAction("index");
