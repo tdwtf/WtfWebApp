@@ -36,6 +36,15 @@ namespace TheDailyWtf.Controllers
             return View(new HomeIndexViewModel());
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes, VaryByParam = "*")]
+        public ActionResult Rss()
+        {
+            if (Request.QueryString["fbsrc"] != "Y" && Request.QueryString["sneak"] != "Y")
+                return new RedirectResult("http://syndication.thedailywtf.com/TheDailyWtf", false);
+
+            return new RssArticlesResult(ArticleModel.GetRecentArticles(15));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Contact(ContactFormViewModel model)

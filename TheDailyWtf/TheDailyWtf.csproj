@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -106,6 +106,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ActionResults\RssArticlesResult.cs" />
     <Compile Include="Common\Ads\AdRotator.cs" />
     <Compile Include="Common\BaseViewPage.cs" />
     <Compile Include="Common\CacheProfile.cs" />
@@ -213,6 +214,7 @@
     <Content Include="Content\Images\wtf-logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\gumby.min.js" />

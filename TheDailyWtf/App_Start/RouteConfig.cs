@@ -28,6 +28,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "Rss",
+                url: "rss",
+                defaults: new { controller = "Home", action = "Rss" }
+            );
+
+            routes.MapRoute(
                 name: "Contact",
                 url: "contact",
                 defaults: new { controller = "Home", action = "Contact" }

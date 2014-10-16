@@ -24,8 +24,19 @@ namespace TheDailyWtf.Models
         [AllowHtml]
         public string BodyHtml { get; set; }
         public string Title { get; set; }
+        public string RssTitle
+        {
+            get
+            {
+                if (this.Series.Title.Equals("Feature Articles", StringComparison.OrdinalIgnoreCase))
+                    return HttpUtility.HtmlEncode(this.Title);
+                else
+                    return HttpUtility.HtmlEncode(string.Format("{0}: {1}", this.Series.Title, this.Title));
+            }
+        }        
         public int DiscourseCommentCount { get; set; }
         public int CachedCommentCount { get; set; }
+        public int CoalescedCommentCount { get { return Math.Max(this.DiscourseCommentCount, this.CachedCommentCount); } }
         public DateTime? LastCommentDate { get; set; }
         public string LastCommentDateDescription 
         { 
@@ -43,8 +54,8 @@ namespace TheDailyWtf.Models
         public string DiscourseThreadUrl { get { return string.Format("http://what.thedailywtf.com/t/{0}/{1}", this.DiscourseTopicSlug, this.DiscourseTopicId); } }
         public DateTime? PublishedDate { get; set; }
         public SeriesModel Series { get; set; }
-        public string Url { get { return string.Format("//{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
-        public string CommentsUrl { get { return string.Format("//{0}/articles/comments/{1}", Config.Wtf.Host, this.Slug); } }
+        public string Url { get { return string.Format("http://{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
+        public string CommentsUrl { get { return string.Format("http://{0}/articles/comments/{1}", Config.Wtf.Host, this.Slug); } }
         public string Slug { get; set; }
         public string TwitterUrl { get { return string.Format("//www.twitter.com/home?status=http:{0}+-+{1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
         public string FacebookUrl { get { return string.Format("//www.facebook.com/sharer.php?u=http:{0}&t={1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
@@ -97,7 +108,12 @@ namespace TheDailyWtf.Models
 
         public static IEnumerable<ArticleModel> GetRecentArticles()
         {
-            var articles = StoredProcs.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Article_Count: 8).Execute();
+            return GetRecentArticles(8);
+        }
+
+        public static IEnumerable<ArticleModel> GetRecentArticles(int count)
+        {
+            var articles = StoredProcs.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Article_Count: count).Execute();
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
