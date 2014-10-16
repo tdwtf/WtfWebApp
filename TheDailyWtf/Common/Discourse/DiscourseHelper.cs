@@ -24,6 +24,10 @@ namespace TheDailyWtf.Discourse
 
         public static IDiscourseApi CreateApi()
         {
+#if DEBUG
+            return new DiscourseApi(Config.Discourse.Host, Config.Discourse.Username, Config.Discourse.ApiKey);
+#endif
+
             if (DiscourseWorking)
                 return new DiscourseApi(Config.Discourse.Host, Config.Discourse.Username, Config.Discourse.ApiKey);
 
@@ -67,7 +71,7 @@ namespace TheDailyWtf.Discourse
 
                 api.SetVisibility(topicId, true);
 
-                // delete the worthless auto-generated "this topic is now invisble/visible" rubbish
+                // delete the worthless auto-generated "this topic is now invisible/visible" rubbish
                 var topic = api.GetTopic(topicId);
                 foreach (var post in topic.Posts.Where(p => p.Type == Post.PostType.ModeratorAction))
                     api.DeletePost(post.Id);

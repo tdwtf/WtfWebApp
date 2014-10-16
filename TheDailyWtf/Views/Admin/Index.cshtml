@@ -1,96 +1,120 @@
 @model AdminViewModel
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+   ViewBag.Title = "Index";
+   Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Administration</h2>
 
 <h3>Unpublished Articles</h3>
 <table class="striped article-listing">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Author</th>
-            <th>Series</th>
-            <th>Title</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var article in Model.UnpublishedArticles)
-        { 
-            <tr>
-                <td>@article.PublishedDate</td>
-                <td class="@article.Status.ToLower()">@article.Status</td>
-                <td>@article.Author.Name</td>
-                <td>@article.Series.Title</td>
-                <td>@article.Title</td>
-                <td><a href="/admin/article/edit/@article.Id">Edit</a></td>
-            </tr>
-        }
-    </tbody>
+   <thead>
+      <tr>
+         <th>Date</th>
+         <th>Status</th>
+         <th>Author</th>
+         <th>Series</th>
+         <th>Title</th>
+         <th style="width: 125px;">Discourse</th>
+         <th></th>
+      </tr>
+   </thead>
+   <tbody>
+      @foreach (var article in Model.UnpublishedArticles)
+      {
+         <tr>
+            <td>@article.PublishedDate</td>
+            <td class="@article.Status.ToLower()">@article.Status</td>
+            <td>@article.Author.Name</td>
+            <td>@article.Series.Title</td>
+            <td>@article.Title</td>
+            <td>
+               @if (article.DiscourseTopicId == null) {
+                  <i>unassigned</i>  
+               }
+               else
+               {
+                  <a target="_blank" href="@article.DiscourseThreadUrl">View topic</a> 
+                  <br />
+                  if (article.DiscourseTopicOpened)
+                  {
+                     <i class="icon-check"></i><span class="admin-yes">open</span>
+                  }
+                  else
+                  {
+                     <div><i class="icon-lock"></i><span class="admin-no">pending</span></div>
+                  }
+               }
+               
+            </td>
+            <td>
+               <a target="_blank" href="/articles/@article.Slug">Preview</a>
+               <a href="/admin/article/edit/@article.Id">Edit</a>
+            </td>
+         </tr>
+      }
+   </tbody>
 </table>
 
 <div class="medium primary btn">
-    <a href="/admin/article/edit">New Article</a>
+   <a href="/admin/article/edit">New Article</a>
 </div>
 
 
 <h3>Series Listing</h3>
 <table class="striped series-listing">
-    <thead>
-        <tr>
-            <th>Slug</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var series in Model.AllSeries)
-        { 
-            <tr>
-                <td>@series.Slug</td>
-                <td>@series.Title</td>
-                <td>@series.Description</td>
-                <td><a href="/admin/series/edit/@series.Slug">Edit</a></td>
-            </tr>
-        }
-    </tbody>
+   <thead>
+      <tr>
+         <th>Slug</th>
+         <th>Title</th>
+         <th>Description</th>
+         <th></th>
+      </tr>
+   </thead>
+   <tbody>
+      @foreach (var series in Model.AllSeries)
+      {
+         <tr>
+            <td>@series.Slug</td>
+            <td>@series.Title</td>
+            <td>@series.Description</td>
+            <td><a href="/admin/series/edit/@series.Slug">Edit</a></td>
+         </tr>
+      }
+   </tbody>
 </table>
 
 <div class="medium primary btn">
-    <a href="/admin/series/edit">New Series</a>
+   <a href="/admin/series/edit">New Series</a>
 </div>
 
 <h3>Authors &amp; Logins</h3>
 <table class="striped authors-listing">
-    <thead>
-        <tr>
-            <th>Image</th>
-            <th>Slug / Username</th>
-            <th>Name</th>
-            <th>Administrator</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var author in Model.AllAuthors)
-        { 
-            <tr>
-                <td>
-                    <img src="@author.ImageUrl" style="width: 40px;" /></td>
-                <td>@author.Slug</td>
-                <td>@author.Name</td>
-                <td><span class="@(author.IsAdmin ? "admin-yes" : "admin-no")">@(author.IsAdmin ? "Yes" : "No")</span></td>
-                <td><a href="/admin/author/edit/@author.Slug">Edit</a></td>
-            </tr>
-        }
-    </tbody>
+   <thead>
+      <tr>
+         <th>Image</th>
+         <th>Slug / Username</th>
+         <th>Name</th>
+         <th>Administrator</th>
+         <th></th>
+      </tr>
+   </thead>
+   <tbody>
+      @foreach (var author in Model.AllAuthors)
+      {
+         <tr>
+            <td>
+               <img src="@author.ImageUrl" style="width: 40px;" />
+            </td>
+            <td>@author.Slug</td>
+            <td>@author.Name</td>
+            <td><span class="@(author.IsAdmin ? "admin-yes" : "admin-no")">@(author.IsAdmin ? "Yes" : "No")</span></td>
+            <td><a href="/admin/author/edit/@author.Slug">Edit</a></td>
+         </tr>
+      }
+   </tbody>
 </table>
 
 <div class="medium primary btn">
-    <a href="/admin/author/edit">New Author/Login</a>
+   <a href="/admin/author/edit">New Author/Login</a>
 </div>

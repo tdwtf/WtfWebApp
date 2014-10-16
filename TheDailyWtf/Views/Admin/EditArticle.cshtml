@@ -1,5 +1,4 @@
 @model EditArticleViewModel
-
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -14,6 +13,7 @@
             self.autoSlugText = ko.computed(function () {
                 return self.titleText().replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase();
             });
+            self.lockDiscourseTopicFromEdit = ko.observable(true);
         }
         var vm = new ViewModel();
         ko.applyBindings(vm);
@@ -55,9 +55,9 @@
         <div>Title:</div>
         <input data-bind="value: titleText, valueUpdate: 'afterkeydown'" id="title-text" name="article.title" class="input" type="text" maxlength="255" value="@Model.Article.Title" />
     </div>
-    <label for="edit-article-slug">
-        <input data-bind="checked: useCustomSlug" name="article.useCustomSlug" type="checkbox" value="Y" />
-        <span></span>Specify a custom slug...
+    <label>
+       <input data-bind="checked: useCustomSlug" name="article.useCustomSlug" type="checkbox" value="Y" />
+       <span>Specify a custom slug...</span>
     </label>
     <div class="field">
         <div><span data-bind="text: useCustomSlug() ? 'Custom' : 'Auto-generated'"></span> URL Slug:</div>
@@ -101,6 +101,46 @@
 
       });
    </script>
+
+   <div style="border: 1px #666 solid; padding: 15px; margin-bottom: 10px;">
+      <h4>Discourse Integration:</h4>
+      <div>
+         @if (Model.Article.DiscourseTopicId == null)
+         {
+            <label>
+               @Html.CheckBoxFor(m => m.CreateCommentDiscussionChecked)
+               <span>Create a comment discussion topic on Discourse (under web.config category: [@Config.Discourse.CommentCategory])</span>
+            </label>
+         }
+      </div>
+      @if (Model.Article.DiscourseTopicId != null)
+      {
+         <label>
+            <input type="checkbox" data-bind="checked: lockDiscourseTopicFromEdit" />
+            <span>Lock Discourse Topic ID from accidental edit...</span>
+         </label>
+         <div class="field">
+         
+               <div>Discourse Topic ID (<a target="_blank" href="@Model.Article.DiscourseThreadUrl">view</a>):</div>
+            <input data-bind="attr: { readonly: lockDiscourseTopicFromEdit() ? 'readonly' : null }" type="text" class="input" style="width:100px;" name="article.discoursetopicid" value="@Model.Article.DiscourseTopicId" />
+         </div>
+         <div>
+            @if (Model.Article.DiscourseTopicOpened)
+            {
+               <span><i class="icon-check"></i>This topic is already marked as opened.</span>
+            }
+            else
+            {
+               <span><i class="icon-lock"></i>This topic is currently not open, but will be opened once the article goes live, or may be opened manually.</span>
+               <label>
+                  @Html.CheckBoxFor(m => m.OpenCommentDiscussionChecked)
+                  <span>Open comment discussion immediately on article save</span>
+               </label>
+            }
+         </div>
+      }
+   </div>
+
     <div class="medium primary btn">
         <input class="input" type="submit" value="Save" />
     </div>

@@ -48,7 +48,7 @@ namespace TheDailyWtf
                             new XElement("category", a.Series.Title),
                             new XElement("pubDate", a.PublishedDate.Value.ToUniversalTime().ToString("r")),
                             new XElement("guid", a.Id),
-                            new XElement("description", ""),
+                            new XElement("description", a.BodyHtml),
                             new XElement(slash + "comments", a.CoalescedCommentCount),
                             new XElement("comments", a.CommentsUrl)
                         ))
@@ -56,7 +56,7 @@ namespace TheDailyWtf
                 )
             );
 
-            using (var writer = XmlWriter.Create(response.OutputStream, new XmlWriterSettings { Encoding = Encoding.UTF8, Indent = false, NewLineChars = "" }))
+            using (var writer = XmlWriter.Create(response.OutputStream, new XmlWriterSettings { Encoding = Encoding.UTF8, Indent = false }))
             {
                 xdoc.WriteTo(writer);
             }

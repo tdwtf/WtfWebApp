@@ -1,4 +1,4 @@
-@model WtfViewModelBase
+﻿@model WtfViewModelBase
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -59,6 +59,13 @@
     <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
     <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
     <![endif]-->
+
+   @if (Model != null && Model.DiscourseMessage != null)
+   {
+      <div class="message error">
+         @Model.DiscourseMessage
+      </div>
+   }
 </body>
 </html>
 

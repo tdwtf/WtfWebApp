@@ -42,7 +42,7 @@ BEGIN
                 ,[Title_Text] = COALESCE(@Title_Text, [Title_Text])
                 ,[Series_Slug] = COALESCE(@Series_Slug, [Series_Slug])
                 ,[Body_Html] = COALESCE(@Body_Html, [Body_Html])
-                ,[Discourse_Topic_Id] = @Discourse_Topic_Id
+                ,[Discourse_Topic_Id] = COALESCE(@Discourse_Topic_Id, [Discourse_Topic_Id])
                 ,[Discourse_Topic_Opened] = COALESCE(@Discourse_Topic_Opened, [Discourse_Topic_Opened])
          WHERE [Article_Id] = @Article_Id
 
@@ -72,7 +72,7 @@ BEGIN
            ,@Series_Slug
            ,@Body_Html
            ,@Discourse_Topic_Id
-           ,@Discourse_Topic_Opened
+           ,COALESCE(@Discourse_Topic_Opened, 'N')
         )
 
         SET @Article_Id = SCOPE_IDENTITY()

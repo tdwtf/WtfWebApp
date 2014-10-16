@@ -12,7 +12,12 @@
 
                <h1>@Model.Article.Title</h1>
                <span class="articleMeta">
-                  @Model.Article.Series.Title by <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a> <span class="date">on  @Model.Article.PublishedDate.Value.ToShortDateString()</span>
+                  @Model.Article.Series.Title by <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a> 
+                  <span class="date">on  @Model.Article.DisplayDate</span>
+                  @if (User.IsAdmin) 
+                  {
+                     <span style="float:right;"><a href="/admin/article/edit/@Model.Article.Id">Edit &raquo;</a></span>
+                  }
                </span>
 
                <a href="/authors/@Model.Article.Author.Slug" class="author hideMobile">

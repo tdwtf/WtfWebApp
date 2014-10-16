@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 
@@ -10,6 +11,8 @@ namespace TheDailyWtf.Discourse
 {
     public sealed class DiscourseApi : IDiscourseApi
     {
+        private static readonly object requestLock = new object();
+
         private string baseUrl;
         private string apiUsername;
         private string apiKey;
@@ -153,29 +156,33 @@ namespace TheDailyWtf.Discourse
 
         private string GetOrDeleteRequest(string method, string urlFormat, params object[] args)
         {
-            string relativeUrl = string.Format(urlFormat, args);
-
-            string requestUrl = this.GetRequestUrl(relativeUrl);
-
-            var request = WebRequest.Create(requestUrl);
-            request.Method = method;
-            request.Timeout = Config.Discourse.ApiRequestTimeout;
-            try
+            lock (requestLock)
             {
-                using (var response = request.GetResponse())
-                using (var stream = response.GetResponseStream())
+                string relativeUrl = string.Format(urlFormat, args);
+
+                string requestUrl = this.GetRequestUrl(relativeUrl);
+
+                var request = WebRequest.Create(requestUrl);
+                request.Method = method;
+                request.Timeout = Config.Discourse.ApiRequestTimeout;
+                try
                 {
-                    return new StreamReader(stream).ReadToEnd();
+                    using (var response = request.GetResponse())
+                    using (var stream = response.GetResponseStream())
+                    {
+                        return new StreamReader(stream).ReadToEnd();
+                    }
                 }
-            }
-            catch (TimeoutException tex)
-            {
-                DiscourseHelper.PauseDiscourseConnections(tex, 10);
-                throw;
-            }
-            catch (WebException wex)
-            {
-                throw ParseFirstError(wex);
+                catch (TimeoutException tex)
+                {
+                    DiscourseHelper.PauseDiscourseConnections(tex, 10);
+                    throw;
+                }
+                catch (WebException wex)
+                {
+                    DiscourseHelper.PauseDiscourseConnections(wex, 10);
+                    throw ParseFirstError(wex);
+                }
             }
         }
 
@@ -191,38 +198,41 @@ namespace TheDailyWtf.Discourse
 
         private string PutOrPostRequest(string relativeUrl, IEnumerable<KeyValuePair<string, string>> postData, string method)
         {
-            string requestUrl = this.GetRequestUrl(relativeUrl);
-
-            var request = WebRequest.Create(requestUrl);
-            request.Method = method;
-            request.Timeout = Config.Discourse.ApiRequestTimeout;
-            request.ContentType = "application/x-www-form-urlencoded";
-            try
+            lock (requestLock)
             {
-                using (var body = request.GetRequestStream())
-                using (var writer = new StreamWriter(body))
+                string requestUrl = this.GetRequestUrl(relativeUrl);
+
+                var request = WebRequest.Create(requestUrl);
+                request.Method = method;
+                request.Timeout = Config.Discourse.ApiRequestTimeout;
+                request.ContentType = "application/x-www-form-urlencoded";
+                try
                 {
-                    foreach (var pair in postData)
+                    using (var body = request.GetRequestStream())
+                    using (var writer = new StreamWriter(body))
                     {
-                        writer.Write("&{0}={1}", HttpUtility.UrlEncode(pair.Key), HttpUtility.UrlEncode(pair.Value));
+                        foreach (var pair in postData)
+                        {
+                            writer.Write("&{0}={1}", HttpUtility.UrlEncode(pair.Key), HttpUtility.UrlEncode(pair.Value));
+                        }
                     }
 
-                    writer.Flush();
                     using (var response = request.GetResponse())
                     using (var stream = response.GetResponseStream())
                     {
                         return new StreamReader(stream).ReadToEnd();
                     }
                 }
-            }
-            catch (TimeoutException tex)
-            {
-                DiscourseHelper.PauseDiscourseConnections(tex, 10);
-                throw;
-            }
-            catch (WebException wex)
-            {
-                throw ParseFirstError(wex);
+                catch (TimeoutException tex)
+                {
+                    DiscourseHelper.PauseDiscourseConnections(tex, 10);
+                    throw;
+                }
+                catch (WebException wex)
+                {
+                    DiscourseHelper.PauseDiscourseConnections(wex, 10);
+                    throw ParseFirstError(wex);
+                }
             }
         }
 
@@ -240,7 +250,7 @@ namespace TheDailyWtf.Discourse
             }
             catch
             {
-                var ex = new InvalidOperationException("Unknown error connecting to the forum API. Ensure the host name and API key settings are correct in web.config. The comment and sidebar categories must also exist on Discourse.");
+                var ex = new InvalidOperationException("Unknown error connecting to the forum API. Ensure the host name and API key settings are correct in web.config. The comment and sidebar categories must also exist on Discourse.", wex);
                 DiscourseHelper.PauseDiscourseConnections(ex, 10);
                 return ex;
             }

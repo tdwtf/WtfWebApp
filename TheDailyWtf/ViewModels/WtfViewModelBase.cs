@@ -35,7 +35,10 @@ namespace TheDailyWtf.ViewModels
             get
             {
                 var ex = DiscourseHelper.DiscourseException;
-                return ex == null ? null : "There was an issue connecting to the Discourse API: " + ex.Message;
+                if (ex == null)
+                    return null;
+
+                return "There was an issue connecting to the Discourse API: " + ex.Message;
             }
         }
         

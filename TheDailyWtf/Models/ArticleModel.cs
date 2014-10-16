@@ -50,9 +50,11 @@ namespace TheDailyWtf.Models
             } 
         }
         public int? DiscourseTopicId { get; set; }
+        public bool DiscourseTopicOpened { get; set; }
         public string DiscourseTopicSlug { get; set; }
         public string DiscourseThreadUrl { get { return string.Format("http://what.thedailywtf.com/t/{0}/{1}", this.DiscourseTopicSlug, this.DiscourseTopicId); } }
         public DateTime? PublishedDate { get; set; }
+        public string DisplayDate { get { return this.PublishedDate == null ? "(unpublished)" : this.PublishedDate.Value.ToShortDateString(); } }
         public SeriesModel Series { get; set; }
         public string Url { get { return string.Format("http://{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
         public string CommentsUrl { get { return string.Format("http://{0}/articles/comments/{1}", Config.Wtf.Host, this.Slug); } }
@@ -170,7 +172,7 @@ namespace TheDailyWtf.Models
         public static ArticleModel FromTable(Tables.Articles_Extended article)
         {
             DateTime lastCommentDate = DateTime.Now;
-
+            
             var model = new ArticleModel()
             {
                 Id = article.Article_Id,
@@ -180,6 +182,7 @@ namespace TheDailyWtf.Models
                 DiscourseCommentCount = (int)article.Cached_Comment_Count,
                 CachedCommentCount = (int)article.Cached_Comment_Count,
                 DiscourseTopicId = article.Discourse_Topic_Id,
+                DiscourseTopicOpened = article.Discourse_Topic_Opened == "Y",
                 LastCommentDate = lastCommentDate,
                 PublishedDate = article.Published_Date,
                 Series = SeriesModel.FromTable(article),

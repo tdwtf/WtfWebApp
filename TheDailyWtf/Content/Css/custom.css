@@ -33,8 +33,8 @@ a.social-icon.google-plus { background-image: url('/content/images/icons/googlep
 table.article-listing td.draft { background-color: #e6d25f; }
 table.article-listing td.pending { background-color: #8ad46a; }
 
-table.authors-listing td span.admin-yes { padding: 4px; background-color: #8ad46a; }
-table.authors-listing td span.admin-no { padding: 4px; background-color: #ce4d4d; }
+table td span.admin-yes { padding: 4px; background-color: #8ad46a; }
+table td span.admin-no { padding: 4px; background-color: #ce4d4d; }
 
 .articleListItem header h5 { margin-left:15px; font-size: 100%; color: #888; }
 

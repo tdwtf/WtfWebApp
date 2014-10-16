@@ -5,6 +5,7 @@ using System.Web.Security;
 using Inedo.Data;
 using Newtonsoft.Json;
 using TheDailyWtf.Data;
+using TheDailyWtf.Discourse;
 using TheDailyWtf.Models;
 using TheDailyWtf.Security;
 using TheDailyWtf.ViewModels;
@@ -81,7 +82,12 @@ namespace TheDailyWtf.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditArticle(EditArticleViewModel post)
-        {            
+        {
+            if (post.CreateCommentDiscussionChecked)
+                DiscourseHelper.CreateCommentDiscussion(post.Article);
+            if (post.OpenCommentDiscussionChecked && post.Article.DiscourseTopicId > 0)
+                DiscourseHelper.OpenCommentDiscussion(post.Article.Id, (int)post.Article.DiscourseTopicId);
+
             StoredProcs.Articles_CreateOrUpdateArticle(
                 post.Article.Id,
                 post.Article.Slug,
@@ -91,8 +97,7 @@ namespace TheDailyWtf.Controllers
                 post.Article.Title,
                 post.Article.Series.Slug,
                 post.Article.BodyHtml,
-                null,
-                YNIndicator.No
+                post.Article.DiscourseTopicId
               ).Execute();
 
             return RedirectToAction("index");

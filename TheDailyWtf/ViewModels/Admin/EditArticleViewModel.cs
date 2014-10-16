@@ -17,9 +17,13 @@ namespace TheDailyWtf.ViewModels
         public EditArticleViewModel(int? articleId)
         {
             if (articleId != null)
+            {
                 this.Article = ArticleModel.GetArticleById((int)articleId);
+            }
             else
+            {
                 this.Article = new ArticleModel();
+            }
 
             if (this.Article.PublishedDate != null)
             {
@@ -46,6 +50,10 @@ namespace TheDailyWtf.ViewModels
         }
         public string Date { get; set; }
         public string Time { get; set; }
+
+        public bool CreateCommentDiscussionChecked { get; set; }
+        public bool CreateCommentDiscussionVisible { get; set; }
+        public bool OpenCommentDiscussionChecked { get; set; }
 
         public IEnumerable<SeriesModel> AllSeries { get { return SeriesModel.GetAllSeries(); } }
         public IEnumerable<AuthorModel> AllAuthors { get { return AuthorModel.GetAllAuthors(); } }
