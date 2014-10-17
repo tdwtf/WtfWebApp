@@ -19,7 +19,7 @@
                 <h5>by @Model.Article.Author.Name in @Model.Article.Series.Title</h5>
             </header>
             <div class="container">
-                <p>@Model.Article.Summary</p>
+                <p>@Html.Raw(Model.Article.SummaryHtml)</p>
             </div>
             <div class="clearfix"></div>
             <footer>

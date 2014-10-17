@@ -20,7 +20,7 @@ namespace TheDailyWtf.Models
         public int Id { get; set; }
         public AuthorModel Author { get; set; }
         public string Status { get; set; }
-        public string Summary { get; set; }
+        public string SummaryHtml { get; set; }
         [AllowHtml]
         public string BodyHtml { get; set; }
         public string Title { get; set; }
@@ -187,7 +187,7 @@ namespace TheDailyWtf.Models
                 PublishedDate = article.Published_Date,
                 Series = SeriesModel.FromTable(article),
                 Status = article.PublishedStatus_Name,
-                Summary = ArticleModel.ExtractAndStripFirstParagram(article.Body_Html),
+                SummaryHtml = ArticleModel.ExtractSummary(article.Body_Html),
                 Title = article.Title_Text,
                 PreviousArticleId = article.Previous_Article_Id,
                 PreviousArticleSlug = article.Previous_Article_Slug,
@@ -208,10 +208,9 @@ namespace TheDailyWtf.Models
             return model;
         }
 
-        private static string ExtractAndStripFirstParagram(string articleText)
+        private static string ExtractSummary(string articleText)
         {
-            string extracted = ExtractSummary(articleText, 1, false);
-            return StripHtml(extracted);
+            return ExtractSummary(articleText, 2, false);
         }
 
         private static string ExtractSummary(string articleText, int paragraphCount, bool skipRule)
@@ -248,11 +247,6 @@ namespace TheDailyWtf.Models
                 summary += "</blockquote>";
 
             return summary;
-        }
-
-        private static string StripHtml(string text)
-        {
-            return Regex.Replace(text, @"<(.|\n)*?>", string.Empty);
         }
 
         private static class Regexes
