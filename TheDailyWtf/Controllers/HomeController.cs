@@ -81,6 +81,11 @@ namespace TheDailyWtf.Controllers
             }
         }
 
+        public ActionResult StorySubmissionGuidelines()
+        {
+            return View(new HomeIndexViewModel());
+        }
+
         public ActionResult Submit()
         {
             return View(new SubmitWtfViewModel());

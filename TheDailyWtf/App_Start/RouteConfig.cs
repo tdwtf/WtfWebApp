@@ -52,6 +52,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "StorySubmissionGuidelines",
+                url: "submit-wtf/story-guidelines",
+                defaults: new { controller = "Home", action = "StorySubmissionGuidelines" }
+            );
+
+            routes.MapRoute(
                 name: "ViewLegacyArticle",
                 url: "articles/{articleSlug}.aspx",
                 defaults: new { controller = "Articles", action = "ViewLegacyArticle" }
