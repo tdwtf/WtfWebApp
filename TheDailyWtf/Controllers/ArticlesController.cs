@@ -33,6 +33,9 @@ namespace TheDailyWtf.Controllers
             var article = ArticleModel.GetArticleBySlug(articleSlug);
             if (article == null)
                 return HttpNotFound();
+
+            if (!article.DiscourseTopicOpened && article.DiscourseTopicId != null && article.PublishedDate < DateTime.Now)
+                DiscourseHelper.OpenCommentDiscussion(article.Id, (int)article.DiscourseTopicId);
                         
             bool commentsPulled = DiscourseHelper.PullCommentsFromDiscourse(article);
             if (commentsPulled)
