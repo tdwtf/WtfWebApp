@@ -97,8 +97,14 @@
 
        <div data-bind="if: selectedField() == 1">
           <div class="field">
+             <p>
+              Check out the <a href="/submit-wtf/story-guidelines">Submission Guidelines</a> to learn a 
+              bit more about the story/submission process; but here, just describe the who, what, where, 
+              and when of the story in approximately 2-5 paragraphs or so.
+              check out the 
+             </p>
              <div>Core WTF:</div>
-             <textarea name="submitform.storycomments" class="input textarea" rows="8" cols="60" placeholder="Describe the who, what, where, and when of the story in approximately 2-5 paragraphs or so; check out the Submission Guidelines for help if you're stuck!">@Model.SubmitForm.StoryComments</textarea>
+             <textarea name="submitform.storycomments" class="input textarea" rows="8" cols="60">@Model.SubmitForm.StoryComments</textarea>
           </div>
        </div>
 
