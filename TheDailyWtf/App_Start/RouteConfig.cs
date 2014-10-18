@@ -34,6 +34,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "RssLegacy",
+                url: "rss.aspx",
+                defaults: new { controller = "Home", action = "Rss" }
+            );
+
+            routes.MapRoute(
                 name: "Contact",
                 url: "contact",
                 defaults: new { controller = "Home", action = "Contact" }
