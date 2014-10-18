@@ -13,7 +13,7 @@ namespace TheDailyWtf.ViewModels
         { 
             get 
             { 
-                return SeriesModel.GetAllSeries().Where(s => !new[]{"feature-articles", "code-sod", "errord"}.Contains(s.Slug));
+                return SeriesModel.GetAllSeries().Where(s => !new[]{"feature-articles", "code-sod", "errord", "pop-up-potpourri"}.Contains(s.Slug));
             }
         }
     }
