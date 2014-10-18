@@ -1,6 +1,7 @@
 ﻿@model ViewArticleViewModel
 @{
    Layout = "~/Views/Shared/_Layout.cshtml";
+   Model.PageTitle = Model.Article.Title + " - The Daily WTF";
 }
 
 <div class="row @Model.Article.Series.CssClass" id="articlePage">
