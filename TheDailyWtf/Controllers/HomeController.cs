@@ -59,7 +59,7 @@ namespace TheDailyWtf.Controllers
                 using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.ContactForm.Email, Config.Wtf.Mail.FromAddress), Config.Wtf.Mail.ToAddress))
                 {
                     writer.WriteLine("To: {0}", model.ContactForm.To);
-                    writer.WriteLine("From: {0}", model.ContactForm.Name);
+                    writer.WriteLine("Your Name: {0}", model.ContactForm.Name);
                     writer.WriteLine();
                     writer.WriteLine("Message:");
                     writer.WriteLine("--------------------------------");
@@ -154,7 +154,7 @@ namespace TheDailyWtf.Controllers
 
         private void WriteCommonBody(TextWriter writer, string submitterName, NameUsage nameUsage)
         {
-            writer.WriteLine("Name: {0}", submitterName);
+            writer.WriteLine("Your Name: {0}", submitterName);
             writer.WriteLine(
                 "Name Usage: {0}",
                 nameUsage == NameUsage.FullName ? "You may use the full name" :
