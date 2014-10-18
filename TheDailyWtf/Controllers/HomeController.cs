@@ -65,7 +65,7 @@ namespace TheDailyWtf.Controllers
                     writer.WriteLine("--------------------------------");
                     writer.WriteLine(model.ContactForm.Message);
 
-                    message.Subject = string.Format("[ContactForm] {0}", model.ContactForm.Subject);
+                    message.Subject = model.ContactForm.Subject.Substring(0, Math.Min(model.ContactForm.Subject.Length, 100));
                     message.Body = writer.ToString();
                     AttachFile(message, model.ContactForm.File);
 
@@ -109,15 +109,18 @@ namespace TheDailyWtf.Controllers
                     switch (model.SubmitForm.Type)
                     {
                         case SubmissionType.CodeSod:
+                            message.Subject = "[Code]";
                             WriteCodeSodBody(writer, model.SubmitForm.Language, model.SubmitForm.CodeSnippet, model.SubmitForm.Background);
                             AttachFile(message, model.SubmitForm.CodeFile);
                             break;
 
                         case SubmissionType.Story:
+                            message.Subject = "[Story]";
                             WriteStoryBody(writer, model.SubmitForm.StoryComments);
                             break;
 
                         case SubmissionType.Errord:
+                            message.Subject = "[Error'd]";
                             WriteErrordBody(writer, model.SubmitForm.ErrordComments);
                             AttachFile(message, model.SubmitForm.ErrordFile);
                             break;
@@ -126,7 +129,7 @@ namespace TheDailyWtf.Controllers
                             throw new InvalidOperationException("Invalid submission type");
                     }
 
-                    message.Subject = string.Format("[{0}] - TheDailyWtf Submission", model.SubmitForm.Type);
+                    message.Subject = message.Subject + " " + model.SubmitForm.Title;
                     message.Body = writer.ToString();
 
                     smtp.Send(message);

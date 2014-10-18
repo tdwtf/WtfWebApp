@@ -14,6 +14,8 @@ namespace TheDailyWtf.Models
         [Required]
         public SubmissionType Type { get; set; }
         [Required]
+        public string Title { get; set; }
+        [Required]
         public string Name { get; set; }
         [Required]
         public string Email { get; set; }
