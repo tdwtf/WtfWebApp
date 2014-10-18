@@ -10,6 +10,12 @@ namespace TheDailyWtf
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "DefaultLegacy",
+                url: "Default.aspx",
+                defaults: new { controller = "Home", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "ArticleAdmin",
                 url: "admin/article/edit/{id}",
                 defaults: new { controller = "Admin", action = "EditArticle", id = UrlParameter.Optional  }
@@ -35,13 +41,19 @@ namespace TheDailyWtf
 
             routes.MapRoute(
                 name: "RssLegacy",
-                url: "rss.aspx",
+                url: "Rss.aspx",
                 defaults: new { controller = "Home", action = "Rss" }
             );
 
             routes.MapRoute(
                 name: "Contact",
                 url: "contact",
+                defaults: new { controller = "Home", action = "Contact" }
+            );
+
+            routes.MapRoute(
+                name: "ContactLegacy",
+                url: "Contact.aspx",
                 defaults: new { controller = "Home", action = "Contact" }
             );
 
