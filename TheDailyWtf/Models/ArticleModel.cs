@@ -29,9 +29,9 @@ namespace TheDailyWtf.Models
             get
             {
                 if (this.Series.Title.Equals("Feature Articles", StringComparison.OrdinalIgnoreCase))
-                    return HttpUtility.HtmlEncode(this.Title);
+                    return this.Title;
                 else
-                    return HttpUtility.HtmlEncode(string.Format("{0}: {1}", this.Series.Title, this.Title));
+                    return string.Format("{0}: {1}", this.Series.Title, this.Title);
             }
         }        
         public int DiscourseCommentCount { get; set; }
