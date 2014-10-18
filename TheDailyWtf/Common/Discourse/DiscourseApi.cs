@@ -76,7 +76,7 @@ namespace TheDailyWtf.Discourse
             if (!validFilters.Contains(filter))
                 throw new ArgumentException("filter");
 
-            string response = this.GetRequest("/category/{0}/l/{1}.json", category.UrlFormatted, filter);
+            string response = this.GetRequest("/c/{0}/l/{1}.json", category.UrlFormatted, filter);
             dynamic json = JsonConvert.DeserializeObject(response);
             dynamic topics = json.topic_list.topics;
             foreach (dynamic topic in topics)
