@@ -80,6 +80,8 @@ div.validation-summary-errors ul li { list-style-type: disc; margin-left: 15px; 
 .top-discourse-link:hover { text-decoration: underline; } 
 .discourse-link { float: right; color: #08c; background: #e0f5ff; padding: 8px 20px; margin-left: 10px; font-size: 16px; vertical-align: top; }
 
+.inset { float: right; margin: 8pt; width: 52%; }
+
 @media (min-width: 767px) {
     .navbar.dailywtf.fixed .logo { margin: 9px 6px 6px 0; max-width: inherit; height: 45px; }
 }
