@@ -30,6 +30,7 @@
         <div>Series:</div>
         <div class="picker">
             <select name="article.series.slug">
+               <option>Select...</option>
                 @foreach (var series in Model.AllSeries)
                 {
                     <option value="@series.Slug" selected="@(Model.Article.Series.Slug == series.Slug)">@series.Title</option>
