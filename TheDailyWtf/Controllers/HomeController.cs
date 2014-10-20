@@ -57,6 +57,13 @@ namespace TheDailyWtf.Controllers
                 using (var smtp = new SmtpClient(Config.Wtf.Mail.Host))
                 using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.ContactForm.Email, Config.Wtf.Mail.FromAddress), Config.Wtf.Mail.ToAddress))
                 {
+                    string customToAddress;
+                    if (Config.Wtf.Mail.CustomEmailAddresses.TryGetValue(model.ContactForm.To, out customToAddress))
+                    {
+                        message.To.Clear();
+                        message.To.Add(customToAddress);
+                    }
+
                     writer.WriteLine("To: {0}", model.ContactForm.To);
                     writer.WriteLine("Your Name: {0}", model.ContactForm.Name);
                     writer.WriteLine();
