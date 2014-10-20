@@ -49,6 +49,8 @@ namespace TheDailyWtf.Models
         public static SeriesModel GetSeriesBySlug(string slug)
         {
             var series = StoredProcs.Series_GetSeriesBySlug(slug).Execute();
+            if (series == null)
+                return null;
             return SeriesModel.FromTable(series);
         }
 

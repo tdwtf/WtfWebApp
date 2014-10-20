@@ -62,15 +62,23 @@ namespace TheDailyWtf.Controllers
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
-        public ActionResult ViewArticlesBySeries(string series)
+        public ActionResult ViewArticlesBySeries(string seriesSlug)
         {
+            var series = SeriesModel.GetSeriesBySlug(seriesSlug);
+            if (series == null)
+                return HttpNotFound();
+
             return View(Views.Articles.Index, new ArticlesIndexViewModel() { Series = series });
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
-        public ActionResult ViewArticlesBySeriesAndMonth(int year, int month, string series)
+        public ActionResult ViewArticlesBySeriesAndMonth(int year, int month, string seriesSlug)
         {
             var date = new DateTime(year, month, 1);
+            var series = SeriesModel.GetSeriesBySlug(seriesSlug);
+            if (series == null)
+                return HttpNotFound();
+
             return View(
                 Views.Articles.Index, 
                 new ArticlesIndexViewModel() 

@@ -16,16 +16,15 @@ namespace TheDailyWtf.ViewModels
         }
 
         public DateInfo ReferenceDate { get; set; }
-        public string Series { get; set; }
-        public bool PaginateArticleListByMonth { get { return this.Series == null || paginatedSeries.Contains(this.Series); } }
+        public SeriesModel Series { get; set; }
+        public bool PaginateArticleListByMonth { get { return this.Series == null || paginatedSeries.Contains(this.Series.Slug); } }
         public string ListHeading 
         { 
             get 
             {
                 if (this.Series == null)
                     return "Recent Articles";
-                var series = SeriesModel.GetSeriesBySlug(this.Series);
-                return string.Format("{0} {1}", this.PaginateArticleListByMonth ? "Recent" : "All", series.Title);
+                return string.Format("{0} {1}", this.PaginateArticleListByMonth ? "Recent" : "All", this.Series.Title);
             } 
         }
         public string PreviousMonthUrl { get { return this.FormatUrl(this.ReferenceDate.PrevMonth); } }
@@ -37,12 +36,12 @@ namespace TheDailyWtf.ViewModels
             {
                 if (this.PaginateArticleListByMonth)
                 {
-                    return ArticleModel.GetSeriesArticlesByMonth(this.Series, this.ReferenceDate.Reference)
+                    return ArticleModel.GetSeriesArticlesByMonth(this.Series.Slug, this.ReferenceDate.Reference)
                         .Select(a => new ArticleItemViewModel(a));
                 }
                 else
                 {
-                    return ArticleModel.GetAllArticlesBySeries(this.Series)
+                    return ArticleModel.GetAllArticlesBySeries(this.Series.Slug)
                         .Select(a => new ArticleItemViewModel(a));
                 }
             }
@@ -50,10 +49,10 @@ namespace TheDailyWtf.ViewModels
 
         private string FormatUrl(DateTime date)
         {
-            if (string.IsNullOrEmpty(this.Series))
+            if (this.Series == null)
                 return string.Format("/articles/{0}/{1}", date.Year, date.Month);
             else
-                return string.Format("/series/{0}/{1}/{2}", date.Year, date.Month, this.Series);
+                return string.Format("/series/{0}/{1}/{2}", date.Year, date.Month, this.Series.Slug);
         }
 
         public sealed class DateInfo

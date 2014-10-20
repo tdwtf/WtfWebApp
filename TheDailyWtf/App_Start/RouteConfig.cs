@@ -119,13 +119,13 @@ namespace TheDailyWtf
 
             routes.MapRoute(
                 name: "ViewArticlesBySeries",
-                url: "series/{series}",
+                url: "series/{seriesSlug}",
                 defaults: new { controller = "Articles", action = "ViewArticlesBySeries" }
             );
 
             routes.MapRoute(
                 name: "ViewArticlesBySeriesAndMonth",
-                url: "series/{year}/{month}/{series}",
+                url: "series/{year}/{month}/{seriesSlug}",
                 defaults: new { controller = "Articles", action = "ViewArticlesBySeriesAndMonth" }
             );
 
