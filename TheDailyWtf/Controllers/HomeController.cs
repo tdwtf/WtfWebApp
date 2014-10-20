@@ -36,7 +36,6 @@ namespace TheDailyWtf.Controllers
             return View(new HomeIndexViewModel());
         }
 
-        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes, VaryByParam = "*")]
         public ActionResult Rss()
         {
             if (Request.QueryString["fbsrc"] != "Y" && Request.QueryString["sneak"] != "Y")
