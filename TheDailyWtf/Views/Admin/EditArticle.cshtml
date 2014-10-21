@@ -9,7 +9,7 @@
         function ViewModel() {
             var self = this;
             self.useCustomSlug = ko.observable(@(Model.UseCustomSlug.ToString().ToLower()));
-            self.titleText = ko.observable('@((Model.Article.Title ?? "").Replace("'", "\'"))');
+            self.titleText = ko.observable($('#title-text').val());
             self.autoSlugText = ko.computed(function () {
                 return self.titleText().replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase();
             });

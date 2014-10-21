@@ -81,6 +81,7 @@ namespace TheDailyWtf.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult EditArticle(EditArticleViewModel post)
         {
             if (post.CreateCommentDiscussionChecked)
