@@ -61,6 +61,10 @@
             <div>Message:</div>
            <textarea name="contactform.message" class="input textarea" rows="8" cols="60">@Model.ContactForm.Message</textarea>
         </div>
+       <div class="field">
+          @Html.Recaptcha(theme: Recaptcha.Web.RecaptchaTheme.Clean)
+       </div>
+
         <div class="medium primary btn">
             <input class="input" type="submit" value="Send Message" />
         </div>
