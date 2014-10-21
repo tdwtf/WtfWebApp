@@ -27,7 +27,7 @@ namespace TheDailyWtf.ViewModels
             {
                 return string.Format(
                     "Article Comments ({0} {1} comments)", 
-                    this.Article.CachedCommentCount < this.Article.DiscourseCommentCount ? "Previewing" : "Viewing", 
+                    this.Article.CachedCommentCount < this.Article.DiscourseCommentCount ? "Previewing first" : "Viewing", 
                     this.CommentsFraction
                 ); 
             } 
@@ -37,7 +37,7 @@ namespace TheDailyWtf.ViewModels
             get
             {
                 if (this.Article.CachedCommentCount < this.Article.DiscourseCommentCount)
-                    return string.Format("{0}/{1}", this.Article.CachedCommentCount, Math.Max(this.Article.DiscourseCommentCount, this.Article.CachedCommentCount));
+                    return string.Format("{0} of {1}", this.Article.CachedCommentCount, Math.Max(this.Article.DiscourseCommentCount, this.Article.CachedCommentCount));
                 else
                     return this.Article.CachedCommentCount.ToString();
             }
