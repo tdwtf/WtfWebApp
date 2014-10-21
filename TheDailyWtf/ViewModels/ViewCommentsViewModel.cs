@@ -12,26 +12,23 @@ namespace TheDailyWtf.ViewModels
             this.Article = article;
             this.Comments = CommentModel.FromArticle(article);
             this.MaxDiscoursePostId = this.Comments.Any() ? this.Comments.Max(c => c.DiscoursePostId ?? 0) : 0;
-            if (this.MaxDiscoursePostId > 0)
-                this.DiscourseTopicUrl = this.Article.DiscourseThreadUrl + "/" + this.MaxDiscoursePostId;
-            else
-                this.DiscourseTopicUrl = this.Article.DiscourseThreadUrl;
+            this.DiscourseTopicUrl = this.Article.DiscourseThreadUrl + "/last";
         }
 
         public ArticleModel Article { get; private set; }
         public IEnumerable<CommentModel> Comments { get; private set; }
         public int MaxDiscoursePostId { get; private set; }
         public string DiscourseTopicUrl { get; private set; }
-        public string ViewCommentsHeading 
-        { 
-            get 
+        public string ViewCommentsHeading
+        {
+            get
             {
                 return string.Format(
-                    "Article Comments ({0} {1} comments)", 
-                    this.Article.CachedCommentCount < this.Article.DiscourseCommentCount ? "Previewing" : "Viewing", 
+                    "Article Comments ({0} {1} comments)",
+                    this.Article.CachedCommentCount < this.Article.DiscourseCommentCount ? "Previewing" : "Viewing",
                     this.CommentsFraction
-                ); 
-            } 
+                );
+            }
         }
         public string CommentsFraction
         {
