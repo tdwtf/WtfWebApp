@@ -13,6 +13,7 @@ ul.advertise-reasons li { list-style-type: disc; margin-left: 20px; }
 #billboard .da-space { padding-bottom: 4px; }
 
 .articleList header h5 { color: #fff; }
+.articleList ul li a { display: block; }
 h5.heading { background-color: #2c2c2c; color: #fff;padding: 10px; margin-bottom: 1px; }
 a.clean,
 a:visited.clean
