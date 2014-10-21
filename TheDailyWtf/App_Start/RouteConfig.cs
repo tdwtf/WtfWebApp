@@ -16,6 +16,13 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "GoogleNow",
+                url: "{id}",
+                constraints: new { id = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewArticleById" }
+            );
+
+            routes.MapRoute(
                 name: "ArticleAdmin",
                 url: "admin/article/edit/{id}",
                 defaults: new { controller = "Admin", action = "EditArticle", id = UrlParameter.Optional  }

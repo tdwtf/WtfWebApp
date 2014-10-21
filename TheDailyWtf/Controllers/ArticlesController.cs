@@ -17,6 +17,15 @@ namespace TheDailyWtf.Controllers
             return View(new ArticlesIndexViewModel());
         }
 
+        public ActionResult ViewArticleById(int id)
+        {
+            var article = ArticleModel.GetArticleById(id);
+            if (article == null)
+                return HttpNotFound();
+
+            return Redirect(article.Url);
+        }
+
         [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
         public ActionResult ViewArticle(string articleSlug)
         {
