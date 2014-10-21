@@ -36,12 +36,12 @@ namespace TheDailyWtf.ViewModels
             {
                 if (this.PaginateArticleListByMonth)
                 {
-                    return ArticleModel.GetSeriesArticlesByMonth(this.Series.Slug, this.ReferenceDate.Reference)
+                    return ArticleModel.GetSeriesArticlesByMonth(this.Series == null ? null : this.Series.Slug, this.ReferenceDate.Reference)
                         .Select(a => new ArticleItemViewModel(a));
                 }
                 else
                 {
-                    return ArticleModel.GetAllArticlesBySeries(this.Series.Slug)
+                    return ArticleModel.GetAllArticlesBySeries(this.Series == null ? null : this.Series.Slug)
                         .Select(a => new ArticleItemViewModel(a));
                 }
             }
