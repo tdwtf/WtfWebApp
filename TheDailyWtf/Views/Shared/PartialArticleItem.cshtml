@@ -16,7 +16,7 @@
         <article class="@(Model.DisplayAuthorLink ? "ten" : "twelve") columns articleContainer @Model.Article.Series.CssClass">
             <header>
                 <h4>@Model.Article.Title</h4>
-                <h5>by @Model.Article.Author.Name in @Model.Article.Series.Title</h5>
+                <h5>by @Model.Article.Author.Name in @Model.Article.Series.Title on @Model.Article.DisplayDate</h5>
             </header>
             <div class="container">
                 <p>@Html.Raw(Model.Article.SummaryHtml)</p>
