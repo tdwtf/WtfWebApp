@@ -112,6 +112,7 @@
     <Compile Include="Common\CacheProfile.cs" />
     <Compile Include="Common\Discourse\IDiscourseApi.cs" />
     <Compile Include="Common\Discourse\MockDiscourseApi.cs" />
+    <Compile Include="Common\Legacy\LegacyEncodedUrlPart.cs" />
     <Compile Include="Common\WtfConfig.cs" />
     <Compile Include="Common\WtfControllerBase.cs" />
     <Compile Include="Common\Security\AdminOnlyActionFilterAttribute.cs" />

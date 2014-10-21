@@ -125,6 +125,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "ViewLegacySeries",
+                url: "series/{legacySeries}.aspx",
+                defaults: new { controller = "Articles", action = "ViewLegacySeries" }
+            );
+
+            routes.MapRoute(
                 name: "ViewArticlesBySeries",
                 url: "series/{seriesSlug}",
                 defaults: new { controller = "Articles", action = "ViewArticlesBySeries" }

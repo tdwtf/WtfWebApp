@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TheDailyWtf.Data;
@@ -6,6 +7,15 @@ namespace TheDailyWtf.Models
 {
     public sealed class SeriesModel
     {
+        private static readonly Lazy<Dictionary<string, SeriesModel>> seriesMap = new Lazy<Dictionary<string, SeriesModel>>(() =>
+        {
+            return StoredProcs.Series_GetSeries()
+                .Execute()
+                .ToDictionary(s => s.Title_Text, s => FromTable(s), StringComparer.OrdinalIgnoreCase);
+        });
+
+        internal static Dictionary<string, SeriesModel> LegacySeriesMap { get { return seriesMap.Value; } }
+
         public string Slug { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

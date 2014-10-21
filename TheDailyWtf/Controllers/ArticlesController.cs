@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using TheDailyWtf.Discourse;
+using TheDailyWtf.Legacy;
 using TheDailyWtf.Models;
 using TheDailyWtf.ViewModels;
 
@@ -68,6 +69,17 @@ namespace TheDailyWtf.Controllers
         {
             var date = new DateTime(year, month, 1);
             return View(Views.Articles.Index, new ArticlesIndexViewModel() { ReferenceDate = new ArticlesIndexViewModel.DateInfo(date) });
+        }
+
+        public ActionResult ViewLegacySeries(string legacySeries)
+        {
+            var legacyPart = LegacyEncodedUrlPart.CreateFromEncodedUrl(legacySeries);
+
+            SeriesModel series;
+            if (SeriesModel.LegacySeriesMap.TryGetValue(legacyPart.DecodedValue, out series))
+                return RedirectToActionPermanent("ViewArticlesBySeries", new { seriesSlug = series.Slug });
+
+            return HttpNotFound();
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
