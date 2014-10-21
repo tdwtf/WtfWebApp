@@ -23,14 +23,18 @@
 
 <h2>@Model.Heading</h2>
 
+@Html.ValidationSummary()
+
 <form method="post">
+
     @Html.AntiForgeryToken()
+
     <input name="article.id" type="hidden" value="@Model.ArticleId" />
     <div class="field">
         <div>Series:</div>
         <div class="picker">
             <select name="article.series.slug">
-               <option>Select...</option>
+               <option value="">Select...</option>
                 @foreach (var series in Model.AllSeries)
                 {
                     <option value="@series.Slug" selected="@(Model.Article.Series.Slug == series.Slug)">@series.Title</option>

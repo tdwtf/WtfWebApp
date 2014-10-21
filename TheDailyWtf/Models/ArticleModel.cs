@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -16,13 +17,15 @@ namespace TheDailyWtf.Models
             this.Author = new AuthorModel();
             this.Series = new SeriesModel();
         }
-
-        public int Id { get; set; }
+        
+        public int? Id { get; set; }
+        [Required]
         public AuthorModel Author { get; set; }
         public string Status { get; set; }
         public string SummaryHtml { get; set; }
         [AllowHtml]
         public string BodyHtml { get; set; }
+        [Required]
         public string Title { get; set; }
         public string RssTitle
         {
@@ -55,6 +58,7 @@ namespace TheDailyWtf.Models
         public string DiscourseThreadUrl { get { return string.Format("http://what.thedailywtf.com/t/{0}/{1}", this.DiscourseTopicSlug, this.DiscourseTopicId); } }
         public DateTime? PublishedDate { get; set; }
         public string DisplayDate { get { return this.PublishedDate == null ? "(unpublished)" : this.PublishedDate.Value.ToShortDateString(); } }
+        [Required]
         public SeriesModel Series { get; set; }
         public string Url { get { return string.Format("http://{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
         public string CommentsUrl { get { return string.Format("http://{0}/articles/comments/{1}", Config.Wtf.Host, this.Slug); } }

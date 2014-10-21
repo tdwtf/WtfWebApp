@@ -22,7 +22,7 @@ namespace TheDailyWtf.Models
         {
             if (article.DiscourseTopicId != null)
             {
-                var comments = DiscourseHelper.GetFeaturedCommentsForArticle(article.Id);
+                var comments = DiscourseHelper.GetFeaturedCommentsForArticle((int)article.Id);
                 return comments.Select(c => CommentModel.FromDiscourse(c));
             }
 

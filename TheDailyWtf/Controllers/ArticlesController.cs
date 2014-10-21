@@ -35,7 +35,7 @@ namespace TheDailyWtf.Controllers
                 return HttpNotFound();
 
             if (!article.DiscourseTopicOpened && article.DiscourseTopicId != null && article.PublishedDate < DateTime.Now)
-                DiscourseHelper.OpenCommentDiscussion(article.Id, (int)article.DiscourseTopicId);
+                DiscourseHelper.OpenCommentDiscussion((int)article.Id, (int)article.DiscourseTopicId);
                         
             bool commentsPulled = DiscourseHelper.PullCommentsFromDiscourse(article);
             if (commentsPulled)

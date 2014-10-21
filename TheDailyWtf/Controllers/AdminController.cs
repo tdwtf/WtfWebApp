@@ -84,24 +84,39 @@ namespace TheDailyWtf.Controllers
         [ValidateInput(false)]
         public ActionResult EditArticle(EditArticleViewModel post)
         {
-            if (post.CreateCommentDiscussionChecked)
-                DiscourseHelper.CreateCommentDiscussion(post.Article);
-            if (post.OpenCommentDiscussionChecked && post.Article.DiscourseTopicId > 0)
-                DiscourseHelper.OpenCommentDiscussion(post.Article.Id, (int)post.Article.DiscourseTopicId);
+            if (string.IsNullOrEmpty(post.Article.Series.Slug))
+                this.ModelState.AddModelError(string.Empty, "A series is required");
+            if (string.IsNullOrEmpty(post.Article.Author.Slug))
+                this.ModelState.AddModelError(string.Empty, "An author is required");
+            if (!this.ModelState.IsValid)
+                return View(post);
 
-            StoredProcs.Articles_CreateOrUpdateArticle(
-                post.Article.Id,
-                post.Article.Slug,
-                post.PublishedDate,
-                post.Article.Status,
-                post.Article.Author.Slug,
-                post.Article.Title,
-                post.Article.Series.Slug,
-                post.Article.BodyHtml,
-                post.Article.DiscourseTopicId
-              ).Execute();
+            try
+            {
+                if (post.CreateCommentDiscussionChecked)
+                    DiscourseHelper.CreateCommentDiscussion(post.Article);
+                if (post.OpenCommentDiscussionChecked && post.Article.DiscourseTopicId > 0)
+                    DiscourseHelper.OpenCommentDiscussion((int)post.Article.Id, (int)post.Article.DiscourseTopicId);
 
-            return RedirectToAction("index");
+                StoredProcs.Articles_CreateOrUpdateArticle(
+                    post.Article.Id,
+                    post.Article.Slug,
+                    post.PublishedDate,
+                    post.Article.Status,
+                    post.Article.Author.Slug,
+                    post.Article.Title,
+                    post.Article.Series.Slug,
+                    post.Article.BodyHtml,
+                    post.Article.DiscourseTopicId
+                  ).Execute();
+
+                return RedirectToAction("index");
+            }
+            catch (Exception ex)
+            {
+                post.ErrorMessage = ex.ToString();
+                return View(post);
+            }
         }
 
         [RequiresAdmin]
