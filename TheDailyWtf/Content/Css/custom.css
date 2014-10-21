@@ -1,4 +1,7 @@
 
+b { font-weight: bold; }
+i { font-style: italic; }
+
 ul.advertise-reasons { }
 ul.advertise-reasons li { list-style-type: disc; margin-left: 20px; }
 
