@@ -50,7 +50,7 @@ namespace TheDailyWtf.Discourse
                 new Category(Config.Discourse.CommentCategory),
                 article.Title,
                 string.Format(
-                    "Discussion for the article: http://{0}\r\n\r\n<!--ARTICLEID:{1}-->", 
+                    "Discussion for the article: {0}\r\n\r\n<!--ARTICLEID:{1}-->", 
                     article.Url,
                     article.Id
                 )
