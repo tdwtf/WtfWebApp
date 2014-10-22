@@ -67,6 +67,13 @@ namespace TheDailyWtf.Controllers
                     Path = FormsAuthentication.FormsCookiePath
                 };
                 this.Response.Cookies.Add(cookie);
+                var cookieIsAdmin = new HttpCookie("IS_ADMIN", "1")
+                {
+                    HttpOnly = true,
+                    Expires = expiresDate,
+                    Path = FormsAuthentication.FormsCookiePath
+                };
+                this.Response.Cookies.Add(cookieIsAdmin);
 
                 return new RedirectResult(FormsAuthentication.GetRedirectUrl(author.Slug, false));
             }
