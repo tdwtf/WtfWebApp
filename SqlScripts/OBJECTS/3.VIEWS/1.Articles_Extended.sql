@@ -45,13 +45,16 @@ CREATE VIEW [Articles_Extended] AS
    LEFT JOIN [Articles] ART_PREV
           ON ART_PREV.[Article_Id] = (SELECT TOP 1 [Article_Id] 
                                         FROM [Articles] 
-                                       WHERE [Published_Date] < ART.[Published_Date] 
+                                       WHERE [PublishedStatus_Name] = 'Published'
+                                         AND [Published_Date] < ART.[Published_Date] 
                                     ORDER BY [Published_Date] DESC)
 
    LEFT JOIN [Articles] ART_NEXT
           ON ART_NEXT.[Article_Id] = (SELECT TOP 1 [Article_Id] 
                                         FROM [Articles] 
-                                       WHERE [Published_Date] > ART.[Published_Date] 
+                                       WHERE [PublishedStatus_Name] = 'Published'
+                                         AND [Published_Date] > ART.[Published_Date] 
+                                         AND [Published_Date] < GETDATE()
                                     ORDER BY [Published_Date] ASC)
 
 GO
