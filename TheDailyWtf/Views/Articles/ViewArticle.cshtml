@@ -15,6 +15,7 @@
                <span class="articleMeta">
                   @Model.Article.Series.Title by <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a> 
                   <span class="date">on @Model.Article.DisplayDate</span>
+                  <span class="admin-only pull_right"><a href="/admin/article/edit/@Model.Article.Id">Edit &raquo;</a></span>
                </span>
 
                <a href="/authors/@Model.Article.Author.Slug" class="author hideMobile">
@@ -77,4 +78,3 @@
       </div>
    </div>
 </div>
-<script>if(getCookie('IS_ADMIN') == '1')$('.articleMeta').append('<a href="/admin/article/edit/@Model.Article.Id">Edit</a>');</script>

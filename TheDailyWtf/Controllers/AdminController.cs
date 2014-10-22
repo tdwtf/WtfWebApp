@@ -69,7 +69,7 @@ namespace TheDailyWtf.Controllers
                 this.Response.Cookies.Add(cookie);
                 var cookieIsAdmin = new HttpCookie("IS_ADMIN", "1")
                 {
-                    HttpOnly = true,
+                    HttpOnly = false,
                     Expires = expiresDate,
                     Path = FormsAuthentication.FormsCookiePath
                 };

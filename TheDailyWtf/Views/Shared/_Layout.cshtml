@@ -22,6 +22,14 @@
    <link rel="stylesheet" href="/content/css/custom.css" />
 
    <script src="/scripts/modernizr-2.6.2.min.js"></script>
+   <!--[if lt IE 9]>
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   <script>window.jQuery || document.write('<script src="/scripts/jquery-1.10.2.min.js"><\/script>')</script>
+   <![endif]-->
+   <!--[if gte IE 9]><!-->
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.1/jquery.min.js"></script>
+   <script>window.jQuery || document.write('<script src="/scripts/jquery-2.0.1.min.js"><\/script>')</script>
+   <!--<![endif]-->
 
 </head>
 <body class="noise">
@@ -76,18 +84,8 @@
       </footer>
    </div>
 
-   <!--[if lt IE 9]>
-   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-   <script>window.jQuery || document.write('<script src="/scripts/jquery-1.10.2.min.js"><\/script>')</script>
-   <![endif]-->
-   <!--[if gte IE 9]><!-->
-   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.1/jquery.min.js"></script>
-   <script>window.jQuery || document.write('<script src="/scripts/jquery-2.0.1.min.js"><\/script>')</script>
-   <!--<![endif]-->
    <script src="/scripts/gumby.min.js"></script>
-
    <script src="/scripts/jquery.qtip-2.2.0.min.js"></script>
-
    <script src="/scripts/plugins.js"></script>
    <script src="/scripts/main.js"></script>
    <script src="/scripts/prism.js"></script>

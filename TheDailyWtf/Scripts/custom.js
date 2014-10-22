@@ -6,6 +6,11 @@ $(document).ready(function () {
         return false;
     });
 
+    // show admin-only tasks if the author has logged in
+    if (getCookie('IS_ADMIN') == '1') {
+        $('.admin-only').show();
+    }
+
 });
 
 //http://www.w3schools.com/js/js_cookies.asp

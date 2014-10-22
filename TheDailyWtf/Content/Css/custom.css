@@ -3,6 +3,8 @@ b { font-weight: bold; }
 i { font-style: italic; }
 i[class^="icon"] { font-style: inherit; }
 
+.admin-only { display: none; }
+
 ul.advertise-reasons { }
 ul.advertise-reasons li { list-style-type: disc; margin-left: 20px; }
 
