@@ -59,6 +59,18 @@ namespace TheDailyWtf.Controllers
             return RedirectToActionPermanent("ViewArticle", new { articleSlug });
         }
 
+        public ActionResult ViewLegacyPost(int? postId)
+        {
+            if (postId == null)
+                return HttpNotFound();
+
+            var article = ArticleModel.GetArticleByLegacyPost((int)postId);
+            if (article == null)
+                return HttpNotFound();
+
+            return RedirectToActionPermanent("ViewArticle", new { articleSlug = article.Slug });
+        }
+
         public ActionResult ViewLegacyArticleComments(string articleSlug)
         {
             return RedirectToActionPermanent("ViewArticleComments", new { articleSlug });

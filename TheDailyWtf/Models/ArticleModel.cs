@@ -167,6 +167,14 @@ namespace TheDailyWtf.Models
             return ArticleModel.FromTable(article);
         }
 
+        public static ArticleModel GetArticleByLegacyPost(int postId)
+        {
+            var article = StoredProcs.Articles_GetArticleByLegacyPost(postId).Execute();
+            if (article == null)
+                return null;
+            return ArticleModel.FromTable(article);
+        }
+
         public static ArticleModel GetRandomArticle()
         {
             var article = StoredProcs.Articles_GetRandomArticle().Execute();

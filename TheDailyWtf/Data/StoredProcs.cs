@@ -95,6 +95,21 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class Articles_GetArticleByLegacyPost : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Articles_GetArticleByLegacyPost(int? Post_Id)
+		{
+			AddParam("@Post_Id", DbType.Int32, 0, ParameterDirection.Input, Post_Id);
+		}
+		public Tables.Articles_Extended Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Articles_Extended>().FirstOrDefault();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Articles_GetArticleBySlug : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public Articles_GetArticleBySlug(string Article_Slug)
@@ -406,6 +421,11 @@ namespace TheDailyWtf.Data
 		public static StoredProcedures.Articles_GetArticleById Articles_GetArticleById(int? Article_Id)
 		{
 			return new StoredProcedures.Articles_GetArticleById(Article_Id);
+		}
+
+		public static StoredProcedures.Articles_GetArticleByLegacyPost Articles_GetArticleByLegacyPost(int? Post_Id)
+		{
+			return new StoredProcedures.Articles_GetArticleByLegacyPost(Post_Id);
 		}
 
 		public static StoredProcedures.Articles_GetArticleBySlug Articles_GetArticleBySlug(string Article_Slug)

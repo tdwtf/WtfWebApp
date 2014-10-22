@@ -21,6 +21,11 @@ namespace TheDailyWtf.Data
 {
 	public static class Tables
 	{
+		public class ArticlePostMappings
+		{
+			public int Post_Id { get; set; }
+			public int Article_Id { get; set; }
+		}
 		[Obsolete("Articles is obsolete. Use Articles_Extended instead.", true)]
 		public class Articles
 		{

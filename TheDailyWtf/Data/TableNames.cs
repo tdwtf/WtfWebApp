@@ -21,6 +21,7 @@ namespace TheDailyWtf.Data
 {
 	public static class TableNames
 	{
+		public const string ArticlePostMappings = "ArticlePostMappings";
 		[Obsolete("Articles is obsolete. Use Articles_Extended instead.", true)]
 		public const string Articles = "Articles";
 		public const string Articles_Extended = "Articles_Extended";
