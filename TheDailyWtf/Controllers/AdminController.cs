@@ -93,8 +93,9 @@ namespace TheDailyWtf.Controllers
 
             try
             {
+                int? newlyCreatedTopicId = null;
                 if (post.CreateCommentDiscussionChecked)
-                    DiscourseHelper.CreateCommentDiscussion(post.Article);
+                    newlyCreatedTopicId = DiscourseHelper.CreateCommentDiscussion(post.Article);
                 if (post.OpenCommentDiscussionChecked && post.Article.DiscourseTopicId > 0)
                     DiscourseHelper.OpenCommentDiscussion((int)post.Article.Id, (int)post.Article.DiscourseTopicId);
 
@@ -107,7 +108,7 @@ namespace TheDailyWtf.Controllers
                     post.Article.Title,
                     post.Article.Series.Slug,
                     post.Article.BodyHtml,
-                    post.Article.DiscourseTopicId
+                    newlyCreatedTopicId ?? post.Article.DiscourseTopicId
                   ).Execute();
 
                 return RedirectToAction("index");

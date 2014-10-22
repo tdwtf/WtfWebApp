@@ -40,7 +40,7 @@ namespace TheDailyWtf.Discourse
             return new MockDiscourseApi();
         }
 
-        public static void CreateCommentDiscussion(ArticleModel article)
+        public static int CreateCommentDiscussion(ArticleModel article)
         {
             var api = DiscourseHelper.CreateApi();
 
@@ -61,6 +61,8 @@ namespace TheDailyWtf.Discourse
             StoredProcs
                 .Articles_CreateOrUpdateArticle(article.Id, Discourse_Topic_Id: topic.Id)
                 .Execute();
+
+            return topic.Id;
         }
 
         public static void OpenCommentDiscussion(int articleId, int topicId)
