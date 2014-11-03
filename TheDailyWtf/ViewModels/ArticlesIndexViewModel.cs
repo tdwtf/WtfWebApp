@@ -17,6 +17,7 @@ namespace TheDailyWtf.ViewModels
 
         public DateInfo ReferenceDate { get; set; }
         public SeriesModel Series { get; set; }
+        public string SeriesDescription { get { return this.Series != null ? this.Series.Description : ""; } }
         public bool PaginateArticleListByMonth { get { return this.Series == null || paginatedSeries.Contains(this.Series.Slug); } }
         public string ListHeading 
         { 
