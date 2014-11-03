@@ -153,6 +153,7 @@
     <Compile Include="ViewModels\Admin\EditArticleViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditAuthorViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditSeriesViewModel.cs" />
+    <Compile Include="ViewModels\Admin\MyArticlesViewModel.cs" />
     <Compile Include="ViewModels\ArticleItemViewModel.cs" />
     <Compile Include="ViewModels\ArticlesIndexViewModel.cs" />
     <Compile Include="ViewModels\ContactFormViewModel.cs" />

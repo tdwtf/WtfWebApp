@@ -208,8 +208,9 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Articles_GetUnpublishedArticles : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Articles_GetUnpublishedArticles()
+		public Articles_GetUnpublishedArticles(string Author_Slug)
 		{
+			AddParam("@Author_Slug", DbType.String, 255, ParameterDirection.Input, Author_Slug);
 		}
 		public IEnumerable<Tables.Articles_Extended> Execute()
 		{
@@ -458,9 +459,9 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_GetRecentArticles(PublishedStatus_Name, Series_Slug, Author_Slug, Article_Count);
 		}
 
-		public static StoredProcedures.Articles_GetUnpublishedArticles Articles_GetUnpublishedArticles()
+		public static StoredProcedures.Articles_GetUnpublishedArticles Articles_GetUnpublishedArticles(string Author_Slug)
 		{
-			return new StoredProcedures.Articles_GetUnpublishedArticles();
+			return new StoredProcedures.Articles_GetUnpublishedArticles(Author_Slug);
 		}
 
 		public static StoredProcedures.Articles_UnfeatureComment Articles_UnfeatureComment(int? Article_Id, int? Discourse_Post_Id)

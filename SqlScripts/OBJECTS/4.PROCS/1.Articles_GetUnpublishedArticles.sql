@@ -15,13 +15,17 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [Articles_GetUnpublishedArticles]
+(
+    @Author_Slug NVARCHAR(255) NULL
+)
 AS
 BEGIN
 
 
     SELECT * FROM [Articles_Extended]
-            WHERE [PublishedStatus_Name] <> 'Published'
-               OR ([PublishedStatus_Name] = 'Published' AND [Published_Date] > GETDATE())
+            WHERE (@Author_Slug IS NULL OR [Author_Slug] = @Author_Slug)
+              AND ([PublishedStatus_Name] <> 'Published'
+               OR ([PublishedStatus_Name] = 'Published' AND [Published_Date] > GETDATE()))
 
 END
 GO

@@ -25,6 +25,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "MyArticlesAdmin",
+                url: "admin/my-articles",
+                defaults: new { controller = "Admin", action = "MyArticles" }
+            );
+
+            routes.MapRoute(
                 name: "ArticleAdmin",
                 url: "admin/article/edit/{id}",
                 defaults: new { controller = "Admin", action = "EditArticle", id = UrlParameter.Optional  }

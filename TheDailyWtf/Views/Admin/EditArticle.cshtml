@@ -34,7 +34,9 @@
         <div>Series:</div>
         <div class="picker">
             <select name="article.series.slug">
-               <option value="">Select...</option>
+               @if (Model.ArticleId == null) {
+                  <option value="">Select...</option>
+               }
                 @foreach (var series in Model.AllSeries)
                 {
                     <option value="@series.Slug" selected="@(Model.Article.Series.Slug == series.Slug)">@series.Title</option>
@@ -42,20 +44,24 @@
             </select>
         </div>
     </div>
-    @if (User.IsAdmin)
-    { 
-        <div class="field">
-            <div>Author:</div>
-            <div class="picker">
-                <select name="article.author.slug">
-                    @foreach (var author in Model.AllAuthors)
-                    {
-                        <option value="@author.Slug" selected="@(Model.Article.Author.Slug == author.Slug)">@author.Name</option>
-                    }
-                </select>
-            </div>
-        </div>
+    @if (User.IsAdmin) {
+      <div class="field">
+         <div>Author:</div>
+         <div class="picker">
+               <select name="article.author.slug">
+                  @foreach (var author in Model.AllAuthors)
+                  {
+                     <option value="@author.Slug" selected="@(Model.Article.Author.Slug == author.Slug || (Model.ArticleId == null && author.Slug == this.User.Identity.Name))">@author.Name</option>
+                  }
+               </select>
+         </div>
+      </div>
     }
+    else {
+      <input type="hidden" name="article.author.slug" value="@User.Identity.Name" />
+    }
+    
+    
     <div class="field">
         <div>Title:</div>
         <input data-bind="value: titleText, valueUpdate: 'afterkeydown'" id="title-text" name="article.title" class="input" type="text" maxlength="255" value="@Model.Article.Title" />
@@ -72,6 +78,7 @@
         <div>Body HTML:</div>
         <textarea style="font-family: Consolas, 'Courier New', monospace; line-height: inherit;" name="article.bodyhtml" class="input textarea" rows="8" cols="60">@Model.Article.BodyHtml</textarea>
     </div>
+   @if (Model.ShowStatusDropdown) {
     <div class="field">
         <div>Status:</div>
         <div class="picker">
@@ -83,68 +90,74 @@
             </select>
         </div>
     </div>
-   <div class="field">
-      <div>Publish Date (US Eastern Time, current server time is: @DateTime.Now):</div>
-      <div class="date-pair">
-         <input name="date" class="input date" type="text" maxlength="255" value="@Model.Date" />
-         <input name="time" class="input time" type="text" maxlength="255" value="@Model.Time" />
-      </div>
-   </div>
-
-   <script type="text/javascript">
-      $(document).ready(function () {
-
-         $('.date-pair .time').timepicker({
-            'showDuration': false,
-            'timeFormat': 'G:i'
-         });
-
-         $('.date-pair .date').datepicker({
-            'format': 'yyyy-m-d',
-            'autoclose': true
-         });
-
-      });
-   </script>
-
-   <div style="border: 1px #666 solid; padding: 15px; margin-bottom: 10px;">
-      <h4>Discourse Integration:</h4>
-      <div>
-         @if (Model.Article.DiscourseTopicId == null)
-         {
-            <label>
-               @Html.CheckBoxFor(m => m.CreateCommentDiscussionChecked)
-               <span>Create a comment discussion topic on Discourse (under web.config category: [@Config.Discourse.CommentCategory])</span>
-            </label>
-         }
-      </div>
-      @if (Model.Article.DiscourseTopicId != null)
-      {
-         <label>
-            <input type="checkbox" data-bind="checked: lockDiscourseTopicFromEdit" />
-            <span>Lock Discourse Topic ID from accidental edit...</span>
-         </label>
-         <div class="field">
-         
-               <div>Discourse Topic ID (<a target="_blank" href="@Model.Article.DiscourseThreadUrl">view</a>):</div>
-            <input data-bind="attr: { readonly: lockDiscourseTopicFromEdit() ? 'readonly' : null }" type="text" class="input" style="width:100px;" name="article.discoursetopicid" value="@Model.Article.DiscourseTopicId" />
+   }
+   
+   @if (User.IsAdmin) 
+   {
+      <div class="field">
+         <div>Publish Date (US Eastern Time, current server time is: @DateTime.Now):</div>
+         <div class="date-pair">
+            <input name="date" class="input date" type="text" maxlength="255" value="@Model.Date" />
+            <input name="time" class="input time" type="text" maxlength="255" value="@Model.Time" />
          </div>
+      </div>
+
+      <script type="text/javascript">
+         $(document).ready(function () {
+
+            $('.date-pair .time').timepicker({
+               'showDuration': false,
+               'timeFormat': 'G:i'
+            });
+
+            $('.date-pair .date').datepicker({
+               'format': 'yyyy-m-d',
+               'autoclose': true
+            });
+
+         });
+      </script>
+
+      <div style="border: 1px #666 solid; padding: 15px; margin-bottom: 10px;">
+         <h4>Discourse Integration:</h4>
          <div>
-            @if (Model.Article.DiscourseTopicOpened)
+            @if (Model.Article.DiscourseTopicId == null)
             {
-               <span><i class="icon-check"></i>This topic is already marked as opened.</span>
-            }
-            else
-            {
-               <span><i class="icon-lock"></i>This topic is currently not open, but will be opened once the article goes live, or may be opened manually.</span>
                <label>
-                  @Html.CheckBoxFor(m => m.OpenCommentDiscussionChecked)
-                  <span>Open comment discussion immediately on article save</span>
+                  @Html.CheckBoxFor(m => m.CreateCommentDiscussionChecked)
+                  <span>Create a comment discussion topic on Discourse (under web.config category: [@Config.Discourse.CommentCategory])</span>
                </label>
             }
          </div>
-      }
-   </div>
+         @if (Model.Article.DiscourseTopicId != null)
+         {
+            <label>
+               <input type="checkbox" data-bind="checked: lockDiscourseTopicFromEdit" />
+               <span>Lock Discourse Topic ID from accidental edit...</span>
+            </label>
+            <div class="field">
+         
+                  <div>Discourse Topic ID (<a target="_blank" href="@Model.Article.DiscourseThreadUrl">view</a>):</div>
+               <input data-bind="attr: { readonly: lockDiscourseTopicFromEdit() ? 'readonly' : null }" type="text" class="input" style="width:100px;" name="article.discoursetopicid" value="@Model.Article.DiscourseTopicId" />
+            </div>
+            <div>
+               @if (Model.Article.DiscourseTopicOpened)
+               {
+                  <span><i class="icon-check"></i>This topic is already marked as opened.</span>
+               }
+               else
+               {
+                  <span><i class="icon-lock"></i>This topic is currently not open, but will be opened once the article goes live, or may be opened manually.</span>
+                  <label>
+                     @Html.CheckBoxFor(m => m.OpenCommentDiscussionChecked)
+                     <span>Open comment discussion immediately on article save</span>
+                  </label>
+               }
+            </div>
+         }
+      </div>
+      
+   }
 
     <div class="medium primary btn">
         <input class="input" type="submit" value="Save" />
