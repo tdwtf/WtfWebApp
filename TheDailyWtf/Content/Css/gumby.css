@@ -2802,6 +2802,10 @@ footer .articleList li { background-color: transparent; }
     #articlePage .articleMeta:before { content: ""; position: absolute; left: 0; bottom: -5px; height: 5px; width: 5px; width: 0px; height: 0px; border-style: solid; border-width: 0 5px 5px 0; }
 
     #articlePage .articleMeta a { color: white; }
+    
+    @media only screen and (min-width: 1070px) { 
+        #articlePage .articleMeta { display: block; color: white; padding: 5px 4.368932% 5px 3em; margin-left: -3em; position: relative; font-weight: 800; width: 100%; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; margin-bottom: 20px; }
+    }
 
 #articlePage.featured .articleMeta { background-color: #2db8c2; }
 
