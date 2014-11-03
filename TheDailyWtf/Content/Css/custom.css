@@ -5,6 +5,8 @@ i[class^="icon"] { font-style: inherit; }
 
 .admin-only { display: none; }
 
+.article-body hr { clear: none; }
+
 ul.advertise-reasons { }
 ul.advertise-reasons li { list-style-type: disc; margin-left: 20px; }
 
