@@ -66,6 +66,7 @@ namespace TheDailyWtf.Data
 			public const string Series_Title_Text = "Series_Title_Text";
 			public const string Series_Description_Text = "Series_Description_Text";
 			public const string Cached_Comment_Count = "Cached_Comment_Count";
+			public const string Last_Comment_Date = "Last_Comment_Date";
 		}
 		public static class Authors
 		{

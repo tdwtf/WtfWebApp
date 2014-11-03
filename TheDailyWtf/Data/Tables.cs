@@ -66,6 +66,7 @@ namespace TheDailyWtf.Data
 			public string Series_Title_Text { get; set; }
 			public string Series_Description_Text { get; set; }
 			public int? Cached_Comment_Count { get; set; }
+			public DateTime? Last_Comment_Date { get; set; }
 		}
 		public class Authors
 		{

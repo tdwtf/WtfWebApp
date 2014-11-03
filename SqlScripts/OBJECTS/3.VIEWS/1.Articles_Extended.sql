@@ -33,6 +33,7 @@ CREATE VIEW [Articles_Extended] AS
             ,[Series_Description_Text] = S.[Description_Text]
 
             ,[Cached_Comment_Count] = (SELECT COUNT(*) FROM [Comments] WHERE [Article_Id] = ART.[Article_Id])
+            ,[Last_Comment_Date] = (SELECT MAX([Posted_Date]) FROM [Comments] WHERE [Article_Id] = ART.[Article_Id])
 
       FROM [Articles] ART    
     

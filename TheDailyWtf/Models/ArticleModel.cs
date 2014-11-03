@@ -183,8 +183,6 @@ namespace TheDailyWtf.Models
 
         public static ArticleModel FromTable(Tables.Articles_Extended article)
         {
-            DateTime lastCommentDate = DateTime.Now;
-            
             var model = new ArticleModel()
             {
                 Id = article.Article_Id,
@@ -195,7 +193,7 @@ namespace TheDailyWtf.Models
                 CachedCommentCount = (int)article.Cached_Comment_Count,
                 DiscourseTopicId = article.Discourse_Topic_Id,
                 DiscourseTopicOpened = article.Discourse_Topic_Opened == "Y",
-                LastCommentDate = lastCommentDate,
+                LastCommentDate = article.Last_Comment_Date,
                 PublishedDate = article.Published_Date,
                 Series = SeriesModel.FromTable(article),
                 Status = article.PublishedStatus_Name,
