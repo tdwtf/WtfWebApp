@@ -63,6 +63,7 @@ namespace TheDailyWtf.Data
 			public string Author_Bio_Html { get; set; }
 			public string Author_ShortBio_Text { get; set; }
 			public string Author_Image_Url { get; set; }
+			public YNIndicator Author_Active_Indicator { get; set; }
 			public string Series_Title_Text { get; set; }
 			public string Series_Description_Text { get; set; }
 			public int? Cached_Comment_Count { get; set; }
@@ -78,6 +79,7 @@ namespace TheDailyWtf.Data
 			public string Bio_Html { get; set; }
 			public string ShortBio_Text { get; set; }
 			public string Image_Url { get; set; }
+			public YNIndicator Active_Indicator { get; set; }
 		}
 		public class Comments
 		{

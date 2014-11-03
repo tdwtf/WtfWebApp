@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TheDailyWtf.Data;
 using TheDailyWtf.Models;
 using TheDailyWtf.Security;
@@ -59,7 +58,7 @@ namespace TheDailyWtf.ViewModels
         public bool OpenCommentDiscussionChecked { get; set; }
 
         public IEnumerable<SeriesModel> AllSeries { get { return SeriesModel.GetAllSeries(); } }
-        public IEnumerable<AuthorModel> AllAuthors { get { return AuthorModel.GetAllAuthors(); } }
+        public IEnumerable<AuthorModel> ActiveAuthors { get { return AuthorModel.GetActiveAuthors(); } }
         public IEnumerable<string> ArticleStatuses 
         { 
             get 

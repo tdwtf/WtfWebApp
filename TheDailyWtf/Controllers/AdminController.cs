@@ -175,7 +175,8 @@ namespace TheDailyWtf.Controllers
                 post.Author.IsAdmin,
                 post.Author.DescriptionHtml,
                 post.Author.ShortDescription,
-                Inedo.InedoLib.Util.NullIf(post.Author.ImageUrl, string.Empty)
+                Inedo.InedoLib.Util.NullIf(post.Author.ImageUrl, string.Empty),
+                post.Author.IsActive
               ).Execute();
 
             if (!string.IsNullOrEmpty(post.Password))

@@ -239,7 +239,7 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Authors_CreateOrUpdateAuthor : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url)
+		public Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url, YNIndicator? Active_Indicator)
 		{
 			AddParam("@Author_Slug", DbType.String, 255, ParameterDirection.Input, Author_Slug);
 			AddParam("@Display_Name", DbType.String, 255, ParameterDirection.Input, Display_Name);
@@ -247,6 +247,7 @@ namespace TheDailyWtf.Data.StoredProcedures
 			AddParam("@Bio_Html", DbType.String, -1, ParameterDirection.Input, Bio_Html);
 			AddParam("@ShortBio_Text", DbType.String, -1, ParameterDirection.Input, ShortBio_Text);
 			AddParam("@Image_Url", DbType.String, 255, ParameterDirection.Input, Image_Url);
+			AddParam("@Active_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Input, Active_Indicator != null ? Active_Indicator.ToString() : null);
 		}
 		public void Execute()
 		{
@@ -469,9 +470,9 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_UnfeatureComment(Article_Id, Discourse_Post_Id);
 		}
 
-		public static StoredProcedures.Authors_CreateOrUpdateAuthor Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url)
+		public static StoredProcedures.Authors_CreateOrUpdateAuthor Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url, YNIndicator? Active_Indicator)
 		{
-			return new StoredProcedures.Authors_CreateOrUpdateAuthor(Author_Slug, Display_Name, Admin_Indicator, Bio_Html, ShortBio_Text, Image_Url);
+			return new StoredProcedures.Authors_CreateOrUpdateAuthor(Author_Slug, Display_Name, Admin_Indicator, Bio_Html, ShortBio_Text, Image_Url, Active_Indicator);
 		}
 
 		public static StoredProcedures.Authors_GetAuthorBySlug Authors_GetAuthorBySlug(string Author_Slug)

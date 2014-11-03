@@ -26,10 +26,14 @@
         <div>Image URL:</div>
         <input placeholder="@AuthorModel.DefaultImageUrl" type="text" class="input" name="author.imageurl" value="@Model.CustomImageUrl" />
     </div>
-    <label for="author.isadmin">
+    <label>
         <input name="author.isadmin" type="checkbox" value="true" @(Model.Author.IsAdmin ? "checked=\"checked\"" : "") />
-        <span></span>Grant Administrator Privileges
+        Grant Administrator Privileges
     </label>
+   <label>
+      <input name="author.isactive" type="checkbox" value="true" @(Model.Author.IsActive ? "checked=\"checked\"" : "") />
+      Active Contributor (i.e. displayed in author dropdown)
+   </label>
     <div class="field">
         <div>Set Password for this Author:</div>
         <input placeholder="Keep current password" type="password" class="input" name="password" />

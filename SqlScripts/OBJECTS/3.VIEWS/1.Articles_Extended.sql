@@ -28,6 +28,7 @@ CREATE VIEW [Articles_Extended] AS
             ,[Author_Bio_Html] = AUTH.[Bio_Html]
             ,[Author_ShortBio_Text] = AUTH.[ShortBio_Text]
             ,[Author_Image_Url] = AUTH.[Image_Url]
+            ,[Author_Active_Indicator] = AUTH.[Active_Indicator]
 
             ,[Series_Title_Text] = S.[Title_Text]
             ,[Series_Description_Text] = S.[Description_Text]

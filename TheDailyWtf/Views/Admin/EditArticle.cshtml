@@ -49,7 +49,7 @@
          <div>Author:</div>
          <div class="picker">
                <select name="article.author.slug">
-                  @foreach (var author in Model.AllAuthors)
+                  @foreach (var author in Model.ActiveAuthors)
                   {
                      <option value="@author.Slug" selected="@(Model.Article.Author.Slug == author.Slug || (Model.ArticleId == null && author.Slug == this.User.Identity.Name))">@author.Name</option>
                   }

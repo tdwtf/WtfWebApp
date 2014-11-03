@@ -63,6 +63,7 @@ namespace TheDailyWtf.Data
 			public const string Author_Bio_Html = "Author_Bio_Html";
 			public const string Author_ShortBio_Text = "Author_ShortBio_Text";
 			public const string Author_Image_Url = "Author_Image_Url";
+			public const string Author_Active_Indicator = "Author_Active_Indicator";
 			public const string Series_Title_Text = "Series_Title_Text";
 			public const string Series_Description_Text = "Series_Description_Text";
 			public const string Cached_Comment_Count = "Cached_Comment_Count";
@@ -78,6 +79,7 @@ namespace TheDailyWtf.Data
 			public const string Bio_Html = "Bio_Html";
 			public const string ShortBio_Text = "ShortBio_Text";
 			public const string Image_Url = "Image_Url";
+			public const string Active_Indicator = "Active_Indicator";
 		}
 		public static class Comments
 		{
