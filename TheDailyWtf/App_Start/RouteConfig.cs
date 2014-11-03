@@ -214,17 +214,6 @@ namespace TheDailyWtf
                 defaults: new { controller = "Articles", action = "ViewLegacyPost" }
             );
 
-            //if (TryReplace(url, @"(\d+)/(\d+)/ShowThread.aspx", "$2", out sPostId) //post_Paged, post_PagedRaw
-            //    || TryReplace(url, @"(\d+)/ShowPost.aspx", "$1", out sPostId) //post_Old
-            //    || TryReplace(url, @"thread/(\d+).aspx", "$1", out sPostId) //post, post_WithTemporaryView
-            //    || TryReplace(url, @"thread/(\d+)/(\d+).aspx", "$2", out sPostId) //post_InThreadedView
-            //    || TryReplace(url, @"post/(\d+).aspx", "$1", out sPostId) //post_Single
-            //    || TryReplace(url, @"(\d+)/PrintPost.aspx", "$1", out sPostId) //post_Print
-            //    || TryReplace(url, @"(\d+)/ShowThread.aspx", "$1", out sPostId) //post_InPage
-            //    || TryReplace(url, @"permalink/(\d+)/(\d+)/ShowThread.aspx", "$1", out sPostId) //post_PermaLink
-            //    || TryReplace(url, @"AddPost.aspx\?PostID=(\d+)", "$1", out sPostId) //post_Reply
-            //    || TryReplace(url, @"showpost.aspx\?postid=(\d+)", "$1", out sPostId) //showpost.aspx?postid=24147
-
             routes.MapRoute(
                 name: "LegacyForumPost8",
                 url: "forums/permalink/{ignore}/{postId}/ShowThread.aspx",
@@ -241,6 +230,12 @@ namespace TheDailyWtf
             routes.MapRoute(
                 name: "LegacyForumPost10",
                 url: "forums/ShowPost.aspx",
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost11",
+                url: "ShowPost.aspx",
                 defaults: new { controller = "Articles", action = "ViewLegacyPost" }
             );
         }
