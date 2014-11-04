@@ -16,7 +16,7 @@ GO
 
 CREATE PROCEDURE [Articles_GetUnpublishedArticles]
 (
-    @Author_Slug NVARCHAR(255) NULL
+    @Author_Slug NVARCHAR(255) = NULL
 )
 AS
 BEGIN
