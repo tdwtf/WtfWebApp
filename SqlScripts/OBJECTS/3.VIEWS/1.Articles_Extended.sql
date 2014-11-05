@@ -11,7 +11,10 @@ CREATE VIEW [Articles_Extended] AS
             ,ART.[Author_Slug]
             ,ART.[Title_Text]
             ,ART.[Series_Slug]
-            ,[Body_Html] = CONCAT(ART.[Body_Html], ADS.[Ad_Html])
+            ,[Body_Html] = CASE WHEN ADS.[Ad_Html] IS NULL 
+                                THEN ART.[Body_Html] 
+                                ELSE ART.[Body_Html] + ADS.[Ad_Html] 
+                            END 
             ,ART.[Discourse_Topic_Id]
             ,ART.[Discourse_Topic_Opened]
 
