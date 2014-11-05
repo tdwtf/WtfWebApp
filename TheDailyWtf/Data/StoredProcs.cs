@@ -22,6 +22,54 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class Ads_CreateOrUpdateAd : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Ads_CreateOrUpdateAd(string Ad_Html, int? Ad_Id)
+		{
+			AddParam("@Ad_Html", DbType.String, -1, ParameterDirection.Input, Ad_Html);
+			AddParam("@Ad_Id", DbType.Int32, 0, ParameterDirection.InputOutput, Ad_Id);
+		}
+
+		public int? Ad_Id { get { return GetParamVal<int?>("@Ad_Id"); } }
+		public int? Execute()
+		{
+			this.ExecuteNonQuery();
+			return this.Ad_Id;
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Ads_DeleteAd : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Ads_DeleteAd(int? Ad_Id)
+		{
+			AddParam("@Ad_Id", DbType.Int32, 0, ParameterDirection.Input, Ad_Id);
+		}
+		public IEnumerable<Tables.Ads> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Ads>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Ads_GetAds : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Ads_GetAds()
+		{
+		}
+		public IEnumerable<Tables.Ads> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Ads>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Articles_CreateOrUpdateArticle : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public Articles_CreateOrUpdateArticle(int? Article_Id, string Article_Slug, DateTime? Published_Date, string PublishedStatus_Name, string Author_Slug, string Title_Text, string Series_Slug, string Body_Html, int? Discourse_Topic_Id, string Discourse_Topic_Opened)
@@ -365,9 +413,9 @@ namespace TheDailyWtf.Data.StoredProcedures
 			AddParam("@Title_Text", DbType.String, 255, ParameterDirection.Input, Title_Text);
 			AddParam("@Description_Text", DbType.String, -1, ParameterDirection.Input, Description_Text);
 		}
-		public Tables.Articles_Extended Execute()
+		public void Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.Articles_Extended>().FirstOrDefault();
+			this.ExecuteNonQuery();
 		}
 	}
 
@@ -405,6 +453,21 @@ namespace TheDailyWtf.Data
 {
 	public static class StoredProcs
 	{
+		public static StoredProcedures.Ads_CreateOrUpdateAd Ads_CreateOrUpdateAd(string Ad_Html, int? Ad_Id = null)
+		{
+			return new StoredProcedures.Ads_CreateOrUpdateAd(Ad_Html, Ad_Id);
+		}
+
+		public static StoredProcedures.Ads_DeleteAd Ads_DeleteAd(int? Ad_Id)
+		{
+			return new StoredProcedures.Ads_DeleteAd(Ad_Id);
+		}
+
+		public static StoredProcedures.Ads_GetAds Ads_GetAds()
+		{
+			return new StoredProcedures.Ads_GetAds();
+		}
+
 		public static StoredProcedures.Articles_CreateOrUpdateArticle Articles_CreateOrUpdateArticle(int? Article_Id, string Article_Slug = null, DateTime? Published_Date = null, string PublishedStatus_Name = null, string Author_Slug = null, string Title_Text = null, string Series_Slug = null, string Body_Html = null, int? Discourse_Topic_Id = null, string Discourse_Topic_Opened = null)
 		{
 			return new StoredProcedures.Articles_CreateOrUpdateArticle(Article_Id, Article_Slug, Published_Date, PublishedStatus_Name, Author_Slug, Title_Text, Series_Slug, Body_Html, Discourse_Topic_Id, Discourse_Topic_Opened);

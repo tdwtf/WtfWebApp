@@ -49,6 +49,18 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "AdAdmin",
+                url: "admin/ad/edit/{id}",
+                defaults: new { controller = "Admin", action = "EditAd", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "DeleteAd",
+                url: "admin/ad/delete/{id}",
+                defaults: new { controller = "Admin", action = "DeleteAd" }
+            );
+
+            routes.MapRoute(
                 name: "Rss",
                 url: "rss",
                 defaults: new { controller = "Home", action = "Rss" }

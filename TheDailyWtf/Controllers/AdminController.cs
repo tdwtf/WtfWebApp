@@ -40,7 +40,7 @@ namespace TheDailyWtf.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            
+
             return RedirectToAction("login");
         }
 
@@ -151,10 +151,35 @@ namespace TheDailyWtf.Controllers
         public ActionResult EditSeries(EditSeriesViewModel post)
         {
             StoredProcs.Series_CreateOrUpdateSeries(
-                post.Series.Slug, 
-                post.Series.Title, 
+                post.Series.Slug,
+                post.Series.Title,
                 post.Series.Description
               ).Execute();
+
+            return RedirectToAction("index");
+        }
+
+        [RequiresAdmin]
+        public ActionResult EditAd(int? id)
+        {
+            return View(new EditAdViewModel(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [RequiresAdmin]
+        public ActionResult EditAd(EditAdViewModel post)
+        {
+            StoredProcs.Ads_CreateOrUpdateAd(post.Ad.BodyHtml, post.Ad.Id).Execute();
+
+            return RedirectToAction("index");
+        }
+
+        [RequiresAdmin]
+        [HttpPost]
+        public ActionResult DeleteAd(int id)
+        {
+            StoredProcs.Ads_DeleteAd(id).Execute();
 
             return RedirectToAction("index");
         }

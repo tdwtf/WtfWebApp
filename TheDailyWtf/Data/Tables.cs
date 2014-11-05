@@ -21,6 +21,11 @@ namespace TheDailyWtf.Data
 {
 	public static class Tables
 	{
+		public class Ads
+		{
+			public int Ad_Id { get; set; }
+			public string Ad_Html { get; set; }
+		}
 		public class ArticlePostMappings
 		{
 			public int Post_Id { get; set; }
@@ -39,6 +44,7 @@ namespace TheDailyWtf.Data
 			public string Body_Html { get; set; }
 			public int? Discourse_Topic_Id { get; set; }
 			public string Discourse_Topic_Opened { get; set; }
+			public int? Ad_Id { get; set; }
 		}
 		public class Articles_Extended
 		{
@@ -68,6 +74,7 @@ namespace TheDailyWtf.Data
 			public string Series_Description_Text { get; set; }
 			public int? Cached_Comment_Count { get; set; }
 			public DateTime? Last_Comment_Date { get; set; }
+			public string Ad_Html { get; set; }
 		}
 		public class Authors
 		{

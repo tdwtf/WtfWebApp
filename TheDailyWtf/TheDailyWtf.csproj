@@ -141,6 +141,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdModel.cs" />
     <Compile Include="Models\AdvertiserContactFormModel.cs" />
     <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Models\AuthorModel.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="ViewModels\AdminViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditArticleViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditAuthorViewModel.cs" />
+    <Compile Include="ViewModels\Admin\EditAdViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditSeriesViewModel.cs" />
     <Compile Include="ViewModels\Admin\MyArticlesViewModel.cs" />
     <Compile Include="ViewModels\ArticleItemViewModel.cs" />
@@ -330,6 +332,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\StorySubmissionGuidelines.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\EditAd.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

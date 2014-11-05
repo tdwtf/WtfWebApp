@@ -60,6 +60,8 @@ namespace TheDailyWtf.Models
         public string DisplayDate { get { return this.PublishedDate == null ? "(unpublished)" : this.PublishedDate.Value.ToShortDateString(); } }
         [Required]
         public SeriesModel Series { get; set; }
+        [AllowHtml]
+        public string FooterAdHtml { get; set; }
         public string Url { get { return string.Format("http://{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
         public string CommentsUrl { get { return string.Format("http://{0}/articles/comments/{1}", Config.Wtf.Host, this.Slug); } }
         public string Slug { get; set; }
@@ -196,6 +198,7 @@ namespace TheDailyWtf.Models
                 LastCommentDate = article.Last_Comment_Date,
                 PublishedDate = article.Published_Date,
                 Series = SeriesModel.FromTable(article),
+                FooterAdHtml = article.Ad_Html,
                 Status = article.PublishedStatus_Name,
                 SummaryHtml = ArticleModel.ExtractSummary(article.Body_Html),
                 Title = article.Title_Text,

@@ -11,7 +11,7 @@ CREATE VIEW [Articles_Extended] AS
             ,ART.[Author_Slug]
             ,ART.[Title_Text]
             ,ART.[Series_Slug]
-            ,ART.[Body_Html]
+            ,[Body_Html] = CONCAT(ART.[Body_Html], ADS.[Ad_Html])
             ,ART.[Discourse_Topic_Id]
             ,ART.[Discourse_Topic_Opened]
 
@@ -36,6 +36,8 @@ CREATE VIEW [Articles_Extended] AS
             ,[Cached_Comment_Count] = (SELECT COUNT(*) FROM [Comments] WHERE [Article_Id] = ART.[Article_Id])
             ,[Last_Comment_Date] = (SELECT MAX([Posted_Date]) FROM [Comments] WHERE [Article_Id] = ART.[Article_Id])
 
+            ,[Ad_Html] = ADS.[Ad_Html]
+
       FROM [Articles] ART    
     
   INNER JOIN [Series] S 
@@ -43,6 +45,9 @@ CREATE VIEW [Articles_Extended] AS
     
   INNER JOIN [Authors] AUTH
           ON AUTH.[Author_Slug] = ART.[Author_Slug]
+
+   LEFT JOIN [Ads] ADS
+          ON ADS.[Ad_Id] = ART.[Ad_Id]
 
    LEFT JOIN [Articles] ART_PREV
           ON ART_PREV.[Article_Id] = (SELECT TOP 1 [Article_Id] 
