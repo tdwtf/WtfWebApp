@@ -117,6 +117,7 @@
     <Compile Include="Common\Discourse\IDiscourseApi.cs" />
     <Compile Include="Common\Discourse\MockDiscourseApi.cs" />
     <Compile Include="Common\Legacy\LegacyEncodedUrlPart.cs" />
+    <Compile Include="Common\Logs\FileSystemMessenger.cs" />
     <Compile Include="Common\WtfConfig.cs" />
     <Compile Include="Common\WtfControllerBase.cs" />
     <Compile Include="Common\Security\AdminOnlyActionFilterAttribute.cs" />
@@ -336,6 +337,7 @@
   <ItemGroup>
     <Content Include="Views\Admin\EditAd.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

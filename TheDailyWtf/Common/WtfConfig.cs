@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web.Configuration;
+using Inedo;
+using Inedo.Diagnostics;
 
 namespace TheDailyWtf
 {
@@ -15,6 +17,18 @@ namespace TheDailyWtf
         {
             public static string Host { get { return ReadFromFile(); } }
             public static string AdsBaseDirectory { get { return ReadFromFile(); } }
+
+            public static class Logs
+            {
+                public static string BaseDirectory { get { return ReadFromFile(); } }
+                public static bool Enabled { get { bool b; return bool.TryParse(ReadFromFile(), out b) ? b : false; } }
+                public static MessageLevel MinimumLevel { get { return (MessageLevel)InedoLib.Util.Int.ParseZ(ReadFromFile()); } }
+
+                private static string ReadFromFile([CallerMemberName] string key = null)
+                {
+                    return WebConfigurationManager.AppSettings["Wtf.Logs." + key];
+                }
+            }
 
             public static class Mail
             {

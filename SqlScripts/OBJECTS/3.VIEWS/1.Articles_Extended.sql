@@ -37,7 +37,7 @@ CREATE VIEW [Articles_Extended] AS
             ,[Series_Description_Text] = S.[Description_Text]
 
             ,[Cached_Comment_Count] = (SELECT COUNT(*) FROM [Comments] WHERE [Article_Id] = ART.[Article_Id])
-            ,[Last_Comment_Date] = (SELECT MAX([Posted_Date]) FROM [Comments] WHERE [Article_Id] = ART.[Article_Id])
+            ,[Last_Comment_Date] = GETDATE() -- (quick perf hack until this is column is added to Articles) (SELECT MAX([Posted_Date]) FROM [Comments] WHERE [Article_Id] = ART.[Article_Id])
 
             ,[Ad_Html] = ADS.[Ad_Html]
 

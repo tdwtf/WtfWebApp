@@ -5,7 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using Inedo.Diagnostics;
 using Newtonsoft.Json;
+using TheDailyWtf.Logs;
 using TheDailyWtf.Security;
 
 namespace TheDailyWtf
@@ -33,6 +35,11 @@ namespace TheDailyWtf
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             
             AdRotator.Initialize(Config.Wtf.AdsBaseDirectory);
+
+            if (Config.Wtf.Logs.Enabled)
+            {
+                Logger.AddMessenger(new FileSystemMessenger(Config.Wtf.Logs.BaseDirectory, Config.Wtf.Logs.MinimumLevel));
+            }
         }
 
         private void SetCustomDateFormat()
