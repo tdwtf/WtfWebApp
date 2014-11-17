@@ -16,7 +16,7 @@ namespace TheDailyWtf.Controllers
 
         public ActionResult Advertise()
         {
-            return View(new HomeIndexViewModel());
+            return Redirect("/contact");
         }
 
         [HttpPost]
