@@ -81,7 +81,7 @@ namespace TheDailyWtf
 
     public struct Dimensions : IEquatable<Dimensions>
     {
-        public static readonly Dimensions Leaderboard = new Dimensions(970, 90);
+        public static readonly Dimensions Leaderboard = new Dimensions(728, 90);
         public static readonly Dimensions SideBar = new Dimensions(300, 250);
 
         public static Dimensions? TryParse(string s)

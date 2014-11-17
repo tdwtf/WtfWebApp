@@ -3,7 +3,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using Inedo.Data;
+using Inedo.Diagnostics;
 using Newtonsoft.Json;
 using TheDailyWtf.Data;
 using TheDailyWtf.Discourse;
@@ -115,6 +115,7 @@ namespace TheDailyWtf.Controllers
                 if (post.OpenCommentDiscussionChecked && post.Article.DiscourseTopicId > 0)
                     DiscourseHelper.OpenCommentDiscussion((int)post.Article.Id, (int)post.Article.DiscourseTopicId);
 
+                Logger.Information("Creating or updating article \"{0}\".", post.Article.Title);
                 StoredProcs.Articles_CreateOrUpdateArticle(
                     post.Article.Id,
                     post.Article.Slug ?? this.User.Identity.Name,
