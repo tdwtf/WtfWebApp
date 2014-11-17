@@ -11,6 +11,7 @@ namespace TheDailyWtf.Controllers
             return View(new HomeIndexViewModel { ShowLeaderboardAd = false });
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewAd(string id)
         {
             var ad = AdRotator.GetAdById(id);

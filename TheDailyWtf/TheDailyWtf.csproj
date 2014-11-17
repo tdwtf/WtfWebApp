@@ -275,9 +275,6 @@
     <Content Include="Views\Info\Privacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Info\Advertise.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Content\Css\custom.css" />
   </ItemGroup>
   <ItemGroup>
