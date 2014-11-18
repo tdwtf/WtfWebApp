@@ -18,7 +18,9 @@ CREATE PROCEDURE [Articles_GetRandomArticle]
 AS
 BEGIN
 
-    SELECT * FROM [Articles_Extended]
+    SELECT TOP 1 * FROM [Articles_Extended]
+            WHERE [PublishedStatus_Name] = 'Published'
+              AND [Published_Date] < GETDATE()
             ORDER BY NEWID()
 
 END
