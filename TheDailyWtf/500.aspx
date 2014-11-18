@@ -48,7 +48,7 @@
             </div>
             <div class="row">
                 <p>
-                    Copyright &#169; 2004 - 2014 Alex Papadimoulis - v1.0
+                    Copyright &#169; 2004 - 2014 Inedo Publishing
                 </p>
             </div>
         </footer>
