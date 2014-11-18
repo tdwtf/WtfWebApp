@@ -29,17 +29,17 @@ namespace TheDailyWtf
 
         protected void Application_Start()
         {
+            if (Config.Wtf.Logs.Enabled)
+            {
+                Logger.AddMessenger(new FileSystemMessenger(Config.Wtf.Logs.BaseDirectory, Config.Wtf.Logs.MinimumLevel));
+            }
+            
             AreaRegistration.RegisterAllAreas();
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             
             AdRotator.Initialize(Config.Wtf.AdsBaseDirectory);
-
-            if (Config.Wtf.Logs.Enabled)
-            {
-                Logger.AddMessenger(new FileSystemMessenger(Config.Wtf.Logs.BaseDirectory, Config.Wtf.Logs.MinimumLevel));
-            }
         }
 
         private void SetCustomDateFormat()
