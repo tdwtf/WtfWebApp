@@ -29,7 +29,7 @@ namespace TheDailyWtf.Controllers
 
         public ActionResult Contact()
         {
-            return View(new ContactFormViewModel());
+            return View(new ContactFormViewModel() { SelectedContact = HttpUtility.UrlDecode(this.Request.QueryString.ToString()) });
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]

@@ -24,19 +24,22 @@
                 <select name="contactform.to">
                   <option value=""></option>
                    <optgroup label="Editors">
-                      <option value="Mark Bowytz">Mark Bowytz (Lead Editor)</option>
-                      <option value="Remy Porter">Remy Porter (Editor)</option>
+                      @foreach (var editor in Model.Editors) 
+                      {
+                        <option value="@editor.Name" @(editor.Selected ? "selected=\"selected\"" : "")>@editor.Name (@editor.Title)</option>
+                      }
                    </optgroup>
                    <optgroup label="Writers">
-                      <option value="snoofle">snoofle (Writer)</option>
-                      <option value="Charles Robinson">Charles Robinson (Writer)</option>
-                      <option value="Erik Gern">Erik Gern (Writer)</option>
-                      <option value="Bruce Johnson">Bruce Johnson (Writer)</option>
-                      <option value="Lorne Kates">Lorne Kates (Writer)</option>
+                      @foreach (var writer in Model.Writers)
+                      {
+                        <option value="@writer.Name" @(writer.Selected ? "selected=\"selected\"" : "")>@writer.Name (@writer.Title)</option>
+                      }
                    </optgroup>
                    <optgroup label="Admin">
-                      <option value="Alex Papadimoulis">Alex Papadimoulis (Founder)</option>
-                      <option value="Tim Silvia">Tim Silvia (Sponsorship)</option>
+                      @foreach (var admin in Model.Admins)
+                      {
+                        <option value="@admin.Name" @(admin.Selected ? "selected=\"selected\"" : "")>@admin.Name (@admin.Title)</option>
+                      }
                    </optgroup>
                </select>
             </div>

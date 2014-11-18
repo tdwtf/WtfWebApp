@@ -55,6 +55,10 @@ table td span.admin-no { padding: 4px; background-color: #ce4d4d; }
     .side-bar-list > ul > li.no-pad p { margin-bottom: 0; }
 .side-bar-list ul ul li { list-style-type: circle; }
 
+
+.side-bar-list.sponsors .sponsor { text-align: center; }
+.side-bar-list.sponsors .sponsor img { width: 200px; }
+
 .four.columns aside div.about { padding: 10px; background-color: white; }
 .four.columns aside div.about p { font-size: 12px; }
 
@@ -66,10 +70,13 @@ div.next-article { width: 45%; float: right; text-align: right; }
 div.horizontal { text-align: center; }
 div.horizontal ul li { display: inline-block; margin-right: 25px; }
 
-div.sponsor-container > div { float: left; width: 48%; text-align: center; padding: 15px; }
-div.sponsor-container > div img { max-width: 250px; }
+div.sponsor-container > div { float: left; width: 48%; padding: 15px; margin-left: 5px; }
+div.sponsor-container .sponsor-logo-container { text-align: center; height: 80px; }
+div.sponsor-container > div img { max-width: 250px; max-height: 80px; }
 div.sponsor-container > div p { margin-top: 15px; font-size: 12px; }
 div.sponsor-container::after { clear: both; }
+
+div.sponsor-footer { margin-top: 20px; text-align: center; }
 
 div.message,
 div.validation-summary-errors { background-color: white; border: 5px solid #FFF; padding: 15px; width: 75%; margin: 0 auto; }
