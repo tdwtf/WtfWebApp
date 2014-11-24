@@ -55,20 +55,20 @@
                   </footer>
                }
 
-               <a class="discourse-link" href="/articles/comments/@Model.Article.Slug">@Model.ViewCommentsText &raquo;</a>
+               <a class="discourse-link no-print" href="/articles/comments/@Model.Article.Slug">@Model.ViewCommentsText &raquo;</a>
 
                <hr />
 
                @if (Model.Article.PreviousArticleId != null)
                {
-                  <div class="previous-article">
+                  <div class="previous-article no-print">
                      <a href="@Model.Article.PreviousArticleUrl">&laquo; @Model.Article.PreviousArticleTitle</a>
                   </div>
                }
 
                @if (Model.Article.NextArticleId != null)
                {
-                  <div class="next-article">
+                  <div class="next-article no-print">
                      <a href="@Model.Article.NextArticleUrl">@Model.Article.NextArticleTitle &raquo;</a>
                   </div>
                }

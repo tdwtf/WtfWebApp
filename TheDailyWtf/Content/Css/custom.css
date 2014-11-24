@@ -107,3 +107,7 @@ div.validation-summary-errors ul li { list-style-type: disc; margin-left: 15px; 
     .navbar.dailywtf li > a { color: #fff; }
 }
 
+@media print {
+    .no-print { display: none; }
+}
+
