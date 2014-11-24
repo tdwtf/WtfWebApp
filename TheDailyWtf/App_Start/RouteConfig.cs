@@ -256,6 +256,13 @@ namespace TheDailyWtf
                 url: "ShowPost.aspx",
                 defaults: new { controller = "Articles", action = "ViewLegacyPost" }
             );
+
+            routes.MapRoute(
+                name: "LegacyForumPost12",
+                url: "forums/{postId}/PostAttachment.aspx",
+                constraints: new { postId = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
         }
     }
 }
