@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TheDailyWtf.Data;
 using TheDailyWtf.Models;
 using TheDailyWtf.Security;
@@ -29,6 +30,8 @@ namespace TheDailyWtf.ViewModels
                 this.Date = this.Article.PublishedDate.Value.Date.ToShortDateString();
                 this.Time = this.Article.PublishedDate.Value.TimeOfDay.ToString();
             }
+
+            this.UseCustomSlug = !string.Equals(Regex.Replace(this.Article.Title, @"[^a-z0-9_]+", "-", RegexOptions.IgnoreCase), this.Article.Slug, StringComparison.OrdinalIgnoreCase);
         }
 
         public AuthorPrincipal User { get; set; }

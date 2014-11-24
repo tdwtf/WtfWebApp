@@ -11,7 +11,9 @@
             self.useCustomSlug = ko.observable(@(Model.UseCustomSlug.ToString().ToLower()));
             self.titleText = ko.observable($('#title-text').val());
             self.autoSlugText = ko.computed(function () {
-                return self.titleText().replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase();
+               return self.useCustomSlug() 
+                  ? '@(Model.Article.Slug.Replace("'", @"\'"))'
+                  : self.titleText().replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase();
             });
             self.lockDiscourseTopicFromEdit = ko.observable(true);
         }
