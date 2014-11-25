@@ -1,0 +1,81 @@
+==================================================================
+https://keybase.io/remyporter
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://thedailywtf.com
+  * I am remyporter (https://keybase.io/remyporter) on keybase.
+  * I have a public key with fingerprint D840 B879 0B81 8F62 5F75  5BF9 E7DF E43C 3AB9 6896
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "client": {
+            "name": "keybase.io node.js client",
+            "version": "0.7.2"
+        },
+        "key": {
+            "fingerprint": "d840b8790b818f625f755bf9e7dfe43c3ab96896",
+            "host": "keybase.io",
+            "key_id": "E7DFE43C3AB96896",
+            "uid": "bf1a3bfbe65e38d6f7f844fbed070000",
+            "username": "remyporter"
+        },
+        "merkle_root": {
+            "ctime": 1416939460,
+            "hash": "68140e3e89b5c6730000b6b1cf6d89b472755436164f319dc9e37e4cd081bb0688e3335936cc92b424ee15d1a69a01ab0216594feb6f191c639d092d2c10ab5d",
+            "seqno": 98533
+        },
+        "service": {
+            "hostname": "thedailywtf.com",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1416939511,
+    "expire_in": 157680000,
+    "prev": "43304b73823883355193d0c7fae65705b16184d24034f94befb219e45264983b",
+    "seqno": 15,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+
+owFVkntQFVUcx4FIlETKAdPRmXAN6HrpsmfPPsEZE+IVxYgR8qhue3bPcjfvvXvd
+ewGvDDDoP5IiWiSjEzlajabYpGESUcjDhMAQJh18IKMwqSQ2meFgjrTr4JTnjzPn
+8fl9z+/7+50dYU8FBAVeHxlbkfCdY1dg700UkOM7PV1GIE32EwllhORUsdtnrtyi
+CxMJxDrsR6IX21Qtyq3J2Pa+N2qGiSNKsO5VNbdBkTbORhHlcSZuBiuquwjrHl01
+tQiZp0nEc4IxAV5hKUbhGAYpAuZkBdNQgiISWF5gDUmH5vU98SrxSNOuysZpCvdq
+agoNk+GqpMd88aMLpAARIgVhlsGQl1mFU3iaNvYyyZHGMEEv1mcs6djl92i6D+tm
+xi6sr3Niu65pj2xLPtWEAA1YAQo0Sxo5iV6HEcbygCYxxLyAGInloCmMWAQkhZWN
+M5qjDFc0ZAFLKxAIsiRgyGFakkkeIESyPI8hhIwAWUkSKERTNMaAkYHICiIJRERS
+gGUEWsGIVYAAJBYKMilQMiUBUkSMbJjw4vVujUgQeAbCcnOrl6gSNtM26zZjz+fA
+sqg6/aU+xSZpLiPMo2s+TdKcxqXD5/MkmLZ9fo8JHyvFyD6jY0eqWzYa9//OAgN9
+siQMAHEE3uBRdWxXTYLhWN6shfkOLjE0aQhJGnGQpyDPG44ZIECZlDhFNPrDkQwC
+LOBpmaJJSCsCjbCCKCBgmqFYWuAh+s8oYIxExSJD06sWuUVfsY6J8uqgJcEBgUEB
+s54OMv9uQOicZx9/6PyY8GkNvjbUeQ5kTG60fJHZccnbbAkssB5Z9CDz/rXFgfBG
+6sruloHP64cK2i/f/irmlbeXr5UbK9W04Z67hbjXMey6uLiBhG+VvjxUsGTngeEM
+cf/uk8/FDmZaIhbdCz7RGfbQktU+r3Io6dz0yt/rv+xiIi7Ih/2Nuzsmfvr4ytWw
+b34k0ha01XoSrZYznSEl58TNn7535Xz1rb+J6O1lTUHMxvrVE02/pWfUnc6+P9Cx
+KSfr3QfWvf13Y0djGi7snaqujRzL3frQ6W+sqfrl57SU4Oi7lcP27JHw+KzsT6r6
+b9miay3f161a+q3leOL8Y2X7T45nebtrrh2+MxbZXDE6p2L55oM/FI8cnORH6nJ6
+gxnHWerEMuflgYzVOK/mSEvF2JrRkLmNSn9k64a5t/Ki9pxy5SQXN3Q3qe+87rmy
+reVQ/MLmqqOFsbnha8CBlHVJz5yKig75oEgec99ZHSYmzysvdP56fd+KLaGeXS+l
+xI3rs61xF7MuPN9a3x1GHm9M76q8GtQ6ERiChwtz9xWM5pN/Ds4d7ApfRW6yuVKd
+XE04Tu9dsB4uq5i62XGtut06FXPUVr72XsXXzr4I25sJffb5H52puL2lbfBS7tI3
+DmVaP+tbeNyjhjl78rcKN17YcbsnfucfZ+/Mzo8KLj0/Hjle/Q/14Z4u9cVZiX9N
+bs8r0mtm5VpDY9qSbxT+Cw==
+=H5Z9
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/remyporter
+
+==================================================================
