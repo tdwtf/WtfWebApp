@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -16,13 +17,15 @@ namespace TheDailyWtf.Models
             this.Author = new AuthorModel();
             this.Series = new SeriesModel();
         }
-
-        public int Id { get; set; }
+        
+        public int? Id { get; set; }
+        [Required]
         public AuthorModel Author { get; set; }
         public string Status { get; set; }
         public string SummaryHtml { get; set; }
         [AllowHtml]
         public string BodyHtml { get; set; }
+        [Required]
         public string Title { get; set; }
         public string RssTitle
         {
@@ -55,7 +58,10 @@ namespace TheDailyWtf.Models
         public string DiscourseThreadUrl { get { return string.Format("http://what.thedailywtf.com/t/{0}/{1}", this.DiscourseTopicSlug, this.DiscourseTopicId); } }
         public DateTime? PublishedDate { get; set; }
         public string DisplayDate { get { return this.PublishedDate == null ? "(unpublished)" : this.PublishedDate.Value.ToShortDateString(); } }
+        [Required]
         public SeriesModel Series { get; set; }
+        [AllowHtml]
+        public string FooterAdHtml { get; set; }
         public string Url { get { return string.Format("http://{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
         public string CommentsUrl { get { return string.Format("http://{0}/articles/comments/{1}", Config.Wtf.Host, this.Slug); } }
         public string Slug { get; set; }
@@ -125,9 +131,9 @@ namespace TheDailyWtf.Models
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
-        public static IEnumerable<ArticleModel> GetRecentArticlesByAuthor(string slug)
+        public static IEnumerable<ArticleModel> GetRecentArticlesByAuthor(string slug, int? articleCount = 8)
         {
-            var articles = StoredProcs.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Author_Slug: slug, Article_Count: 8).Execute();
+            var articles = StoredProcs.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Author_Slug: slug, Article_Count: articleCount).Execute();
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
@@ -136,9 +142,9 @@ namespace TheDailyWtf.Models
             yield break;
         }
 
-        public static IEnumerable<ArticleModel> GetUnpublishedArticles()
+        public static IEnumerable<ArticleModel> GetUnpublishedArticles(string authorSlug = null)
         {
-            var articles = StoredProcs.Articles_GetUnpublishedArticles().Execute();
+            var articles = StoredProcs.Articles_GetUnpublishedArticles(authorSlug).Execute();
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
@@ -163,6 +169,14 @@ namespace TheDailyWtf.Models
             return ArticleModel.FromTable(article);
         }
 
+        public static ArticleModel GetArticleByLegacyPost(int postId)
+        {
+            var article = StoredProcs.Articles_GetArticleByLegacyPost(postId).Execute();
+            if (article == null)
+                return null;
+            return ArticleModel.FromTable(article);
+        }
+
         public static ArticleModel GetRandomArticle()
         {
             var article = StoredProcs.Articles_GetRandomArticle().Execute();
@@ -171,8 +185,6 @@ namespace TheDailyWtf.Models
 
         public static ArticleModel FromTable(Tables.Articles_Extended article)
         {
-            DateTime lastCommentDate = DateTime.Now;
-            
             var model = new ArticleModel()
             {
                 Id = article.Article_Id,
@@ -183,9 +195,10 @@ namespace TheDailyWtf.Models
                 CachedCommentCount = (int)article.Cached_Comment_Count,
                 DiscourseTopicId = article.Discourse_Topic_Id,
                 DiscourseTopicOpened = article.Discourse_Topic_Opened == "Y",
-                LastCommentDate = lastCommentDate,
+                LastCommentDate = article.Last_Comment_Date,
                 PublishedDate = article.Published_Date,
                 Series = SeriesModel.FromTable(article),
+                FooterAdHtml = article.Ad_Html,
                 Status = article.PublishedStatus_Name,
                 SummaryHtml = ArticleModel.ExtractSummary(article.Body_Html),
                 Title = article.Title_Text,

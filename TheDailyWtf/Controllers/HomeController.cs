@@ -4,6 +4,8 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using Inedo;
+using Recaptcha.Web;
+using Recaptcha.Web.Mvc;
 using TheDailyWtf.Models;
 using TheDailyWtf.ViewModels;
 
@@ -27,7 +29,7 @@ namespace TheDailyWtf.Controllers
 
         public ActionResult Contact()
         {
-            return View(new ContactFormViewModel());
+            return View(new ContactFormViewModel() { SelectedContact = HttpUtility.UrlDecode(this.Request.QueryString.ToString()) });
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
@@ -36,7 +38,6 @@ namespace TheDailyWtf.Controllers
             return View(new HomeIndexViewModel());
         }
 
-        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes, VaryByParam = "*")]
         public ActionResult Rss()
         {
             if (Request.QueryString["fbsrc"] != "Y" && Request.QueryString["sneak"] != "Y")
@@ -49,8 +50,23 @@ namespace TheDailyWtf.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Contact(ContactFormViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
                 return View(model);
+
+            var recaptchaHelper = this.GetRecaptchaVerificationHelper();
+
+            if (string.IsNullOrEmpty(recaptchaHelper.Response))
+            {
+                this.ModelState.AddModelError(string.Empty, "Captcha answer cannot be empty.");
+                return View(model);
+            }
+
+            var recaptchaResult = recaptchaHelper.VerifyRecaptchaResponse();
+            if (recaptchaResult != RecaptchaVerificationResult.Success)
+            {
+                this.ModelState.AddModelError(string.Empty, "Invalid recaptcha response: " + recaptchaResult);
+                return View(model);
+            }
 
             try
             {
@@ -58,6 +74,13 @@ namespace TheDailyWtf.Controllers
                 using (var smtp = new SmtpClient(Config.Wtf.Mail.Host))
                 using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.ContactForm.Email, Config.Wtf.Mail.FromAddress), Config.Wtf.Mail.ToAddress))
                 {
+                    string customToAddress;
+                    if (Config.Wtf.Mail.CustomEmailAddresses.TryGetValue(model.ContactForm.To, out customToAddress))
+                    {
+                        message.To.Clear();
+                        message.To.Add(customToAddress);
+                    }
+
                     writer.WriteLine("To: {0}", model.ContactForm.To);
                     writer.WriteLine("Your Name: {0}", model.ContactForm.Name);
                     writer.WriteLine();
@@ -97,6 +120,21 @@ namespace TheDailyWtf.Controllers
         {
             if (!this.ModelState.IsValid)
                 return View(model);
+
+            var recaptchaHelper = this.GetRecaptchaVerificationHelper();
+
+            if (string.IsNullOrEmpty(recaptchaHelper.Response))
+            {
+                this.ModelState.AddModelError(string.Empty, "Captcha answer cannot be empty.");
+                return View(model);
+            }
+
+            var recaptchaResult = recaptchaHelper.VerifyRecaptchaResponse();
+            if (recaptchaResult != RecaptchaVerificationResult.Success)
+            {
+                this.ModelState.AddModelError(string.Empty, "Invalid recaptcha response: " + recaptchaResult);
+                return View(model);
+            }
 
             try
             {

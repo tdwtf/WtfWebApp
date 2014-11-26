@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Edit Series</h2>
+<h2>@Model.Heading</h2>
 <form method="post">
     @Html.AntiForgeryToken()
     <div class="field">

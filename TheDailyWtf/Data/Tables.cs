@@ -21,6 +21,16 @@ namespace TheDailyWtf.Data
 {
 	public static class Tables
 	{
+		public class Ads
+		{
+			public int Ad_Id { get; set; }
+			public string Ad_Html { get; set; }
+		}
+		public class ArticlePostMappings
+		{
+			public int Post_Id { get; set; }
+			public int Article_Id { get; set; }
+		}
 		[Obsolete("Articles is obsolete. Use Articles_Extended instead.", true)]
 		public class Articles
 		{
@@ -34,6 +44,7 @@ namespace TheDailyWtf.Data
 			public string Body_Html { get; set; }
 			public int? Discourse_Topic_Id { get; set; }
 			public string Discourse_Topic_Opened { get; set; }
+			public int? Ad_Id { get; set; }
 		}
 		public class Articles_Extended
 		{
@@ -58,9 +69,12 @@ namespace TheDailyWtf.Data
 			public string Author_Bio_Html { get; set; }
 			public string Author_ShortBio_Text { get; set; }
 			public string Author_Image_Url { get; set; }
+			public YNIndicator Author_Active_Indicator { get; set; }
 			public string Series_Title_Text { get; set; }
 			public string Series_Description_Text { get; set; }
 			public int? Cached_Comment_Count { get; set; }
+			public DateTime? Last_Comment_Date { get; set; }
+			public string Ad_Html { get; set; }
 		}
 		public class Authors
 		{
@@ -72,6 +86,7 @@ namespace TheDailyWtf.Data
 			public string Bio_Html { get; set; }
 			public string ShortBio_Text { get; set; }
 			public string Image_Url { get; set; }
+			public YNIndicator Active_Indicator { get; set; }
 		}
 		public class Comments
 		{

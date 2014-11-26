@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using TheDailyWtf.Discourse;
+using TheDailyWtf.Legacy;
 using TheDailyWtf.Models;
 using TheDailyWtf.ViewModels;
 
@@ -15,6 +16,15 @@ namespace TheDailyWtf.Controllers
         public ActionResult Index()
         {
             return View(new ArticlesIndexViewModel());
+        }
+
+        public ActionResult ViewArticleById(int id)
+        {
+            var article = ArticleModel.GetArticleById(id);
+            if (article == null)
+                return HttpNotFound();
+
+            return Redirect(article.Url);
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
@@ -35,7 +45,7 @@ namespace TheDailyWtf.Controllers
                 return HttpNotFound();
 
             if (!article.DiscourseTopicOpened && article.DiscourseTopicId != null && article.PublishedDate < DateTime.Now)
-                DiscourseHelper.OpenCommentDiscussion(article.Id, (int)article.DiscourseTopicId);
+                DiscourseHelper.OpenCommentDiscussion((int)article.Id, (int)article.DiscourseTopicId);
                         
             bool commentsPulled = DiscourseHelper.PullCommentsFromDiscourse(article);
             if (commentsPulled)
@@ -47,6 +57,18 @@ namespace TheDailyWtf.Controllers
         public ActionResult ViewLegacyArticle(string articleSlug)
         {
             return RedirectToActionPermanent("ViewArticle", new { articleSlug });
+        }
+
+        public ActionResult ViewLegacyPost(int? postId)
+        {
+            if (postId == null)
+                return HttpNotFound();
+
+            var article = ArticleModel.GetArticleByLegacyPost((int)postId);
+            if (article == null)
+                return HttpNotFound();
+
+            return RedirectToActionPermanent("ViewArticle", new { articleSlug = article.Slug });
         }
 
         public ActionResult ViewLegacyArticleComments(string articleSlug)
@@ -61,16 +83,35 @@ namespace TheDailyWtf.Controllers
             return View(Views.Articles.Index, new ArticlesIndexViewModel() { ReferenceDate = new ArticlesIndexViewModel.DateInfo(date) });
         }
 
-        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
-        public ActionResult ViewArticlesBySeries(string series)
+        public ActionResult ViewLegacySeries(string legacySeries)
         {
+            var legacyPart = LegacyEncodedUrlPart.CreateFromEncodedUrl(legacySeries);
+
+            SeriesModel series;
+            if (SeriesModel.LegacySeriesMap.TryGetValue(legacyPart.DecodedValue, out series))
+                return RedirectToActionPermanent("ViewArticlesBySeries", new { seriesSlug = series.Slug });
+
+            return HttpNotFound();
+        }
+
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
+        public ActionResult ViewArticlesBySeries(string seriesSlug)
+        {
+            var series = SeriesModel.GetSeriesBySlug(seriesSlug);
+            if (series == null)
+                return HttpNotFound();
+
             return View(Views.Articles.Index, new ArticlesIndexViewModel() { Series = series });
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
-        public ActionResult ViewArticlesBySeriesAndMonth(int year, int month, string series)
+        public ActionResult ViewArticlesBySeriesAndMonth(int year, int month, string seriesSlug)
         {
             var date = new DateTime(year, month, 1);
+            var series = SeriesModel.GetSeriesBySlug(seriesSlug);
+            if (series == null)
+                return HttpNotFound();
+
             return View(
                 Views.Articles.Index, 
                 new ArticlesIndexViewModel() 

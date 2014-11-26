@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Web.Mvc;
+using System.Text.RegularExpressions;
 using TheDailyWtf.Data;
 using TheDailyWtf.Models;
+using TheDailyWtf.Security;
 
 namespace TheDailyWtf.ViewModels
 {
@@ -30,8 +30,13 @@ namespace TheDailyWtf.ViewModels
                 this.Date = this.Article.PublishedDate.Value.Date.ToShortDateString();
                 this.Time = this.Article.PublishedDate.Value.TimeOfDay.ToString();
             }
+
+            this.UseCustomSlug = !string.Equals(Regex.Replace(this.Article.Title, @"[^a-z0-9_]+", "-", RegexOptions.IgnoreCase), this.Article.Slug, StringComparison.OrdinalIgnoreCase);
         }
 
+        public AuthorPrincipal User { get; set; }
+        public bool ShowStatusDropdown { get { return this.User == null || this.User.IsAdmin || this.Article.Status != Domains.PublishedStatus.Published; } }
+        public bool UserCanEdit { get { return this.ArticleId == null || this.User != null && (this.User.IsAdmin || this.Article.Author.Slug == this.User.Identity.Name); } }
         public int? ArticleId { get { return Inedo.InedoLib.Util.NullIf(this.Article.Id, 0); } }
         public string Heading { get { return this.ArticleId != null ? string.Format("Edit Article - {0}", this.Article.Title) : "Create New Article"; } }
         public ArticleModel Article { get; private set; }
@@ -56,7 +61,16 @@ namespace TheDailyWtf.ViewModels
         public bool OpenCommentDiscussionChecked { get; set; }
 
         public IEnumerable<SeriesModel> AllSeries { get { return SeriesModel.GetAllSeries(); } }
-        public IEnumerable<AuthorModel> AllAuthors { get { return AuthorModel.GetAllAuthors(); } }
-        public IEnumerable<string> ArticleStatuses { get { return Domains.PublishedStatus.ToArray(); } }
+        public IEnumerable<AuthorModel> ActiveAuthors { get { return AuthorModel.GetActiveAuthors(); } }
+        public IEnumerable<string> ArticleStatuses 
+        { 
+            get 
+            {
+                if (this.User != null && this.User.IsAdmin)
+                    return Domains.PublishedStatus.ToArray();
+                else
+                    return new[] { Domains.PublishedStatus.Draft, Domains.PublishedStatus.Pending };
+            } 
+        }
     }
 }

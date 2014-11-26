@@ -1,33 +1,56 @@
-@model TheDailyWtf.Models.ArticleModel
-
+@model MyArticlesViewModel
 @{
-    ViewBag.Title = "MyArticles";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>MyArticles</h2>
+<h2>Unpublished Articles</h2>
 <table class="striped article-listing">
     <thead>
         <tr>
             <th>Date</th>
             <th>Status</th>
-            <th>Author</th>
             <th>Series</th>
             <th>Title</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @*@foreach (var article in Model.UnpublishedArticles)
+        @foreach (var article in Model.UnpublishedArticles)
         { 
             <tr>
                 <td>@article.PublishedDate</td>
                 <td class="@article.Status.ToLower()">@article.Status</td>
-                <td>@article.Author.Name</td>
                 <td>@article.Series.Title</td>
                 <td>@article.Title</td>
                 <td><a href="/admin/article/edit/@article.Id">Edit</a></td>
             </tr>
-        }*@
+        }
     </tbody>
+</table>
+
+<div class="medium primary btn">
+   <a href="/admin/article/edit">New Article</a>
+</div>
+
+<h2>Last @Model.MaxPublishedArticleCount Published Articles</h2>
+<table class="striped article-listing">
+   <thead>
+      <tr>
+         <th>Date</th>
+         <th>Series</th>
+         <th>Title</th>
+         <th></th>
+      </tr>
+   </thead>
+   <tbody>
+      @foreach (var article in Model.RecentPublishedArticles)
+      {
+         <tr>
+            <td>@article.PublishedDate</td>
+            <td>@article.Series.Title</td>
+            <td>@article.Title</td>
+            <td><a href="/admin/article/edit/@article.Id">Edit</a></td>
+         </tr>
+      }
+   </tbody>
 </table>

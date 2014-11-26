@@ -60,6 +60,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Recaptcha.Web, Version=1.6.0.0, Culture=neutral, PublicKeyToken=ed5d2e6fb7aa7814, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Recaptcha.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -112,6 +116,8 @@
     <Compile Include="Common\CacheProfile.cs" />
     <Compile Include="Common\Discourse\IDiscourseApi.cs" />
     <Compile Include="Common\Discourse\MockDiscourseApi.cs" />
+    <Compile Include="Common\Legacy\LegacyEncodedUrlPart.cs" />
+    <Compile Include="Common\Logs\FileSystemMessenger.cs" />
     <Compile Include="Common\WtfConfig.cs" />
     <Compile Include="Common\WtfControllerBase.cs" />
     <Compile Include="Common\Security\AdminOnlyActionFilterAttribute.cs" />
@@ -136,6 +142,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdModel.cs" />
     <Compile Include="Models\AdvertiserContactFormModel.cs" />
     <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Models\AuthorModel.cs" />
@@ -147,7 +154,9 @@
     <Compile Include="ViewModels\AdminViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditArticleViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditAuthorViewModel.cs" />
+    <Compile Include="ViewModels\Admin\EditAdViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditSeriesViewModel.cs" />
+    <Compile Include="ViewModels\Admin\MyArticlesViewModel.cs" />
     <Compile Include="ViewModels\ArticleItemViewModel.cs" />
     <Compile Include="ViewModels\ArticlesIndexViewModel.cs" />
     <Compile Include="ViewModels\ContactFormViewModel.cs" />
@@ -210,6 +219,7 @@
     <Content Include="Content\Images\placeholder.png" />
     <Content Include="Content\Images\social-icons.png" />
     <Content Include="Content\Images\Sponsors\inedo.png" />
+    <Content Include="Content\Images\Sponsors\puppetlabs.png" />
     <Content Include="Content\Images\thedailywtfLogoNav.png" />
     <Content Include="Content\Images\wtf-logo.png" />
     <Content Include="favicon.ico" />
@@ -264,9 +274,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Info\Privacy.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Info\Advertise.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Css\custom.css" />
@@ -325,6 +332,10 @@
   <ItemGroup>
     <Content Include="Views\Home\StorySubmissionGuidelines.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\EditAd.cshtml" />
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

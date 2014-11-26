@@ -1,8 +1,9 @@
 using System;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using Inedo.Data;
+using Inedo.Diagnostics;
 using Newtonsoft.Json;
 using TheDailyWtf.Data;
 using TheDailyWtf.Discourse;
@@ -21,7 +22,7 @@ namespace TheDailyWtf.Controllers
         public ActionResult Index()
         {
             if (!this.User.IsAdmin)
-                return RedirectToAction("MyArticles");
+                return Redirect("/admin/my-articles");
 
             return View(new AdminViewModel());
         }
@@ -30,7 +31,7 @@ namespace TheDailyWtf.Controllers
         public ActionResult Login()
         {
             if (this.User != null)
-                return new RedirectResult("/admin");
+                return Redirect("/admin");
 
             return View();
         }
@@ -39,8 +40,13 @@ namespace TheDailyWtf.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            
+
             return RedirectToAction("login");
+        }
+
+        public ActionResult MyArticles()
+        {
+            return View(new MyArticlesViewModel(this.User.Identity.Name));
         }
 
         [HttpPost]
@@ -67,6 +73,13 @@ namespace TheDailyWtf.Controllers
                     Path = FormsAuthentication.FormsCookiePath
                 };
                 this.Response.Cookies.Add(cookie);
+                var cookieIsAdmin = new HttpCookie("IS_ADMIN", "1")
+                {
+                    HttpOnly = false,
+                    Expires = expiresDate,
+                    Path = FormsAuthentication.FormsCookiePath
+                };
+                this.Response.Cookies.Add(cookieIsAdmin);
 
                 return new RedirectResult(FormsAuthentication.GetRedirectUrl(author.Slug, false));
             }
@@ -76,31 +89,55 @@ namespace TheDailyWtf.Controllers
 
         public ActionResult EditArticle(int? id)
         {
-            return View(new EditArticleViewModel(id));
+            var model = new EditArticleViewModel(id) { User = this.User };
+            if (model.UserCanEdit)
+                return View(model);
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult EditArticle(EditArticleViewModel post)
         {
-            if (post.CreateCommentDiscussionChecked)
-                DiscourseHelper.CreateCommentDiscussion(post.Article);
-            if (post.OpenCommentDiscussionChecked && post.Article.DiscourseTopicId > 0)
-                DiscourseHelper.OpenCommentDiscussion(post.Article.Id, (int)post.Article.DiscourseTopicId);
+            if (string.IsNullOrEmpty(post.Article.Series.Slug))
+                this.ModelState.AddModelError(string.Empty, "A series is required");
+            if (string.IsNullOrEmpty(post.Article.Author.Slug))
+                this.ModelState.AddModelError(string.Empty, "An author is required");
+            if (!string.IsNullOrEmpty(post.Article.Author.Slug) && !this.User.IsAdmin && post.Article.Author.Slug != this.User.Identity.Name)
+                this.ModelState.AddModelError(string.Empty, "Only administrators can change authors.");
+            if (!this.ModelState.IsValid)
+                return View(post);
 
-            StoredProcs.Articles_CreateOrUpdateArticle(
-                post.Article.Id,
-                post.Article.Slug,
-                post.PublishedDate,
-                post.Article.Status,
-                post.Article.Author.Slug,
-                post.Article.Title,
-                post.Article.Series.Slug,
-                post.Article.BodyHtml,
-                post.Article.DiscourseTopicId
-              ).Execute();
+            try
+            {
+                if (post.OpenCommentDiscussionChecked && post.Article.DiscourseTopicId > 0)
+                    DiscourseHelper.OpenCommentDiscussion((int)post.Article.Id, (int)post.Article.DiscourseTopicId);
 
-            return RedirectToAction("index");
+                Logger.Information("Creating or updating article \"{0}\".", post.Article.Title);
+                StoredProcs.Articles_CreateOrUpdateArticle(
+                    post.Article.Id,
+                    post.Article.Slug ?? this.User.Identity.Name,
+                    post.PublishedDate,
+                    post.Article.Status,
+                    post.Article.Author.Slug,
+                    post.Article.Title,
+                    post.Article.Series.Slug,
+                    post.Article.BodyHtml,
+                    post.Article.DiscourseTopicId
+                  ).Execute();
+
+                if (post.CreateCommentDiscussionChecked)
+                    DiscourseHelper.CreateCommentDiscussion(post.Article);
+
+                return RedirectToAction("index");
+            }
+            catch (Exception ex)
+            {
+                post.ErrorMessage = ex.ToString();
+                return View(post);
+            }
         }
 
         [RequiresAdmin]
@@ -115,10 +152,35 @@ namespace TheDailyWtf.Controllers
         public ActionResult EditSeries(EditSeriesViewModel post)
         {
             StoredProcs.Series_CreateOrUpdateSeries(
-                post.Series.Slug, 
-                post.Series.Title, 
+                post.Series.Slug,
+                post.Series.Title,
                 post.Series.Description
               ).Execute();
+
+            return RedirectToAction("index");
+        }
+
+        [RequiresAdmin]
+        public ActionResult EditAd(int? id)
+        {
+            return View(new EditAdViewModel(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [RequiresAdmin]
+        public ActionResult EditAd(EditAdViewModel post)
+        {
+            StoredProcs.Ads_CreateOrUpdateAd(post.Ad.BodyHtml, post.Ad.Id).Execute();
+
+            return RedirectToAction("index");
+        }
+
+        [RequiresAdmin]
+        [HttpPost]
+        public ActionResult DeleteAd(int id)
+        {
+            StoredProcs.Ads_DeleteAd(id).Execute();
 
             return RedirectToAction("index");
         }
@@ -139,7 +201,8 @@ namespace TheDailyWtf.Controllers
                 post.Author.IsAdmin,
                 post.Author.DescriptionHtml,
                 post.Author.ShortDescription,
-                Inedo.InedoLib.Util.NullIf(post.Author.ImageUrl, string.Empty)
+                Inedo.InedoLib.Util.NullIf(post.Author.ImageUrl, string.Empty),
+                post.Author.IsActive
               ).Execute();
 
             if (!string.IsNullOrEmpty(post.Password))

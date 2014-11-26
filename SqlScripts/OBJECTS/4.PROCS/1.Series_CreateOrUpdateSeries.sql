@@ -2,7 +2,7 @@ EXEC [__AddStoredProcInfo]
     /* StoredProc_Name         */ 'Series_CreateOrUpdateSeries',
     /* Internal_Indicator      */ 'N',
     /* ReturnType_Name         */ 'DataRow',
-    /* DataTableNames_Csv      */ 'Articles_Extended',
+    /* DataTableNames_Csv      */ NULL,
     /* OutputPropertyNames_Csv */ NULL,
     /* Description_Text        */ NULL
 GO

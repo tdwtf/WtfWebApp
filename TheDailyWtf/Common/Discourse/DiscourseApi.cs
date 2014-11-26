@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using Inedo.Diagnostics;
 using Newtonsoft.Json;
 
 namespace TheDailyWtf.Discourse
@@ -165,21 +166,27 @@ namespace TheDailyWtf.Discourse
                 var request = WebRequest.Create(requestUrl);
                 request.Method = method;
                 request.Timeout = Config.Discourse.ApiRequestTimeout;
+
+                Logger.Debug("Sending Discourse {0} request to URL: {1}", method, request.RequestUri);
+
                 try
                 {
                     using (var response = request.GetResponse())
                     using (var stream = response.GetResponseStream())
                     {
+                        Logger.Debug("Response received, response code was: {0}", GetResponseCode(response));
                         return new StreamReader(stream).ReadToEnd();
                     }
                 }
                 catch (TimeoutException tex)
                 {
+                    Logger.Debug("Timeout exception for {0} request to URL: {1}", method, request.RequestUri);
                     DiscourseHelper.PauseDiscourseConnections(tex, 10);
                     throw;
                 }
                 catch (WebException wex)
                 {
+                    Logger.Debug("Web exception for {0} request to URL: {1}", method, request.RequestUri);
                     DiscourseHelper.PauseDiscourseConnections(wex, 10);
                     throw ParseFirstError(wex);
                 }
@@ -206,6 +213,9 @@ namespace TheDailyWtf.Discourse
                 request.Method = method;
                 request.Timeout = Config.Discourse.ApiRequestTimeout;
                 request.ContentType = "application/x-www-form-urlencoded";
+
+                Logger.Debug("Sending Discourse {0} request to URL: {1}", method, request.RequestUri);
+
                 try
                 {
                     using (var body = request.GetRequestStream())
@@ -220,16 +230,19 @@ namespace TheDailyWtf.Discourse
                     using (var response = request.GetResponse())
                     using (var stream = response.GetResponseStream())
                     {
+                        Logger.Debug("Response received, response code was: {0}", GetResponseCode(response));
                         return new StreamReader(stream).ReadToEnd();
                     }
                 }
                 catch (TimeoutException tex)
                 {
+                    Logger.Debug("Timeout exception for {0} request to URL: {1}", method, request.RequestUri);
                     DiscourseHelper.PauseDiscourseConnections(tex, 10);
                     throw;
                 }
                 catch (WebException wex)
                 {
+                    Logger.Debug("Web exception for {0} request to URL: {1}", method, request.RequestUri);
                     DiscourseHelper.PauseDiscourseConnections(wex, 10);
                     throw ParseFirstError(wex);
                 }
@@ -238,22 +251,37 @@ namespace TheDailyWtf.Discourse
 
         private static Exception ParseFirstError(WebException wex)
         {
+            Logger.Debug("Attempting to get and parse the first error returned from Discourse JSON result...");
             try
             {
                 string jsonErrors = new StreamReader(wex.Response.GetResponseStream()).ReadToEnd();
+                Logger.Debug("JSON result was: " + jsonErrors);
                 wex.Response.Dispose();
                 dynamic json = JsonConvert.DeserializeObject(jsonErrors);
                 if (json == null)
+                {
+                    Logger.Debug("JSON error was null.");
                     return wex;
+                }
 
                 return new InvalidOperationException(json.errors[0].ToString(), wex);
             }
             catch
             {
+                Logger.Debug("There was an error attempting to parse the first JSON error.");
                 var ex = new InvalidOperationException("Unknown error connecting to the forum API. Ensure the host name and API key settings are correct in web.config. The comment and sidebar categories must also exist on Discourse.", wex);
                 DiscourseHelper.PauseDiscourseConnections(ex, 10);
                 return ex;
             }
+        }
+
+        private static string GetResponseCode(WebResponse response)
+        {
+            var httpResponse = response as HttpWebResponse;
+            if (httpResponse == null)
+                return string.Empty;
+
+            return string.Format("{0} ({1})", (int)httpResponse.StatusCode, httpResponse.StatusDescription);
         }
     }
 }

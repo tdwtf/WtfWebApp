@@ -9,5 +9,6 @@ namespace TheDailyWtf.ViewModels
         public IEnumerable<ArticleModel> UnpublishedArticles { get { return ArticleModel.GetUnpublishedArticles(); } }
         public IEnumerable<SeriesModel> AllSeries { get { return SeriesModel.GetAllSeries(); } }
         public IEnumerable<AuthorModel> AllAuthors { get { return AuthorModel.GetAllAuthors(); } }
+        public IEnumerable<AdModel> AllAds { get { return AdModel.GetAllFooterAds(); } }
     }
 }

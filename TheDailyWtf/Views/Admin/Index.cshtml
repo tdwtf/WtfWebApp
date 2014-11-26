@@ -60,6 +60,8 @@
    <a href="/admin/article/edit">New Article</a>
 </div>
 
+<hr />
+
 <h3>Published Articles</h3>
 <table class="striped article-listing">
    <thead>
@@ -111,7 +113,7 @@
    </tbody>
 </table>
 
-
+<hr />
 
 <h3>Series Listing</h3>
 <table class="striped series-listing">
@@ -140,6 +142,8 @@
    <a href="/admin/series/edit">New Series</a>
 </div>
 
+<hr />
+
 <h3>Authors &amp; Logins</h3>
 <table class="striped authors-listing">
    <thead>
@@ -147,6 +151,7 @@
          <th>Image</th>
          <th>Slug / Username</th>
          <th>Name</th>
+         <th>Active</th>
          <th>Administrator</th>
          <th></th>
       </tr>
@@ -160,6 +165,7 @@
             </td>
             <td>@author.Slug</td>
             <td>@author.Name</td>
+            <td><span class="@(author.IsActive ? "admin-yes" : "admin-no")">@(author.IsActive ? "Yes" : "No")</span></td>
             <td><span class="@(author.IsAdmin ? "admin-yes" : "admin-no")">@(author.IsAdmin ? "Yes" : "No")</span></td>
             <td><a href="/admin/author/edit/@author.Slug">Edit</a></td>
          </tr>
@@ -169,4 +175,30 @@
 
 <div class="medium primary btn">
    <a href="/admin/author/edit">New Author/Login</a>
+</div>
+
+<hr />
+
+<h3>Footer Ads Rotation</h3>
+<em>These footer ads are uniform-randomly appended to an article once it becomes published.</em>
+<table class="striped">
+   <thead>
+      <tr>
+         <th>Ad</th>
+         <th></th>
+      </tr>
+   </thead>
+   <tbody>
+      @foreach (var ad in Model.AllAds)
+      {
+         <tr>
+            <td>@Html.Raw(ad.BodyHtml)</td>
+            <td><a href="/admin/ad/edit/@ad.Id">Edit</a></td>
+         </tr>
+      }
+   </tbody>
+</table>
+
+<div class="medium primary btn">
+   <a href="/admin/ad/edit">New Footer Ad</a>
 </div>

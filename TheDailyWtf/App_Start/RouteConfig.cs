@@ -9,10 +9,25 @@ namespace TheDailyWtf
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            RegisterLegacyForumRoutes(routes);
+
             routes.MapRoute(
                 name: "DefaultLegacy",
                 url: "Default.aspx",
                 defaults: new { controller = "Home", action = "Index" }
+            );
+
+            routes.MapRoute(
+                name: "GoogleNow",
+                url: "{id}",
+                constraints: new { id = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewArticleById" }
+            );
+
+            routes.MapRoute(
+                name: "MyArticlesAdmin",
+                url: "admin/my-articles",
+                defaults: new { controller = "Admin", action = "MyArticles" }
             );
 
             routes.MapRoute(
@@ -31,6 +46,18 @@ namespace TheDailyWtf
                 name: "SeriesAdmin",
                 url: "admin/series/edit/{slug}",
                 defaults: new { controller = "Admin", action = "EditSeries", slug = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "AdAdmin",
+                url: "admin/ad/edit/{id}",
+                defaults: new { controller = "Admin", action = "EditAd", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "DeleteAd",
+                url: "admin/ad/delete/{id}",
+                defaults: new { controller = "Admin", action = "DeleteAd" }
             );
 
             routes.MapRoute(
@@ -118,14 +145,20 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "ViewLegacySeries",
+                url: "series/{legacySeries}.aspx",
+                defaults: new { controller = "Articles", action = "ViewLegacySeries" }
+            );
+
+            routes.MapRoute(
                 name: "ViewArticlesBySeries",
-                url: "series/{series}",
+                url: "series/{seriesSlug}",
                 defaults: new { controller = "Articles", action = "ViewArticlesBySeries" }
             );
 
             routes.MapRoute(
                 name: "ViewArticlesBySeriesAndMonth",
-                url: "series/{year}/{month}/{series}",
+                url: "series/{year}/{month}/{seriesSlug}",
                 defaults: new { controller = "Articles", action = "ViewArticlesBySeriesAndMonth" }
             );
 
@@ -145,6 +178,90 @@ namespace TheDailyWtf
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+        }
+
+        private static void RegisterLegacyForumRoutes(RouteCollection routes)
+        {
+            routes.MapRoute(
+                name: "LegacyForumPost1",
+                url: "forums/{ignore}/{postId}/ShowThread.aspx",
+                constraints: new { ignore = @"\d+", postId = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost2",
+                url: "forums/{postId}/ShowPost.aspx",
+                constraints: new { postId = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost3",
+                url: "forums/thread/{postId}.aspx",
+                constraints: new { postId = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost4",
+                url: "forums/thread/{ignore}/{postId}.aspx",
+                constraints: new { ignore = @"\d+", postId = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost5",
+                url: "forums/post/{postId}.aspx",
+                constraints: new { postId = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost6",
+                url: "forums/{postId}/PrintPost.aspx",
+                constraints: new { postId = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost7",
+                url: "forums/{postId}/ShowThread.aspx",
+                constraints: new { postId = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost8",
+                url: "forums/permalink/{ignore}/{postId}/ShowThread.aspx",
+                constraints: new { ignore = @"\d+", postId = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost9",
+                url: "forums/AddPost.aspx",
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost10",
+                url: "forums/ShowPost.aspx",
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost11",
+                url: "ShowPost.aspx",
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyForumPost12",
+                url: "forums/{postId}/PostAttachment.aspx",
+                constraints: new { postId = @"\d+" },
+                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
             );
         }
     }

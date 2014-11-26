@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Caching;
 using Inedo.Data;
+using Inedo.Diagnostics;
 using TheDailyWtf.Data;
 using TheDailyWtf.Models;
 
@@ -18,6 +19,11 @@ namespace TheDailyWtf.Discourse
 
         internal static void PauseDiscourseConnections(Exception ex, int minutes)
         {
+            if (DiscourseException == null)
+                Logger.Error("Pausing Discourse connections for {0} minutes, error: {1}", minutes, ex);
+            else
+                Logger.Information("Discourse connections already paused, new error is: " + ex);
+
             DiscourseException = ex;
             nextDiscourseConnectionAttemptDate = DateTime.UtcNow.AddMinutes(minutes);
         }
@@ -25,23 +31,31 @@ namespace TheDailyWtf.Discourse
         public static IDiscourseApi CreateApi()
         {
 #if DEBUG
+            Logger.Debug("Forcing use of real Discourse API because site compiled in DEBUG mode.");
             return new DiscourseApi(Config.Discourse.Host, Config.Discourse.Username, Config.Discourse.ApiKey);
 #endif
 
             if (DiscourseWorking)
+            {
+                Logger.Debug("Using the real Discourse API because there has not been a recent Discourse connection error.");
                 return new DiscourseApi(Config.Discourse.Host, Config.Discourse.Username, Config.Discourse.ApiKey);
+            }
 
             if (nextDiscourseConnectionAttemptDate < DateTime.UtcNow)
             {
+                Logger.Information("Attempting to connect to Discourse again.");
                 DiscourseException = null;
                 return new DiscourseApi(Config.Discourse.Host, Config.Discourse.Username, Config.Discourse.ApiKey);
             }
 
+            Logger.Debug("Using the mock Discourse API because there was an error previously.");
             return new MockDiscourseApi();
         }
 
-        public static void CreateCommentDiscussion(ArticleModel article)
+        public static int CreateCommentDiscussion(ArticleModel article)
         {
+            Logger.Information("Creating comment discussion for article \"{0}\" (ID={1}).", article.Title, article.Id);
+
             var api = DiscourseHelper.CreateApi();
 
             // create topic and embed <!--ARTICLEID:...--> in the body so the hacky JavaScript 
@@ -50,7 +64,7 @@ namespace TheDailyWtf.Discourse
                 new Category(Config.Discourse.CommentCategory),
                 article.Title,
                 string.Format(
-                    "Discussion for the article: http://{0}\r\n\r\n<!--ARTICLEID:{1}-->", 
+                    "Discussion for the article: {0}\r\n\r\n<!--ARTICLEID:{1}-->", 
                     article.Url,
                     article.Id
                 )
@@ -61,10 +75,13 @@ namespace TheDailyWtf.Discourse
             StoredProcs
                 .Articles_CreateOrUpdateArticle(article.Id, Discourse_Topic_Id: topic.Id)
                 .Execute();
+
+            return topic.Id;
         }
 
         public static void OpenCommentDiscussion(int articleId, int topicId)
         {
+            Logger.Information("Opening comment discussion for article (ID={0}) and topic (ID={1}).", articleId, topicId);
             try
             {
                 var api = DiscourseHelper.CreateApi();
@@ -90,6 +107,7 @@ namespace TheDailyWtf.Discourse
 
         public static void ReassignCommentDiscussion(int articleId, int topicId)
         {
+            Logger.Information("Reassigning comment discussion for article (ID={0}) and topic (ID={1}).", articleId, topicId);
             StoredProcs
                 .Articles_CreateOrUpdateArticle(
                     articleId, 
@@ -106,6 +124,7 @@ namespace TheDailyWtf.Discourse
                     "Topic_" + topicId,
                     () =>
                     {
+                        Logger.Debug("Getting and caching comment discussion for topic (ID={0}).", topicId);
                         var api = DiscourseHelper.CreateApi();
                         return api.GetTopic(topicId);
                     }
@@ -113,6 +132,7 @@ namespace TheDailyWtf.Discourse
             }
             catch (Exception ex)
             {
+                Logger.Error("Error getting comment discussion for topic (ID={0}), error: {1}", topicId, ex);
                 throw new InvalidOperationException(
                     string.Format("An unknown error occurred when attempting to get the Discourse topic #{0}. "
                    + "Verify that this Discourse topic ID actually exists (e.g. /t/{0} relative to forum)", topicId), ex);
@@ -127,6 +147,8 @@ namespace TheDailyWtf.Discourse
                     "FeaturedCommentsForArticle_" + articleId,
                     () =>
                     {
+                        Logger.Debug("Getting and caching featured comments for article (ID={0}).", articleId);
+
                         var api = DiscourseHelper.CreateApi();
 
                         return StoredProcs.Articles_GetFeaturedComments(articleId)
@@ -138,14 +160,17 @@ namespace TheDailyWtf.Discourse
                     }
                 );
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("Error getting featured comments for article (ID={0}), error: {1}", articleId, ex);
                 return new Post[0];
             }
         }
 
         public static void UnfeatureComment(int articleId, int discourseTopicId)
         {
+            Logger.Information("Unfeaturing comment for article (ID={0}) and discourse topic (ID={1}).", articleId, discourseTopicId);
+
             StoredProcs
                 .Articles_UnfeatureComment(articleId, discourseTopicId)
                 .Execute();
@@ -159,6 +184,8 @@ namespace TheDailyWtf.Discourse
                    "SideBarWtfs",
                    () =>
                    {
+                       Logger.Debug("Getting Side Bar WTFs.");
+
                        var api = DiscourseHelper.CreateApi();
                        return api.GetTopicsByCategory(new Category(Config.Discourse.SideBarWtfCategory))
                            .Where(topic => !topic.Pinned && topic.Visible)
@@ -168,14 +195,17 @@ namespace TheDailyWtf.Discourse
                    }
                );
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("Error getting Side Bar WTFs, error: {0}", ex);
                 return new Topic[0];
             }
         }
 
         public static bool PullCommentsFromDiscourse(ArticleModel article)
         {
+            Logger.Debug("Pulling and caching comments from Discourse for article (ID={0}).", article.Id);
+
             const int commentsToPull = 40;
 
             if (article.DiscourseTopicId == null)
@@ -188,15 +218,17 @@ namespace TheDailyWtf.Discourse
                 .Where(c => c.Discourse_Post_Id != null)
                 .ToDictionary(c => (int)c.Discourse_Post_Id);
 
+            Logger.Debug("Cached comments count for article (ID={0}) is: {1}", article.Id, cachedComments.Keys.Count);
+
             var topic = GetDiscussionTopic((int)article.DiscourseTopicId);
-            bool commentsPulled = false;
+            int commentsPulled = 0;
 
             foreach (var post in topic.Posts.Where(p => !p.Username.Equals("PaulaBean", StringComparison.OrdinalIgnoreCase)).Take(commentsToPull))
             {
                 if (cachedComments.ContainsKey(post.Id))
                     continue;
                 
-                commentsPulled = true;
+                commentsPulled++;
 
                 StoredProcs.Comments_CreateOrUpdateComment(
                     article.Id, 
@@ -207,7 +239,12 @@ namespace TheDailyWtf.Discourse
                   ).Execute();
             }
 
-            return commentsPulled;
+            if (commentsPulled > 0)
+                Logger.Debug("Comments were pulled and cached from Discourse for article (ID={0}).", article.Id);
+            else
+                Logger.Debug("No comments were pulled from Discourse for article (ID={0}).", article.Id);
+
+            return commentsPulled > 0;
         }
 
         private static class DiscourseCache

@@ -22,6 +22,54 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class Ads_CreateOrUpdateAd : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Ads_CreateOrUpdateAd(string Ad_Html, int? Ad_Id)
+		{
+			AddParam("@Ad_Html", DbType.String, -1, ParameterDirection.Input, Ad_Html);
+			AddParam("@Ad_Id", DbType.Int32, 0, ParameterDirection.InputOutput, Ad_Id);
+		}
+
+		public int? Ad_Id { get { return GetParamVal<int?>("@Ad_Id"); } }
+		public int? Execute()
+		{
+			this.ExecuteNonQuery();
+			return this.Ad_Id;
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Ads_DeleteAd : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Ads_DeleteAd(int? Ad_Id)
+		{
+			AddParam("@Ad_Id", DbType.Int32, 0, ParameterDirection.Input, Ad_Id);
+		}
+		public IEnumerable<Tables.Ads> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Ads>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Ads_GetAds : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Ads_GetAds()
+		{
+		}
+		public IEnumerable<Tables.Ads> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Ads>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Articles_CreateOrUpdateArticle : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public Articles_CreateOrUpdateArticle(int? Article_Id, string Article_Slug, DateTime? Published_Date, string PublishedStatus_Name, string Author_Slug, string Title_Text, string Series_Slug, string Body_Html, int? Discourse_Topic_Id, string Discourse_Topic_Opened)
@@ -85,6 +133,21 @@ namespace TheDailyWtf.Data.StoredProcedures
 		public Articles_GetArticleById(int? Article_Id)
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
+		}
+		public Tables.Articles_Extended Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Articles_Extended>().FirstOrDefault();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Articles_GetArticleByLegacyPost : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Articles_GetArticleByLegacyPost(int? Post_Id)
+		{
+			AddParam("@Post_Id", DbType.Int32, 0, ParameterDirection.Input, Post_Id);
 		}
 		public Tables.Articles_Extended Execute()
 		{
@@ -193,8 +256,9 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Articles_GetUnpublishedArticles : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Articles_GetUnpublishedArticles()
+		public Articles_GetUnpublishedArticles(string Author_Slug)
 		{
+			AddParam("@Author_Slug", DbType.String, 255, ParameterDirection.Input, Author_Slug);
 		}
 		public IEnumerable<Tables.Articles_Extended> Execute()
 		{
@@ -223,7 +287,7 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Authors_CreateOrUpdateAuthor : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url)
+		public Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url, YNIndicator? Active_Indicator)
 		{
 			AddParam("@Author_Slug", DbType.String, 255, ParameterDirection.Input, Author_Slug);
 			AddParam("@Display_Name", DbType.String, 255, ParameterDirection.Input, Display_Name);
@@ -231,6 +295,7 @@ namespace TheDailyWtf.Data.StoredProcedures
 			AddParam("@Bio_Html", DbType.String, -1, ParameterDirection.Input, Bio_Html);
 			AddParam("@ShortBio_Text", DbType.String, -1, ParameterDirection.Input, ShortBio_Text);
 			AddParam("@Image_Url", DbType.String, 255, ParameterDirection.Input, Image_Url);
+			AddParam("@Active_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Input, Active_Indicator != null ? Active_Indicator.ToString() : null);
 		}
 		public void Execute()
 		{
@@ -348,9 +413,9 @@ namespace TheDailyWtf.Data.StoredProcedures
 			AddParam("@Title_Text", DbType.String, 255, ParameterDirection.Input, Title_Text);
 			AddParam("@Description_Text", DbType.String, -1, ParameterDirection.Input, Description_Text);
 		}
-		public Tables.Articles_Extended Execute()
+		public void Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.Articles_Extended>().FirstOrDefault();
+			this.ExecuteNonQuery();
 		}
 	}
 
@@ -388,6 +453,21 @@ namespace TheDailyWtf.Data
 {
 	public static class StoredProcs
 	{
+		public static StoredProcedures.Ads_CreateOrUpdateAd Ads_CreateOrUpdateAd(string Ad_Html, int? Ad_Id = null)
+		{
+			return new StoredProcedures.Ads_CreateOrUpdateAd(Ad_Html, Ad_Id);
+		}
+
+		public static StoredProcedures.Ads_DeleteAd Ads_DeleteAd(int? Ad_Id)
+		{
+			return new StoredProcedures.Ads_DeleteAd(Ad_Id);
+		}
+
+		public static StoredProcedures.Ads_GetAds Ads_GetAds()
+		{
+			return new StoredProcedures.Ads_GetAds();
+		}
+
 		public static StoredProcedures.Articles_CreateOrUpdateArticle Articles_CreateOrUpdateArticle(int? Article_Id, string Article_Slug = null, DateTime? Published_Date = null, string PublishedStatus_Name = null, string Author_Slug = null, string Title_Text = null, string Series_Slug = null, string Body_Html = null, int? Discourse_Topic_Id = null, string Discourse_Topic_Opened = null)
 		{
 			return new StoredProcedures.Articles_CreateOrUpdateArticle(Article_Id, Article_Slug, Published_Date, PublishedStatus_Name, Author_Slug, Title_Text, Series_Slug, Body_Html, Discourse_Topic_Id, Discourse_Topic_Opened);
@@ -406,6 +486,11 @@ namespace TheDailyWtf.Data
 		public static StoredProcedures.Articles_GetArticleById Articles_GetArticleById(int? Article_Id)
 		{
 			return new StoredProcedures.Articles_GetArticleById(Article_Id);
+		}
+
+		public static StoredProcedures.Articles_GetArticleByLegacyPost Articles_GetArticleByLegacyPost(int? Post_Id)
+		{
+			return new StoredProcedures.Articles_GetArticleByLegacyPost(Post_Id);
 		}
 
 		public static StoredProcedures.Articles_GetArticleBySlug Articles_GetArticleBySlug(string Article_Slug)
@@ -438,9 +523,9 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_GetRecentArticles(PublishedStatus_Name, Series_Slug, Author_Slug, Article_Count);
 		}
 
-		public static StoredProcedures.Articles_GetUnpublishedArticles Articles_GetUnpublishedArticles()
+		public static StoredProcedures.Articles_GetUnpublishedArticles Articles_GetUnpublishedArticles(string Author_Slug)
 		{
-			return new StoredProcedures.Articles_GetUnpublishedArticles();
+			return new StoredProcedures.Articles_GetUnpublishedArticles(Author_Slug);
 		}
 
 		public static StoredProcedures.Articles_UnfeatureComment Articles_UnfeatureComment(int? Article_Id, int? Discourse_Post_Id)
@@ -448,9 +533,9 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_UnfeatureComment(Article_Id, Discourse_Post_Id);
 		}
 
-		public static StoredProcedures.Authors_CreateOrUpdateAuthor Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url)
+		public static StoredProcedures.Authors_CreateOrUpdateAuthor Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url, YNIndicator? Active_Indicator)
 		{
-			return new StoredProcedures.Authors_CreateOrUpdateAuthor(Author_Slug, Display_Name, Admin_Indicator, Bio_Html, ShortBio_Text, Image_Url);
+			return new StoredProcedures.Authors_CreateOrUpdateAuthor(Author_Slug, Display_Name, Admin_Indicator, Bio_Html, ShortBio_Text, Image_Url, Active_Indicator);
 		}
 
 		public static StoredProcedures.Authors_GetAuthorBySlug Authors_GetAuthorBySlug(string Author_Slug)

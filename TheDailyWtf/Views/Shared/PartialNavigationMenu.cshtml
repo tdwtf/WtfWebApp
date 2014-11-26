@@ -1,108 +1,113 @@
 @model TheDailyWtf.ViewModels.NavigationMenuViewModel
 
 <!-- container to normalize fixed navigation behavior when scrolling -->
-<div class="navcontain">
-    <div class="navbar dailywtf" gumby-fixed="top" id="nav3">
-        <div class="row" style="position: relative;">
-            <div class="three columns">
-                <a href="/">
-                    <img src="/content/images/wtf-logo.png" class="logo" /></a>
-            </div>
-            <a class="toggle" gumby-trigger="#nav3 > .row > ul" href="#"><i class="icon-menu"></i></a>
-            <ul class="seven columns" style="float: left;">
-                <li class="featured">
-                    <a href="/series/feature-articles">Feature Articles</a>
-                    <div class="megadropdown">
-                        <div class="content">
-                            <div class="row">
-                                <div>
-                                    <h4>Most Recent Articles</h4>
-                                    <ul>
-                                        @foreach (var article in Model.RecentFeaturedArticles)
-                                        { 
-                                            <li>
-                                                <div class="nav-article"><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
+<div class="navcontain no-print">
+   <div class="navbar dailywtf" gumby-fixed="top" id="nav3">
+      <div class="row" style="position: relative;">
+         <div class="three columns">
+            <a href="/">
+               <img src="/content/images/wtf-logo.png" class="logo" />
+            </a>
+         </div>
+         <a class="toggle" gumby-trigger="#nav3 > .row > ul" href="#"><i class="icon-menu"></i></a>
+         <ul class="seven columns" style="float: left;">
+            <li class="featured">
+               <a href="/series/feature-articles">Feature Articles</a>
+               <div class="megadropdown">
+                  <div class="content">
+                     <div class="row">
+                        <div>
+                           <h4>Most Recent Articles</h4>
+                           <ul>
+                              @foreach (var article in Model.RecentFeaturedArticles)
+                              {
+                                 <li>
+                                    <div class="nav-article"><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
+                                 </li>
+                              }
+                           </ul>
                         </div>
-                    </div>
-                </li>
-                <li class="code">
-                    <a href="/series/code-sod">CodeSOD</a>
-                    <div class="megadropdown">
-                        <div class="content">
-                            <div class="row">
-                                <div>
-                                    <h4>Most Recent Articles</h4>
-                                    <ul>
-                                        @foreach (var article in Model.RecentCodeSodArticles)
-                                        { 
-                                            <li>
-                                                <div class="nav-article"><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <li class="code">
+               <a href="/series/code-sod">CodeSOD</a>
+               <div class="megadropdown">
+                  <div class="content">
+                     <div class="row">
+                        <div>
+                           <h4>Most Recent Articles</h4>
+                           <ul>
+                              @foreach (var article in Model.RecentCodeSodArticles)
+                              {
+                                 <li>
+                                    <div class="nav-article"><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
+                                 </li>
+                              }
+                           </ul>
                         </div>
-                    </div>
-                </li>
-                <li class="errord">
-                    <a href="/series/errord">Error'd</a>
-                    <div class="megadropdown">
-                        <div class="content">
-                            <div class="row">
-                                <div>
-                                    <h4>Most Recent Articles</h4>
-                                    <ul>
-                                        @foreach (var article in Model.RecentErrordArticles)
-                                        { 
-                                            <li>
-                                                <div class="nav-article"><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <li class="errord">
+               <a href="/series/errord">Error'd</a>
+               <div class="megadropdown">
+                  <div class="content">
+                     <div class="row">
+                        <div>
+                           <h4>Most Recent Articles</h4>
+                           <ul>
+                              @foreach (var article in Model.RecentErrordArticles)
+                              {
+                                 <li>
+                                    <div class="nav-article"><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
+                                 </li>
+                              }
+                           </ul>
                         </div>
-                    </div>
-                </li>
-                <li class="tales">
-                    <a target="_blank" href="http://what.thedailywtf.com" class="tooltip" data-tooltip="Forum opens in a new tab"><i class="icon-export"></i>Forums</a>
-                </li>
-                <li class="soapbox">
-                    <a href="/series/other">Other Articles</a>
-                    <div class="megadropdown">
-                        <div class="content">
-                            <div class="row">
-                                <div>
-                                    <h4>Other Series</h4>
-                                    <ul>
-                                        @foreach (var series in Model.OtherSeries)
-                                        { 
-                                            <li>
-                                                <div class="nav-article"><a class="clean" href="/series/@series.Slug">@series.Title</a></div>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <li class="tales">
+               <a target="_blank" href="http://what.thedailywtf.com" class="tooltip" data-tooltip="Forum opens in a new tab"><i class="icon-export"></i>Forums</a>
+            </li>
+            <li class="soapbox">
+               <a href="#">Other Articles</a>
+               <div class="megadropdown">
+                  <div class="content">
+                     <div class="row">
+                        <div>
+                           <ul>
+                              <li><div class="nav-article"><a class="clean" href="/articles/random">Random Article</a></div></li>
+                           </ul>
+                           <h4>Other Series</h4>
+                           <ul>
+                              @foreach (var series in Model.OtherSeries)
+                              {
+                                 <li>
+                                    <div class="nav-article"><a class="clean" href="/series/@series.Slug">@series.Title</a></div>
+                                 </li>
+                              }
+                           </ul>
                         </div>
-                    </div>
-                </li>
-            </ul>
-           @*<div class="search-container">
-              <form method="get" action="/search">
-                 <ul>
-                    <li class="field">
-                       <input name="q" class="search input" type="search" placeholder="Search" />
-                    </li>
-                 </ul>
-              </form>
-           </div>*@
-        </div>
-    </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+         </ul>
+         @*<div class="search-container">
+               <form method="get" action="/search">
+                  <ul>
+                     <li class="field">
+                        <input name="q" class="search input" type="search" placeholder="Search" />
+                     </li>
+                  </ul>
+               </form>
+            </div>*@
+      </div>
+   </div>
 </div>
+

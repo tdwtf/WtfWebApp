@@ -21,7 +21,8 @@ CREATE PROCEDURE [Authors_CreateOrUpdateAuthor]
     @Admin_Indicator YNINDICATOR,
     @Bio_Html NVARCHAR(MAX),
     @ShortBio_Text NVARCHAR(MAX),
-    @Image_Url NVARCHAR(255)
+    @Image_Url NVARCHAR(255),
+    @Active_Indicator YNINDICATOR
 )
 AS
 BEGIN
@@ -37,6 +38,7 @@ BEGIN
                ,[Bio_Html] = @Bio_Html
                ,[ShortBio_Text] = @ShortBio_Text
                ,[Image_Url] = @Image_Url
+               ,[Active_Indicator] = @Active_Indicator
          WHERE [Author_Slug] = @Author_Slug
 
     END
@@ -51,6 +53,7 @@ BEGIN
            ,[Bio_Html]
            ,[ShortBio_Text]
            ,[Image_Url]
+           ,[Active_Indicator]
         )
         VALUES
         (
@@ -60,6 +63,7 @@ BEGIN
            ,@Bio_Html
            ,@ShortBio_Text
            ,@Image_Url
+           ,@Active_Indicator
         )
 
     END

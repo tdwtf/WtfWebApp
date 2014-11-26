@@ -16,16 +16,7 @@ namespace TheDailyWtf.Controllers
 
         public ActionResult Advertise()
         {
-            return View(new HomeIndexViewModel());
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Advertise(AdvertiserContactFormModel advertiser)
-        {
-            // send contact email...
-
-            return RedirectToAction("advertise");
+            return Redirect("/contact");
         }
 
         public ActionResult Privacy()

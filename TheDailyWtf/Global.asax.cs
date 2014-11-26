@@ -5,7 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using Inedo.Diagnostics;
 using Newtonsoft.Json;
+using TheDailyWtf.Logs;
 using TheDailyWtf.Security;
 
 namespace TheDailyWtf
@@ -27,6 +29,11 @@ namespace TheDailyWtf
 
         protected void Application_Start()
         {
+            if (Config.Wtf.Logs.Enabled)
+            {
+                Logger.AddMessenger(new FileSystemMessenger(Config.Wtf.Logs.BaseDirectory, Config.Wtf.Logs.MinimumLevel));
+            }
+            
             AreaRegistration.RegisterAllAreas();
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

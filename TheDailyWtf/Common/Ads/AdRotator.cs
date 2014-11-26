@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Inedo;
+using Inedo.Diagnostics;
 
 namespace TheDailyWtf
 {
@@ -20,6 +20,7 @@ namespace TheDailyWtf
 
         public static void Initialize(string rootPath)
         {
+            Logger.Information("Initializing the AdRotator at path \"{0}\"...", rootPath);
             try
             {
                 var dirInfo = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, rootPath));
@@ -39,9 +40,12 @@ namespace TheDailyWtf
                         .SelectMany(c => c.Ads)
                         .ToDictionary(a => a.UniqueId, StringComparer.OrdinalIgnoreCase);
                 }
+
+                Logger.Information("AdRotator initialized successfully.");
             }
             catch (Exception ex)
             {
+                Logger.Error("There was an error loading the AdRotator: " + ex);
                 LoadException = ex;
             }
         }
@@ -81,7 +85,7 @@ namespace TheDailyWtf
 
     public struct Dimensions : IEquatable<Dimensions>
     {
-        public static readonly Dimensions Leaderboard = new Dimensions(970, 90);
+        public static readonly Dimensions Leaderboard = new Dimensions(728, 90);
         public static readonly Dimensions SideBar = new Dimensions(300, 250);
 
         public static Dimensions? TryParse(string s)

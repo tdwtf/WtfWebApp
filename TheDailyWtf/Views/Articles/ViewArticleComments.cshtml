@@ -8,30 +8,30 @@
       <div class="content">
          <div class="row">
             <div class="container">
-
-               <h1>@Model.Article.Title</h1>      
-               <span class="articleMeta">@Model.ViewCommentsHeading 
+               <h1>@Model.Article.Title</h1>
+               <a href="@Model.Article.Url">&laquo; Return to Article</a>
+               <span class="articleMeta">
+                  @Model.ViewCommentsHeading
                @if (Model.Article.DiscourseTopicId != null)
                {
-                  <a class="top-discourse-link clean" href="@Model.DiscourseTopicUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
+                  <a class="top-discourse-link clean" href="@Model.Article.DiscourseThreadUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
                }
-               </span>         
-                  <div class="row">
-                     <div class="twelve columns">
-                        
-                        
-                        @Html.Partial(Views.Shared.PartialComments, Model.Comments)
-                     </div>
-                  </div>
-               <div>
-                  <a href="@Model.Article.Url">&laquo; Return to Article</a>
-                  @if (Model.Article.DiscourseTopicId != null) 
-                  {
-                     <a class="discourse-link" href="@Model.DiscourseTopicUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
-                  }
+            </span>
+            
+            <div class="row">
+               <div class="twelve columns">
+                  @Html.Partial(Views.Shared.PartialComments, Model.Comments)
                </div>
+            </div>
+            <div>
+               <a href="@Model.Article.Url">&laquo; Return to Article</a>
+               @if (Model.Article.DiscourseTopicId != null)
+               {
+                  <a class="discourse-link" href="@Model.DiscourseNextUnreadCommentUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
+               }
             </div>
          </div>
       </div>
    </div>
+</div>
 </div>

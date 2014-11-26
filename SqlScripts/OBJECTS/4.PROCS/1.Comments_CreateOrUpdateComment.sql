@@ -25,7 +25,14 @@ CREATE PROCEDURE [Comments_CreateOrUpdateComment]
 AS
 BEGIN
 
-    IF (EXISTS(SELECT * FROM [Comments] WHERE [Discourse_Post_Id] = @Discourse_Post_Id))
+BEGIN TRY
+	BEGIN TRANSACTION
+
+    -- using an exclusive table lock because it's possible to read that a comment doesn't exist 
+    -- while the comment is being added, and therefore it can be added twice, which causes
+    -- errors in the web application since Discourse_Post_Id should be unique
+
+    IF (EXISTS(SELECT * FROM [Comments] WITH (TABLOCKX) WHERE [Discourse_Post_Id] = @Discourse_Post_Id))
     BEGIN
 
         UPDATE [Comments]
@@ -59,6 +66,14 @@ BEGIN
         )
 
     END
+
+	COMMIT
+    
+END TRY BEGIN CATCH
+	IF XACT_STATE()<>0 ROLLBACK
+	EXEC [HandleError]
+END CATCH
+
 
 END
 GO

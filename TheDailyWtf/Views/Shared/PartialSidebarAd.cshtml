@@ -1,18 +1,9 @@
 ﻿@model Ad
 
 <div class="container da-space hideNonDesktop">
-   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-   <!-- TDWTF-Rectangle -->
-
-   <ins class="adsbygoogle"
-        style="display:inline-block;width:300px;height:250px"
-        data-ad-client="ca-pub-8306764823130417"
-        data-ad-slot="6949891283"></ins>
-
-   <script>
-
-      (adsbygoogle = window.adsbygoogle || []).push({});
-
-   </script>
+   <div class="daBlock da-300x250">
+      <a href="@Model.Company.Url">
+         <img src="@Model.ImageUrl" />
+      </a>
+   </div>
 </div>

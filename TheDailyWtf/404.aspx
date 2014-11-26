@@ -25,7 +25,7 @@
     <div id="wrapper">
         <div class="row">
             <div class="twelve columns">
-                <h1>404 - Not Found</h1>
+                <h1>404 - Not Found (Uninclused)</h1>
                 <p>
                     The page you're attempting to view was not found on our server.
                 </p>
@@ -43,7 +43,7 @@
             </div>
             <div class="row">
                 <p>
-                    Copyright &#169; 2004 - 2014 Alex Papadimoulis - v1.0
+                    Copyright &#169; 2004 - 2014 Inedo Publishing
                 </p>
             </div>
         </footer>

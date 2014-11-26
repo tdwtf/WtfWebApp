@@ -1,0 +1,27 @@
+@model EditAdViewModel
+
+@{
+   Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>@Model.Heading</h2>
+<form method="post">
+   @Html.AntiForgeryToken()
+   <div class="field">
+      <div>Body Html:</div>
+      <textarea name="ad.bodyhtml">@Html.Raw(Model.Ad.BodyHtml)</textarea>
+   </div>
+   @Html.HiddenFor(m => m.Ad.Id)
+   <div class="medium primary btn">
+      <input class="input" type="submit" value="Save" />
+   </div>
+</form>
+
+<form method="post" action="/admin/ad/delete/@Model.AdId">
+   <div>
+      To remove this ad from rotation, it may be deleted.
+      <div class="medium primary btn">
+         <input class="input" type="submit" value="Delete" onclick="return confirm('Are you sure?');" />
+      </div>
+   </div>
+</form>

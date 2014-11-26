@@ -11,24 +11,23 @@ namespace TheDailyWtf.ViewModels
         {
             this.Article = article;
             this.Comments = CommentModel.FromArticle(article);
-            this.MaxDiscoursePostId = this.Comments.Any() ? this.Comments.Max(c => c.DiscoursePostId ?? 0) : 0;
-            if (this.MaxDiscoursePostId > 0)
-                this.DiscourseTopicUrl = this.Article.DiscourseThreadUrl + "/" + this.MaxDiscoursePostId;
+            if (this.Article.CachedCommentCount > 1)
+                this.DiscourseNextUnreadCommentUrl = this.Article.DiscourseThreadUrl + "/" + this.Article.CachedCommentCount;
             else
-                this.DiscourseTopicUrl = this.Article.DiscourseThreadUrl;
+                this.DiscourseNextUnreadCommentUrl = this.Article.DiscourseThreadUrl;
         }
 
         public ArticleModel Article { get; private set; }
         public IEnumerable<CommentModel> Comments { get; private set; }
         public int MaxDiscoursePostId { get; private set; }
-        public string DiscourseTopicUrl { get; private set; }
+        public string DiscourseNextUnreadCommentUrl { get; private set; }
         public string ViewCommentsHeading 
         { 
             get 
             {
                 return string.Format(
                     "Article Comments ({0} {1} comments)", 
-                    this.Article.CachedCommentCount < this.Article.DiscourseCommentCount ? "Previewing" : "Viewing", 
+                    this.Article.CachedCommentCount < this.Article.DiscourseCommentCount ? "Previewing first" : "Viewing", 
                     this.CommentsFraction
                 ); 
             } 
@@ -38,7 +37,7 @@ namespace TheDailyWtf.ViewModels
             get
             {
                 if (this.Article.CachedCommentCount < this.Article.DiscourseCommentCount)
-                    return string.Format("{0}/{1}", this.Article.CachedCommentCount, Math.Max(this.Article.DiscourseCommentCount, this.Article.CachedCommentCount));
+                    return string.Format("{0} of {1}", this.Article.CachedCommentCount, Math.Max(this.Article.DiscourseCommentCount, this.Article.CachedCommentCount));
                 else
                     return this.Article.CachedCommentCount.ToString();
             }

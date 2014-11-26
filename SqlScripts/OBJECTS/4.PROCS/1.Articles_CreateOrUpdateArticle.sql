@@ -30,8 +30,28 @@ CREATE PROCEDURE [Articles_CreateOrUpdateArticle]
 AS
 BEGIN
 
+    DECLARE @AssignRandomAdId_Indicator YNINDICATOR = 'N'
+
     IF (EXISTS(SELECT * FROM [Articles] WHERE [Article_Id] = @Article_Id))
     BEGIN
+
+        IF (@PublishedStatus_Name = 'Published')
+        BEGIN
+
+        DECLARE @Existing_PublishedStatus_Name VARCHAR(15)
+        DECLARE @Existing_Ad_Id INT
+
+        SELECT @Existing_PublishedStatus_Name = [PublishedStatus_Name],
+               @Existing_Ad_Id = [Ad_Id]
+          FROM [Articles] 
+         WHERE [Article_Id] = @Article_Id
+
+         IF (@Existing_PublishedStatus_Name <> 'Published' AND @Existing_Ad_Id IS NULL)
+            SET @AssignRandomAdId_Indicator = 'Y'
+
+        END
+
+         
 
         UPDATE [Articles]
            SET 
@@ -49,6 +69,9 @@ BEGIN
     END
     ELSE
     BEGIN
+
+        IF (@PublishedStatus_Name = 'Published')
+            SET @AssignRandomAdId_Indicator = 'Y'
 
         INSERT INTO [Articles]
         (
@@ -76,6 +99,15 @@ BEGIN
         )
 
         SET @Article_Id = SCOPE_IDENTITY()
+
+    END
+
+    IF (@AssignRandomAdId_Indicator = 'Y')
+    BEGIN
+
+        UPDATE [Articles]
+           SET [Ad_Id] = (SELECT TOP 1 [Ad_Id] FROM [Ads] ORDER BY NEWID())
+         WHERE [Article_Id] = @Article_Id
 
     END
 
