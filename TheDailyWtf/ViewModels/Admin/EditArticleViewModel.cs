@@ -31,7 +31,7 @@ namespace TheDailyWtf.ViewModels
                 this.Time = this.Article.PublishedDate.Value.TimeOfDay.ToString();
             }
 
-            this.UseCustomSlug = !string.Equals(Regex.Replace(this.Article.Title, @"[^a-z0-9_]+", "-", RegexOptions.IgnoreCase), this.Article.Slug, StringComparison.OrdinalIgnoreCase);
+            this.UseCustomSlug = !string.Equals(Regex.Replace(this.Article.Title ?? "", @"[^a-z0-9_]+", "-", RegexOptions.IgnoreCase), this.Article.Slug, StringComparison.OrdinalIgnoreCase);
         }
 
         public AuthorPrincipal User { get; set; }
