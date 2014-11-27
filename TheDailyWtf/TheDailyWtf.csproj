@@ -336,7 +336,7 @@
     <Content Include="Views\Admin\EditAd.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".well-known/keybase.txt" />
+    <Content Include=".well-known\keybase.txt" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
