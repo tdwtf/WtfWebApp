@@ -1781,6 +1781,10 @@ img { -ms-interpolation-mode: bicubic; }
     .navcontain { height: auto; }
 }
 
+@media only screen and (min-width: 769px) and (max-width: 928px) {
+    .navcontain { height: 140px; }
+}
+
 .pretty.navbar { background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7b8085), color-stop(100%, #313436)); background-image: -webkit-linear-gradient(#7b8085,#313436); background-image: -moz-linear-gradient(#7b8085,#313436); background-image: -o-linear-gradient(#7b8085,#313436); background-image: linear-gradient(#7b8085,#313436); -webkit-box-shadow: inset 0 1px 1px #7b8085,0 1px 2px rgba(0,0,0,0.8) !important; -moz-box-shadow: inset 0 1px 1px #7b8085,0 1px 2px rgba(0,0,0,0.8) !important; box-shadow: inset 0 1px 1px #7b8085,0 1px 2px rgba(0,0,0,0.8) !important; }
 
 @media only screen and (max-width: 767px) {
