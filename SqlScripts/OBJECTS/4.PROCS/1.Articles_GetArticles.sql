@@ -28,6 +28,7 @@ BEGIN
     SELECT * FROM [Articles_Extended]
             WHERE (@Series_Slug IS NULL OR [Series_Slug] = @Series_Slug)
               AND (@PublishedStatus_Name IS NULL OR [PublishedStatus_Name] = @PublishedStatus_Name)
+              AND (@PublishedStatus_Name <> 'Published' OR [Published_Date] < GETDATE())
               AND (@RangeStart_Date IS NULL OR [Published_Date] > @RangeStart_Date)
               AND (@RangeEnd_Date IS NULL OR [Published_Date] < @RangeEnd_Date)
          ORDER BY [Published_Date] DESC
