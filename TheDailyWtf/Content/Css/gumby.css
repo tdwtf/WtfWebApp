@@ -1717,14 +1717,6 @@ img { -ms-interpolation-mode: bicubic; }
 
         .navbar .logo a img { max-height: 95%; }
 
-@media only screen and (max-width: 767px) {
-    .navbar .logo { float: left; display: inline; }
-
-        .navbar .logo a { padding: 0; }
-
-            .navbar .logo a img {  max-width: 100%; }
-}
-
 .navbar ul { display: table; vertical-align: middle; margin: 0; float: none; }
 
 @media only screen and (max-width: 767px) {

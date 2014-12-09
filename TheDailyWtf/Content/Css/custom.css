@@ -100,11 +100,9 @@ div.validation-summary-errors ul li { list-style-type: disc; margin-left: 15px; 
 
 .inset { float: right; margin: 8pt; width: 52%; }
 
-@media (min-width: 767px) {
-    .navbar.dailywtf.fixed .logo { margin: 9px 6px 6px 0; max-width: inherit; height: 45px; }
-}
+.navbar.dailywtf.fixed .logo { margin: 9px 6px 6px 0; max-width: inherit; height: 45px; }
+
 @media (max-width: 767px) {
-    .navbar.dailywtf.fixed .logo { max-width: inherit; height: 60px; }
     .navbar.dailywtf div.megadropdown { display: none !important; }
     .navbar.dailywtf li > a { color: #fff; }
 }
