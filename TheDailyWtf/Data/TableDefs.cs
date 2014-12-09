@@ -56,6 +56,7 @@ namespace TheDailyWtf.Data
 			public const string Title_Text = "Title_Text";
 			public const string Series_Slug = "Series_Slug";
 			public const string Body_Html = "Body_Html";
+			public const string BodyAndAd_Html = "BodyAndAd_Html";
 			public const string Discourse_Topic_Id = "Discourse_Topic_Id";
 			public const string Discourse_Topic_Opened = "Discourse_Topic_Opened";
 			public const string Previous_Article_Id = "Previous_Article_Id";

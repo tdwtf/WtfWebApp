@@ -25,6 +25,8 @@ namespace TheDailyWtf.Models
         public string SummaryHtml { get; set; }
         [AllowHtml]
         public string BodyHtml { get; set; }
+        [AllowHtml]
+        public string BodyAndAdHtml { get; set; }
         [Required]
         public string Title { get; set; }
         public string RssTitle
@@ -191,6 +193,7 @@ namespace TheDailyWtf.Models
                 Slug = article.Article_Slug,
                 Author = AuthorModel.FromTable(article),
                 BodyHtml = article.Body_Html,
+                BodyAndAdHtml = article.BodyAndAd_Html,
                 DiscourseCommentCount = (int)article.Cached_Comment_Count,
                 CachedCommentCount = (int)article.Cached_Comment_Count,
                 DiscourseTopicId = article.Discourse_Topic_Id,

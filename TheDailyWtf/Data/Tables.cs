@@ -56,6 +56,7 @@ namespace TheDailyWtf.Data
 			public string Title_Text { get; set; }
 			public string Series_Slug { get; set; }
 			public string Body_Html { get; set; }
+			public string BodyAndAd_Html { get; set; }
 			public int? Discourse_Topic_Id { get; set; }
 			public string Discourse_Topic_Opened { get; set; }
 			public int? Previous_Article_Id { get; set; }
@@ -73,7 +74,7 @@ namespace TheDailyWtf.Data
 			public string Series_Title_Text { get; set; }
 			public string Series_Description_Text { get; set; }
 			public int? Cached_Comment_Count { get; set; }
-			public DateTime? Last_Comment_Date { get; set; }
+			public DateTime Last_Comment_Date { get; set; }
 			public string Ad_Html { get; set; }
 		}
 		public class Authors
