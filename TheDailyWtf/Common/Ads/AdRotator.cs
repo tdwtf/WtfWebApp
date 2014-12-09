@@ -188,7 +188,7 @@ namespace TheDailyWtf
 
     public sealed class Company : IEquatable<Company>
     {
-        public static readonly Company Unknown = new Company { Name = "Unknown", Url = "/ads" };
+        public static readonly Company Unknown = new Company { Name = "Unknown" };
 
         private Company() { }
 
@@ -196,17 +196,25 @@ namespace TheDailyWtf
         {
             this.Directory = companyDir.FullName;
             this.Name = companyDir.Name;
-            this.Ads = companyDir.EnumerateFiles().Select(f => new Ad(f, dimensions, this)).ToList().AsReadOnly();
             var companyElement = urls.Root.Elements("company")
                 .FirstOrDefault(a => (string)a.Attribute("name") == companyDir.Name);
+            Dictionary<string, string> customAdUrls = null;
+            string defaultUrl = null;
             if (companyElement != null)
-                this.Url = companyElement.Attribute("url").Value;
+            {
+                defaultUrl = (string)companyElement.Attribute("defaultUrl");
+                customAdUrls = companyElement.Elements("ad")
+                    .Select(el => new { FileName = (string)el.Attribute("fileName"), Url = (string)el.Attribute("url") })
+                    .Where(a => a.FileName != null && a.Url != null)
+                    .ToDictionary(a => a.FileName, a => a.Url, StringComparer.OrdinalIgnoreCase);
+            }
+
+            this.Ads = companyDir.EnumerateFiles().Select(f => new Ad(f, dimensions, defaultUrl, customAdUrls)).ToList().AsReadOnly();
         }
 
         public string Directory { get; private set; }
         public string Name { get; private set; }
         public ReadOnlyCollection<Ad> Ads { get; private set; }
-        public string Url { get; private set; }
 
         public bool Equals(Company other)
         {
@@ -232,23 +240,28 @@ namespace TheDailyWtf
 
     public sealed class Ad
     {
-        public static readonly Ad Error = new Ad { ImageUrl = "/content/images/ad-load-error.png", Company = Company.Unknown };
+        public static readonly Ad Error = new Ad { ImageUrl = "/content/images/ad-load-error.png" };
 
         private Ad() { }
 
-        public Ad(FileInfo file, Dimensions dimensions, Company company)
+        public Ad(FileInfo file, Dimensions dimensions, string defaultUrl, Dictionary<string, string> customAdUrls)
         {
             this.DiskPath = file.FullName;
-            this.Company = company;
             this.Dimensions = dimensions;
             this.UniqueId = Guid.NewGuid().ToString("N");
             this.ImageUrl = "/ads/" + this.UniqueId;
+            
+            string adUrl;
+            if (customAdUrls != null && customAdUrls.TryGetValue(file.Name, out adUrl))
+                this.Url = adUrl;
+            else
+                this.Url = defaultUrl ?? "#";
         }
 
         public string UniqueId { get; private set; }
         public string DiskPath { get; private set; }
-        public Company Company { get; private set; }
         public Dimensions Dimensions { get; private set; }
         public string ImageUrl { get; private set; }
+        public string Url { get; private set; }
     }
 }
