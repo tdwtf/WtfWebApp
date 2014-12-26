@@ -9,17 +9,14 @@ namespace TheDailyWtf.Controllers
 {
     public class AdsController : Controller
     {
-        public ActionResult Index()
-        {
-            return View(new HomeIndexViewModel { ShowLeaderboardAd = false });
-        }
-
         public ActionResult ViewAd(string id)
         {
             var ad = AdRotator.GetAdById(id);
             if (ad != null)
             {
-                StoredProcs.AdImpressions_IncrementCount(ad.FileName, DateTime.Now.Date, 1).Execute();
+                bool addImpression = this.Request.QueryString["noimpression"] == null;
+                if (addImpression)
+                    StoredProcs.AdImpressions_IncrementCount(ad.FileName, DateTime.Now.Date, 1).Execute();
                 return File(ad.DiskPath, MimeMapping.GetMimeMapping(ad.DiskPath));
             }
 

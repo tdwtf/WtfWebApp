@@ -212,5 +212,13 @@ namespace TheDailyWtf.Controllers
 
             return RedirectToAction("index");
         }
+
+        public ActionResult ViewAds(DateTime? start, DateTime? end)
+        {
+            if (!this.User.IsAdmin)
+                return Redirect("/admin/my-articles");
+
+            return View(new ViewAdsViewModel(start, end));
+        }
     }
 }

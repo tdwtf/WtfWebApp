@@ -263,6 +263,7 @@ namespace TheDailyWtf
         public string FileName { get { return this.file.Name; } }
         public Dimensions Dimensions { get; private set; }
         public string ImageUrl { get; private set; }
+        public string ImageUrlWithoutImpression { get { return this.ImageUrl + "?noimpression=true"; } }
         public string OriginalUrl { get; private set; }
     }
 

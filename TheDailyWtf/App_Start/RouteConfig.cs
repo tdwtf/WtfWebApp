@@ -61,6 +61,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "ViewAds",
+                url: "admin/ads",
+                defaults: new { controller = "Admin", action = "ViewAds" }
+            );
+
+            routes.MapRoute(
                 name: "Rss",
                 url: "rss",
                 defaults: new { controller = "Home", action = "Rss" }

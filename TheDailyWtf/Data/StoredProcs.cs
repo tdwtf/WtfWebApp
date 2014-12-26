@@ -22,6 +22,22 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class AdImpressions_GetImpressions : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public AdImpressions_GetImpressions(DateTime? Start_Date, DateTime? End_Date)
+		{
+			AddParam("@Start_Date", DbType.Date, 0, ParameterDirection.Input, Start_Date);
+			AddParam("@End_Date", DbType.Date, 0, ParameterDirection.Input, End_Date);
+		}
+		public IEnumerable<Tables.AdImpressions> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.AdImpressions>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class AdImpressions_IncrementCount : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public AdImpressions_IncrementCount(string Banner_Name, DateTime? Impression_Date, int? Impression_Count)
@@ -515,6 +531,11 @@ namespace TheDailyWtf.Data
 {
 	public static class StoredProcs
 	{
+		public static StoredProcedures.AdImpressions_GetImpressions AdImpressions_GetImpressions(DateTime? Start_Date, DateTime? End_Date)
+		{
+			return new StoredProcedures.AdImpressions_GetImpressions(Start_Date, End_Date);
+		}
+
 		public static StoredProcedures.AdImpressions_IncrementCount AdImpressions_IncrementCount(string Banner_Name, DateTime? Impression_Date, int? Impression_Count)
 		{
 			return new StoredProcedures.AdImpressions_IncrementCount(Banner_Name, Impression_Date, Impression_Count);

@@ -157,6 +157,7 @@
     <Compile Include="ViewModels\Admin\EditAdViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditSeriesViewModel.cs" />
     <Compile Include="ViewModels\Admin\MyArticlesViewModel.cs" />
+    <Compile Include="ViewModels\Admin\ViewAdsViewModel.cs" />
     <Compile Include="ViewModels\ArticleItemViewModel.cs" />
     <Compile Include="ViewModels\ArticlesIndexViewModel.cs" />
     <Compile Include="ViewModels\ContactFormViewModel.cs" />
@@ -321,7 +322,7 @@
     <Content Include="Views\Shared\PartialSidebarAd.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Ads\Index.cshtml" />
+    <Content Include="Views\Admin\ViewAds.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Submit.cshtml" />
