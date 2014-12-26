@@ -16,8 +16,8 @@ GO
 
 CREATE PROCEDURE [AdImpressions_GetImpressions]
 (
-    @Start_Date DATE NULL,
-    @End_Date DATE NULL
+    @Start_Date DATE = NULL,
+    @End_Date DATE = NULL
 )
 AS
 BEGIN
