@@ -21,6 +21,18 @@ namespace TheDailyWtf.Data
 {
 	public static class TableDefs
 	{
+		public static class AdImpressions
+		{
+			public const string Banner_Name = "Banner_Name";
+			public const string Impression_Date = "Impression_Date";
+			public const string Impression_Count = "Impression_Count";
+		}
+		public static class AdRedirectUrls
+		{
+			public const string Ad_Guid = "Ad_Guid";
+			public const string Redirect_Url = "Redirect_Url";
+			public const string Click_Count = "Click_Count";
+		}
 		public static class Ads
 		{
 			public const string Ad_Id = "Ad_Id";

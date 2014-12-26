@@ -21,6 +21,8 @@ namespace TheDailyWtf.Data
 {
 	public static class TableNames
 	{
+		public const string AdImpressions = "AdImpressions";
+		public const string AdRedirectUrls = "AdRedirectUrls";
 		public const string Ads = "Ads";
 		public const string ArticlePostMappings = "ArticlePostMappings";
 		[Obsolete("Articles is obsolete. Use Articles_Extended instead.", true)]

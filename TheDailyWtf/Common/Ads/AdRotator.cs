@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Inedo;
 using Inedo.Diagnostics;
+using TheDailyWtf.Data;
 
 namespace TheDailyWtf
 {
@@ -13,7 +14,8 @@ namespace TheDailyWtf
     {
         private static ReadOnlyCollection<DimensionRoot> dimensionRoots = new List<DimensionRoot>().AsReadOnly();
         private static readonly Random rng = new Random();
-        private static Dictionary<string, Ad> adsById;        
+        private static Dictionary<string, Ad> adsById;
+        private static AdUrlRedirects adRedirects;
 
         public static IEnumerable<DimensionRoot> DimensionRoots { get { return dimensionRoots; } }
         public static Exception LoadException { get; private set; }
@@ -24,22 +26,20 @@ namespace TheDailyWtf
             try
             {
                 var dirInfo = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, rootPath));
-                string urlFilePath = Path.Combine(dirInfo.FullName, "urls.xml");
-                using (var fs = File.OpenRead(urlFilePath))
-                {
-                    var urls = XDocument.Load(fs);
+                var urlInfo = new AdUrlDocument(Path.Combine(dirInfo.FullName, "urls.xml"));
 
-                    dimensionRoots = dirInfo.EnumerateDirectories()
-                        .Select(d => new DimensionRoot(d, urls))
-                        .Where(r => r.Companies.Count > 0)
-                        .ToList()
-                        .AsReadOnly();
+                dimensionRoots = dirInfo.EnumerateDirectories()
+                    .Select(d => new DimensionRoot(d, urlInfo))
+                    .Where(r => r.Companies.Count > 0)
+                    .ToList()
+                    .AsReadOnly();
 
-                    adsById = dimensionRoots
-                        .SelectMany(r => r.Companies)
-                        .SelectMany(c => c.Ads)
-                        .ToDictionary(a => a.UniqueId, StringComparer.OrdinalIgnoreCase);
-                }
+                adsById = dimensionRoots
+                    .SelectMany(r => r.Companies)
+                    .SelectMany(c => c.Ads)
+                    .ToDictionary(a => a.UniqueId, StringComparer.OrdinalIgnoreCase);
+
+                adRedirects = new AdUrlRedirects(adsById.Values.Select(a => a.OriginalUrl));
 
                 Logger.Information("AdRotator initialized successfully.");
             }
@@ -71,7 +71,17 @@ namespace TheDailyWtf
             if (LoadException != null)
                 return Ad.Error;
 
-            return adsById[id];
+            return adsById.GetValueOrDefault(id);
+        }
+
+        public static string GetOriginalUrlByRedirectGuid(string guid)
+        {
+            return adRedirects.OriginalUrlsByGuid.GetValueOrDefault(guid);
+        }
+
+        public static string GetRedirectUrlFromOriginalUrl(string originalUrl)
+        {
+            return "/fbuster/" + adRedirects.GuidsByOriginalUrl.GetValueOrDefault(originalUrl);
         }
 
         private static int GetRandomIndex(int length) 
@@ -137,7 +147,7 @@ namespace TheDailyWtf
     {
         private int currentCompanyIndex = -1;
 
-        public DimensionRoot(DirectoryInfo dir, XDocument urls)
+        public DimensionRoot(DirectoryInfo dir, AdUrlDocument urls)
         {
             var dim = Dimensions.TryParse(dir.Name);
             if (dim == null)
@@ -192,24 +202,12 @@ namespace TheDailyWtf
 
         private Company() { }
 
-        public Company(DirectoryInfo companyDir, Dimensions dimensions, XDocument urls)
+        public Company(DirectoryInfo companyDir, Dimensions dimensions, AdUrlDocument urls)
         {
             this.Directory = companyDir.FullName;
             this.Name = companyDir.Name;
-            var companyElement = urls.Root.Elements("company")
-                .FirstOrDefault(a => (string)a.Attribute("name") == companyDir.Name);
-            Dictionary<string, string> customAdUrls = null;
-            string defaultUrl = null;
-            if (companyElement != null)
-            {
-                defaultUrl = (string)companyElement.Attribute("defaultUrl");
-                customAdUrls = companyElement.Elements("ad")
-                    .Select(el => new { FileName = (string)el.Attribute("fileName"), Url = (string)el.Attribute("url") })
-                    .Where(a => a.FileName != null && a.Url != null)
-                    .ToDictionary(a => a.FileName, a => a.Url, StringComparer.OrdinalIgnoreCase);
-            }
 
-            this.Ads = companyDir.EnumerateFiles().Select(f => new Ad(f, dimensions, defaultUrl, customAdUrls)).ToList().AsReadOnly();
+            this.Ads = companyDir.EnumerateFiles().Select(f => new Ad(f, dimensions, urls.GetDefaultUrl(this.Name), urls.GetCustomAdUrls(this.Name))).ToList().AsReadOnly();
         }
 
         public string Directory { get; private set; }
@@ -240,28 +238,89 @@ namespace TheDailyWtf
 
     public sealed class Ad
     {
+        private FileInfo file;
+
         public static readonly Ad Error = new Ad { ImageUrl = "/content/images/ad-load-error.png" };
 
         private Ad() { }
 
         public Ad(FileInfo file, Dimensions dimensions, string defaultUrl, Dictionary<string, string> customAdUrls)
         {
-            this.DiskPath = file.FullName;
+            this.file = file;
             this.Dimensions = dimensions;
             this.UniqueId = Guid.NewGuid().ToString("N");
-            this.ImageUrl = "/ads/" + this.UniqueId;
+            this.ImageUrl = "/fblast/" + this.UniqueId;
             
             string adUrl;
             if (customAdUrls != null && customAdUrls.TryGetValue(file.Name, out adUrl))
-                this.Url = adUrl;
+                this.OriginalUrl = adUrl;
             else
-                this.Url = defaultUrl ?? "#";
+                this.OriginalUrl = defaultUrl ?? "#";
         }
 
         public string UniqueId { get; private set; }
-        public string DiskPath { get; private set; }
+        public string DiskPath { get { return this.file.FullName; } }
+        public string FileName { get { return this.file.Name; } }
         public Dimensions Dimensions { get; private set; }
         public string ImageUrl { get; private set; }
-        public string Url { get; private set; }
+        public string OriginalUrl { get; private set; }
+    }
+
+    public sealed class AdUrlDocument
+    {
+        private XDocument document;
+
+        public AdUrlDocument(string urlFilePath)
+        {
+            using (var fs = File.OpenRead(urlFilePath))
+            {
+                this.document = XDocument.Load(fs);
+            }
+        }
+
+        public string GetDefaultUrl(string companyName)
+        {
+            var companyElement = this.document.Root.Elements("company")
+                .FirstOrDefault(a => (string)a.Attribute("name") == companyName);
+
+            if (companyElement == null)
+                return null;
+
+            return (string)companyElement.Attribute("defaultUrl");
+        }
+
+        public Dictionary<string, string> GetCustomAdUrls(string companyName)
+        {
+            var companyElement = this.document.Root.Elements("company")
+                .FirstOrDefault(a => (string)a.Attribute("name") == companyName);
+
+            if (companyElement == null)
+                return null;
+
+            return companyElement.Elements("ad")
+                .Select(el => new { FileName = (string)el.Attribute("fileName"), Url = (string)el.Attribute("url") })
+                .Where(a => a.FileName != null && a.Url != null)
+                .ToDictionary(a => a.FileName, a => a.Url, StringComparer.OrdinalIgnoreCase);
+        }
+    }
+
+    public sealed class AdUrlRedirects
+    {
+        public AdUrlRedirects(IEnumerable<string> originalAdUrls)
+        {
+            foreach (string url in originalAdUrls)
+                StoredProcs.AdRedirectUrls_AddRedirectUrl(url).Execute();
+
+            var urls = StoredProcs.AdRedirectUrls_GetRedirectUrls().Execute().ToList();
+
+            this.OriginalUrlsByGuid = urls
+                .ToDictionary(r => r.Ad_Guid.ToString("N"), r => r.Redirect_Url, StringComparer.OrdinalIgnoreCase);
+
+            this.GuidsByOriginalUrl = urls
+                .ToDictionary(r => r.Redirect_Url, r => r.Ad_Guid.ToString("N"), StringComparer.OrdinalIgnoreCase);
+        }
+
+        public Dictionary<string, string> OriginalUrlsByGuid { get; private set; }
+        public Dictionary<string, string> GuidsByOriginalUrl { get; private set; }
     }
 }

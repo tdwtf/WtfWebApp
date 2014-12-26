@@ -170,8 +170,14 @@ namespace TheDailyWtf
 
             routes.MapRoute(
                 name: "ViewAd",
-                url: "ads/{id}",
+                url: "fblast/{id}",
                 defaults: new { controller = "Ads", action = "ViewAd" }
+            );
+
+            routes.MapRoute(
+                name: "ClickAd",
+                url: "fbuster/{redirectGuid}",
+                defaults: new { controller = "Ads", action = "ClickAd" }
             );
 
             routes.MapRoute(

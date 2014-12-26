@@ -21,6 +21,18 @@ namespace TheDailyWtf.Data
 {
 	public static class Tables
 	{
+		public class AdImpressions
+		{
+			public string Banner_Name { get; set; }
+			public DateTime Impression_Date { get; set; }
+			public int Impression_Count { get; set; }
+		}
+		public class AdRedirectUrls
+		{
+			public Guid Ad_Guid { get; set; }
+			public string Redirect_Url { get; set; }
+			public int Click_Count { get; set; }
+		}
 		public class Ads
 		{
 			public int Ad_Id { get; set; }

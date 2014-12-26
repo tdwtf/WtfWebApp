@@ -22,6 +22,68 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class AdImpressions_IncrementCount : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public AdImpressions_IncrementCount(string Banner_Name, DateTime? Impression_Date, int? Impression_Count)
+		{
+			AddParam("@Banner_Name", DbType.AnsiString, 100, ParameterDirection.Input, Banner_Name);
+			AddParam("@Impression_Date", DbType.Date, 0, ParameterDirection.Input, Impression_Date);
+			AddParam("@Impression_Count", DbType.Int32, 0, ParameterDirection.Input, Impression_Count);
+		}
+		public void Execute()
+		{
+			this.ExecuteNonQuery();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class AdRedirectUrls_AddRedirectUrl : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public AdRedirectUrls_AddRedirectUrl(string Redirect_Url)
+		{
+			AddParam("@Redirect_Url", DbType.String, 255, ParameterDirection.Input, Redirect_Url);
+		}
+		public void Execute()
+		{
+			this.ExecuteNonQuery();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class AdRedirectUrls_GetRedirectUrls : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public AdRedirectUrls_GetRedirectUrls()
+		{
+		}
+		public IEnumerable<Tables.AdRedirectUrls> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.AdRedirectUrls>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class AdRedirectUrls_IncrementClickCount : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public AdRedirectUrls_IncrementClickCount(Guid? Ad_Guid, int? Increment_Count)
+		{
+			AddParam("@Ad_Guid", DbType.Guid, 0, ParameterDirection.Input, Ad_Guid);
+			AddParam("@Increment_Count", DbType.Int32, 0, ParameterDirection.Input, Increment_Count);
+		}
+		public void Execute()
+		{
+			this.ExecuteNonQuery();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Ads_CreateOrUpdateAd : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public Ads_CreateOrUpdateAd(string Ad_Html, int? Ad_Id)
@@ -453,6 +515,26 @@ namespace TheDailyWtf.Data
 {
 	public static class StoredProcs
 	{
+		public static StoredProcedures.AdImpressions_IncrementCount AdImpressions_IncrementCount(string Banner_Name, DateTime? Impression_Date, int? Impression_Count)
+		{
+			return new StoredProcedures.AdImpressions_IncrementCount(Banner_Name, Impression_Date, Impression_Count);
+		}
+
+		public static StoredProcedures.AdRedirectUrls_AddRedirectUrl AdRedirectUrls_AddRedirectUrl(string Redirect_Url)
+		{
+			return new StoredProcedures.AdRedirectUrls_AddRedirectUrl(Redirect_Url);
+		}
+
+		public static StoredProcedures.AdRedirectUrls_GetRedirectUrls AdRedirectUrls_GetRedirectUrls()
+		{
+			return new StoredProcedures.AdRedirectUrls_GetRedirectUrls();
+		}
+
+		public static StoredProcedures.AdRedirectUrls_IncrementClickCount AdRedirectUrls_IncrementClickCount(Guid? Ad_Guid, int? Increment_Count)
+		{
+			return new StoredProcedures.AdRedirectUrls_IncrementClickCount(Ad_Guid, Increment_Count);
+		}
+
 		public static StoredProcedures.Ads_CreateOrUpdateAd Ads_CreateOrUpdateAd(string Ad_Html, int? Ad_Id = null)
 		{
 			return new StoredProcedures.Ads_CreateOrUpdateAd(Ad_Html, Ad_Id);
