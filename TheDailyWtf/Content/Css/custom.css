@@ -64,8 +64,9 @@ table td span.admin-no { padding: 4px; background-color: #ce4d4d; }
 
 pre { font-family: Consolas, monospace; }
 
-div.previous-article { width: 45%; float: left; }
-div.next-article { width: 45%; float: right; text-align: right; }
+div.previous-article { float: left; }
+div.next-article { float: right; text-align: right; }
+div.random-walk { text-align: center; }
 
 div.horizontal { text-align: center; }
 div.horizontal ul li { display: inline-block; margin-right: 25px; }
