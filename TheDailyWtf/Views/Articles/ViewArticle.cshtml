@@ -59,19 +59,31 @@
 
                <hr />
 
-               @if (Model.Article.PreviousArticleId != null)
-               {
-                  <div class="previous-article">
-                     <a href="@Model.Article.PreviousArticleUrl">&laquo; @Model.Article.PreviousArticleTitle</a>
-                  </div>
-               }
-
-               @if (Model.Article.NextArticleId != null)
-               {
-                  <div class="next-article">
-                     <a href="@Model.Article.NextArticleUrl">@Model.Article.NextArticleTitle &raquo;</a>
-                  </div>
-               }
+                <table style="border: none;">
+                  <tr>
+                     <td style="width: 33%;">
+                        @if (Model.Article.PreviousArticleId != null)
+                        {
+                           <div class="previous-article no-print">
+                              <a href="@Model.Article.PreviousArticleUrl">&laquo; @Model.Article.PreviousArticleTitle</a>
+                           </div>
+                        }
+                     </td>
+                     <td style="width: 34%;">
+                        <div class="random-walk no-print">
+                           <a href="/articles/random">Random Article</a>
+                        </div>
+                     </td>
+                     <td style="width: 33%;">
+                        @if (Model.Article.NextArticleId != null)
+                        {
+                           <div class="next-article no-print">
+                              <a href="@Model.Article.NextArticleUrl">@Model.Article.NextArticleTitle &raquo;</a>
+                           </div>
+                        }
+                     </td>
+                  </tr>
+               </table>
 
             </div>
          </div>
