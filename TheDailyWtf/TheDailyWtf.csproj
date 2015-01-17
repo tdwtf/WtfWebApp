@@ -176,6 +176,8 @@
     <Content Include="500.html" />
     <Content Include="500.aspx" />
     <Content Include="404.aspx" />
+    <Content Include="455.html" />
+    <Content Include="455.aspx" />
     <Content Include="Content\Css\animate.min.css" />
     <Content Include="Content\Css\bootstrap-datepicker.css" />
     <Content Include="Content\Css\gumby.css" />
