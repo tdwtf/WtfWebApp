@@ -42,7 +42,8 @@ a.social-icon.google-plus { background-image: url('/content/images/icons/googlep
 .search-container { position: absolute; right: -80px; width: 200px; }
 
 table.article-listing td.draft { background-color: #e6d25f; }
-table.article-listing td.pending { background-color: #8ad46a; }
+table.article-listing td.pending { background-color: #75BED8; }
+table.article-listing td.published { background-color: #8ad46a; }
 
 table td span.admin-yes { padding: 4px; background-color: #8ad46a; }
 table td span.admin-no { padding: 4px; background-color: #ce4d4d; }

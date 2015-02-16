@@ -24,8 +24,9 @@ BEGIN
 
     SELECT * FROM [Articles_Extended]
             WHERE (@Author_Slug IS NULL OR [Author_Slug] = @Author_Slug)
-              AND ([PublishedStatus_Name] <> 'Published'
-               OR ([PublishedStatus_Name] = 'Published' AND [Published_Date] > GETDATE()))
+              AND ([PublishedStatus_Name] <> 'Published' 
+                   OR ([PublishedStatus_Name] = 'Published' AND ([Published_Date] > GETDATE() OR [Published_Date] IS NULL))
+              )
             ORDER BY [Article_Id] ASC
 
 END
