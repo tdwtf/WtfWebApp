@@ -61,6 +61,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "ReenableDiscourse",
+                url: "admin/reenable-discourse",
+                defaults: new { controller = "Admin", action = "ReenableDiscourse" }
+            );
+
+            routes.MapRoute(
                 name: "ViewAds",
                 url: "admin/ads",
                 defaults: new { controller = "Admin", action = "ViewAds" }

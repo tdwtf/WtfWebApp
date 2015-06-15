@@ -5,20 +5,22 @@
 
 <script type="text/javascript">
 
-    $(function () {
-        function ViewModel() {
-            var self = this;
-            self.useCustomSlug = ko.observable(@(Model.UseCustomSlug.ToString().ToLower()));
-            self.titleText = ko.observable($('#title-text').val());
-            self.autoSlugText = ko.computed(function () {
-               return self.useCustomSlug() 
-                  ? '@((Model.Article.Slug??"").Replace("'", @"\'"))'
-                  : self.titleText().replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase();
-            });
-            self.lockDiscourseTopicFromEdit = ko.observable(true);
-        }
-        var vm = new ViewModel();
-        ko.applyBindings(vm);
+   $(function () {
+      function ViewModel() {
+         var self = this;
+         self.useCustomSlug = ko.observable(@(Model.UseCustomSlug.ToString().ToLower()));
+         self.titleText = ko.observable($('#title-text').val());
+         self.autoSlugText = ko.computed(function () {
+            return self.useCustomSlug()
+               ? '@((Model.Article.Slug??"").Replace("'", @"\'"))'
+               : self.titleText().replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g,'').toLowerCase();
+         });
+         self.lockDiscourseTopicFromEdit = ko.observable(@((Model.Article.DiscourseTopicId != null).ToString().ToLower()));
+         self.createDiscourseTopic = ko.observable(@((Model.Article.DiscourseTopicId == null).ToString().ToLower()));
+
+      }
+      var vm = new ViewModel();
+      ko.applyBindings(vm);
     });
 
 </script>
@@ -123,16 +125,14 @@
       <div style="border: 1px #666 solid; padding: 15px; margin-bottom: 10px;">
          <h4>Discourse Integration:</h4>
          <div>
-            @if (Model.Article.DiscourseTopicId == null)
-            {
-               <label>
-                  @Html.CheckBoxFor(m => m.CreateCommentDiscussionChecked)
-                  <span>Create a comment discussion topic on Discourse (under web.config category: [@Config.Discourse.CommentCategory])</span>
-               </label>
-            }
+            <label>
+               @Html.CheckBoxFor(m => m.CreateCommentDiscussionChecked, new { data_bind = "checked: createDiscourseTopic" })
+               <span>Create a new comment discussion topic on Discourse (under web.config category: [@Config.Discourse.CommentCategory]) 
+               and assign it to this article. Note: the article ID below must also be empty if editing an existing article with a topic 
+               in order to create a new discussion.</span>
+            </label>
          </div>
-         @if (Model.Article.DiscourseTopicId != null)
-         {
+         
             <label>
                <input type="checkbox" data-bind="checked: lockDiscourseTopicFromEdit" />
                <span>Lock Discourse Topic ID from accidental edit...</span>
@@ -147,16 +147,15 @@
                {
                   <span><i class="icon-check"></i>This topic is already marked as opened.</span>
                }
-               else
-               {
-                  <span><i class="icon-lock"></i>This topic is currently not open, but will be opened once the article goes live, or may be opened manually.</span>
-                  <label>
-                     @Html.CheckBoxFor(m => m.OpenCommentDiscussionChecked)
-                     <span>Open comment discussion immediately on article save</span>
-                  </label>
+               else {
+               <span><i class="icon-lock"></i>This topic is currently not open, but will be opened once the article goes live, or may be opened manually.</span>
                }
+               <label>
+                  @Html.CheckBoxFor(m => m.OpenCommentDiscussionChecked)
+                  <span>Open comment discussion immediately on article save</span>
+               </label>
             </div>
-         }
+         
       </div>
       
    }

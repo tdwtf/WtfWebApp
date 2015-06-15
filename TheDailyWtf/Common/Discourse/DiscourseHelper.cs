@@ -28,6 +28,13 @@ namespace TheDailyWtf.Discourse
             nextDiscourseConnectionAttemptDate = DateTime.UtcNow.AddMinutes(minutes);
         }
 
+        internal static void UnpauseDiscourseConnections()
+        {
+            DiscourseException = null;
+            nextDiscourseConnectionAttemptDate = DateTime.UtcNow;
+            Logger.Information("Discourse connections manually unpaused.");
+        }
+
         public static IDiscourseApi CreateApi()
         {
 #if DEBUG

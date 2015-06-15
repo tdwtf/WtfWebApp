@@ -63,7 +63,16 @@
    @if (Model != null && Model.DiscourseMessage != null)
    {
       <div class="message error">
+
+         @if (this.User != null && this.User.IsAdmin)
+         {
+            <div>
+               [<a href="/admin/reenable-discourse">Clear Cached Error and Re-enable Discourse Connections</a>]
+            </div>
+         }
+
          @Model.DiscourseMessage
+
       </div>
    }
 </body>

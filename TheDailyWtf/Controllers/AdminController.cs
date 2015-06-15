@@ -44,6 +44,13 @@ namespace TheDailyWtf.Controllers
             return RedirectToAction("login");
         }
 
+        public ActionResult ReenableDiscourse()
+        {
+            DiscourseHelper.UnpauseDiscourseConnections();
+
+            return Redirect("/admin");
+        }
+
         public ActionResult MyArticles()
         {
             return View(new MyArticlesViewModel(this.User.Identity.Name));
