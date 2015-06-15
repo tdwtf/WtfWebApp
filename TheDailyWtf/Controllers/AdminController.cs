@@ -123,7 +123,7 @@ namespace TheDailyWtf.Controllers
                     DiscourseHelper.OpenCommentDiscussion((int)post.Article.Id, (int)post.Article.DiscourseTopicId);
 
                 Logger.Information("Creating or updating article \"{0}\".", post.Article.Title);
-                StoredProcs.Articles_CreateOrUpdateArticle(
+                int? articleId = StoredProcs.Articles_CreateOrUpdateArticle(
                     post.Article.Id,
                     post.Article.Slug ?? this.User.Identity.Name,
                     post.PublishedDate,
@@ -134,6 +134,8 @@ namespace TheDailyWtf.Controllers
                     post.Article.BodyHtml,
                     post.Article.DiscourseTopicId
                   ).Execute();
+
+                post.Article.Id = post.Article.Id ?? articleId;
 
                 if (post.CreateCommentDiscussionChecked)
                     DiscourseHelper.CreateCommentDiscussion(post.Article);
