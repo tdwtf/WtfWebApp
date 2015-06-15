@@ -219,6 +219,8 @@ namespace TheDailyWtf.Discourse
                 return false;
             if (article.CachedCommentCount >= commentsToPull)
                 return false;
+            if (article.PublishedDate < DateTime.Now.Subtract(TimeSpan.FromDays(60.0)))
+                return false;
 
             var cachedComments = StoredProcs.Comments_GetComments(article.Id)
                 .Execute()
