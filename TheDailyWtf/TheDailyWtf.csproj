@@ -223,6 +223,8 @@
     <Content Include="Content\Images\social-icons.png" />
     <Content Include="Content\Images\Sponsors\inedo.png" />
     <Content Include="Content\Images\Sponsors\puppetlabs.png" />
+    <Content Include="Content\Images\Sponsors\scout 50x50.png" />
+    <Content Include="Content\Images\Sponsors\scout_high_res.svg" />
     <Content Include="Content\Images\thedailywtfLogoNav.png" />
     <Content Include="Content\Images\wtf-logo.png" />
     <Content Include="favicon.ico" />
