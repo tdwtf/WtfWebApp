@@ -20,7 +20,7 @@ namespace TheDailyWtf.Discourse
 
         public DiscourseApi(string discourseUrl, string apiUsername, string apiKey)
         {
-            this.baseUrl = string.Format("http://{0}", discourseUrl.TrimEnd('/'));
+            this.baseUrl = string.Format("https://{0}", discourseUrl.TrimEnd('/'));
             this.apiUsername = apiUsername;
             this.apiKey = apiKey;
         }
