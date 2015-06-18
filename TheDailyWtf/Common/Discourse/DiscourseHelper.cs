@@ -279,7 +279,7 @@ namespace TheDailyWtf.Discourse
                     if (item == null)
                         return null;
 
-                    HttpContext.Current.Cache.Add(key, item, null, DateTime.Now.AddMinutes(5), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
+                    HttpContext.Current.Cache.Add(key, item, null, DateTime.Now.AddMinutes(10), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
                     return item;
                 }
             }
