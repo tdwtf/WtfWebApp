@@ -179,6 +179,86 @@ namespace TheDailyWtf
                 url: "authors/{authorSlug}",
                 defaults: new { controller = "Authors", action = "ViewAuthor" }
             );
+            
+            // API Routes
+
+            routes.MapRoute(
+                name: "ApiViewArticleById",
+                url: "api/articles/id/{id}",
+                defaults: new { controller = "Api", action = "ViewArticleById" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewArticleByIdFilterBody",
+                url: "api/articles/id/{id}/{onlyBodyAndAdHtml}",
+                defaults: new { controller = "Api", action = "ViewArticleById" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewArticleByArticleSlug",
+                url: "api/articles/slug/{articleSlug}",
+                defaults: new { controller = "Api", action = "ViewArticleBySlug" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewArticleByArticleSlugFilterBody",
+                url: "api/articles/slug/{articleSlug}/{onlyBodyAndAdHtml}",
+                defaults: new { controller = "Api", action = "ViewArticleBySlug" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewRandomArticle",
+                url: "api/articles/random/",
+                defaults: new { controller = "Api", action = "ViewRandomArticle" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewRecentArticles",
+                url: "api/articles/recent/",
+                defaults: new { controller = "Api", action = "ViewRecentArticlesByCount" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewRecentArticlesByCount",
+                url: "api/articles/recent/{count}/",
+                defaults: new { controller = "Api", action = "ViewRecentArticlesByCount" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewArticlesByDate",
+                url: "api/articles/{year}/{month}/",
+                defaults: new { controller = "Api", action = "ViewArticlesByDate" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewArticlesBySeries",
+                url: "api/series/{slug}/",
+                defaults: new { controller = "Api", action = "ViewRecentArticlesBySeriesAndCount" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewArticlesBySeriesAndCount",
+                url: "api/series/{slug}/{count}",
+                defaults: new { controller = "Api", action = "ViewRecentArticlesBySeriesAndCount" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewArticlesBySeriesAndDate",
+                url: "api/series/{slug}/{year}/{month}/",
+                defaults: new { controller = "Api", action = "ViewArticlesBySeriesAndDate" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewArticlesByAuthor",
+                url: "api/author/{slug}/",
+                defaults: new { controller = "Api", action = "ViewRecentArticlesByAuthorAndCount" }
+            );
+
+            routes.MapRoute(
+                name: "ApiViewArticlesByAuthorAndCount",
+                url: "api/author/{slug}/{count}/",
+                defaults: new { controller = "Api", action = "ViewRecentArticlesByAuthorAndCount" }
+            );
 
             routes.MapRoute(
                 name: "ViewAd",
