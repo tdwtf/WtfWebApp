@@ -9,6 +9,11 @@ namespace TheDailyWtf.Controllers
 {
     public class ApiController : WtfControllerBase
     {
+        public void ViewApiDocumentation()
+        {
+            Response.Redirect("https://github.com/tdwtf/WtfWebApp/blob/master/Docs/API.md");
+        }
+
         public string ViewArticleById(int id, bool onlyBodyAndAdHtml = false)
         {
             var article = ArticleModel.GetArticleById(id);
