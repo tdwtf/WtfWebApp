@@ -179,8 +179,14 @@ namespace TheDailyWtf
                 url: "authors/{authorSlug}",
                 defaults: new { controller = "Authors", action = "ViewAuthor" }
             );
-            
+
             // API Routes
+
+            routes.MapRoute(
+                name: "ApiDocumentation",
+                url: "api",
+                defaults: new { controller = "Api", action = "ViewApiDocumentation" }
+             );
 
             routes.MapRoute(
                 name: "ApiViewArticleById",
