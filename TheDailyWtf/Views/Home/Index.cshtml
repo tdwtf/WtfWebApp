@@ -55,7 +55,7 @@
          <ul>
             @if(SidebarWtfs.Length > 0)
             {
-                @foreach (var sidebar in Model.GetSideBarWtfs())
+                @foreach (var sidebar in SidebarWtfs)
                 {
                    <li class="code">
                       <div><a class="clean" href="@sidebar.Url">@sidebar.Title</a></div>
