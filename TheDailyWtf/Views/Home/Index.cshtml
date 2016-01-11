@@ -1,6 +1,7 @@
 ﻿@model HomeIndexViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    SidebarWtfs = Model.GetSideBarWtfs();
 }
 
 <div class="four columns">
@@ -52,11 +53,19 @@
       <h5 class="heading"><a class="clean" href="#"><i class="icon-list"></i>Sidebar WTF</a></h5>
       <div class="articleList hideNonDesktop">
          <ul>
-            @foreach (var sidebar in Model.GetSideBarWtfs())
+            @if(SidebarWtfs.Length > 0)
             {
-               <li class="code">
-                  <div><a class="clean" href="@sidebar.Url">@sidebar.Title</a></div>
-               </li>
+                @foreach (var sidebar in Model.GetSideBarWtfs())
+                {
+                   <li class="code">
+                      <div><a class="clean" href="@sidebar.Url">@sidebar.Title</a></div>
+                   </li>
+                }
+            else
+            {
+                <li class="code">
+                    <div>Nothing to see here</div>
+                </li>
             }
          </ul>
       </div>
