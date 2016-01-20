@@ -127,9 +127,9 @@ namespace TheDailyWtf.Models
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
-        public static IEnumerable<ArticleModel> GetRecentArticlesBySeries(string slug)
+        public static IEnumerable<ArticleModel> GetRecentArticlesBySeries(string slug, int? articleCount = 8)
         {
-            var articles = StoredProcs.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Series_Slug: slug, Article_Count: 8).Execute();
+            var articles = StoredProcs.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Series_Slug: slug, Article_Count: articleCount).Execute();
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
