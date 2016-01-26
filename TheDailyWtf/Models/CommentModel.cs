@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 using System.Web;
 using TheDailyWtf.Data;
 using TheDailyWtf.Discourse;
+using CommonMark;
+using CommonMark.Syntax;
+using CommonMark.Formatters;
 
 namespace TheDailyWtf.Models
 {
@@ -87,6 +90,78 @@ namespace TheDailyWtf.Models
                 DiscoursePostId = post.Id,
                 ImageUrl = post.ImageUrl
             };
+        }
+
+        private static string MarkdownFormatContent(string text)
+        {
+            var settings = CommonMarkSettings.Default;
+            settings.OutputDelegate = (d, t, s) => new SafeHtmlFormatter(t, s).WriteDocument(d);
+            settings.UriResolver = url =>
+            {
+                // accept any URL that starts with a safe prefix
+                if (url.StartsWith("http://") || url.StartsWith("https://") || url.StartsWith("/"))
+                {
+                    return url;
+                }
+
+                // prefix anything else with http://. http://javascript:alert("foo") is harmless, and http://www.website.example is
+                // better for users than a relative link to /articles/www.website.example in the middle of a comment about a website.
+                return "http://" + url;
+            };
+            return CommonMarkConverter.Convert(text, settings);
+        }
+
+        private class SafeHtmlFormatter : HtmlFormatter
+        {
+            public SafeHtmlFormatter(System.IO.TextWriter target, CommonMarkSettings settings) : base(target, settings)
+            {
+            }
+
+            protected override void WriteInline(Inline inline, bool isOpening, bool isClosing, out bool ignoreChildNodes)
+            {
+                // prevent HTML from being rendered
+                if (inline.Tag == InlineTag.RawHtml)
+                {
+                    inline.Tag = InlineTag.String;
+                }
+
+                // write our own links so we can mark them as rel="nofollow" and target="_blank"
+                if (inline.Tag == InlineTag.Link)
+                {
+                    ignoreChildNodes = false;
+
+                    if (isOpening)
+                    {
+                        Write("<a rel=\"nofollow\" target=\"_blank\" href=\"");
+                        var uriResolver = Settings.UriResolver;
+                        if (uriResolver != null)
+                            WriteEncodedUrl(uriResolver(inline.TargetUrl));
+                        else
+                            WriteEncodedUrl(inline.TargetUrl);
+
+                        Write('\"');
+                        if (inline.LiteralContent.Length > 0)
+                        {
+                            Write(" title=\"");
+                            WriteEncodedHtml(inline.LiteralContent);
+                            Write('\"');
+                        }
+
+                        if (Settings.TrackSourcePosition) WritePositionAttribute(inline);
+
+                        Write('>');
+                    }
+
+                    if (isClosing)
+                    {
+                        Write("</a>");
+                    }
+
+                    return;
+                }
+
+                base.WriteInline(inline, isOpening, isClosing, out ignoreChildNodes);
+            }
         }
 
         private static string BbCodeFormatComment(string text)
