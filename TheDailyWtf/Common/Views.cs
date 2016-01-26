@@ -10,6 +10,8 @@ namespace TheDailyWtf
         {
             public const string Index = "Index";
             public const string ViewArticle = "ViewArticle";
+            public const string ViewArticleComments = "ViewArticleComments";
+            public const string ViewArticleCommentsPages = "ViewArticleCommentsPages";
             public const string Submit = "Submit";
         }
 

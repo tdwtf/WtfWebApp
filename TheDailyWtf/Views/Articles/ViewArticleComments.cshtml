@@ -17,12 +17,15 @@
                   <a class="top-discourse-link clean" href="@Model.Article.DiscourseThreadUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
                }
             </span>
-            
+
+            @Html.Partial(Views.Articles.ViewArticleCommentsPages, Model)
             <div class="row">
                <div class="twelve columns">
                   @Html.Partial(Views.Shared.PartialComments, Model.Comments)
                </div>
             </div>
+            @Html.Partial(Views.Articles.ViewArticleCommentsPages, Model)
+
             <div>
                <a href="@Model.Article.Url">&laquo; Return to Article</a>
                @if (Model.Article.DiscourseTopicId != null)

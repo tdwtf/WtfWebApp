@@ -38,7 +38,7 @@ namespace TheDailyWtf.Controllers
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
-        public ActionResult ViewArticleComments(string articleSlug)
+        public ActionResult ViewArticleComments(string articleSlug, int page)
         {
             var article = ArticleModel.GetArticleBySlug(articleSlug);
             if (article == null)
@@ -46,12 +46,12 @@ namespace TheDailyWtf.Controllers
 
             if (!article.DiscourseTopicOpened && article.DiscourseTopicId != null && article.PublishedDate < DateTime.Now)
                 DiscourseHelper.OpenCommentDiscussion((int)article.Id, (int)article.DiscourseTopicId);
-                        
+
             bool commentsPulled = DiscourseHelper.PullCommentsFromDiscourse(article);
             if (commentsPulled)
                 article = ArticleModel.GetArticleBySlug(articleSlug); // reload article with cached comments
 
-            return View(new ViewCommentsViewModel(article));
+            return View(new ViewCommentsViewModel(article, page));
         }
 
         public ActionResult ViewLegacyArticle(string articleSlug)
