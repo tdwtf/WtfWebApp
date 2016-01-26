@@ -17,6 +17,7 @@ namespace TheDailyWtf.Models
         public DateTime PublishedDate { get; set; }
         public int? DiscoursePostId { get; set; }
         public string ImageUrl { get; set; }
+        public bool Featured { get; set; }
 
         public static IEnumerable<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
         {
@@ -26,7 +27,7 @@ namespace TheDailyWtf.Models
                 return comments.Select(c => CommentModel.FromDiscourse(c));
             }
 
-            return new CommentModel[0];
+            return FromArticle(article).Where(c => c.Featured);
         }
 
         public static IEnumerable<CommentModel> FromArticle(ArticleModel article)
@@ -71,7 +72,8 @@ namespace TheDailyWtf.Models
                     : comment.Body_Html,
                 Username = comment.User_Name,
                 DiscoursePostId = comment.Discourse_Post_Id,
-                PublishedDate = comment.Posted_Date
+                PublishedDate = comment.Posted_Date,
+                Featured = comment.Featured_Indicator
             };
         }
 
