@@ -21,6 +21,7 @@ namespace TheDailyWtf.ViewModels
                 this.DiscourseNextUnreadCommentUrl = this.Article.DiscourseThreadUrl;
         }
 
+        public virtual string BaseUrl { get { return Article.CommentsUrl; } }
         public ArticleModel Article { get; private set; }
         public IEnumerable<CommentModel> Comments { get; private set; }
         public int PageNumber { get; private set; }

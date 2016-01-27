@@ -1,28 +1,28 @@
 ﻿@model IEnumerable<CommentModel>
 
 <div class="commentsWrapper">
-   <ul class="comments">
-      @foreach (var comment in Model)
-      {
-         <li class="comment">
-            <div class="avatarContainer">
-               @if (!string.IsNullOrEmpty(comment.ImageUrl))
-               {
-                  <div class="imgContainer">
-                     <img src="@comment.ImageUrl" />
-                  </div>
-               }
-            </div>
-            <span class="poster">@comment.Username</span>
-            <span class="timestamp">@comment.PublishedDate</span>
-            <div>
-               @Html.Raw(comment.BodyHtml)
-            </div>
-         </li>
-      }
-      @if (!Model.Any())
-      {
-         <li>There are no comments yet.</li>
-      }
-   </ul>
+    <ul class="comments">
+        @foreach (var comment in Model)
+        {
+            <li class="comment">
+                <div class="avatarContainer">
+                    @if (!string.IsNullOrEmpty(comment.ImageUrl))
+                    {
+                        <div class="imgContainer">
+                            <img src="@comment.ImageUrl" />
+                        </div>
+                    }
+                </div>
+                <span class="poster">@comment.Username</span>
+                <span class="timestamp">@comment.PublishedDate</span>
+                <div>
+                    @Html.Raw(comment.BodyHtml)
+                </div>
+            </li>
+        }
+        @if (!Model.Any())
+        {
+            <li>There are no comments yet.</li>
+        }
+    </ul>
 </div>

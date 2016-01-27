@@ -1,40 +1,40 @@
 ﻿@model ViewCommentsViewModel
 @{
-   Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row @Model.Article.Series.CssClass" id="articlePage">
-   <div class="twelve columns articleWrapper">
-      <div class="content">
-         <div class="row">
-            <div class="container">
-               <h1>@Model.Article.Title</h1>
-               <a href="@Model.Article.Url">&laquo; Return to Article</a>
-               <span class="articleMeta">
-                  @Model.ViewCommentsHeading
-               @if (Model.Article.DiscourseTopicId != null)
-               {
-                  <a class="top-discourse-link clean" href="@Model.Article.DiscourseThreadUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
-               }
-            </span>
-
-            @Html.Partial(Views.Articles.ViewArticleCommentsPages, Model)
+    <div class="twelve columns articleWrapper">
+        <div class="content">
             <div class="row">
-               <div class="twelve columns">
-                  @Html.Partial(Views.Shared.PartialComments, Model.Comments)
-               </div>
-            </div>
-            @Html.Partial(Views.Articles.ViewArticleCommentsPages, Model)
+                <div class="container">
+                    <h1>@Model.Article.Title</h1>
+                    <a href="@Model.Article.Url">&laquo; Return to Article</a>
+                    <span class="articleMeta">
+                        @Model.ViewCommentsHeading
+                        @if (Model.Article.DiscourseTopicId != null)
+                        {
+                            <a class="top-discourse-link clean" href="@Model.Article.DiscourseThreadUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
+                        }
+                    </span>
 
-            <div>
-               <a href="@Model.Article.Url">&laquo; Return to Article</a>
-               @if (Model.Article.DiscourseTopicId != null)
-               {
-                  <a class="discourse-link" href="@Model.DiscourseNextUnreadCommentUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
-               }
+                    @Html.Partial(Views.Shared.PartialCommentsPages, Model)
+                    <div class="row">
+                        <div class="twelve columns">
+                            @Html.Partial(Views.Shared.PartialComments, Model.Comments)
+                        </div>
+                    </div>
+                    @Html.Partial(Views.Shared.PartialCommentsPages, Model)
+
+                    <div>
+                        <a href="@Model.Article.Url">&laquo; Return to Article</a>
+                        @if (Model.Article.DiscourseTopicId != null)
+                        {
+                            <a class="discourse-link" href="@Model.DiscourseNextUnreadCommentUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
+                        }
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
-</div>
+        </div>
+    </div>
 </div>

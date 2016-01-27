@@ -37,6 +37,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "ArticleCommentsAdmin",
+                url: "admin/article/comments/{id}/{page}",
+                defaults: new { controller = "Admin", action = "ArticleComments", page = 1 }
+            );
+
+            routes.MapRoute(
                 name: "AuthorAdmin",
                 url: "admin/author/edit/{slug}",
                 defaults: new { controller = "Admin", action = "EditAuthor", slug = UrlParameter.Optional }

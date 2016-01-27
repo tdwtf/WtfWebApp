@@ -150,6 +150,12 @@ namespace TheDailyWtf.Controllers
         }
 
         [RequiresAdmin]
+        public ActionResult ArticleComments(int id, int page)
+        {
+            return View(new ArticleCommentsViewModel(id, page));
+        }
+
+        [RequiresAdmin]
         public ActionResult EditSeries(string slug)
         {
             return View(new EditSeriesViewModel(slug));

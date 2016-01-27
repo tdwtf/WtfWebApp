@@ -71,7 +71,7 @@ namespace TheDailyWtf.Models
             return new CommentModel()
             {
                 BodyHtml = comment.Discourse_Post_Id == null 
-                    ? BbCodeFormatComment(comment.Body_Html) 
+                    ? MarkdownFormatContent(comment.Body_Html) 
                     : comment.Body_Html,
                 Username = comment.User_Name,
                 DiscoursePostId = comment.Discourse_Post_Id,

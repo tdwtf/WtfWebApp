@@ -163,6 +163,7 @@
     <Compile Include="Models\SubmitWtfModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AdminViewModel.cs" />
+    <Compile Include="ViewModels\Admin\ArticleCommentsViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditArticleViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditAuthorViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditAdViewModel.cs" />
@@ -355,7 +356,12 @@
   <ItemGroup>
     <Content Include=".well-known\keybase.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Admin\ArticleComments.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\PartialCommentsPages.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
