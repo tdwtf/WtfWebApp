@@ -192,19 +192,20 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Articles_FeatureComment : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Articles_FeatureComment(int? Article_Id, int? Comment_Id)
+		public Articles_FeatureComment(int? Article_Id, int? Comment_Id, YNIndicator? Valid_Indicator)
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
 			AddParam("@Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Comment_Id);
-            AddParam("@Valid_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Output, null);
-        }
-        public string Valid_Indicator { get { return (YNIndicator?)GetParamVal<string>("@Valid_Indicator"); } }
-        public YNIndicator? Execute()
-        {
-            this.ExecuteNonQuery();
-            return this.Valid_Indicator;
-        }
-    }
+			AddParam("@Valid_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.InputOutput, Valid_Indicator != null ? Valid_Indicator.ToString() : null);
+		}
+
+		public string Valid_Indicator { get { return (YNIndicator?)GetParamVal<string>("@Valid_Indicator"); } }
+		public YNIndicator? Execute()
+		{
+			this.ExecuteNonQuery();
+			return this.Valid_Indicator;
+		}
+	}
 
 	/// <summary>
 	/// 
@@ -352,19 +353,20 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Articles_UnfeatureComment : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Articles_UnfeatureComment(int? Article_Id, int? Comment_Id)
+		public Articles_UnfeatureComment(int? Article_Id, int? Comment_Id, YNIndicator? Valid_Indicator)
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
 			AddParam("@Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Comment_Id);
-            AddParam("@Valid_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Output, null);
-        }
-        public string Valid_Indicator { get { return (YNIndicator?)GetParamVal<string>("@Valid_Indicator"); } }
-        public YNIndicator? Execute()
-        {
-            this.ExecuteNonQuery();
-            return this.Valid_Indicator;
-        }
-    }
+			AddParam("@Valid_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.InputOutput, Valid_Indicator != null ? Valid_Indicator.ToString() : null);
+		}
+
+		public string Valid_Indicator { get { return (YNIndicator?)GetParamVal<string>("@Valid_Indicator"); } }
+		public YNIndicator? Execute()
+		{
+			this.ExecuteNonQuery();
+			return this.Valid_Indicator;
+		}
+	}
 
 	/// <summary>
 	/// 
@@ -537,7 +539,7 @@ namespace TheDailyWtf.Data
 {
 	public static class StoredProcs
 	{
-		public static StoredProcedures.AdImpressions_GetImpressions AdImpressions_GetImpressions(DateTime? Start_Date, DateTime? End_Date)
+		public static StoredProcedures.AdImpressions_GetImpressions AdImpressions_GetImpressions(DateTime? Start_Date = null, DateTime? End_Date = null)
 		{
 			return new StoredProcedures.AdImpressions_GetImpressions(Start_Date, End_Date);
 		}
@@ -587,9 +589,9 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_DeleteArticle(Article_Id);
 		}
 
-		public static StoredProcedures.Articles_FeatureComment Articles_FeatureComment(int? Article_Id, int? Discourse_Post_Id)
+		public static StoredProcedures.Articles_FeatureComment Articles_FeatureComment(int? Article_Id, int? Comment_Id, YNIndicator? Valid_Indicator = null)
 		{
-			return new StoredProcedures.Articles_FeatureComment(Article_Id, Discourse_Post_Id);
+			return new StoredProcedures.Articles_FeatureComment(Article_Id, Comment_Id, Valid_Indicator);
 		}
 
 		public static StoredProcedures.Articles_GetArticleById Articles_GetArticleById(int? Article_Id)
@@ -632,14 +634,14 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_GetRecentArticles(PublishedStatus_Name, Series_Slug, Author_Slug, Article_Count);
 		}
 
-		public static StoredProcedures.Articles_GetUnpublishedArticles Articles_GetUnpublishedArticles(string Author_Slug)
+		public static StoredProcedures.Articles_GetUnpublishedArticles Articles_GetUnpublishedArticles(string Author_Slug = null)
 		{
 			return new StoredProcedures.Articles_GetUnpublishedArticles(Author_Slug);
 		}
 
-		public static StoredProcedures.Articles_UnfeatureComment Articles_UnfeatureComment(int? Article_Id, int? Discourse_Post_Id)
+		public static StoredProcedures.Articles_UnfeatureComment Articles_UnfeatureComment(int? Article_Id, int? Comment_Id, YNIndicator? Valid_Indicator = null)
 		{
-			return new StoredProcedures.Articles_UnfeatureComment(Article_Id, Discourse_Post_Id);
+			return new StoredProcedures.Articles_UnfeatureComment(Article_Id, Comment_Id, Valid_Indicator);
 		}
 
 		public static StoredProcedures.Authors_CreateOrUpdateAuthor Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url, YNIndicator? Active_Indicator)
