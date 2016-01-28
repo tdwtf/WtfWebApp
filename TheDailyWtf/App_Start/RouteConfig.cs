@@ -43,6 +43,18 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "FeatureComment",
+                url: "admin/feature-comment",
+                defaults: new { controller = "Admin", action = "FeatureComment" }
+            );
+
+            routes.MapRoute(
+                name: "UnfeatureComment",
+                url: "admin/unfeature-comment",
+                defaults: new { controller = "Admin", action = "UnfeatureComment" }
+            );
+
+            routes.MapRoute(
                 name: "AuthorAdmin",
                 url: "admin/author/edit/{slug}",
                 defaults: new { controller = "Admin", action = "EditAuthor", slug = UrlParameter.Optional }

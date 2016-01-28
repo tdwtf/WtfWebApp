@@ -192,16 +192,19 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Articles_FeatureComment : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Articles_FeatureComment(int? Article_Id, int? Discourse_Post_Id)
+		public Articles_FeatureComment(int? Article_Id, int? Comment_Id)
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
-			AddParam("@Discourse_Post_Id", DbType.Int32, 0, ParameterDirection.Input, Discourse_Post_Id);
-		}
-		public IEnumerable<Tables.FeaturedComments> Execute()
-		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.FeaturedComments>();
-		}
-	}
+			AddParam("@Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Comment_Id);
+            AddParam("@Valid_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Output, null);
+        }
+        public string Valid_Indicator { get { return (YNIndicator?)GetParamVal<string>("@Valid_Indicator"); } }
+        public YNIndicator? Execute()
+        {
+            this.ExecuteNonQuery();
+            return this.Valid_Indicator;
+        }
+    }
 
 	/// <summary>
 	/// 
@@ -275,9 +278,9 @@ namespace TheDailyWtf.Data.StoredProcedures
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
 		}
-		public IEnumerable<Tables.FeaturedComments> Execute()
+		public IEnumerable<Tables.Comments> Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.FeaturedComments>();
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments>();
 		}
 	}
 
@@ -349,16 +352,19 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Articles_UnfeatureComment : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Articles_UnfeatureComment(int? Article_Id, int? Discourse_Post_Id)
+		public Articles_UnfeatureComment(int? Article_Id, int? Comment_Id)
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
-			AddParam("@Discourse_Post_Id", DbType.Int32, 0, ParameterDirection.Input, Discourse_Post_Id);
-		}
-		public IEnumerable<Tables.FeaturedComments> Execute()
-		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.FeaturedComments>();
-		}
-	}
+			AddParam("@Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Comment_Id);
+            AddParam("@Valid_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Output, null);
+        }
+        public string Valid_Indicator { get { return (YNIndicator?)GetParamVal<string>("@Valid_Indicator"); } }
+        public YNIndicator? Execute()
+        {
+            this.ExecuteNonQuery();
+            return this.Valid_Indicator;
+        }
+    }
 
 	/// <summary>
 	/// 

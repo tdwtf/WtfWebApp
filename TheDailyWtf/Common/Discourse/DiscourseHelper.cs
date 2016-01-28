@@ -148,30 +148,8 @@ namespace TheDailyWtf.Discourse
 
         public static IList<Post> GetFeaturedCommentsForArticle(int articleId)
         {
-            try
-            {
-                return DiscourseCache.GetOrAdd(
-                    "FeaturedCommentsForArticle_" + articleId,
-                    () =>
-                    {
-                        Logger.Debug("Getting and caching featured comments for article (ID={0}).", articleId);
-
-                        var api = DiscourseHelper.CreateApi();
-
-                        return StoredProcs.Articles_GetFeaturedComments(articleId)
-                            .Execute()
-                            .Select(c => api.GetReplyPost(c.Discourse_Post_Id))
-                            .Where(p => !p.Hidden)
-                            .ToList()
-                            .AsReadOnly();
-                    }
-                );
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Error getting featured comments for article (ID={0}), error: {1}", articleId, ex);
-                return new Post[0];
-            }
+            // There was never a way to feature Discourse comments, so there's no sense implementing one while we're replacing the system.
+            return new Post[0];
         }
 
         public static void UnfeatureComment(int articleId, int discourseTopicId)

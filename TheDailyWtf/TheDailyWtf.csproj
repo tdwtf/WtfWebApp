@@ -168,6 +168,7 @@
     <Compile Include="ViewModels\Admin\EditAuthorViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditAdViewModel.cs" />
     <Compile Include="ViewModels\Admin\EditSeriesViewModel.cs" />
+    <Compile Include="ViewModels\Admin\FeatureCommentViewModel.cs" />
     <Compile Include="ViewModels\Admin\MyArticlesViewModel.cs" />
     <Compile Include="ViewModels\Admin\ViewAdsViewModel.cs" />
     <Compile Include="ViewModels\ArticleItemViewModel.cs" />

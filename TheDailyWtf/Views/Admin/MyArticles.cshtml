@@ -22,7 +22,10 @@
                 <td class="@article.Status.ToLower()">@article.Status</td>
                 <td>@article.Series.Title</td>
                 <td>@article.Title</td>
-                <td><a href="/admin/article/edit/@article.Id">Edit</a></td>
+                <td>
+                    <a href="/admin/article/edit/@article.Id">Edit</a>
+                    <a href="/admin/article/comments/@article.Id">Comments</a>
+                </td>
             </tr>
         }
     </tbody>
@@ -49,7 +52,10 @@
             <td>@article.PublishedDate</td>
             <td>@article.Series.Title</td>
             <td>@article.Title</td>
-            <td><a href="/admin/article/edit/@article.Id">Edit</a></td>
+            <td>
+                <a href="/admin/article/edit/@article.Id">Edit</a>
+                <a href="/admin/article/comments/@article.Id">Comments</a>
+            </td>
          </tr>
       }
    </tbody>

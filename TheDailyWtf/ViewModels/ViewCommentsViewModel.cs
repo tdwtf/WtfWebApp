@@ -21,9 +21,18 @@ namespace TheDailyWtf.ViewModels
                 this.DiscourseNextUnreadCommentUrl = this.Article.DiscourseThreadUrl;
         }
 
+        public ViewCommentsViewModel(ArticleModel article, IEnumerable<CommentModel> comments)
+        {
+            this.Article = article;
+            this.Comments = comments;
+            this.PageNumber = -1;
+        }
+
         public virtual string BaseUrl { get { return Article.CommentsUrl; } }
+        public virtual bool CanFeature { get { return false; } }
+        public virtual bool CanEditDelete { get { return false; } }
         public ArticleModel Article { get; private set; }
-        public IEnumerable<CommentModel> Comments { get; private set; }
+        public IEnumerable<CommentModel> Comments { get; protected set; }
         public int PageNumber { get; private set; }
         public int MaxDiscoursePostId { get; private set; }
         public string DiscourseNextUnreadCommentUrl { get; private set; }

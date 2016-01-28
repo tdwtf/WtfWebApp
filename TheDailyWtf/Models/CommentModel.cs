@@ -15,6 +15,7 @@ namespace TheDailyWtf.Models
     {
         private static readonly Regex ImgSrcRegex = new Regex(@"src=""(?<comment>[^""]+)""", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
+        public int Id { get; set; }
         public string BodyHtml { get; set; }
         public string Username { get; set;}
         public DateTime PublishedDate { get; set; }
@@ -24,13 +25,8 @@ namespace TheDailyWtf.Models
 
         public static IEnumerable<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
         {
-            if (article.DiscourseTopicId != null)
-            {
-                var comments = DiscourseHelper.GetFeaturedCommentsForArticle((int)article.Id);
-                return comments.Select(c => CommentModel.FromDiscourse(c));
-            }
-
-            return FromArticle(article).Where(c => c.Featured);
+            var comments = StoredProcs.Articles_GetFeaturedComments(article.Id).Execute();
+            return comments.Select(c => FromTable(c));
         }
 
         public static IEnumerable<CommentModel> FromArticle(ArticleModel article)
@@ -70,6 +66,7 @@ namespace TheDailyWtf.Models
         {
             return new CommentModel()
             {
+                Id = comment.Comment_Id,
                 BodyHtml = comment.Discourse_Post_Id == null 
                     ? MarkdownFormatContent(comment.Body_Html) 
                     : comment.Body_Html,

@@ -1,8 +1,8 @@
-﻿@model IEnumerable<CommentModel>
+﻿@model ViewCommentsViewModel
 
 <div class="commentsWrapper">
     <ul class="comments">
-        @foreach (var comment in Model)
+        @foreach (var comment in Model.Comments)
         {
             <li class="comment">
                 <div class="avatarContainer">
@@ -14,13 +14,26 @@
                     }
                 </div>
                 <span class="poster">@comment.Username</span>
-                <span class="timestamp">@comment.PublishedDate</span>
+                <span class="timestamp">@comment.PublishedDate
+                    @if (Model.CanFeature)
+                    {
+                        <br />
+                        var action = comment.Featured ? "Unfeature" : "Feature";
+                        using (Html.BeginForm(action + "Comment", "Admin", FormMethod.Post))
+                        {
+                            @Html.Hidden("comment", comment.Id)
+                            @Html.Hidden("article", Model.Article.Id)
+                            @Html.AntiForgeryToken()
+                            <button>@action</button>
+                        }
+                    }
+                </span>
                 <div>
                     @Html.Raw(comment.BodyHtml)
                 </div>
             </li>
         }
-        @if (!Model.Any())
+        @if (Model.PageCount == 0)
         {
             <li>There are no comments yet.</li>
         }
