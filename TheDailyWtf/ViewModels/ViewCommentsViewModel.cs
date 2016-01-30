@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Configuration;
 using TheDailyWtf.Models;
 
 namespace TheDailyWtf.ViewModels
@@ -19,6 +19,8 @@ namespace TheDailyWtf.ViewModels
                 this.DiscourseNextUnreadCommentUrl = this.Article.DiscourseThreadUrl + "/" + this.Article.CachedCommentCount;
             else
                 this.DiscourseNextUnreadCommentUrl = this.Article.DiscourseThreadUrl;
+
+            this.Comment = new CommentFormModel();
         }
 
         public ViewCommentsViewModel(ArticleModel article, IEnumerable<CommentModel> comments)
@@ -31,6 +33,7 @@ namespace TheDailyWtf.ViewModels
         public virtual string BaseUrl { get { return Article.CommentsUrl; } }
         public virtual bool CanFeature { get { return false; } }
         public virtual bool CanEditDelete { get { return false; } }
+        public virtual bool CanReply { get { return true; } }
         public ArticleModel Article { get; private set; }
         public IEnumerable<CommentModel> Comments { get; protected set; }
         public int PageNumber { get; private set; }
@@ -66,5 +69,6 @@ namespace TheDailyWtf.ViewModels
                     return this.Article.CachedCommentCount.ToString();
             }
         }
+        public CommentFormModel Comment { get; set; }
     }
 }

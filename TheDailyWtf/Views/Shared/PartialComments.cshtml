@@ -4,7 +4,7 @@
     <ul class="comments">
         @foreach (var comment in Model.Comments)
         {
-            <li class="comment">
+            <li class="comment" id="comment-@comment.Id">
                 <div class="avatarContainer">
                     @if (!string.IsNullOrEmpty(comment.ImageUrl))
                     {
@@ -14,7 +14,9 @@
                     }
                 </div>
                 <span class="poster">@comment.Username</span>
-                <span class="timestamp">@comment.PublishedDate
+                <span class="timestamp">
+                    <a href="#comment-@comment.Id">#@comment.Id</a>
+                    @comment.PublishedDate
                     @if (Model.CanFeature)
                     {
                         <br />
@@ -31,6 +33,10 @@
                 <div>
                     @Html.Raw(comment.BodyHtml)
                 </div>
+                @if (Model.CanReply)
+                {
+                    <aside><button onclick="document.getElementById('comment-parent').value = @comment.Id">Reply</button></aside>
+                }
             </li>
         }
         @if (Model.PageCount == 0)

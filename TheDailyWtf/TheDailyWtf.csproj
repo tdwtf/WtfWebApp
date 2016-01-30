@@ -157,6 +157,7 @@
     <Compile Include="Models\AdvertiserContactFormModel.cs" />
     <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Models\AuthorModel.cs" />
+    <Compile Include="Models\CommentFormModel.cs" />
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\ContactFormModel.cs" />
     <Compile Include="Models\SeriesModel.cs" />

@@ -457,6 +457,27 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class Comments_CreateComment : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Comments_CreateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id)
+		{
+			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
+			AddParam("@Body_Html", DbType.String, -1, ParameterDirection.Input, Body_Html);
+			AddParam("@User_Name", DbType.String, 255, ParameterDirection.Input, User_Name);
+			AddParam("@Posted_Date", DbType.DateTime, 0, ParameterDirection.Input, Posted_Date);
+			AddParam("@User_IP", DbType.AnsiString, 45, ParameterDirection.Input, User_IP);
+			AddParam("@User_Token", DbType.AnsiString, -1, ParameterDirection.Input, User_Token);
+			AddParam("@Parent_Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Parent_Comment_Id);
+		}
+		public void Execute()
+		{
+			this.ExecuteNonQuery();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Comments_CreateOrUpdateComment : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public Comments_CreateOrUpdateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, int? Discourse_Post_Id)
@@ -667,6 +688,11 @@ namespace TheDailyWtf.Data
 		public static StoredProcedures.Authors_ValidateLogin Authors_ValidateLogin(string Author_Slug, string Password_Text, YNIndicator? Valid_Indicator = null)
 		{
 			return new StoredProcedures.Authors_ValidateLogin(Author_Slug, Password_Text, Valid_Indicator);
+		}
+
+		public static StoredProcedures.Comments_CreateComment Comments_CreateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id)
+		{
+			return new StoredProcedures.Comments_CreateComment(Article_Id, Body_Html, User_Name, Posted_Date, User_IP, User_Token, Parent_Comment_Id);
 		}
 
 		public static StoredProcedures.Comments_CreateOrUpdateComment Comments_CreateOrUpdateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, int? Discourse_Post_Id)

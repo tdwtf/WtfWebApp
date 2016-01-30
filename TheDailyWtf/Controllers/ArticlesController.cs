@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
+using System.Web.Security;
+using TheDailyWtf.Data;
 using TheDailyWtf.Discourse;
 using TheDailyWtf.Legacy;
 using TheDailyWtf.Models;
@@ -52,6 +55,43 @@ namespace TheDailyWtf.Controllers
                 article = ArticleModel.GetArticleBySlug(articleSlug); // reload article with cached comments
 
             return View(new ViewCommentsViewModel(article, page));
+        }
+
+        // not cached
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ViewArticleComments(string articleSlug, int page, CommentFormModel form)
+        {
+            var article = ArticleModel.GetArticleBySlug(articleSlug);
+            if (article == null)
+                return HttpNotFound();
+
+            string token = null;
+            var cookie = Request.Cookies["tdwtf_token"];
+            if (cookie != null)
+            {
+                var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                if (!ticket.Expired)
+                {
+                    form.Name = ticket.Name;
+                    token = ticket.UserData;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(form.Name))
+                ModelState.AddModelError(string.Empty, "A name is required.");
+            if (string.IsNullOrWhiteSpace(form.Body))
+                ModelState.AddModelError(string.Empty, "A comment is required.");
+            if (form.Parent != null && !CommentModel.FromArticle(article).Any(c => c.Id == form.Parent))
+                ModelState.AddModelError(string.Empty, "Invalid parent comment.");
+            if (ModelState.IsValid)
+            {
+                StoredProcs.Comments_CreateComment(article.Id, form.Body, form.Name, DateTime.Now, Request.ServerVariables["REMOTE_ADDR"], token, form.Parent).ExecuteNonQuery();
+                return Redirect(Request.RawUrl);
+            }
+
+            return View(new ViewCommentsViewModel(article, page) { Comment = form });
         }
 
         public ActionResult ViewLegacyArticle(string articleSlug)

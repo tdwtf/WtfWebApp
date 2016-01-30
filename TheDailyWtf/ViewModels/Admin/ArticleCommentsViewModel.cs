@@ -13,5 +13,6 @@ namespace TheDailyWtf.ViewModels
         public override bool CanFeature { get { return true; } }
         private bool isAdmin;
         public override bool CanEditDelete { get { return isAdmin; } }
+        public override bool CanReply { get { return false; } }
     }
 }

@@ -26,6 +26,28 @@
                     </div>
                     @Html.Partial(Views.Shared.PartialCommentsPages, Model)
 
+                    @Html.ValidationSummary()
+
+                    <form method="post" id="comment-form">
+
+                        @Html.AntiForgeryToken()
+
+                        <input id="comment-parent" name="parent" type="hidden" value="@Model.Comment.Parent" />
+
+                        <div class="field">
+                            <input name="name" type="text" class="input wide" placeholder="Paula Bean" required tabindex="1" value="@Model.Comment.Name" />
+                        </div>
+
+                        <div class="field">
+                            <textarea name="body" class="input wide textarea" required tabindex="2">@Model.Comment.Body</textarea>
+                        </div>
+
+                        <div class="medium primary btn">
+                            <input class="input" type="submit" tabindex="3" value="Submit" />
+                        </div>
+
+                    </form>
+
                     <div>
                         <a href="@Model.Article.Url">&laquo; Return to Article</a>
                         @if (Model.Article.DiscourseTopicId != null)

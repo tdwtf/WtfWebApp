@@ -110,6 +110,9 @@ namespace TheDailyWtf.Data
 			public DateTime Posted_Date { get; set; }
 			public int? Discourse_Post_Id { get; set; }
 			public YNIndicator Featured_Indicator { get; set; }
+			public string User_IP { get; set; }
+			public string User_Token { get; set; }
+			public int? Parent_Comment_Id { get; set; }
 		}
 		public class FeaturedComments
 		{
