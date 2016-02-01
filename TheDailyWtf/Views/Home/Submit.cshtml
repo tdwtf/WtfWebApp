@@ -123,9 +123,8 @@
           </div>
        </div>
 
-       <div class="field">
-          @Html.Recaptcha(theme: Recaptcha.Web.RecaptchaTheme.Clean)
-       </div>
+       <script src="https://www.google.com/recaptcha/api.js"></script>
+       <div class="g-recaptcha field" data-sitekey="@Config.RecaptchaPublicKey"></div>
 
         <div class="medium primary btn">
             <input class="input" type="submit" value="Submit WTF" />

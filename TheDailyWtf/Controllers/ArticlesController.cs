@@ -79,6 +79,11 @@ namespace TheDailyWtf.Controllers
                 }
             }
 
+            if (token == null)
+            {
+                CheckRecaptcha();
+            }
+
             if (string.IsNullOrWhiteSpace(form.Name))
                 ModelState.AddModelError(string.Empty, "A name is required.");
             if (string.IsNullOrWhiteSpace(form.Body))

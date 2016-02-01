@@ -64,9 +64,8 @@
             <div>Message:</div>
            <textarea name="contactform.message" class="input textarea" rows="8" cols="60">@Model.ContactForm.Message</textarea>
         </div>
-       <div class="field">
-          @Html.Recaptcha(theme: Recaptcha.Web.RecaptchaTheme.Clean)
-       </div>
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+        <div class="g-recaptcha field" data-sitekey="@Config.RecaptchaPublicKey"></div>
 
         <div class="medium primary btn">
             <input class="input" type="submit" value="Send Message" />

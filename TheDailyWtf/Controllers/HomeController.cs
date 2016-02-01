@@ -4,8 +4,6 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using Inedo;
-using Recaptcha.Web;
-using Recaptcha.Web.Mvc;
 using TheDailyWtf.Models;
 using TheDailyWtf.ViewModels;
 
@@ -50,23 +48,11 @@ namespace TheDailyWtf.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Contact(ContactFormViewModel model)
         {
+            if (this.ModelState.IsValid)
+                CheckRecaptcha();
+
             if (!this.ModelState.IsValid)
                 return View(model);
-
-            var recaptchaHelper = this.GetRecaptchaVerificationHelper();
-
-            if (string.IsNullOrEmpty(recaptchaHelper.Response))
-            {
-                this.ModelState.AddModelError(string.Empty, "Captcha answer cannot be empty.");
-                return View(model);
-            }
-
-            var recaptchaResult = recaptchaHelper.VerifyRecaptchaResponse();
-            if (recaptchaResult != RecaptchaVerificationResult.Success)
-            {
-                this.ModelState.AddModelError(string.Empty, "Invalid recaptcha response: " + recaptchaResult);
-                return View(model);
-            }
 
             try
             {
@@ -118,23 +104,11 @@ namespace TheDailyWtf.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Submit(SubmitWtfViewModel model)
         {
+            if (this.ModelState.IsValid)
+                CheckRecaptcha();
+
             if (!this.ModelState.IsValid)
                 return View(model);
-
-            var recaptchaHelper = this.GetRecaptchaVerificationHelper();
-
-            if (string.IsNullOrEmpty(recaptchaHelper.Response))
-            {
-                this.ModelState.AddModelError(string.Empty, "Captcha answer cannot be empty.");
-                return View(model);
-            }
-
-            var recaptchaResult = recaptchaHelper.VerifyRecaptchaResponse();
-            if (recaptchaResult != RecaptchaVerificationResult.Success)
-            {
-                this.ModelState.AddModelError(string.Empty, "Invalid recaptcha response: " + recaptchaResult);
-                return View(model);
-            }
 
             try
             {

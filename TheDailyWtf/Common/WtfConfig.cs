@@ -13,6 +13,9 @@ namespace TheDailyWtf
     /// </summary>
     public static class Config
     {
+        public static string RecaptchaPublicKey { get { return WebConfigurationManager.AppSettings["recaptchaPublicKey"]; } }
+        public static string RecaptchaPrivateKey { get { return WebConfigurationManager.AppSettings["recaptchaPrivateKey"]; } }
+
         public static class Wtf
         {
             public static string Host { get { return ReadFromFile(); } }
