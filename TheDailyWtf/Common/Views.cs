@@ -41,6 +41,7 @@ namespace TheDailyWtf
             public const string PartialRecentArticleList = "PartialRecentArticleList";
             public const string PartialLeaderboardAd = "PartialLeaderboardAd";
             public const string PartialSidebarAd = "PartialSidebarAd";
+            public const string PartialRecaptcha = "PartialRecaptcha";
         }
     }
 }

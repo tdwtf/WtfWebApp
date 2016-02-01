@@ -123,8 +123,7 @@
           </div>
        </div>
 
-       <script src="https://www.google.com/recaptcha/api.js"></script>
-       <div class="g-recaptcha field" data-sitekey="@Config.RecaptchaPublicKey"></div>
+        @Html.Partial(Views.Shared.PartialRecaptcha)
 
         <div class="medium primary btn">
             <input class="input" type="submit" value="Submit WTF" />
