@@ -33,7 +33,7 @@ namespace TheDailyWtf.ViewModels
         public virtual string BaseUrl { get { return Article.CommentsUrl; } }
         public virtual bool CanFeature { get { return false; } }
         public virtual bool CanEditDelete { get { return false; } }
-        public virtual bool CanReply { get { return true; } }
+        public virtual bool CanReply { get { return this.PageNumber != -1; } }
         public ArticleModel Article { get; private set; }
         public IEnumerable<CommentModel> Comments { get; protected set; }
         public int PageNumber { get; private set; }
