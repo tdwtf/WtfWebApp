@@ -47,13 +47,6 @@ namespace TheDailyWtf.Controllers
             if (article == null)
                 return HttpNotFound();
 
-            if (!article.DiscourseTopicOpened && article.DiscourseTopicId != null && article.PublishedDate < DateTime.Now)
-                DiscourseHelper.OpenCommentDiscussion((int)article.Id, (int)article.DiscourseTopicId);
-
-            bool commentsPulled = DiscourseHelper.PullCommentsFromDiscourse(article);
-            if (commentsPulled)
-                article = ArticleModel.GetArticleBySlug(articleSlug); // reload article with cached comments
-
             return View(new ViewCommentsViewModel(article, page));
         }
 
@@ -92,8 +85,8 @@ namespace TheDailyWtf.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid parent comment.");
             if (ModelState.IsValid)
             {
-                StoredProcs.Comments_CreateComment(article.Id, form.Body, form.Name, DateTime.Now, Request.ServerVariables["REMOTE_ADDR"], token, form.Parent).ExecuteNonQuery();
-                return Redirect(Request.RawUrl);
+                int commentId = StoredProcs.Comments_CreateOrUpdateComment(null, article.Id, form.Body, form.Name, DateTime.Now, Request.ServerVariables["REMOTE_ADDR"], token, form.Parent).Execute().Value;
+                return Redirect(string.Format("{0}/{1}#comment-{2}", article.CommentsUrl, article.CachedCommentCount / ViewCommentsViewModel.CommentsPerPage + 1, commentId));
             }
 
             return View(new ViewCommentsViewModel(article, page) { Comment = form });

@@ -457,10 +457,11 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
-	public class Comments_CreateComment : WrappedStoredProcedure<SqlServerDataFactory>
+	public class Comments_CreateOrUpdateComment : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Comments_CreateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id)
+		public Comments_CreateOrUpdateComment(int? Comment_Id, int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id)
 		{
+			AddParam("@Comment_Id", DbType.Int32, 0, ParameterDirection.InputOutput, Comment_Id);
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
 			AddParam("@Body_Html", DbType.String, -1, ParameterDirection.Input, Body_Html);
 			AddParam("@User_Name", DbType.String, 255, ParameterDirection.Input, User_Name);
@@ -469,28 +470,12 @@ namespace TheDailyWtf.Data.StoredProcedures
 			AddParam("@User_Token", DbType.AnsiString, -1, ParameterDirection.Input, User_Token);
 			AddParam("@Parent_Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Parent_Comment_Id);
 		}
-		public void Execute()
-		{
-			this.ExecuteNonQuery();
-		}
-	}
 
-	/// <summary>
-	/// 
-	/// </summary>
-	public class Comments_CreateOrUpdateComment : WrappedStoredProcedure<SqlServerDataFactory>
-	{
-		public Comments_CreateOrUpdateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, int? Discourse_Post_Id)
-		{
-			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
-			AddParam("@Body_Html", DbType.String, -1, ParameterDirection.Input, Body_Html);
-			AddParam("@User_Name", DbType.String, 255, ParameterDirection.Input, User_Name);
-			AddParam("@Posted_Date", DbType.DateTime, 0, ParameterDirection.Input, Posted_Date);
-			AddParam("@Discourse_Post_Id", DbType.Int32, 0, ParameterDirection.Input, Discourse_Post_Id);
-		}
-		public void Execute()
+		public int? Comment_Id { get { return GetParamVal<int?>("@Comment_Id"); } }
+		public int? Execute()
 		{
 			this.ExecuteNonQuery();
+			return this.Comment_Id;
 		}
 	}
 
@@ -690,14 +675,9 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Authors_ValidateLogin(Author_Slug, Password_Text, Valid_Indicator);
 		}
 
-		public static StoredProcedures.Comments_CreateComment Comments_CreateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id)
+		public static StoredProcedures.Comments_CreateOrUpdateComment Comments_CreateOrUpdateComment(int? Comment_Id, int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id)
 		{
-			return new StoredProcedures.Comments_CreateComment(Article_Id, Body_Html, User_Name, Posted_Date, User_IP, User_Token, Parent_Comment_Id);
-		}
-
-		public static StoredProcedures.Comments_CreateOrUpdateComment Comments_CreateOrUpdateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, int? Discourse_Post_Id)
-		{
-			return new StoredProcedures.Comments_CreateOrUpdateComment(Article_Id, Body_Html, User_Name, Posted_Date, Discourse_Post_Id);
+			return new StoredProcedures.Comments_CreateOrUpdateComment(Comment_Id, Article_Id, Body_Html, User_Name, Posted_Date, User_IP, User_Token, Parent_Comment_Id);
 		}
 
 		public static StoredProcedures.Comments_GetComments Comments_GetComments(int? Article_Id)

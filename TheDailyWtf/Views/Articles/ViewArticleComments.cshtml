@@ -26,20 +26,24 @@
                     </div>
                     @Html.Partial(Views.Shared.PartialCommentsPages, Model)
 
-                    @Html.ValidationSummary()
+                    <form method="post" id="comment-form" action="#comment-form" class="no-print">
 
-                    <form method="post" id="comment-form">
+                        @Html.ValidationSummary()
 
                         @Html.AntiForgeryToken()
+
+                        <h3>Leave a comment on &ldquo;@Model.Article.Title&rdquo;</h3>
 
                         <input id="comment-parent" name="parent" type="hidden" value="@Model.Comment.Parent" />
 
                         <div class="field">
-                            <input name="name" type="text" class="input wide" placeholder="Paula Bean" required tabindex="1" value="@Model.Comment.Name" />
+                            <label for="comment-name">Name:</label>
+                            <input id="comment-name" name="name" type="text" class="input" placeholder="Paula Bean" required tabindex="1" value="@Model.Comment.Name" />
                         </div>
 
                         <div class="field">
-                            <textarea name="body" class="input wide textarea" required tabindex="2">@Model.Comment.Body</textarea>
+                            <label for="comment-body">Comment:</label>
+                            <textarea id="comment-body" name="body" class="input textarea resizeable" rows="6" required tabindex="2">@Model.Comment.Body</textarea>
                         </div>
 
                         @Html.Partial(Views.Shared.PartialRecaptcha)

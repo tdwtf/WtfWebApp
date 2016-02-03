@@ -187,53 +187,6 @@ namespace TheDailyWtf.Discourse
             }
         }
 
-        public static bool PullCommentsFromDiscourse(ArticleModel article)
-        {
-            Logger.Debug("Pulling and caching comments from Discourse for article (ID={0}).", article.Id);
-
-            const int commentsToPull = 40;
-
-            if (article.DiscourseTopicId == null)
-                return false;
-            if (article.CachedCommentCount >= commentsToPull)
-                return false;
-            if (article.PublishedDate < DateTime.Now.Subtract(TimeSpan.FromDays(60.0)))
-                return false;
-
-            var cachedComments = StoredProcs.Comments_GetComments(article.Id)
-                .Execute()
-                .Where(c => c.Discourse_Post_Id != null)
-                .ToDictionary(c => (int)c.Discourse_Post_Id);
-
-            Logger.Debug("Cached comments count for article (ID={0}) is: {1}", article.Id, cachedComments.Keys.Count);
-
-            var topic = GetDiscussionTopic((int)article.DiscourseTopicId);
-            int commentsPulled = 0;
-
-            foreach (var post in topic.Posts.Where(p => !p.Username.Equals("PaulaBean", StringComparison.OrdinalIgnoreCase)).Take(commentsToPull))
-            {
-                if (cachedComments.ContainsKey(post.Id))
-                    continue;
-                
-                commentsPulled++;
-
-                StoredProcs.Comments_CreateOrUpdateComment(
-                    article.Id, 
-                    CommentModel.TrySanitizeDiscourseBody(post.BodyHtml), 
-                    post.Username, 
-                    post.PostDate, 
-                    post.Id
-                  ).Execute();
-            }
-
-            if (commentsPulled > 0)
-                Logger.Debug("Comments were pulled and cached from Discourse for article (ID={0}).", article.Id);
-            else
-                Logger.Debug("No comments were pulled from Discourse for article (ID={0}).", article.Id);
-
-            return commentsPulled > 0;
-        }
-
         private static class DiscourseCache
         {
             private static readonly object locker = new object();

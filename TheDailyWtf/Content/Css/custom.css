@@ -38,6 +38,7 @@ a.social-icon.google-plus { background-image: url('/content/images/icons/googlep
 .datepicker.dropdown-menu { z-index: 1000; }
 .field input.date,
 .field input.time { width: inherit; }
+.field textarea.resizeable { resize: vertical; transition: initial; }
 
 .search-container { position: absolute; right: -80px; width: 200px; }
 

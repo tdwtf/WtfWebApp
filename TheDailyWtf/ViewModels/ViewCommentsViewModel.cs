@@ -13,7 +13,8 @@ namespace TheDailyWtf.ViewModels
         public ViewCommentsViewModel(ArticleModel article, int page)
         {
             this.Article = article;
-            this.Comments = CommentModel.FromArticle(article).Skip((page - 1) * CommentsPerPage).Take(CommentsPerPage);
+            this.AllComments = CommentModel.FromArticle(article);
+            this.Comments = this.AllComments.Skip((page - 1) * CommentsPerPage).Take(CommentsPerPage);
             this.PageNumber = page;
             if (this.Article.CachedCommentCount > 1)
                 this.DiscourseNextUnreadCommentUrl = this.Article.DiscourseThreadUrl + "/" + this.Article.CachedCommentCount;
@@ -35,6 +36,7 @@ namespace TheDailyWtf.ViewModels
         public virtual bool CanEditDelete { get { return false; } }
         public virtual bool CanReply { get { return this.PageNumber != -1; } }
         public ArticleModel Article { get; private set; }
+        public IEnumerable<CommentModel> AllComments { get; protected set; }
         public IEnumerable<CommentModel> Comments { get; protected set; }
         public int PageNumber { get; private set; }
         public int MaxDiscoursePostId { get; private set; }

@@ -24,3 +24,24 @@ function getCookie(cname) {
     }
     return "";
 }
+
+$(document).ready(function () {
+    if ($("#comment-form").length) {
+        if (getCookie("tdwtf_token_name") === "") {
+            if ("tdwtf_anon_name" in localStorage) {
+                $("#comment-name").val(localStorage["tdwtf_anon_name"]);
+            }
+            $("#comment-form").submit(function () {
+                if (!$("#g-recaptcha-response").val()) {
+                    $(".field.g-recaptcha").addClass("error message");
+                    return false;
+                }
+                localStorage["tdwtf_anon_name"] = $("#comment-name").val();
+            });
+        } else {
+            // logged-in users don't need to solve the captcha.
+            $("#comment-name").val(getCookie("tdwtf_token_name")).attr("disabled", "");
+            $(".field.g-recaptcha").hide();
+        }
+    }
+});

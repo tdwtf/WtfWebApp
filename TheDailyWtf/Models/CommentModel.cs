@@ -22,6 +22,8 @@ namespace TheDailyWtf.Models
         public int? DiscoursePostId { get; set; }
         public string ImageUrl { get; set; }
         public bool Featured { get; set; }
+        public bool Anonymous { get; set; }
+        public int? ParentCommentId { get; set; }
 
         public static IEnumerable<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
         {
@@ -32,7 +34,7 @@ namespace TheDailyWtf.Models
         public static IEnumerable<CommentModel> FromArticle(ArticleModel article)
         {
             var comments = StoredProcs.Comments_GetComments(article.Id).Execute();
-            return comments.Select(c => CommentModel.FromTable(c));
+            return comments.Select(c => FromTable(c));
         }
 
         public static string TrySanitizeDiscourseBody(string body)
@@ -73,19 +75,9 @@ namespace TheDailyWtf.Models
                 Username = comment.User_Name,
                 DiscoursePostId = comment.Discourse_Post_Id,
                 PublishedDate = comment.Posted_Date,
-                Featured = comment.Featured_Indicator
-            };
-        }
-
-        private static CommentModel FromDiscourse(Post post)
-        {
-            return new CommentModel()
-            {
-                BodyHtml = TrySanitizeDiscourseBody(post.BodyHtml),
-                Username = post.Username,
-                PublishedDate = post.PostDate,
-                DiscoursePostId = post.Id,
-                ImageUrl = post.ImageUrl
+                Featured = comment.Featured_Indicator,
+                Anonymous = comment.User_Token == null,
+                ParentCommentId = comment.Parent_Comment_Id
             };
         }
 
