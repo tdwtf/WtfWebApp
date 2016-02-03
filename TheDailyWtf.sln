@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheDailyWtf", "TheDailyWtf\TheDailyWtf.csproj", "{C7C16C09-33E6-4083-9FFD-8E014696591C}"
 EndProject
@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{9870781E-D72
 		Lib\System.Web.WebPages.Razor.dll = Lib\System.Web.WebPages.Razor.dll
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportDiscourseComments", "ImportDiscourseComments\ImportDiscourseComments.csproj", "{31F45342-9149-421B-A7DD-8FA0B89D880C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{C7C16C09-33E6-4083-9FFD-8E014696591C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7C16C09-33E6-4083-9FFD-8E014696591C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7C16C09-33E6-4083-9FFD-8E014696591C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31F45342-9149-421B-A7DD-8FA0B89D880C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31F45342-9149-421B-A7DD-8FA0B89D880C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31F45342-9149-421B-A7DD-8FA0B89D880C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31F45342-9149-421B-A7DD-8FA0B89D880C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
