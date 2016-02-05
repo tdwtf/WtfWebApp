@@ -1,5 +1,16 @@
 ﻿@model ViewCommentsViewModel
 
+@if (Model.CanEditDelete)
+{
+    <form method="post" id="real-delete-comment-form">
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Delete selected comments" />
+        @foreach (var comment in Model.Comments)
+        {
+            <input type="checkbox" name="delete" value="@comment.Id" class="hide" id="real-delete-@comment.Id" />
+        }
+    </form>
+}
 <div class="commentsWrapper">
     <ul class="comments">
         @foreach (var comment in Model.Comments)
@@ -14,6 +25,14 @@
                     }
                 </div>
                 <span class="poster">@comment.Username</span> @if (comment.Anonymous) { <span class="poster-anon">(unregistered)</span> }
+                @if (Model.CanEditDelete)
+                {
+                    <span class="poster-ip">IP: <code>@(comment.UserIP ?? "unknown")</code></span>
+                    if (!comment.Anonymous)
+                    {
+                        <span class="poster-token">Token: <code>@comment.UserToken</code></span>
+                    }
+                }
                 @if (comment.ParentCommentId != null)
                 {
                     // FIXME: this is probably the *least* efficient way to do this.
@@ -35,9 +54,20 @@
                             <button>@action</button>
                         }
                     }
+                    @if (Model.CanEditDelete)
+                    {
+                        using (Html.BeginForm("EditComment", "Admin", FormMethod.Post))
+                        {
+                            @Html.Hidden("comment", comment.Id)
+                            @Html.Hidden("article", Model.Article.Id)
+                            @Html.AntiForgeryToken()
+                            <button>Edit</button>
+                        }
+                        <label for="delete-@comment.Id">Delete: <input type="checkbox" class="comment-delete" id="delete-@comment.Id" /></label>
+                    }
                     @if (Model.CanReply)
                     {
-                        <br>
+                        <br />
                         <button onclick="document.getElementById('comment-parent').value = @comment.Id">Reply</button>
                     }
                 </span>

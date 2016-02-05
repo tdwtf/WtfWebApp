@@ -44,4 +44,25 @@ $(document).ready(function () {
             $(".field.g-recaptcha").hide();
         }
     }
+
+    var lastCommentDelete = null;
+    $(".comment-delete").click(function (e) {
+        var currentComment = this;
+        if (e.shiftKey && lastCommentDelete) {
+            var seen = 0;
+            $(".comment-delete").each(function () {
+                if (this == currentComment || this == lastCommentDelete) {
+                    seen++;
+                } else if (seen == 1) {
+                    this.checked = !this.checked;
+                }
+            });
+        }
+        lastCommentDelete = currentComment;
+    });
+    $("#real-delete-comment-form").submit(function () {
+        $(".comment-delete").each(function () {
+            $("#real-" + this.id).prop("checked", this.checked);
+        });
+    });
 });

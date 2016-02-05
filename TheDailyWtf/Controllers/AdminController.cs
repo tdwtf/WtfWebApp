@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -161,6 +162,37 @@ namespace TheDailyWtf.Controllers
             if (this.User.Identity.Name != article.Author.Slug)
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             return View(new ArticleCommentsViewModel(article, page, false));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [RequiresAdmin]
+        public ActionResult ArticleComments(int id, int page, DeleteCommentsModel post)
+        {
+            // TODO: delete comments
+            return new HttpStatusCodeResult(HttpStatusCode.NotImplemented);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [RequiresAdmin]
+        [ValidateInput(false)]
+        public ActionResult EditComment(int article, int comment, string body, string name)
+        {
+            var articleModel = ArticleModel.GetArticleById(article);
+            if (articleModel == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            var commentModel = CommentModel.FromArticle(articleModel).First(c => c.Id == comment);
+            if (commentModel == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            if (body == null)
+            {
+                body = commentModel.BodyRaw;
+                name = commentModel.Username;
+                return View(new EditCommentViewModel { Article = articleModel, Comment = commentModel, Post = new CommentFormModel { Body = body, Name = name } });
+            }
+            StoredProcs.Comments_CreateOrUpdateComment(comment, article, body, name, commentModel.PublishedDate, commentModel.UserIP, commentModel.UserToken, commentModel.ParentCommentId).ExecuteNonQuery();
+            return Redirect("index");
         }
 
         [HttpPost]

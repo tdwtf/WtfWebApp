@@ -28,30 +28,44 @@ CREATE PROCEDURE [Comments_CreateOrUpdateComment]
 AS
 BEGIN
 
-    INSERT INTO [Comments]
-    (
-        [Article_Id],
-        [Body_Html],
-        [User_Name],
-        [Posted_Date],
-        [Featured_Indicator],
-        [User_IP],
-        [User_Token],
-        [Parent_Comment_Id]
-    )
-    VALUES
-    (
-        @Article_Id,
-        @Body_Html,
-        @User_Name,
-        @Posted_Date,
-        'N',
-        @User_IP,
-        @User_Token,
-        @Parent_Comment_Id
-    )
+    IF (EXISTS(SELECT * FROM [Comments] WHERE [Comment_Id] = @Comment_Id))
+    BEGIN
 
-    SET @Comment_Id = SCOPE_IDENTITY()
+        UPDATE [Comments]
+           SET [Body_Html] = @Body_Html,
+               [User_Name] = @User_Name
+         WHERE [Comment_Id] = @Comment_Id
+
+    END
+    ELSE
+    BEGIN
+
+        INSERT INTO [Comments]
+        (
+            [Article_Id],
+            [Body_Html],
+            [User_Name],
+            [Posted_Date],
+            [Featured_Indicator],
+            [User_IP],
+            [User_Token],
+            [Parent_Comment_Id]
+        )
+        VALUES
+        (
+            @Article_Id,
+            @Body_Html,
+            @User_Name,
+            @Posted_Date,
+            'N',
+            @User_IP,
+            @User_Token,
+            @Parent_Comment_Id
+        )
+
+        SET @Comment_Id = SCOPE_IDENTITY()
+
+    END
 
 END
 GO

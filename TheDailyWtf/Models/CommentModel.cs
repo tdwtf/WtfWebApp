@@ -16,14 +16,19 @@ namespace TheDailyWtf.Models
         private static readonly Regex ImgSrcRegex = new Regex(@"src=""(?<comment>[^""]+)""", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
         public int Id { get; set; }
+        public string BodyRaw { get; set; }
         public string BodyHtml { get; set; }
         public string Username { get; set;}
         public DateTime PublishedDate { get; set; }
         public int? DiscoursePostId { get; set; }
         public string ImageUrl { get; set; }
         public bool Featured { get; set; }
-        public bool Anonymous { get; set; }
+        public bool Anonymous { get { return UserToken == null; } }
         public int? ParentCommentId { get; set; }
+        [NonSerialized]
+        public string UserIP;
+        [NonSerialized]
+        public string UserToken;
 
         public static IEnumerable<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
         {
@@ -69,15 +74,15 @@ namespace TheDailyWtf.Models
             return new CommentModel()
             {
                 Id = comment.Comment_Id,
-                BodyHtml = comment.Discourse_Post_Id == null 
-                    ? MarkdownFormatContent(comment.Body_Html) 
-                    : comment.Body_Html,
+                BodyRaw = comment.Body_Html,
+                BodyHtml = MarkdownFormatContent(comment.Body_Html),
                 Username = comment.User_Name,
                 DiscoursePostId = comment.Discourse_Post_Id,
                 PublishedDate = comment.Posted_Date,
                 Featured = comment.Featured_Indicator,
-                Anonymous = comment.User_Token == null,
-                ParentCommentId = comment.Parent_Comment_Id
+                ParentCommentId = comment.Parent_Comment_Id,
+                UserIP = comment.User_IP,
+                UserToken = comment.User_Token
             };
         }
 
