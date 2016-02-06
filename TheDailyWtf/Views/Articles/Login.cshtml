@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" id="loginPage">
+    <div class="twelve columns articleWrapper">
+        <div class="content">
+            <div class="row">
+                <div class="container">
+                    <form method="post">
+                        @Html.ValidationSummary()
+                        @Html.AntiForgeryToken()
+
+                        <h2>Log in with your forum account</h2>
+
+                        <div class="field">
+                            <label for="login-name">Username or email address:</label>
+                            <input id="login-name" name="username" type="text" class="input" placeholder="Username or email address" required tabindex="1" />
+                        </div>
+
+                        <div class="field">
+                            <label for="login-password">Password:</label>
+                            <input id="login-password" name="password" type="password" class="input" placeholder="Password" required tabindex="1" />
+                        </div>
+
+                        <div class="medium primary btn">
+                            <input class="input" type="submit" tabindex="3" value="Submit" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

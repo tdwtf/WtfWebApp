@@ -42,6 +42,7 @@ $(document).ready(function () {
             // logged-in users don't need to solve the captcha.
             $("#comment-name").val(getCookie("tdwtf_token_name")).attr("disabled", "");
             $(".field.g-recaptcha").hide();
+            $(".comment-anonymous-only").hide();
         }
     }
 

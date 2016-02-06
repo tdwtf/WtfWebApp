@@ -76,5 +76,15 @@ namespace TheDailyWtf
                 return WebConfigurationManager.AppSettings["Discourse." + key];
             }
         }
+
+        public static class NodeBB
+        {
+            public static string Host { get { return ReadFromFile(); } }
+
+            private static string ReadFromFile([CallerMemberName] string key = null)
+            {
+                return WebConfigurationManager.AppSettings["NodeBB." + key];
+            }
+        }
     }
 }

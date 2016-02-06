@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using TheDailyWtf.Data;
@@ -48,6 +53,64 @@ namespace TheDailyWtf.Controllers
                 return HttpNotFound();
 
             return View(new ViewCommentsViewModel(article, page));
+        }
+
+        public ActionResult Login()
+        {
+            return View(new CommentsLoginViewModel());
+        }
+
+        class LoginError
+        {
+            [JsonProperty(PropertyName = "message")]
+            public string Message { get; set; }
+        }
+
+        class LoginSuccess
+        {
+            [JsonProperty(PropertyName = "username")]
+            public string Name { get; set; }
+            [JsonProperty(PropertyName = "userslug")]
+            public string Slug { get; set; }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string username, string password)
+        {
+            using (var client = new HttpClient())
+            {
+                using (var response = client.PostAsync("https://" + Config.NodeBB.Host + "/api/ns/login", new FormUrlEncodedContent(
+                    new Dictionary<string, string> { { "username", username }, { "password", password } })).Result)
+                {
+                    if (response.StatusCode == HttpStatusCode.Forbidden)
+                    {
+                        var err = JsonConvert.DeserializeObject<LoginError>(response.Content.ReadAsStringAsync().Result);
+                        ModelState.AddModelError(string.Empty, err.Message);
+                        return View(new CommentsLoginViewModel());
+                    }
+                    response.EnsureSuccessStatusCode();
+                    var user = JsonConvert.DeserializeObject<LoginSuccess>(response.Content.ReadAsStringAsync().Result);
+
+                    var issued = DateTime.Now;
+                    var expiration = issued.AddYears(2);
+                    var ticket = new FormsAuthenticationTicket(1, user.Name, issued, expiration, true, string.Format("nodebb:{0}", user.Slug));
+                    Response.SetCookie(new HttpCookie("tdwtf_token", FormsAuthentication.Encrypt(ticket))
+                    {
+                        HttpOnly = true,
+                        Expires = expiration,
+                        Path = FormsAuthentication.FormsCookiePath,
+                    });
+                    Response.SetCookie(new HttpCookie("tdwtf_token_name", user.Name)
+                    {
+                        HttpOnly = false,
+                        Expires = expiration,
+                        Path = FormsAuthentication.FormsCookiePath,
+                    });
+                }
+            }
+            return Redirect("/");
         }
 
         // not cached

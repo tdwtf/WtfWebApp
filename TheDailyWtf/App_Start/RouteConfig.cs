@@ -169,6 +169,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "CommentsLogin",
+                url: "login",
+                defaults: new { controller = "Articles", action = "Login" }
+            );
+
+            routes.MapRoute(
                 name: "ViewArticle",
                 url: "articles/{articleSlug}",
                 defaults: new { controller = "Articles", action = "ViewArticle" }

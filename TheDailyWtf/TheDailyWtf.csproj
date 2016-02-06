@@ -183,6 +183,7 @@
     <Compile Include="ViewModels\Admin\ViewAdsViewModel.cs" />
     <Compile Include="ViewModels\ArticleItemViewModel.cs" />
     <Compile Include="ViewModels\ArticlesIndexViewModel.cs" />
+    <Compile Include="ViewModels\CommentsLoginViewModel.cs" />
     <Compile Include="ViewModels\ContactFormViewModel.cs" />
     <Compile Include="ViewModels\HomeIndexViewModel.cs" />
     <Compile Include="ViewModels\NavigationMenuViewModel.cs" />
@@ -381,6 +382,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admin\EditComment.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Articles\Login.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
