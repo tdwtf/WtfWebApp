@@ -31,6 +31,14 @@ namespace TheDailyWtf.ViewModels
             this.PageNumber = -1;
         }
 
+        public ViewCommentsViewModel(IEnumerable<CommentModel> comments, int page)
+        {
+            this.Article = null;
+            this.AllComments = comments;
+            this.Comments = this.AllComments.Skip((page - 1) * CommentsPerPage).Take(CommentsPerPage);
+            this.PageNumber = page;
+        }
+
         public virtual string BaseUrl { get { return Article.CommentsUrl; } }
         public virtual bool CanFeature { get { return false; } }
         public virtual bool CanEditDelete { get { return false; } }
@@ -45,7 +53,7 @@ namespace TheDailyWtf.ViewModels
         {
             get
             {
-                return (this.Article.CachedCommentCount + CommentsPerPage - 1) / CommentsPerPage;
+                return ((this.AllComments != null ? this.AllComments.Count() : this.Article.CachedCommentCount) + CommentsPerPage - 1) / CommentsPerPage;
             }
         }
         public string ViewCommentsHeading 

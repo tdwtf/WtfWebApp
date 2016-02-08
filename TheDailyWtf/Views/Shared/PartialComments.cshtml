@@ -2,7 +2,7 @@
 
 @if (Model.CanEditDelete)
 {
-    <form method="post" id="real-delete-comment-form">
+    <form action="/admin/delete-comments" method="post" id="real-delete-comment-form">
         @Html.AntiForgeryToken()
         <input type="submit" value="Delete selected comments" />
         @foreach (var comment in Model.Comments)
@@ -27,18 +27,21 @@
                 <span class="poster">@comment.Username</span> @if (comment.Anonymous) { <span class="poster-anon">(unregistered)</span> }
                 @if (Model.CanEditDelete)
                 {
-                    <span class="poster-ip">IP: <code>@(comment.UserIP ?? "unknown")</code></span>
+                    <span class="poster-ip">IP: @if (comment.UserIP == null) { <code>unknown</code> } else { <a href="/admin/user-comments/by-ip/@Url.Encode(comment.UserIP)"><code>@comment.UserIP</code></a> }</span>
                     if (!comment.Anonymous)
                     {
-                        <span class="poster-token">Token: <code>@comment.UserToken</code></span>
+                        <span class="poster-token">Token: <a href="/admin/user-comments/by-token/@Url.Encode(comment.UserToken)"><code>@comment.UserToken</code></a></span>
                     }
                 }
-                @if (comment.ParentCommentId != null)
+                @if (comment.ParentCommentId != null && Model.AllComments != null)
                 {
                     // FIXME: this is probably the *least* efficient way to do this.
                     var index = Model.AllComments.TakeWhile(c => c.Id != comment.ParentCommentId).Count();
-                    var repliedToUser = Model.AllComments.First(c => c.Id == comment.ParentCommentId).Username;
-                    <a href="@string.Format("{0}/{1}#comment-{2}", Model.BaseUrl, index / ViewCommentsViewModel.CommentsPerPage + 1, comment.ParentCommentId)" class="reply-to clean">in reply to @repliedToUser</a>
+                    if (index != Model.AllComments.Count())
+                    {
+                        var repliedToUser = Model.AllComments.ElementAt(index).Username;
+                        <a href="@string.Format("{0}/{1}#comment-{2}", Model.BaseUrl, index / ViewCommentsViewModel.CommentsPerPage + 1, comment.ParentCommentId)" class="reply-to clean">in reply to @repliedToUser</a>
+                    }
                 }
                 <span class="timestamp">
                     <a href="#comment-@comment.Id">@comment.PublishedDate</a>
@@ -49,7 +52,7 @@
                         using (Html.BeginForm(action + "Comment", "Admin", FormMethod.Post))
                         {
                             @Html.Hidden("comment", comment.Id)
-                            @Html.Hidden("article", Model.Article.Id)
+                            @Html.Hidden("article", comment.ArticleId)
                             @Html.AntiForgeryToken()
                             <button>@action</button>
                         }
@@ -59,7 +62,7 @@
                         using (Html.BeginForm("EditComment", "Admin", FormMethod.Post))
                         {
                             @Html.Hidden("comment", comment.Id)
-                            @Html.Hidden("article", Model.Article.Id)
+                            @Html.Hidden("article", comment.ArticleId)
                             @Html.AntiForgeryToken()
                             <button>Edit</button>
                         }

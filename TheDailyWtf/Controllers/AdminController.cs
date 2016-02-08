@@ -167,10 +167,26 @@ namespace TheDailyWtf.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RequiresAdmin]
-        public ActionResult ArticleComments(int id, int page, DeleteCommentsModel post)
+        public ActionResult DeleteComments(int id, int page, DeleteCommentsModel post)
         {
             // TODO: delete comments
             return new HttpStatusCodeResult(HttpStatusCode.NotImplemented);
+        }
+
+        [RequiresAdmin]
+        public ActionResult CommentsByIP(string ip, int page)
+        {
+            if (this.User == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            return View(new UserCommentsViewModel("by-ip/" + Url.Encode(ip), CommentModel.GetCommentsByIP(ip), page));
+        }
+
+        [RequiresAdmin]
+        public ActionResult CommentsByToken(string token, int page)
+        {
+            if (this.User == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            return View(new UserCommentsViewModel("by-token/" + Url.Encode(token), CommentModel.GetCommentsByToken(token), page));
         }
 
         [HttpPost]

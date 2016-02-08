@@ -180,6 +180,7 @@
     <Compile Include="ViewModels\Admin\EditSeriesViewModel.cs" />
     <Compile Include="ViewModels\Admin\FeatureCommentViewModel.cs" />
     <Compile Include="ViewModels\Admin\MyArticlesViewModel.cs" />
+    <Compile Include="ViewModels\Admin\UserCommentsViewModel.cs" />
     <Compile Include="ViewModels\Admin\ViewAdsViewModel.cs" />
     <Compile Include="ViewModels\ArticleItemViewModel.cs" />
     <Compile Include="ViewModels\ArticlesIndexViewModel.cs" />
@@ -385,6 +386,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Articles\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\CommentsByIP.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\CommentsByToken.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

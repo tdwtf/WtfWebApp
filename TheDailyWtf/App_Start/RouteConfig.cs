@@ -43,6 +43,24 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "UserIPCommentsAdmin",
+                url: "admin/user-comments/by-ip/{ip}/{page}",
+                defaults: new { controller = "Admin", action = "CommentsByIP", page = 1 }
+            );
+
+            routes.MapRoute(
+                name: "UserTokenCommentsAdmin",
+                url: "admin/user-comments/by-token/{token}/{page}",
+                defaults: new { controller = "Admin", action = "CommentsByToken", page = 1 }
+            );
+
+            routes.MapRoute(
+                name: "DeleteCommentsAdmin",
+                url: "admin/delete-comments",
+                defaults: new { controller = "Admin", action = "DeleteComments" }
+            );
+
+            routes.MapRoute(
                 name: "EditCommentAdmin",
                 url: "admin/edit-comment",
                 defaults: new { controller = "Admin", action = "EditComment" }
