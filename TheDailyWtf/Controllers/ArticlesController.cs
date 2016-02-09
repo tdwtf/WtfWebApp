@@ -17,6 +17,8 @@ namespace TheDailyWtf.Controllers
 {
     public class ArticlesController : WtfControllerBase
     {
+        public static readonly TimeSpan CommentEditTimeout = TimeSpan.FromDays(2);
+
         //
         // GET: /Articles/
 
@@ -153,6 +155,67 @@ namespace TheDailyWtf.Controllers
             }
 
             return View(new ViewCommentsViewModel(article, page) { Comment = form });
+        }
+
+        public ActionResult Addendum(string articleSlug, int id)
+        {
+            var article = ArticleModel.GetArticleBySlug(articleSlug);
+            if (article == null)
+                return HttpNotFound();
+
+            // TODO: get comment by ID would be much more efficient here
+            var comments = CommentModel.FromArticle(article);
+            if (!comments.Any(c => c.Id == id))
+                return HttpNotFound();
+
+            var comment = comments.First(c => c.Id == id);
+            if (comment.UserToken == null || comment.PublishedDate.Add(CommentEditTimeout) <= DateTime.Now)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+            var cookie = Request.Cookies["tdwtf_token"];
+            if (cookie == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+            var ticket = FormsAuthentication.Decrypt(cookie.Value);
+            if (ticket.Expired || comment.UserToken != ticket.UserData)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+            return View(new AddendumViewModel(article, comment));
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Addendum(string articleSlug, int id, CommentFormModel post)
+        {
+            var article = ArticleModel.GetArticleBySlug(articleSlug);
+            if (article == null)
+                return HttpNotFound();
+
+            if (string.IsNullOrWhiteSpace(post.Body))
+                return Redirect(article.Url);
+
+            // TODO: get comment by ID would be much more efficient here
+            var comments = CommentModel.FromArticle(article);
+            if (!comments.Any(c => c.Id == id))
+                return HttpNotFound();
+
+            var comment = comments.First(c => c.Id == id);
+            if (comment.UserToken == null || comment.PublishedDate.Add(CommentEditTimeout) <= DateTime.Now)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+            var cookie = Request.Cookies["tdwtf_token"];
+            if (cookie == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+            var ticket = FormsAuthentication.Decrypt(cookie.Value);
+            if (ticket.Expired || comment.UserToken != ticket.UserData)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+            StoredProcs.Comments_CreateOrUpdateComment(comment.Id, article.Id, string.Format("{0}\n\n**Addendum {1}:**\n{2}", comment.BodyRaw, DateTime.Now, post.Body),
+                comment.Username, comment.PublishedDate, comment.UserIP, comment.UserToken, comment.ParentCommentId).ExecuteNonQuery();
+
+            return Redirect(article.Url);
         }
 
         public ActionResult ViewLegacyArticle(string articleSlug)

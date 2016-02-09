@@ -33,7 +33,7 @@ namespace TheDailyWtf
             routes.MapRoute(
                 name: "ArticleAdmin",
                 url: "admin/article/edit/{id}",
-                defaults: new { controller = "Admin", action = "EditArticle", id = UrlParameter.Optional  }
+                defaults: new { controller = "Admin", action = "EditArticle", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
@@ -190,6 +190,12 @@ namespace TheDailyWtf
                 name: "CommentsLogin",
                 url: "login",
                 defaults: new { controller = "Articles", action = "Login" }
+            );
+
+            routes.MapRoute(
+                name: "CommentsAddendum",
+                url: "articles/comments/{articleSlug}/addendum/{id}",
+                defaults: new { controller = "Articles", action = "Addendum" }
             );
 
             routes.MapRoute(
