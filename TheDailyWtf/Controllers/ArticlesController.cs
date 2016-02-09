@@ -1,14 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Requests;
+using Google.Apis.Oauth2.v2;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using TheDailyWtf.Data;
-using TheDailyWtf.Discourse;
 using TheDailyWtf.Legacy;
 using TheDailyWtf.Models;
 using TheDailyWtf.ViewModels;
@@ -76,11 +80,36 @@ namespace TheDailyWtf.Controllers
             public string Slug { get; set; }
         }
 
+        private ActionResult SetLoginCookie(string name, string token)
+        {
+            var issued = DateTime.Now;
+            var expiration = issued.AddYears(2);
+            var ticket = new FormsAuthenticationTicket(1, name, issued, expiration, true, token);
+            Response.SetCookie(new HttpCookie("tdwtf_token", FormsAuthentication.Encrypt(ticket))
+            {
+                HttpOnly = true,
+                Expires = expiration,
+                Path = FormsAuthentication.FormsCookiePath,
+            });
+            Response.SetCookie(new HttpCookie("tdwtf_token_name", name)
+            {
+                HttpOnly = false,
+                Expires = expiration,
+                Path = FormsAuthentication.FormsCookiePath,
+            });
+            return Redirect("/");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string username, string password)
+        public ActionResult Login(string username, string password, string google_code)
         {
+            if (!string.IsNullOrEmpty(google_code))
+            {
+                return LoginGoogle(google_code);
+            }
+
             using (var client = new HttpClient())
             {
                 using (var response = client.PostAsync("https://" + Config.NodeBB.Host + "/api/ns/login", new FormUrlEncodedContent(
@@ -95,24 +124,33 @@ namespace TheDailyWtf.Controllers
                     response.EnsureSuccessStatusCode();
                     var user = JsonConvert.DeserializeObject<LoginSuccess>(response.Content.ReadAsStringAsync().Result);
 
-                    var issued = DateTime.Now;
-                    var expiration = issued.AddYears(2);
-                    var ticket = new FormsAuthenticationTicket(1, user.Name, issued, expiration, true, string.Format("nodebb:{0}", user.Slug));
-                    Response.SetCookie(new HttpCookie("tdwtf_token", FormsAuthentication.Encrypt(ticket))
-                    {
-                        HttpOnly = true,
-                        Expires = expiration,
-                        Path = FormsAuthentication.FormsCookiePath,
-                    });
-                    Response.SetCookie(new HttpCookie("tdwtf_token_name", user.Name)
-                    {
-                        HttpOnly = false,
-                        Expires = expiration,
-                        Path = FormsAuthentication.FormsCookiePath,
-                    });
+                    return SetLoginCookie(user.Name, "nodebb:" + user.Slug);
                 }
             }
-            return Redirect("/");
+        }
+
+        // The only documentation I could find for C# Google authentication was the old and incomplete.
+        // For example, the Google.Apis.Oauth2.v2.UserinfoResource.V2Resource.MeResource.GetRequest constructor
+        // has a description of "summary>Gets the method name."
+        private ActionResult LoginGoogle(string code)
+        {
+            var secrets = new ClientSecrets()
+            {
+                ClientId = Config.GoogleClientId,
+                ClientSecret = Config.GoogleSecret
+            };
+
+            var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer()
+            {
+                ClientSecrets = secrets,
+                Scopes = new[] { "profile", "email" }
+            });
+
+            var token = flow.ExchangeCodeForTokenAsync("", code, "postmessage", CancellationToken.None).Result;
+
+            var info = new UserinfoResource.V2Resource.MeResource.GetRequest(new Oauth2Service()) { OauthToken = token.AccessToken }.Execute();
+
+            return SetLoginCookie(info.Name, "google:" + info.Email);
         }
 
         // not cached

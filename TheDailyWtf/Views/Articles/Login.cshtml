@@ -11,6 +11,28 @@
                         @Html.ValidationSummary()
                         @Html.AntiForgeryToken()
 
+                        <button id="google-sign-in-button">Log in with Google</button>
+                        <input type="hidden" name="google_code" id="google-sign-in-code" />
+                        <script>
+                            function googleSignIn() {
+                                gapi.load("auth2", function () {
+                                    var auth2 = gapi.auth2.init({
+                                        client_id: "@Config.GoogleClientId"
+                                    });
+                                    $("#google-sign-in-button").click(function () {
+                                        auth2.grantOfflineAccess({"redirect_uri": "postmessage"}).then(function (result) {
+                                            if (result["code"]) {
+                                                $("#google-sign-in-code").val(result["code"]);
+                                                $("input[required]").removeAttr("required").val("");
+                                                $("form").hide().submit();
+                                            }
+                                        });
+                                    });
+                                });
+                            }
+                        </script>
+                        <script src="https://apis.google.com/js/client:platform.js?onload=googleSignIn" async defer></script>
+
                         <h2>Log in with your forum account</h2>
 
                         <div class="field">

@@ -16,6 +16,9 @@ namespace TheDailyWtf
         public static string RecaptchaPublicKey { get { return WebConfigurationManager.AppSettings["recaptchaPublicKey"]; } }
         public static string RecaptchaPrivateKey { get { return WebConfigurationManager.AppSettings["recaptchaPrivateKey"]; } }
 
+        public static string GoogleClientId { get { return WebConfigurationManager.AppSettings["GoogleClientId"]; } }
+        public static string GoogleSecret { get { return WebConfigurationManager.AppSettings["GoogleSecret"]; } }
+
         public static class Wtf
         {
             public static string Host { get { return ReadFromFile(); } }
