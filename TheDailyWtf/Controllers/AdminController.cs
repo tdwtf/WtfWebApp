@@ -167,10 +167,14 @@ namespace TheDailyWtf.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RequiresAdmin]
-        public ActionResult DeleteComments(int id, int page, DeleteCommentsModel post)
+        public ActionResult DeleteComments(DeleteCommentsModel post)
         {
-            // TODO: delete comments
-            return new HttpStatusCodeResult(HttpStatusCode.NotImplemented);
+            var commentIdsCsv = string.Join(",", post.Delete);
+            Logger.Information("Deleting comments with IDs \"{0}\".", commentIdsCsv);
+
+            StoredProcs.Comments_DeleteComments(commentIdsCsv).Execute();
+
+            return RedirectToAction("index");
         }
 
         [RequiresAdmin]
