@@ -68,15 +68,15 @@ namespace TheDailyWtf.Controllers
 
         class LoginError
         {
-            [JsonProperty(PropertyName = "message")]
+            [JsonProperty(PropertyName = "message", Required = Required.Always)]
             public string Message { get; set; }
         }
 
         class LoginSuccess
         {
-            [JsonProperty(PropertyName = "username")]
+            [JsonProperty(PropertyName = "username", Required = Required.Always)]
             public string Name { get; set; }
-            [JsonProperty(PropertyName = "userslug")]
+            [JsonProperty(PropertyName = "userslug", Required = Required.Always)]
             public string Slug { get; set; }
         }
 
@@ -151,6 +151,49 @@ namespace TheDailyWtf.Controllers
             var info = new UserinfoResource.V2Resource.MeResource.GetRequest(new Oauth2Service()) { OauthToken = token.AccessToken }.Execute();
 
             return SetLoginCookie(info.Name, "google:" + info.Email);
+        }
+
+        class GitHubToken
+        {
+            [JsonProperty(PropertyName = "access_token", Required = Required.Always)]
+            public string AccessToken { get; set; }
+        }
+
+        class GitHubUser
+        {
+            [JsonProperty(PropertyName = "login", Required = Required.Always)]
+            public string Login { get; set; }
+            [JsonProperty(PropertyName = "name", Required = Required.Always)]
+            public string Name { get; set; }
+        }
+
+        public ActionResult LoginGitHub()
+        {
+            if (string.IsNullOrEmpty(Request.QueryString["code"]))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", "TheDailyWTF");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                using (var response = client.PostAsync("https://github.com/login/oauth/access_token", new FormUrlEncodedContent(new Dictionary<string, string>()
+                    {
+                        { "client_id", Config.GitHubClientId },
+                        { "client_secret", Config.GitHubSecret },
+                        { "code", Request.QueryString["code"] }
+                    })).Result)
+                {
+                    response.EnsureSuccessStatusCode();
+
+                    var content = response.Content.ReadAsStringAsync().Result;
+                    var accessToken = JsonConvert.DeserializeObject<GitHubToken>(content).AccessToken;
+                    client.DefaultRequestHeaders.Add("Authorization", "token " + accessToken);
+                }
+
+                var user = JsonConvert.DeserializeObject<GitHubUser>(client.GetStringAsync("https://api.github.com/user").Result);
+                return SetLoginCookie(user.Name, "github:" + user.Login);
+            }
         }
 
         // not cached

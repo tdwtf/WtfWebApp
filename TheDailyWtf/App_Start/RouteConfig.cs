@@ -193,6 +193,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "CommentsLoginGitHub",
+                url: "login/github",
+                defaults: new { controller = "Articles", action = "LoginGitHub" }
+            );
+
+            routes.MapRoute(
                 name: "CommentsAddendum",
                 url: "articles/comments/{articleSlug}/addendum/{id}",
                 defaults: new { controller = "Articles", action = "Addendum" }

@@ -11,7 +11,7 @@
                         @Html.ValidationSummary()
                         @Html.AntiForgeryToken()
 
-                        <button id="google-sign-in-button">Log in with Google</button>
+                        Log in with <a id="google-sign-in-button">Google</a>
                         <input type="hidden" name="google_code" id="google-sign-in-code" />
                         <script>
                             function googleSignIn() {
@@ -32,6 +32,7 @@
                             }
                         </script>
                         <script src="https://apis.google.com/js/client:platform.js?onload=googleSignIn" async defer></script>
+                        <a href="https://github.com/login/oauth/authorize?client_id=@Config.GitHubClientId">GitHub</a>
 
                         <h2>Log in with your forum account</h2>
 
