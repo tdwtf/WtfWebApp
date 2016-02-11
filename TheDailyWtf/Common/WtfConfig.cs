@@ -22,6 +22,9 @@ namespace TheDailyWtf
         public static string GitHubClientId { get { return WebConfigurationManager.AppSettings["GitHubClientId"]; } }
         public static string GitHubSecret { get { return WebConfigurationManager.AppSettings["GitHubSecret"]; } }
 
+        public static string YahooClientId { get { return WebConfigurationManager.AppSettings["YahooClientId"]; } }
+        public static string YahooSecret { get { return WebConfigurationManager.AppSettings["YahooSecret"]; } }
+
         public static class Wtf
         {
             public static string Host { get { return ReadFromFile(); } }
