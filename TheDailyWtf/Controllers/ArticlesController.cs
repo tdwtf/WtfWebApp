@@ -1,5 +1,6 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Requests;
 using Google.Apis.Oauth2.v2;
 using Newtonsoft.Json;
 using System;
@@ -152,7 +153,7 @@ namespace TheDailyWtf.Controllers
             return SetLoginCookie(info.Name, "google:" + info.Email);
         }
 
-        class OAuth2Token
+        class GitHubToken
         {
             [JsonProperty(PropertyName = "access_token", Required = Required.Always)]
             public string AccessToken { get; set; }
@@ -186,69 +187,12 @@ namespace TheDailyWtf.Controllers
                     response.EnsureSuccessStatusCode();
 
                     var content = response.Content.ReadAsStringAsync().Result;
-                    var accessToken = JsonConvert.DeserializeObject<OAuth2Token>(content).AccessToken;
+                    var accessToken = JsonConvert.DeserializeObject<GitHubToken>(content).AccessToken;
                     client.DefaultRequestHeaders.Add("Authorization", "token " + accessToken);
                 }
 
                 var user = JsonConvert.DeserializeObject<GitHubUser>(client.GetStringAsync("https://api.github.com/user").Result);
                 return SetLoginCookie(user.Name, "github:" + user.Login);
-            }
-        }
-
-        // Yes, this type is every bit as broken as it seems.
-        class YahooGuid
-        {
-            public class YahooGuidGuid
-            {
-                [JsonProperty(PropertyName = "value", Required = Required.Always)]
-                public string Value { get; set; }
-            }
-
-            [JsonProperty(PropertyName = "guid", Required = Required.Always)]
-            public YahooGuidGuid Guid { get; set; }
-        }
-
-        class YahooUser
-        {
-            public class YahooUserProfile
-            {
-                [JsonProperty(PropertyName = "nickname", Required = Required.Always)]
-                public string Nickname { get; set; }
-                [JsonProperty(PropertyName = "email", Required = Required.Always)]
-                public string Email { get; set; }
-            }
-
-            [JsonProperty(PropertyName = "profile", Required = Required.Always)]
-            public YahooUserProfile Profile { get; set; }
-        }
-
-        public ActionResult LoginYahoo()
-        {
-            if (string.IsNullOrEmpty(Request.QueryString["code"]))
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add("User-Agent", "TheDailyWTF");
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                using (var response = client.PostAsync("https://api.login.yahoo.com/oauth2/get_token", new FormUrlEncodedContent(new Dictionary<string, string>()
-                    {
-                        { "client_id", Config.YahooClientId },
-                        { "client_secret", Config.YahooSecret },
-                        { "code", Request.QueryString["code"] }
-                    })).Result)
-                {
-                    response.EnsureSuccessStatusCode();
-
-                    var content = response.Content.ReadAsStringAsync().Result;
-                    var accessToken = JsonConvert.DeserializeObject<OAuth2Token>(content).AccessToken;
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-                }
-
-                var guid = JsonConvert.DeserializeObject<YahooGuid>(client.GetStringAsync("https://social.yahooapis.com/v1/me/guid?format=json").Result);
-                var user = JsonConvert.DeserializeObject<YahooUser>(client.GetStringAsync("https://social.yahooapis.com/v1/user/" + guid.Guid.Value + "/profile?format=json").Result);
-                return SetLoginCookie(user.Profile.Nickname, "yahoo:" + user.Profile.Email);
             }
         }
 
