@@ -1,14 +1,9 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Auth.OAuth2.Flows;
-using Google.Apis.Auth.OAuth2.Requests;
-using Google.Apis.Oauth2.v2;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -103,13 +98,8 @@ namespace TheDailyWtf.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string username, string password, string google_code)
+        public ActionResult Login(string username, string password)
         {
-            if (!string.IsNullOrEmpty(google_code))
-            {
-                return LoginGoogle(google_code);
-            }
-
             using (var client = new HttpClient())
             {
                 using (var response = client.PostAsync("https://" + Config.NodeBB.Host + "/api/ns/login", new FormUrlEncodedContent(
@@ -129,34 +119,22 @@ namespace TheDailyWtf.Controllers
             }
         }
 
-        // The only documentation I could find for C# Google authentication was the old and incomplete.
-        // For example, the Google.Apis.Oauth2.v2.UserinfoResource.V2Resource.MeResource.GetRequest constructor
-        // has a description of "summary>Gets the method name."
-        private ActionResult LoginGoogle(string code)
+        class GoogleUser
         {
-            var secrets = new ClientSecrets()
-            {
-                ClientId = Config.GoogleClientId,
-                ClientSecret = Config.GoogleSecret
-            };
-
-            var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer()
-            {
-                ClientSecrets = secrets,
-                Scopes = new[] { "profile", "email" }
-            });
-
-            var token = flow.ExchangeCodeForTokenAsync("", code, "postmessage", CancellationToken.None).Result;
-
-            var info = new UserinfoResource.V2Resource.MeResource.GetRequest(new Oauth2Service()) { OauthToken = token.AccessToken }.Execute();
-
-            return SetLoginCookie(info.Name, "google:" + info.Email);
+            [JsonProperty(PropertyName = "email", Required = Required.Always)]
+            public string Email { get; set; }
+            [JsonProperty(PropertyName = "name", Required = Required.Always)]
+            public string Name { get; set; }
         }
 
-        class GitHubToken
+        private ActionResult LoginGoogle()
         {
-            [JsonProperty(PropertyName = "access_token", Required = Required.Always)]
-            public string AccessToken { get; set; }
+            return this.OAuth2Login(OAuth2.Google, (client, token) =>
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+                var user = JsonConvert.DeserializeObject<GoogleUser>(client.GetStringAsync("https://www.googleapis.com/oauth2/v2/userinfo").Result);
+                return SetLoginCookie(user.Name, "google:" + user.Email);
+            });
         }
 
         class GitHubUser
@@ -169,31 +147,12 @@ namespace TheDailyWtf.Controllers
 
         public ActionResult LoginGitHub()
         {
-            if (string.IsNullOrEmpty(Request.QueryString["code"]))
+            return this.OAuth2Login(OAuth2.GitHub, (client, token) =>
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add("User-Agent", "TheDailyWTF");
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                using (var response = client.PostAsync("https://github.com/login/oauth/access_token", new FormUrlEncodedContent(new Dictionary<string, string>()
-                    {
-                        { "client_id", Config.GitHubClientId },
-                        { "client_secret", Config.GitHubSecret },
-                        { "code", Request.QueryString["code"] }
-                    })).Result)
-                {
-                    response.EnsureSuccessStatusCode();
-
-                    var content = response.Content.ReadAsStringAsync().Result;
-                    var accessToken = JsonConvert.DeserializeObject<GitHubToken>(content).AccessToken;
-                    client.DefaultRequestHeaders.Add("Authorization", "token " + accessToken);
-                }
-
+                client.DefaultRequestHeaders.Add("Authorization", "token " + token);
                 var user = JsonConvert.DeserializeObject<GitHubUser>(client.GetStringAsync("https://api.github.com/user").Result);
                 return SetLoginCookie(user.Name, "github:" + user.Login);
-            }
+            });
         }
 
         // not cached

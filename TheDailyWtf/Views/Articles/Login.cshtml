@@ -11,28 +11,7 @@
                         @Html.ValidationSummary()
                         @Html.AntiForgeryToken()
 
-                        Log in with <a id="google-sign-in-button">Google</a>
-                        <input type="hidden" name="google_code" id="google-sign-in-code" />
-                        <script>
-                            function googleSignIn() {
-                                gapi.load("auth2", function () {
-                                    var auth2 = gapi.auth2.init({
-                                        client_id: "@Config.GoogleClientId"
-                                    });
-                                    $("#google-sign-in-button").click(function () {
-                                        auth2.grantOfflineAccess({"redirect_uri": "postmessage"}).then(function (result) {
-                                            if (result["code"]) {
-                                                $("#google-sign-in-code").val(result["code"]);
-                                                $("input[required]").removeAttr("required").val("");
-                                                $("form").hide().submit();
-                                            }
-                                        });
-                                    });
-                                });
-                            }
-                        </script>
-                        <script src="https://apis.google.com/js/client:platform.js?onload=googleSignIn" async defer></script>
-                        <a href="https://github.com/login/oauth/authorize?client_id=@Config.GitHubClientId">GitHub</a>
+                        Log in with <a href="@Html.OAuth2Url(OAuth2.Google)">Google</a>, <a href="@Html.OAuth2Url(OAuth2.GitHub)">GitHub</a>
 
                         <h2>Log in with your forum account</h2>
 
