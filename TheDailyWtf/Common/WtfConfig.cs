@@ -16,12 +16,6 @@ namespace TheDailyWtf
         public static string RecaptchaPublicKey { get { return WebConfigurationManager.AppSettings["recaptchaPublicKey"]; } }
         public static string RecaptchaPrivateKey { get { return WebConfigurationManager.AppSettings["recaptchaPrivateKey"]; } }
 
-        public static string GoogleClientId { get { return WebConfigurationManager.AppSettings["GoogleClientId"]; } }
-        public static string GoogleSecret { get { return WebConfigurationManager.AppSettings["GoogleSecret"]; } }
-
-        public static string GitHubClientId { get { return WebConfigurationManager.AppSettings["GitHubClientId"]; } }
-        public static string GitHubSecret { get { return WebConfigurationManager.AppSettings["GitHubSecret"]; } }
-
         public static class Wtf
         {
             public static string Host { get { return ReadFromFile(); } }
@@ -68,24 +62,11 @@ namespace TheDailyWtf
             }
         }
 
-        public static class Discourse
-        {
-            public static string Host { get { return ReadFromFile(); } }
-            public static string Username { get { return ReadFromFile(); } }
-            public static string ApiKey { get { return ReadFromFile(); } }
-            public static int ApiRequestTimeout { get { return int.Parse(ReadFromFile()); } }
-            public static string CommentCategory { get { return ReadFromFile(); } }
-            public static string SideBarWtfCategory { get { return ReadFromFile(); } }
-            
-            private static string ReadFromFile([CallerMemberName] string key = null)
-            {
-                return WebConfigurationManager.AppSettings["Discourse." + key];
-            }
-        }
-
         public static class NodeBB
         {
             public static string Host { get { return ReadFromFile(); } }
+            public static string SideBarWtfCategory { get { return ReadFromFile(); } }
+            public static int ApiRequestTimeout { get { return int.Parse(ReadFromFile()); } }
 
             private static string ReadFromFile([CallerMemberName] string key = null)
             {

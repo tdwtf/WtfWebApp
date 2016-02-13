@@ -25,10 +25,7 @@ namespace TheDailyWtf.ViewModels
         {
             get
             {
-                if (this.Article.DiscourseTopicId == null)
-                    return string.Format("View All {0} Comments", this.Article.CachedCommentCount);
-                else
-                    return string.Format("Preview Top {0} Comments", this.Article.CachedCommentCount);
+                return string.Format("View All {0} Comments", this.Article.CachedCommentCount);
             }
         }
     }

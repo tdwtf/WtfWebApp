@@ -103,9 +103,9 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
-                name: "ReenableDiscourse",
-                url: "admin/reenable-discourse",
-                defaults: new { controller = "Admin", action = "ReenableDiscourse" }
+                name: "ReenableSideBar",
+                url: "admin/reenable-side-bar",
+                defaults: new { controller = "Admin", action = "ReenableSideBar" }
             );
 
             routes.MapRoute(

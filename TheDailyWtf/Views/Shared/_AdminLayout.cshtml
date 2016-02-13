@@ -60,18 +60,18 @@
     <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
     <![endif]-->
 
-   @if (Model != null && Model.DiscourseMessage != null)
+   @if (Model != null && Model.ForumMessage != null)
    {
       <div class="message error">
 
          @if (this.User != null && this.User.IsAdmin)
          {
             <div>
-               [<a href="/admin/reenable-discourse">Clear Cached Error and Re-enable Discourse Connections</a>]
+               [<a href="/admin/reenable-side-bar">Clear Cached Error and Re-enable Forum Connections</a>]
             </div>
          }
 
-         @Model.DiscourseMessage
+         @Model.ForumMessage
 
       </div>
    }

@@ -49,7 +49,7 @@ namespace TheDailyWtf
                             new XElement("pubDate", a.PublishedDate.Value.ToUniversalTime().ToString("r")),
                             new XElement("guid", a.Id),
                             new XElement("description", a.BodyAndAdHtml),
-                            new XElement(slash + "comments", a.CoalescedCommentCount),
+                            new XElement(slash + "comments", a.CachedCommentCount),
                             new XElement("comments", a.CommentsUrl)
                         ))
                     )

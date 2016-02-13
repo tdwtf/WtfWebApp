@@ -15,9 +15,6 @@
                ? '@((Model.Article.Slug??"").Replace("'", @"\'"))'
                : self.titleText().replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g,'').toLowerCase();
          });
-         self.lockDiscourseTopicFromEdit = ko.observable(@((Model.Article.DiscourseTopicId != null).ToString().ToLower()));
-         self.createDiscourseTopic = ko.observable(@((Model.Article.DiscourseTopicId == null).ToString().ToLower()));
-
       }
       var vm = new ViewModel();
       ko.applyBindings(vm);
@@ -121,43 +118,7 @@
 
          });
       </script>
-
-      <div style="border: 1px #666 solid; padding: 15px; margin-bottom: 10px;">
-         <h4>Discourse Integration:</h4>
-         <div>
-            <label>
-               @Html.CheckBoxFor(m => m.CreateCommentDiscussionChecked, new { data_bind = "checked: createDiscourseTopic" })
-               <span>Create a new comment discussion topic on Discourse (under web.config category: [@Config.Discourse.CommentCategory]) 
-               and assign it to this article. Note: the article ID below must also be empty if editing an existing article with a topic 
-               in order to create a new discussion.</span>
-            </label>
-         </div>
-         
-            <label>
-               <input type="checkbox" data-bind="checked: lockDiscourseTopicFromEdit" />
-               <span>Lock Discourse Topic ID from accidental edit...</span>
-            </label>
-            <div class="field">
-         
-                  <div>Discourse Topic ID (<a target="_blank" href="@Model.Article.DiscourseThreadUrl">view</a>):</div>
-               <input data-bind="attr: { readonly: lockDiscourseTopicFromEdit() ? 'readonly' : null }" type="text" class="input" style="width:100px;" name="article.discoursetopicid" value="@Model.Article.DiscourseTopicId" />
-            </div>
-            <div>
-               @if (Model.Article.DiscourseTopicOpened)
-               {
-                  <span><i class="icon-check"></i>This topic is already marked as opened.</span>
-               }
-               else {
-               <span><i class="icon-lock"></i>This topic is currently not open, but will be opened once the article goes live, or may be opened manually.</span>
-               }
-               <label>
-                  @Html.CheckBoxFor(m => m.OpenCommentDiscussionChecked)
-                  <span>Open comment discussion immediately on article save</span>
-               </label>
-            </div>
-         
-      </div>
-      
+      <input type="hidden" name="article.discoursetopicid" value="@Model.Article.DiscourseTopicId" />
    }
 
     <div class="medium primary btn">

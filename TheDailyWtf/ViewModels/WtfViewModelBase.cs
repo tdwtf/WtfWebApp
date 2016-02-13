@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Configuration;
-using TheDailyWtf.Discourse;
+using TheDailyWtf.Forum;
 using TheDailyWtf.Models;
 
 namespace TheDailyWtf.ViewModels
@@ -30,15 +30,15 @@ namespace TheDailyWtf.ViewModels
 
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
-        public string DiscourseMessage
+        public string ForumMessage
         {
             get
             {
-                var ex = DiscourseHelper.DiscourseException;
+                var ex = ForumHelper.LastException;
                 if (ex == null)
                     return null;
 
-                return "There was an issue connecting to the Discourse API: " + ex;
+                return "There was an issue connecting to the forum API: " + ex;
             }
         }
         

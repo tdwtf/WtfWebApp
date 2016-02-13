@@ -7,7 +7,7 @@ using System.Web.Security;
 using Inedo.Diagnostics;
 using Newtonsoft.Json;
 using TheDailyWtf.Data;
-using TheDailyWtf.Discourse;
+using TheDailyWtf.Forum;
 using TheDailyWtf.Models;
 using TheDailyWtf.Security;
 using TheDailyWtf.ViewModels;
@@ -45,9 +45,9 @@ namespace TheDailyWtf.Controllers
             return RedirectToAction("login");
         }
 
-        public ActionResult ReenableDiscourse()
+        public ActionResult ReenableSideBar()
         {
-            DiscourseHelper.UnpauseDiscourseConnections();
+            ForumHelper.UnpauseConnections();
 
             return Redirect("/admin");
         }
@@ -120,9 +120,6 @@ namespace TheDailyWtf.Controllers
 
             try
             {
-                if (post.OpenCommentDiscussionChecked && post.Article.DiscourseTopicId > 0)
-                    DiscourseHelper.OpenCommentDiscussion((int)post.Article.Id, (int)post.Article.DiscourseTopicId);
-
                 Logger.Information("Creating or updating article \"{0}\".", post.Article.Title);
                 int? articleId = StoredProcs.Articles_CreateOrUpdateArticle(
                     post.Article.Id,
@@ -137,9 +134,6 @@ namespace TheDailyWtf.Controllers
                   ).Execute();
 
                 post.Article.Id = post.Article.Id ?? articleId;
-
-                if (post.CreateCommentDiscussionChecked)
-                    DiscourseHelper.CreateCommentDiscussion(post.Article);
 
                 return RedirectToAction("index");
             }

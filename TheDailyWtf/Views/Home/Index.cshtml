@@ -51,14 +51,26 @@
    <aside>
       <h5 class="heading"><a class="clean" href="#"><i class="icon-list"></i>Sidebar WTF</a></h5>
       <div class="articleList hideNonDesktop">
-         <ul>
-            @foreach (var sidebar in Model.GetSideBarWtfs())
-            {
-               <li class="code">
-                  <div><a class="clean" href="@sidebar.Url">@sidebar.Title</a></div>
-               </li>
-            }
-         </ul>
+          @{
+              var wtfs = ForumHelper.SideBarWtfs;
+              <ul>
+                  @if (ForumHelper.IsWorking)
+                  {
+                      foreach (var sidebar in wtfs)
+                      {
+                          <li class="code">
+                              <div><a class="clean" href="@sidebar.Url">@sidebar.Title</a></div>
+                          </li>
+                      }
+                  }
+                  else
+                  {
+                      <li class="code">
+                          <div><a class="clean" href="@ForumHelper.SideBarUrl">The forum is broken right now, but you can still try to view it.</a></div>
+                      </li>
+                  }
+              </ul>
+          }
       </div>
    </aside>
 

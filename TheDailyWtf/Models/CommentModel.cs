@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using TheDailyWtf.Data;
-using TheDailyWtf.Discourse;
+using TheDailyWtf.Forum;
 using CommonMark;
 using CommonMark.Syntax;
 using CommonMark.Formatters;
@@ -53,33 +53,6 @@ namespace TheDailyWtf.Models
         {
             var comments = StoredProcs.Comments_GetCommentsByToken(token).Execute();
             return comments.Select(c => FromTable(c));
-        }
-
-        public static string TrySanitizeDiscourseBody(string body)
-        {
-            try
-            {
-                // image src attributes in Discourse comment bodies are relative,
-                // make them absolute to avoid image 404s on comments overview
-
-                string replaced = ImgSrcRegex.Replace(
-                    body,
-                    m =>
-                    {
-                        string value = m.Groups["comment"].Value;
-                        if (value.StartsWith("//"))
-                            return string.Format("src=\"{0}\"", value);
-
-                        return string.Format("src=\"//{0}{1}\"", Config.Discourse.Host, value);
-                    }
-                );
-
-                return replaced;
-            }
-            catch
-            {
-                return body;
-            }
         }
 
         private static CommentModel FromTable(Tables.Comments comment)
