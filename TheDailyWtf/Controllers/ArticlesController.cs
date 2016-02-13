@@ -127,7 +127,7 @@ namespace TheDailyWtf.Controllers
             public string Name { get; set; }
         }
 
-        private ActionResult LoginGoogle()
+        public ActionResult LoginGoogle()
         {
             return this.OAuth2Login(OAuth2.Google, (client, token) =>
             {

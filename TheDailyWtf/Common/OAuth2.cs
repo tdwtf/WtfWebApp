@@ -22,12 +22,12 @@ namespace TheDailyWtf
             internal string Scopes { get; set; }
         }
 
-        public static readonly Endpoint Google = new Endpoint { Auth = "https://accounts.google.com/o/oauth2/auth", Token = "https://www.googleapis.com/oauth2/v3/token", ConfigPrefix = "Google", Scopes = "https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email" };
+        public static readonly Endpoint Google = new Endpoint { Auth = "https://accounts.google.com/o/oauth2/auth", Token = "https://www.googleapis.com/oauth2/v3/token", ConfigPrefix = "Google", Scopes = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email" };
         public static readonly Endpoint GitHub = new Endpoint { Auth = "https://github.com/login/oauth/authorize", Token = "https://github.com/login/oauth/access_token", ConfigPrefix = "GitHub", Scopes = "" };
 
         public static string OAuth2Url(this HtmlHelper html, Endpoint endpoint)
         {
-            return string.Format("{0}?client_id={1}&redirect_uri={2}&scope={3}", endpoint.Auth, Uri.EscapeDataString(endpoint.ClientId), Uri.EscapeDataString(endpoint.RedirectUrl), Uri.EscapeDataString(endpoint.Scopes));
+            return string.Format("{0}?client_id={1}&redirect_uri={2}&scope={3}&response_type=code", endpoint.Auth, Uri.EscapeDataString(endpoint.ClientId), Uri.EscapeDataString(endpoint.RedirectUrl), Uri.EscapeDataString(endpoint.Scopes));
         }
 
         internal class TokenResponse
@@ -55,7 +55,9 @@ namespace TheDailyWtf
                     {
                         { "client_id", endpoint.ClientId },
                         { "client_secret", endpoint.Secret },
-                        { "code", code }
+                        { "code", code },
+                        { "grant_type", "authorization_code" },
+                        { "redirect_uri", endpoint.RedirectUrl }
                     })).Result)
                 {
                     response.EnsureSuccessStatusCode();
