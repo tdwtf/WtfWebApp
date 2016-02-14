@@ -167,8 +167,8 @@ namespace TheDailyWtf.Controllers
         {
             return this.OAuth2Login(OAuth2.Facebook, (client, token) =>
             {
-                client.DefaultRequestHeaders.Add("Authorization", "token " + token);
-                var user = JsonConvert.DeserializeObject<FacebookUser>(client.GetStringAsync("https://graph.facebook.com/me").Result);
+                client.DefaultRequestHeaders.Add("Authorization", "OAuth " + token);
+                var user = JsonConvert.DeserializeObject<FacebookUser>(client.GetStringAsync("https://graph.facebook.com/me?fields=name,email").Result);
                 return SetLoginCookie(user.Name, "facebook:" + user.Email);
             });
         }

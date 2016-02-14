@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using TheDailyWtf.Controllers;
@@ -64,7 +65,16 @@ namespace TheDailyWtf
                     response.EnsureSuccessStatusCode();
 
                     var content = response.Content.ReadAsStringAsync().Result;
-                    accessToken = JsonConvert.DeserializeObject<TokenResponse>(content).AccessToken;
+
+                    if (content[0] != '{')
+                    {
+                        // work around a bug in Facebook: http://stackoverflow.com/a/10351702
+                        accessToken = HttpUtility.ParseQueryString(content)["access_token"];
+                    }
+                    else
+                    {
+                        accessToken = JsonConvert.DeserializeObject<TokenResponse>(content).AccessToken;
+                    }
                 }
 
                 return login(client, accessToken);
