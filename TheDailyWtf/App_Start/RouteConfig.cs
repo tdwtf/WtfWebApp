@@ -205,6 +205,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "CommentsLoginFacebook",
+                url: "login/facebook",
+                defaults: new { controller = "Articles", action = "LoginFacebook" }
+            );
+
+            routes.MapRoute(
                 name: "CommentsAddendum",
                 url: "articles/comments/{articleSlug}/addendum/{id}",
                 defaults: new { controller = "Articles", action = "Addendum" }

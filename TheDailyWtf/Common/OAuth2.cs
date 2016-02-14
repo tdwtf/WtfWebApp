@@ -24,6 +24,7 @@ namespace TheDailyWtf
 
         public static readonly Endpoint Google = new Endpoint { Auth = "https://accounts.google.com/o/oauth2/auth", Token = "https://www.googleapis.com/oauth2/v3/token", ConfigPrefix = "Google", Scopes = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email" };
         public static readonly Endpoint GitHub = new Endpoint { Auth = "https://github.com/login/oauth/authorize", Token = "https://github.com/login/oauth/access_token", ConfigPrefix = "GitHub", Scopes = "" };
+        public static readonly Endpoint Facebook = new Endpoint { Auth = "https://www.facebook.com/dialog/oauth", Token = "https://graph.facebook.com/oauth/access_token", ConfigPrefix = "Facebook", Scopes = "public_profile email" };
 
         public static string OAuth2Url(this HtmlHelper html, Endpoint endpoint)
         {

@@ -155,6 +155,24 @@ namespace TheDailyWtf.Controllers
             });
         }
 
+        class FacebookUser
+        {
+            [JsonProperty(PropertyName = "email", Required = Required.Always)]
+            public string Email { get; set; }
+            [JsonProperty(PropertyName = "name", Required = Required.Always)]
+            public string Name { get; set; }
+        }
+
+        public ActionResult LoginFacebook()
+        {
+            return this.OAuth2Login(OAuth2.Facebook, (client, token) =>
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "token " + token);
+                var user = JsonConvert.DeserializeObject<FacebookUser>(client.GetStringAsync("https://graph.facebook.com/me").Result);
+                return SetLoginCookie(user.Name, "facebook:" + user.Email);
+            });
+        }
+
         // not cached
         [HttpPost]
         [AllowAnonymous]
