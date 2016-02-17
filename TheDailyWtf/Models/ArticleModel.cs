@@ -55,7 +55,11 @@ namespace TheDailyWtf.Models
         public int? DiscourseTopicId { get; set; }
         public bool DiscourseTopicOpened { get; set; }
         public DateTime? PublishedDate { get; set; }
-        public string DisplayDate { get { return this.PublishedDate == null ? "(unpublished)" : this.PublishedDate.Value.ToShortDateString(); } }
+        public string DisplayDate { get { return this.PublishedDate == null ? "(unpublished)" : string.Format("{0:MMMM d}{1} {0:yyyy}", this.PublishedDate.Value,
+            (this.PublishedDate.Value.Day % 10 == 1 && this.PublishedDate.Value.Day != 11) ? "st" :
+            (this.PublishedDate.Value.Day % 10 == 2 && this.PublishedDate.Value.Day != 12) ? "nd" :
+            (this.PublishedDate.Value.Day % 10 == 3 && this.PublishedDate.Value.Day != 13) ? "rd" :
+            "th"); } }
         [Required]
         public SeriesModel Series { get; set; }
         [AllowHtml]

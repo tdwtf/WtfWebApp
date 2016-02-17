@@ -1,108 +1,86 @@
 ﻿@model WtfViewModelBase
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-   <title>@Model.PageTitle</title>
-   <meta charset="utf-8" />
-   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-   <meta name="description" content="" />
-   <meta name="keywords" content="" />
-   <meta name="author" content="humans.txt" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@Model.PageTitle</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/main.css">
 
-   <link rel="icon" href="/favicon.ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="author" content="humans.txt" />
 
-   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-   <link rel="stylesheet" href="/content/css/gumby.css" />
-   <link rel="stylesheet" href="/content/css/animate.min.css" />
-   <link rel="stylesheet" href="/content/css/screen.css" />
-   <link rel="stylesheet" href="/content/css/prism.css" />
-   <link rel="stylesheet" href="/content/css/jquery.qtip.min.css" />
-   <link rel="stylesheet" href="/content/css/custom.css" />
-
-   <script src="/scripts/modernizr-2.6.2.min.js"></script>
-   <!--[if lt IE 9]>
-   <script src="/scripts/jquery-1.10.2.min.js"></script>
-   <![endif]-->
-   <!--[if gte IE 9]><!-->
-   <script src="/scripts/jquery-2.0.1.min.js"></script>
-   <!--<![endif]-->
+    <script src="/scripts/modernizr-2.6.2.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="/scripts/jquery-1.10.2.min.js"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script src="/scripts/jquery-2.0.1.min.js"></script>
+    <!--<![endif]-->
 
 </head>
-<body class="noise">
+<body>
+    <div id="wrapper">
+        @Html.Partial(Views.Shared.PartialNavigationMenu, Model.NavigationMenu)
 
-   @Html.Partial(Views.Shared.PartialNavigationMenu, Model.NavigationMenu)
+        <div class="content-container">
+            @if (Model.ShowLeaderboardAd)
+            {
+                @Html.Partial(Views.Shared.PartialLeaderboardAd, Model.GetNextAd(Dimensions.Leaderboard))
+            }
 
-   @if (Model.ShowLeaderboardAd)
-   {
-      @Html.Partial(Views.Shared.PartialLeaderboardAd, Model.GetNextAd(Dimensions.Leaderboard))
-   }
+            @if (Model.SuccessMessage != null)
+            {
+                <div class="message success">
+                    @Model.SuccessMessage
+                </div>
+            }
 
-   @if (Model.SuccessMessage != null)
-   {
-      <div class="message success">
-         @Model.SuccessMessage
-      </div>
-   }
+            @if (Model.ErrorMessage != null)
+            {
+                <div class="message error">
+                    @Model.ErrorMessage
+                </div>
+            }
 
-   @if (Model.ErrorMessage != null)
-   {
-      <div class="message error">
-         @Model.ErrorMessage
-      </div>
-   }
-
-   <div id="wrapper">
-      <div class="row">
-         <div class="twelve columns">
             @RenderBody()
-         </div>
-      </div>
-   </div>
+        </div>
 
-   <div class="container">
-      <footer>
-         <div class="row horizontal no-print">
-            <ul>
-               <li><a href="/contact">Contact</a></li>
-               <li><a href="/info/privacy">Privacy Policy &amp; Disclaimer</a></li>
-               <li><a href="http://syndication.thedailywtf.com/TheDailyWtf">RSS</a></li>
-            </ul>
-            <hr />
-         </div>
-         <div class="row">
-            <p style="float: left;">@Model.Copyright - v@(Model.Version)</p>
-            <p class="hideMobile hideTablet" style="float: right;">
-               Hosted on a <a href="http://www.hivelocity.net/">dedicated server</a> at HiVelocity
-               &bull; Deployed with <a href="http://inedo.com/landing/buildmaster">BuildMaster</a>
-            </p>
-         </div>
-      </footer>
-   </div>
+        <div class="content-container" id="footer">
+            <div class="content">
+                <div class="link-bar">
+                    <a href="/contact">Contact</a>
+                    <a href="/info/privacy">Privacy Policy</a>
+                    <a href="http://syndication.thedailywtf.com/TheDailyWtf">RSS</a>
+                </div>
+                <hr />
 
-   <script src="/scripts/gumby.min.js"></script>
-   <script src="/scripts/jquery.qtip-2.2.0.min.js"></script>
-   <script src="/scripts/plugins.js"></script>
-   <script src="/scripts/main.js"></script>
-   <script src="/scripts/prism.js"></script>
-   <script src="/scripts/custom.js"></script>
+                <p class="copyright">@Model.Copyright - v@(Model.Version)</p>
+                <p class="hosting">Hosted on a <a href="http://www.hivelocity.net/">dedicated server</a> at HiVelocity
+                    &bull; Deployed with <a href="http://inedo.com/landing/buildmaster">BuildMaster</a></p>
 
-   <!--[if lt IE 8 ]>
-   <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-   <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-   <![endif]-->
-   
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+                <script src="/scripts/prism.js"></script>
+                <script src="/scripts/custom.js"></script>
 
-  ga('create', 'UA-9122028-1', 'auto');
-  ga('send', 'pageview');
-</script>
+                <!--[if lt IE 8 ]>
+                <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+                <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+                <![endif]-->
 
+                <script>
+                    (function (i, s, o, g, r, a, m) {
+                        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                            (i[r].q = i[r].q || []).push(arguments)
+                        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+                    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+                    ga('create', 'UA-9122028-1', 'auto');
+                    ga('send', 'pageview');
+                </script>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-

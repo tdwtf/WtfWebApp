@@ -1,113 +1,87 @@
 @model TheDailyWtf.ViewModels.NavigationMenuViewModel
 
-<!-- container to normalize fixed navigation behavior when scrolling -->
-<div class="navcontain no-print">
-   <div class="navbar dailywtf" gumby-fixed="top" id="nav3">
-      <div class="row" style="position: relative;">
-         <div class="three columns">
+<div id="navigation" class="content-container">
+    <div class="content">
+        <div class="logo">
             <a href="/">
-               <img src="/content/images/wtf-logo.png" class="logo" />
+                <img src="~/Content/Images/wtf-logo.png" alt="" />
             </a>
-         </div>
-         <a class="toggle" gumby-trigger="#nav3 > .row > ul" href="#"><i class="icon-menu"></i></a>
-         <ul class="seven columns" style="float: left;">
+        </div>
+
+        <ul id="navigation-items">
             <li class="featured">
-               <a href="/series/feature-articles">Feature Articles</a>
-               <div class="megadropdown">
-                  <div class="content">
-                     <div class="row">
-                        <div>
-                           <h4>Most Recent Articles</h4>
-                           <ul>
-                              @foreach (var article in Model.RecentFeaturedArticles)
-                              {
-                                 <li>
-                                    <div class="nav-article"><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
-                                 </li>
-                              }
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+                <a href="/series/feature-articles">Feature Articles</a>
+                <ul class="dropdown">
+                    <li class="navigation-heading">Most Recent Articles</li>
+                    @foreach (var article in Model.RecentFeaturedArticles)
+                    {
+                    <li class="dropdown-item"><a href="/articles/@article.Slug">@article.Title</a></li>
+                    }
+                </ul>
             </li>
             <li class="code">
-               <a href="/series/code-sod">CodeSOD</a>
-               <div class="megadropdown">
-                  <div class="content">
-                     <div class="row">
-                        <div>
-                           <h4>Most Recent Articles</h4>
-                           <ul>
-                              @foreach (var article in Model.RecentCodeSodArticles)
-                              {
-                                 <li>
-                                    <div class="nav-article"><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
-                                 </li>
-                              }
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+                <a href="/series/code-sod">CodeSOD</a>
+                <ul class="dropdown">
+                    <li class="navigation-heading">Most Recent Articles</li>
+                    @foreach (var article in Model.RecentCodeSodArticles)
+                    {
+                    <li class="dropdown-item"><a href="/articles/@article.Slug">@article.Title</a></li>
+                    }
+                </ul>
             </li>
             <li class="errord">
-               <a href="/series/errord">Error'd</a>
-               <div class="megadropdown">
-                  <div class="content">
-                     <div class="row">
-                        <div>
-                           <h4>Most Recent Articles</h4>
-                           <ul>
-                              @foreach (var article in Model.RecentErrordArticles)
-                              {
-                                 <li>
-                                    <div class="nav-article"><a class="clean" href="/articles/@article.Slug">@article.Title</a></div>
-                                 </li>
-                              }
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+                <a href="/series/errord">Error'd</a>
+                <ul class="dropdown">
+                    <li class="navigation-heading">Most Recent Articles</li>
+                    @foreach (var article in Model.RecentErrordArticles)
+                    {
+                    <li class="dropdown-item"><a href="/articles/@article.Slug">@article.Title</a></li>
+                    }
+                </ul>
             </li>
-            <li class="tales">
-               <a target="_blank" href="https://@Config.NodeBB.Host" class="tooltip" data-tooltip="Forum opens in a new tab"><i class="icon-export"></i>Forums</a>
+            <li class="forum">
+                <img class="hover icon" src="~/Content/Images/forums-icon-white.svg" />
+                <img class="standard-icon" src="~/Content/Images/forums-icon-black.svg" />
+                <a href="@Model.ForumsAddress">Forums</a>
             </li>
             <li class="soapbox">
-               <a href="#">Other Articles</a>
-               <div class="megadropdown">
-                  <div class="content">
-                     <div class="row">
-                        <div>
-                           <ul>
-                              <li><div class="nav-article"><a class="clean" href="/articles/random">Random Article</a></div></li>
-                           </ul>
-                           <h4>Other Series</h4>
-                           <ul>
-                              @foreach (var series in Model.OtherSeries)
-                              {
-                                 <li>
-                                    <div class="nav-article"><a class="clean" href="/series/@series.Slug">@series.Title</a></div>
-                                 </li>
-                              }
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+                <a>Other Articles</a>
+                <ul class="dropdown">
+                    <li class="dropdown-item"><a href="/articles/random">Random Article</a></li>
+                    <li class="navigation-heading">Other Series</li>
+                    @foreach (var series in Model.OtherSeries)
+                    {
+                    <li class="dropdown-item"><a href="/series/@series.Slug">@series.Title</a></li>
+                    }
+                </ul>
             </li>
-         </ul>
-         @*<div class="search-container">
-               <form method="get" action="/search">
-                  <ul>
-                     <li class="field">
-                        <input name="q" class="search input" type="search" placeholder="Search" />
-                     </li>
-                  </ul>
-               </form>
-            </div>*@
-      </div>
-   </div>
+        </ul>
+        <div id="mini-navigation">
+            <input id="1" name="accordian" type="checkbox" />
+            <label for="1">
+                <img src="mobile-menu.svg" />
+            </label>
+            <article>
+                <ul>
+                    <li class="featured">
+                        <a href="/series/feature-articles">feature articles</a>
+                    </li>
+                    <li class="code">
+                        <a href="/series/code-sod">codesod</a>
+                    </li>
+                    <li class="errord">
+                        <a href="/series/errord">error'd</a>
+                    </li>
+                    <li class="forum">
+                        <a href="@Model.ForumsAddress">forums</a>
+                    </li>
+                    <li class="soapbox">
+                        <a href="/articles">other articles</a>
+                    </li>
+                </ul>
+            </article>
+        </div>
+    </div>
 </div>
-
+<div id="navigation-bumper" class="content-container">
+</div>

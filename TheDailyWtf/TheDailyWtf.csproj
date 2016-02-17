@@ -212,8 +212,22 @@
     <Content Include="Content\Css\gumby.css" />
     <Content Include="Content\Css\jquery.qtip.min.css" />
     <Content Include="Content\Css\jquery.timepicker.css" />
+    <Content Include="Content\Css\library.css" />
+    <Content Include="Content\Css\main.css" />
     <Content Include="Content\Css\prism.css" />
+    <Content Include="Content\Css\reset.css" />
     <Content Include="Content\Css\screen.css" />
+    <Content Include="Content\Fonts\BoldItalic\OpenSans-BoldItalic.svg" />
+    <Content Include="Content\Fonts\Bold\OpenSans-Bold.svg" />
+    <Content Include="Content\Fonts\ExtraBoldItalic\OpenSans-ExtraBoldItalic.svg" />
+    <Content Include="Content\Fonts\ExtraBold\OpenSans-ExtraBold.svg" />
+    <Content Include="Content\Fonts\Italic\OpenSans-Italic.svg" />
+    <Content Include="Content\Fonts\LightItalic\OpenSans-LightItalic.svg" />
+    <Content Include="Content\Fonts\Light\OpenSans-Light.svg" />
+    <Content Include="Content\Fonts\Regular\OpenSans-Regular.svg" />
+    <Content Include="Content\Fonts\SemiboldItalic\OpenSans-SemiboldItalic.svg" />
+    <Content Include="Content\Fonts\Semibold\OpenSans-Semibold.svg" />
+    <Content Include="Content\Images\about-icon.svg" />
     <Content Include="Content\Images\ad-load-error.png" />
     <Content Include="Content\Images\Authors\alex-papadimoulis.png" />
     <Content Include="Content\Images\Authors\brad-morgan.png" />
@@ -243,20 +257,33 @@
     <Content Include="Content\Images\banner300x75.png" />
     <Content Include="Content\Images\banner728.png" />
     <Content Include="Content\Images\banner970x90.jpg" />
+    <Content Include="Content\Images\comments-icon.svg" />
+    <Content Include="Content\Images\contents-icon.svg" />
+    <Content Include="Content\Images\email-24.png" />
+    <Content Include="Content\Images\facebook-24.png" />
+    <Content Include="Content\Images\forums-icon-black.png" />
+    <Content Include="Content\Images\forums-icon-black.svg" />
+    <Content Include="Content\Images\forums-icon-white.png" />
+    <Content Include="Content\Images\forums-icon-white.svg" />
     <Content Include="Content\Images\freeswag2.png" />
+    <Content Include="Content\Images\googleplus-24.png" />
     <Content Include="Content\Images\Icons\email-24.png" />
     <Content Include="Content\Images\Icons\facebook-24.png" />
     <Content Include="Content\Images\Icons\googleplus-24.png" />
     <Content Include="Content\Images\Icons\twitter-24.png" />
+    <Content Include="Content\Images\mobile-menu.svg" />
     <Content Include="Content\Images\placeholder.png" />
     <Content Include="Content\Images\social-icons.png" />
+    <Content Include="Content\Images\sponsors-icon.svg" />
     <Content Include="Content\Images\Sponsors\inedo.png" />
     <Content Include="Content\Images\Sponsors\infragistics.jpg" />
     <Content Include="Content\Images\Sponsors\puppetlabs.png" />
     <Content Include="Content\Images\Sponsors\scout 50x50.png" />
     <Content Include="Content\Images\Sponsors\scout_high_res.svg" />
     <Content Include="Content\Images\thedailywtfLogoNav.png" />
+    <Content Include="Content\Images\twitter-24.png" />
     <Content Include="Content\Images\wtf-logo.png" />
+    <Content Include="Content\Images\wtf-sidebar-icon.svg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
@@ -399,6 +426,71 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Articles\Addendum.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Css\library.less" />
+    <Content Include="Content\Css\main.less" />
+    <Content Include="Content\Css\reset.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\Bold\OpenSans-Bold.eot" />
+    <Content Include="Content\Fonts\Bold\OpenSans-Bold.ttf" />
+    <Content Include="Content\Fonts\Bold\OpenSans-Bold.woff" />
+    <Content Include="Content\Fonts\Bold\OpenSans-Bold.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\BoldItalic\OpenSans-BoldItalic.eot" />
+    <Content Include="Content\Fonts\BoldItalic\OpenSans-BoldItalic.ttf" />
+    <Content Include="Content\Fonts\BoldItalic\OpenSans-BoldItalic.woff" />
+    <Content Include="Content\Fonts\BoldItalic\OpenSans-BoldItalic.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\ExtraBold\OpenSans-ExtraBold.eot" />
+    <Content Include="Content\Fonts\ExtraBold\OpenSans-ExtraBold.ttf" />
+    <Content Include="Content\Fonts\ExtraBold\OpenSans-ExtraBold.woff" />
+    <Content Include="Content\Fonts\ExtraBold\OpenSans-ExtraBold.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\ExtraBoldItalic\OpenSans-ExtraBoldItalic.eot" />
+    <Content Include="Content\Fonts\ExtraBoldItalic\OpenSans-ExtraBoldItalic.ttf" />
+    <Content Include="Content\Fonts\ExtraBoldItalic\OpenSans-ExtraBoldItalic.woff" />
+    <Content Include="Content\Fonts\ExtraBoldItalic\OpenSans-ExtraBoldItalic.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\Italic\OpenSans-Italic.eot" />
+    <Content Include="Content\Fonts\Italic\OpenSans-Italic.ttf" />
+    <Content Include="Content\Fonts\Italic\OpenSans-Italic.woff" />
+    <Content Include="Content\Fonts\Italic\OpenSans-Italic.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\Light\OpenSans-Light.eot" />
+    <Content Include="Content\Fonts\Light\OpenSans-Light.ttf" />
+    <Content Include="Content\Fonts\Light\OpenSans-Light.woff" />
+    <Content Include="Content\Fonts\Light\OpenSans-Light.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\LightItalic\OpenSans-LightItalic.eot" />
+    <Content Include="Content\Fonts\LightItalic\OpenSans-LightItalic.ttf" />
+    <Content Include="Content\Fonts\LightItalic\OpenSans-LightItalic.woff" />
+    <Content Include="Content\Fonts\LightItalic\OpenSans-LightItalic.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\Regular\OpenSans-Regular.eot" />
+    <Content Include="Content\Fonts\Regular\OpenSans-Regular.ttf" />
+    <Content Include="Content\Fonts\Regular\OpenSans-Regular.woff" />
+    <Content Include="Content\Fonts\Regular\OpenSans-Regular.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\Semibold\OpenSans-Semibold.eot" />
+    <Content Include="Content\Fonts\Semibold\OpenSans-Semibold.ttf" />
+    <Content Include="Content\Fonts\Semibold\OpenSans-Semibold.woff" />
+    <Content Include="Content\Fonts\Semibold\OpenSans-Semibold.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\SemiboldItalic\OpenSans-SemiboldItalic.eot" />
+    <Content Include="Content\Fonts\SemiboldItalic\OpenSans-SemiboldItalic.ttf" />
+    <Content Include="Content\Fonts\SemiboldItalic\OpenSans-SemiboldItalic.woff" />
+    <Content Include="Content\Fonts\SemiboldItalic\OpenSans-SemiboldItalic.woff2" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

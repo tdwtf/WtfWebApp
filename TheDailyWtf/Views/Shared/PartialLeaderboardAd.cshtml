@@ -1,13 +1,7 @@
 ﻿@model Ad
 
-<div id="billboard" class="hideNonDesktop">
-   <div class="row">
-      <div class="container da-space">
-         <div class="daBlock da-970x250">
-            <a href="@AdRotator.GetRedirectUrlFromOriginalUrl(Model.OriginalUrl)">
-               <img src="@Model.ImageUrl" />
-            </a>
-         </div>
-      </div>
-   </div>
+<div id="top-banner" class="content">
+    <a href="@AdRotator.GetRedirectUrlFromOriginalUrl(Model.OriginalUrl)">
+        <img src="@Model.ImageUrl" />
+    </a>
 </div>

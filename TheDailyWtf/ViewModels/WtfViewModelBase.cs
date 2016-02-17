@@ -41,7 +41,7 @@ namespace TheDailyWtf.ViewModels
                 return "There was an issue connecting to the forum API: " + ex;
             }
         }
-        
+
         public Ad GetNextAd(Dimensions dimensions)
         {
             return AdRotator.GetNextAd(dimensions);

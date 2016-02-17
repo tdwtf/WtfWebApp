@@ -16,5 +16,6 @@ namespace TheDailyWtf.ViewModels
                 return SeriesModel.GetAllSeries().Where(s => !new[]{"feature-articles", "code-sod", "errord", "pop-up-potpourri"}.Contains(s.Slug));
             }
         }
+        public string ForumsAddress { get { return "https://" + Config.NodeBB.Host; } }
     }
 }

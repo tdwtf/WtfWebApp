@@ -3,34 +3,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="twelve columns">
-        <h2 class="categoryTitle">@Model.ListHeading</h2>
-        <p>@Model.SeriesDescription</p>
-        <nav class="row">
-           @if (Model.PaginateArticleListByMonth) 
-           {
-            <div class="prev">
-                <a href="@Model.PreviousMonthUrl"><i class="icon-left-circled"></i>@Model.ReferenceDate.PreviousMonthAndYear</a>
-            </div>
-            <span>@Model.ReferenceDate.CurrentMonthAndYear</span>
-            <div class="next">
-                <a href="@Model.NextMonthUrl" class="@Model.ReferenceDate.NextMonthCssClass">@Model.ReferenceDate.NextMonthAndYear <i class="icon-right-circled"></i></a>
-            </div>
-           }
-        </nav>
-        @foreach (var article in Model.Articles) 
-        { 
+<div class="content" id="listing">
+    <h1 class="title">@Model.ListHeading</h1>
+    <p>@Model.SeriesDescription</p>
+
+    <div id="article-feed">
+        @foreach (var article in Model.Articles)
+        {
             @Html.Partial(Views.Shared.PartialArticleItem, article)
         }
 
-       @if (!Model.Articles.Any())
-       {
-          <p>There are no articles to display.</p>
-       }
-
-        <div class="clearfix"></div>
-
-        <hr />
+        @if (!Model.Articles.Any())
+        {
+            <p>There are no articles to display.</p>
+        }
     </div>
 </div>
