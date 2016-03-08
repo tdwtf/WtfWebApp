@@ -188,11 +188,11 @@ a:hover {
                         }
                     }
 
-                    &.codesod {
+                    &.codesod, &.code {
                         border-left: 10px solid @tdwtf-red;
                     }
 
-                    &.codesod:hover {
+                    &.codesod:hover, &.code:hover {
                         border-right: 10px solid @tdwtf-red;
 
                         h2 {
@@ -224,11 +224,11 @@ a:hover {
                         }
                     }
 
-                    &.other {
+                    &.other, &.soapbox, &.tales {
                         border-left: 10px solid @tdwtf-purple;
                     }
 
-                    &.other:hover {
+                    &.other:hover, &.soapbox:hover, &.tales:hover {
                         border-right: 10px solid @tdwtf-purple;
 
                         h2 {
@@ -677,6 +677,10 @@ a:hover {
                     z-index: 1;
                     transition: height 0.3s ease-in-out;
 
+                    img {
+                        max-width: 100%;
+                    }
+
                     @media (max-width: 767px) {
                         height: 1px;
                     }
@@ -767,11 +771,15 @@ a:hover {
                             border-left: 10px solid @tdwtf-red;
                             border-bottom: 1px solid @tdwtf-light-grey;
                             margin: 0;
-                        }
 
-                        li:hover {
-                            background-color: @tdwtf-red;
-                            color: @tdwtf-white;
+                            &:hover {
+                                background-color: @tdwtf-red;
+                                color: @tdwtf-white;
+
+                                a {
+                                    color: @tdwtf-white;
+                                }
+                            }
                         }
                     }
                 }
@@ -859,9 +867,13 @@ a:hover {
                 
             }
 
-            &.codesod {
+            &.codesod, &.code {
                 span.details {
                     background-color: @tdwtf-red;
+                }
+
+                .banner-triangle {
+                    border-top-color: darken(@tdwtf-red, 30%);
                 }
             }
 
@@ -869,17 +881,29 @@ a:hover {
                 span.details {
                     background-color: @tdwtf-yellow;
                 }
+
+                .banner-triangle {
+                    border-top-color: darken(@tdwtf-yellow, 30%);
+                }
             }
 
             &.featured {
                 span.details {
                     background-color: @tdwtf-teal;
                 }
+
+                .banner-triangle {
+                    border-top-color: darken(@tdwtf-teal, 30%);
+                }
             }
 
-            &.other {
+            &.other, &.soapbox, &.tales {
                 span.details {
                     background-color: @tdwtf-purple;
+                }
+
+                .banner-triangle {
+                    border-top-color: darken(@tdwtf-purple, 30%);
                 }
             }
 
@@ -888,6 +912,7 @@ a:hover {
                 width: 96%;
                 min-height: 35px;
                 position: relative;
+                clear: right;
 
                 hr {
                     border: 1px solid @tdwtf-light-grey;
@@ -1045,4 +1070,93 @@ a:hover {
             }
         }
     }
+}
+
+/* TODO: update when final CSS is ready */
+form label {
+	width: 12em;
+	display: inline-block;
+}
+form textarea {
+	display: block;
+}
+.g-recaptcha {
+    margin: 1em 0;
+}
+.submit-code, .submit-story, .submit-errord {
+    display: none;
+}
+#code:checked ~ .submit-code, #story:checked ~ .submit-story, #errord:checked ~ .submit-errord {
+    display: block;
+}
+
+b, strong {
+    font-weight: bold;
+}
+
+i, em {
+    font-style: italic;
+}
+
+u {
+    text-decoration: underline;
+}
+
+.comment-nav {
+    text-align: center;
+    font-family: "Open Sans", sans-serif;
+    
+    @media print {
+        display: none;
+    }
+}
+.comment {
+    .poster {
+        font-weight: bold;
+    }
+    .timestamp {
+        float: right;
+        font-size: 12px;
+    }
+    clear: right;
+	border-top: 1px solid @tdwtf-light-grey;
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+
+.article {
+    position: relative;
+
+    .link-overlay {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: block;
+        z-index: 2;
+    }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+.article-container {
+    img {
+        max-width: 100%;
+    }
+}
+
+pre, code {
+    font-family: monospace;
+}
+
+pre {
+    white-space: pre;
+    word-wrap: break-word;
+}
+
+p {
+    margin-bottom: 15px;
 }

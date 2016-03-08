@@ -54,7 +54,7 @@ namespace TheDailyWtf.ViewModels
         {
             get
             {
-                return string.Format("Article Comments (Viewing {0} comments)", this.CommentsFraction);
+                return string.Format("(Viewing {0} comments)", this.CommentsFraction);
             }
         }
         public string CommentsFraction

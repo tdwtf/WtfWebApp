@@ -30,6 +30,7 @@ namespace TheDailyWtf.Models
         public string UserIP;
         [NonSerialized]
         public string UserToken;
+        public string TokenType { get { return UserToken.Split(':')[0]; } }
 
         public static IEnumerable<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
         {
