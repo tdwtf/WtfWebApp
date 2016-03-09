@@ -62,7 +62,7 @@ a:hover {
                 margin-left: 15px;
                 vertical-align: top;
                 position: relative;
-                left:3%;
+                left: 3%;
 
                 @media (max-width: 767px) {
                     width: 99%;
@@ -85,8 +85,23 @@ a:hover {
 
                     .article-content {
                         padding: 15px;
+                        p{
+                            img{
+                                text-align:right;                             
+                                max-height:250px;
 
-
+                            }
+                            a{
+                            img{
+                                width:75%;
+                                display:block;
+                                margin:0 auto;
+                                
+                                max-height:none;
+                                 }
+                        }
+                        }
+                       
                         h2.title {
                             text-transform: uppercase;
                             font-weight: bold;
@@ -103,24 +118,24 @@ a:hover {
                                 margin: 7.5px 0;
                             }
                         }
-                      .callout {
-                    
-                        border-left: 5px solid darken(@tdwtf-light-grey, 10%);
-                        padding: 30px 15px;
-                        &.picture{
-                            text-align:right;
-                            img{
-                                max-height:250px;
-                                max-width:99%;
 
+                        .callout {
+                            border-left: 5px solid darken(@tdwtf-light-grey, 10%);
+                            padding: 30px 15px;
+
+                            &.picture {
+                                text-align: right;
+
+                                img {
+                                    max-height: 250px;
+                                    max-width: 99%;
+                                }
+
+                                @media (max-width: 767px) {
+                                    text-align: center;
+                                }
                             }
-                            
-                            @media (max-width: 767px) {
-                               text-align:center;
-                            }
-                    
                         }
-                    }
                     }
 
                     .article-footer {
@@ -188,11 +203,19 @@ a:hover {
                         }
                     }
 
+<<<<<<< HEAD
+                    &.code {
+                        border-left: 10px solid @tdwtf-red;
+                    }
+
+                    &.code:hover {
+=======
                     &.codesod, &.code {
                         border-left: 10px solid @tdwtf-red;
                     }
 
                     &.codesod:hover, &.code:hover {
+>>>>>>> origin/tdwtf-crp
                         border-right: 10px solid @tdwtf-red;
 
                         h2 {
@@ -229,6 +252,17 @@ a:hover {
                     }
 
                     &.other:hover, &.soapbox:hover, &.tales:hover {
+                        border-right: 10px solid @tdwtf-purple;
+
+                        h2 {
+                            color: @tdwtf-purple;
+                        }
+                    }
+                     &.soapbox {
+                        border-left: 10px solid @tdwtf-purple;
+                    }
+
+                    &.soapbox:hover {
                         border-right: 10px solid @tdwtf-purple;
 
                         h2 {
@@ -307,14 +341,20 @@ a:hover {
                 li {
                     position: relative;
                     float: left;
-                    display: table-cell;
+                    display: table;
                     text-align: center;
-                    vertical-align: middle;
-                    padding: 20px 15px 18px;
+                   
+                    
                     text-transform: uppercase;
                     margin-top: 0px;
                     margin-bottom: 0px;
                     font-size: 90%;
+                    a{
+                       padding: 20px 15px 18px;
+                       display:table-cell;
+                        vertical-align: middle;
+                        cursor:pointer;
+                    }
 
 
 
@@ -336,12 +376,17 @@ a:hover {
                             font-weight: 300;
                             text-transform: capitalize;
                             text-align: left;
-                            padding: 10px 0 10px;
+                            padding: 0;
+                            margin: 5px 0;
 
                             a {
                                 font-weight: 300;
                                 text-transform: capitalize;
-                                width: 300px;
+                                width: 100%;
+                                display: inline-block;
+                                margin: 0;
+                                line-height: 100%;
+                                padding: 5px;
                             }
 
 
@@ -402,21 +447,18 @@ a:hover {
                     &.forum {
                         border-top: 5px solid @tdwtf-orange;
 
-                        a {
-                            padding: 0 2% 0 22%;
-                        }
+                       a{
 
                         img {
-                            position: absolute;
-                            left: 15px;
-                            width: 15%;
-                            top: 21px;
+                          margin-top:2px;
+                          width:15px;
+                          float:left;
 
                             &.hover-icon {
                                 display: none;
-                                width: 0px;
-                                margin: 0;
+                           
                             }
+                        }
                         }
                     }
 
@@ -425,12 +467,17 @@ a:hover {
 
                         img {
 
-
+                                margin-top:2px;
+                          width:15px;
+                          float:left;
+                           &.hover-icon {
+                                display: inline;
+                           
+                            }
 
                             &.standard-icon {
                                 display: none;
-                                width: 0px;
-                                margin: 0;
+                               
                             }
                         }
                     }
@@ -499,7 +546,7 @@ a:hover {
 
                     ul {
                         li {
-                            padding: 20px 0;
+                          
                             font-size: 110%;
                             margin: 0px;
                             text-transform: uppercase;
@@ -507,6 +554,9 @@ a:hover {
                             a {
                                 color: @tdwtf-white;
                                 font-weight: 300;
+                                width:100%;
+                                 padding: 10px 0;
+                                 display:inline-block;
                             }
 
                             &.featured {
@@ -555,7 +605,7 @@ a:hover {
 
                 input:checked ~ article {
                     transition: height 0.5s ease-in-out;
-                    height: 330px;
+                    height: 310px;
                 }
 
                 @media (max-width:767px) {
@@ -626,7 +676,8 @@ a:hover {
     }
 
     .content#top-banner {
-        text-align:center;
+        text-align: center;
+
         img {
             width: 98%;
             padding: 1%;
@@ -754,9 +805,22 @@ a:hover {
                     }
                 }
 
+                &#about-container{
+                    
+                    #submit-link{
+                          
+                        
+                        text-align:center;
+                        font-weight:bold;
+                        font-size:110%;
+                        text-transform:uppercase;
+                        margin:10px 0;
+                    
+                        }
+                }
                 &#contents-container {
                     ul {
-                        margin-left: 40px;
+                        margin-left: 20px;
 
                         li {
                             list-style-type: circle;
@@ -764,7 +828,15 @@ a:hover {
                         }
                     }
                 }
-
+                 &#sponsor-sidebar-container {
+                   p{
+                       img{
+                       width:75%;
+                       display:block;
+                       margin:25px auto;
+                        }
+                     }
+                }
                 &#wtf-sidebar-container {
                     ul {
                         li {
@@ -856,15 +928,13 @@ a:hover {
                 padding: 15px 30px;
 
                 .callout {
-                    
                     border-left: 5px solid darken(@tdwtf-light-grey, 10%);
                     padding: 30px 15px;
-                    &.picture{
-                        text-align:center;
-                    
+
+                    &.picture {
+                        text-align: center;
                     }
                 }
-                
             }
 
             &.codesod, &.code {
@@ -1038,13 +1108,12 @@ a:hover {
             text-transform: uppercase;
             font-weight: bold;
             margin: 10px 0;
-            
         }
 
         #article-feed {
             width: 100%;
-            margin:0;
-            left:0;
+            margin: 0;
+            left: 0;
 
             .article {
                 width: 65%;
@@ -1072,6 +1141,12 @@ a:hover {
     }
 }
 
+<<<<<<< HEAD
+@media print {
+    .no-print { display: none; }
+}
+
+=======
 /* TODO: update when final CSS is ready */
 form label {
 	width: 12em;
@@ -1160,3 +1235,4 @@ pre {
 p {
     margin-bottom: 15px;
 }
+>>>>>>> origin/tdwtf-crp
