@@ -71,6 +71,7 @@ a:hover {
                 }
 
                 .article {
+                    position: relative;
                     background-color: @tdwtf-white;
                     border-left: 10px solid @tdwtf-white;
                     border-right: 10px solid @tdwtf-white;
@@ -1187,9 +1188,10 @@ a:hover {
 
         label {
             display: block;
-            &.radio-label{
-                display:inline;
-                margin-right:5px;
+
+            &.radio-label {
+                display: inline;
+                margin-right: 5px;
             }
         }
 
@@ -1218,10 +1220,11 @@ a:hover {
                 display: block;
                 padding: 5px, 15px;
             }
-            &.radio-dial{
-                height:15px;
-                width:15px;
-                margin-bottom:15px;
+
+            &.radio-dial {
+                height: 15px;
+                width: 15px;
+                margin-bottom: 15px;
             }
         }
 
@@ -1233,13 +1236,97 @@ a:hover {
         textarea {
             height: auto;
         }
-         
-           
+
+
 
         h1.title {
             font-weight: 200;
         }
-        
+
+        .submit-code, .submit-story, .submit-errord {
+            display: none;
+        }
+
+        #code:checked ~ .submit-code, #story:checked ~ .submit-story, #errord:checked ~ .submit-errord {
+            display: block;
+        }
+    }
+
+    .content#sponsor-page {
+        background: @tdwtf-white;
+
+        h2.title {
+            font-size: 400%;
+            font-weight: 700;
+            padding: 15px 30px;
+        }
+
+        span.details {
+            display: block;
+            color: white;
+            background-color: @tdwtf-grey;
+            padding: 10px 0 10px 10px;
+            font-weight: 700;
+            width: 100%;
+            margin: 0px;
+            position: relative;
+            left: -10px;
+
+            a {
+                font-weight: 600;
+                text-decoration: underline;
+                color: @tdwtf-white;
+            }
+        }
+
+        .banner-triangle {
+            width: 0;
+            height: 0;
+            border-top: 10px solid darken(@tdwtf-grey, 30%);
+            border-left: 10px solid transparent;
+            position: absolute;
+            left: -10px;
+        }
+
+        #sponsor-listing {
+            
+            margin:50px auto;
+            .sponsor-container {
+                display: inline-block;
+                width: 47%;
+                min-width:290px;
+                margin: 0 1% 0 0;
+                vertical-align: top;
+                
+                .sponsor-logo-container {
+                    text-align: center;
+
+                    img {
+                        height: 75px;
+                        margin-bottom:15px;
+                    }
+                }
+                .sponsor-bio {
+                    width:80%;
+                    margin:0 auto;
+               }
+            }
+
+            .sponsor-container:nth-child(2) {
+                margin: 0 0 0 0;
+            }
+        }
+
+        .sponsor-footer {
+            text-align: center;
+            padding:25px;
+
+            img {
+                height: 15px;
+                margin-right: 5px;
+                display: inline;
+            }
+        }
     }
 }
 
@@ -1251,26 +1338,16 @@ a:hover {
 
 
 /* TODO: update when final CSS is ready */
-form label {
-    width: 12em;
-    display: inline-block;
-}
 
-form textarea {
-    display: block;
-}
+
 
 .g-recaptcha {
     margin: 1em 0;
 }
 
-.submit-code, .submit-story, .submit-errord {
-    display: none;
-}
 
-#code:checked ~ .submit-code, #story:checked ~ .submit-story, #errord:checked ~ .submit-errord {
-    display: block;
-}
+
+
 
 b, strong {
     font-weight: bold;
@@ -1310,17 +1387,8 @@ u {
 }
 
 .article {
-    position: relative;
 
-    .link-overlay {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        display: block;
-        z-index: 2;
-    }
+
 
     img {
         max-width: 100%;
