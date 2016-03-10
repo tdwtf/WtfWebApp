@@ -2,15 +2,19 @@
 
 
 <div class="article @Model.Article.Series.CssClass">
-    <a href="@Model.Article.Url" class="link-overlay"></a>
-    <div class="article-content">
-        <h2 class="title">@Model.Article.Title</h2>
-        <span class="details">by <span class="author">@Model.Article.Author.Name</span>
-            in <span class="source">@Model.Article.Series.Title</span>
-            on <span class="date">@Model.Article.DisplayDate</span></span>
+   
+        <div class="article-content">
+            <a href="@Model.Article.Url" class="link-overlay"> </a>
+            <h2 class="title">@Model.Article.Title</h2>
+            <span class="details">
+                by <span class="author">@Model.Article.Author.Name</span>
+                in <span class="source">@Model.Article.Series.Title</span>
+                on <span class="date">@Model.Article.DisplayDate</span>
+            </span>
 
-        @Html.Raw(Model.Article.SummaryHtml)
-    </div>
+            @Html.Raw(Model.Article.SummaryHtml)
+        </div>
+   
     <hr />
 
     <div class="article-footer">

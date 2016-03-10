@@ -85,23 +85,35 @@ a:hover {
 
                     .article-content {
                         padding: 15px;
-                        p{
-                            img{
-                                text-align:right;                             
-                                max-height:250px;
+                        position: relative;
 
+
+                        p {
+                            img {
+                                text-align: right;
+                                max-height: 250px;
                             }
-                            a{
-                            img{
-                                width:75%;
-                                display:block;
-                                margin:0 auto;
-                                
-                                max-height:none;
-                                 }
+
+                            a {
+                                img {
+                                    width: 75%;
+                                    display: block;
+                                    margin: 0 auto;
+                                    max-height: none;
+                                }
+                            }
                         }
+
+                        a.link-overlay {
+                            position: absolute;
+                            display: block;
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            left: 0;
+                            z-index: 10;
                         }
-                       
+
                         h2.title {
                             text-transform: uppercase;
                             font-weight: bold;
@@ -149,7 +161,7 @@ a:hover {
                             left: 15px;
                             position: relative;
                             width: 69%;
-                            min-width: 295px;
+
 
                             .comments {
                                 position: relative;
@@ -163,7 +175,8 @@ a:hover {
                         }
 
                         .sm-link-bar {
-                            width: 150px;
+                            width: 30%;
+                            min-width: 150px;
                             position: relative;
                             display: inline-block;
 
@@ -203,19 +216,11 @@ a:hover {
                         }
                     }
 
-<<<<<<< HEAD
-                    &.code {
-                        border-left: 10px solid @tdwtf-red;
-                    }
-
-                    &.code:hover {
-=======
-                    &.codesod, &.code {
+                    &.codesode, &.code {
                         border-left: 10px solid @tdwtf-red;
                     }
 
                     &.codesod:hover, &.code:hover {
->>>>>>> origin/tdwtf-crp
                         border-right: 10px solid @tdwtf-red;
 
                         h2 {
@@ -258,7 +263,8 @@ a:hover {
                             color: @tdwtf-purple;
                         }
                     }
-                     &.soapbox {
+
+                    &.soapbox {
                         border-left: 10px solid @tdwtf-purple;
                     }
 
@@ -274,7 +280,7 @@ a:hover {
 
             @media (max-width: 767px) {
                 width: 95%;
-                min-width: 320px;
+                min-width: 295px;
             }
         }
     }
@@ -343,17 +349,16 @@ a:hover {
                     float: left;
                     display: table;
                     text-align: center;
-                   
-                    
                     text-transform: uppercase;
                     margin-top: 0px;
                     margin-bottom: 0px;
                     font-size: 90%;
-                    a{
-                       padding: 20px 15px 18px;
-                       display:table-cell;
+
+                    a {
+                        padding: 20px 15px 18px;
+                        display: table-cell;
                         vertical-align: middle;
-                        cursor:pointer;
+                        cursor: pointer;
                     }
 
 
@@ -447,18 +452,17 @@ a:hover {
                     &.forum {
                         border-top: 5px solid @tdwtf-orange;
 
-                       a{
+                        a {
 
-                        img {
-                          margin-top:2px;
-                          width:15px;
-                          float:left;
+                            img {
+                                margin-top: 2px;
+                                width: 15px;
+                                float: left;
 
-                            &.hover-icon {
-                                display: none;
-                           
+                                &.hover-icon {
+                                    display: none;
+                                }
                             }
-                        }
                         }
                     }
 
@@ -466,18 +470,16 @@ a:hover {
                         background-color: @tdwtf-orange;
 
                         img {
+                            margin-top: 2px;
+                            width: 15px;
+                            float: left;
 
-                                margin-top:2px;
-                          width:15px;
-                          float:left;
-                           &.hover-icon {
+                            &.hover-icon {
                                 display: inline;
-                           
                             }
 
                             &.standard-icon {
                                 display: none;
-                               
                             }
                         }
                     }
@@ -546,7 +548,6 @@ a:hover {
 
                     ul {
                         li {
-                          
                             font-size: 110%;
                             margin: 0px;
                             text-transform: uppercase;
@@ -554,9 +555,9 @@ a:hover {
                             a {
                                 color: @tdwtf-white;
                                 font-weight: 300;
-                                width:100%;
-                                 padding: 10px 0;
-                                 display:inline-block;
+                                width: 100%;
+                                padding: 10px 0;
+                                display: inline-block;
                             }
 
                             &.featured {
@@ -715,6 +716,7 @@ a:hover {
             .sidebar-section {
                 background-color: @tdwtf-white;
 
+
                 input[type="checkbox"] {
                     display: none;
                 }
@@ -805,38 +807,39 @@ a:hover {
                     }
                 }
 
-                &#about-container{
-                    
-                    #submit-link{
-                          
-                        
-                        text-align:center;
-                        font-weight:bold;
-                        font-size:110%;
-                        text-transform:uppercase;
-                        margin:10px 0;
-                    
-                        }
+                &#about-container {
+
+                    #submit-link {
+                        text-align: center;
+                        font-weight: bold;
+                        font-size: 110%;
+                        text-transform: uppercase;
+                        margin: 10px 0;
+                    }
                 }
+
                 &#contents-container {
                     ul {
-                        margin-left: 20px;
+                        margin: 4px 0 5px 20%;
 
                         li {
                             list-style-type: circle;
                             padding-left: 0px;
+                            margin: 5px 0;
                         }
                     }
                 }
-                 &#sponsor-sidebar-container {
-                   p{
-                       img{
-                       width:75%;
-                       display:block;
-                       margin:25px auto;
+
+                &#sponsor-sidebar-container {
+                    p {
+                        img {
+                            width: 75%;
+                            display: block;
+                            margin: 25px auto;
                         }
-                     }
+                    }
                 }
+
                 &#wtf-sidebar-container {
                     ul {
                         li {
@@ -1110,57 +1113,161 @@ a:hover {
             margin: 10px 0;
         }
 
+        div.series-nav {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 120%;
+            margin-bottom: 15px;
+
+            a {
+                text-decoration: none;
+            }
+
+            .prev {
+                float: left;
+                font-weight: bold;
+
+                img {
+                    height: 15px;
+                    display: inline-block;
+                    margin-right: 5px;
+                }
+            }
+
+            .next {
+                float: right;
+                font-weight: bold;
+                opacity: .25;
+
+                img {
+                    height: 15px;
+                    margin-left: 5px;
+                    display: inline-block;
+                    -ms-transform: rotate(180deg); /* IE 9 */
+                    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        p.list-description {
+        }
+
         #article-feed {
             width: 100%;
             margin: 0;
             left: 0;
+            min-height: 100px;
 
             .article {
-                width: 65%;
+                width: 95%;
+                margin: 0 auto 15px;
                 position: relative;
-                left: 33%;
+
 
                 .details {
-                    &.side-listing {
-                        position: absolute;
-                        left: -40%;
-                        max-width: 35%;
-
-                        @media (max-width: 767px) {
-                            display: none;
-                        }
-                    }
                 }
 
                 @media (max-width: 767px) {
-                    width: 99%;
                     left: 0;
+                    left: 0;
+                    margin: 0 auto 15px;
                 }
             }
         }
     }
+
+    .content#contact {
+        hr {
+            border: 1px solid #ccc;
+            clear: both;
+            margin: 16px 0 18px;
+            height: 0;
+        }
+
+        label {
+            display: block;
+            &.radio-label{
+                display:inline;
+                margin-right:5px;
+            }
+        }
+
+        input, select, textarea {
+            width: 100%;
+            position: relative;
+            padding: 0 10px;
+            background: #fff;
+            border: 1px solid #d8d8d8;
+            height: 36px;
+            line-height: 34px;
+            font-size: 15px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            -ms-border-radius: 4px;
+            -o-border-radius: 4px;
+            border-radius: 4px;
+
+            &.submit-button {
+                background: @tdwtf-red;
+                border: none;
+                width: 200px;
+                color: @tdwtf-white;
+                cursor: pointer;
+                font-weight: 400;
+                display: block;
+                padding: 5px, 15px;
+            }
+            &.radio-dial{
+                height:15px;
+                width:15px;
+                margin-bottom:15px;
+            }
+        }
+
+
+        select {
+            width: 50%;
+        }
+
+        textarea {
+            height: auto;
+        }
+         
+           
+
+        h1.title {
+            font-weight: 200;
+        }
+        
+    }
 }
 
-<<<<<<< HEAD
-@media print {
-    .no-print { display: none; }
+
+.no-print {
+    display: none;
 }
 
-=======
+
+
 /* TODO: update when final CSS is ready */
 form label {
-	width: 12em;
-	display: inline-block;
+    width: 12em;
+    display: inline-block;
 }
+
 form textarea {
-	display: block;
+    display: block;
 }
+
 .g-recaptcha {
     margin: 1em 0;
 }
+
 .submit-code, .submit-story, .submit-errord {
     display: none;
 }
+
 #code:checked ~ .submit-code, #story:checked ~ .submit-story, #errord:checked ~ .submit-errord {
     display: block;
 }
@@ -1180,23 +1287,26 @@ u {
 .comment-nav {
     text-align: center;
     font-family: "Open Sans", sans-serif;
-    
+
     @media print {
         display: none;
     }
 }
+
 .comment {
     .poster {
         font-weight: bold;
     }
+
     .timestamp {
         float: right;
         font-size: 12px;
     }
+
     clear: right;
-	border-top: 1px solid @tdwtf-light-grey;
-	padding-bottom: 5px;
-	padding-top: 5px;
+    border-top: 1px solid @tdwtf-light-grey;
+    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .article {
@@ -1235,4 +1345,3 @@ pre {
 p {
     margin-bottom: 15px;
 }
->>>>>>> origin/tdwtf-crp

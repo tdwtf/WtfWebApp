@@ -3,15 +3,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="content" id="article-page">
-    <div class="article-container contact">
-        <h2 class="title">Submit WTF</h2>
+<div class="content" id="contact">
+    
+        <h1 class="title">Submit WTF</h1>
 
-        <div class="author-box">
+       
             <p>Your stories are what make The Daily WTF so great, so please, send in your WTF moments!</p>
-        </div>
-
-        <div class="article-body">
+   
+      <hr />
+       
             @Html.ValidationSummary()
 
             <form method="post" action="/submit-wtf" enctype="multipart/form-data">
@@ -19,12 +19,12 @@
                 @Html.AntiForgeryToken()
 
                 <p>Submission Type:</p>
-                <input id="code" type="radio" name="submitform.type" value="0" checked="@(Model.SubmitForm.Type == SubmissionType.CodeSod)" />
-                <label for="code">Code</label>
-                <input id="story" type="radio" name="submitform.type" value="1" checked="@(Model.SubmitForm.Type == SubmissionType.Story)" />
-                <label for="story">Story</label>
-                <input id="errord" type="radio" name="submitform.type" value="2" checked="@(Model.SubmitForm.Type == SubmissionType.Errord)" />
-                <label for="errord">Error'd</label>
+                <input id="code" class="radio-dial" type="radio" name="submitform.type" value="0" checked="@(Model.SubmitForm.Type == SubmissionType.CodeSod)" />
+                <label class="radio-label" for="code">Code</label>
+                <input id="story" class="radio-dial" type="radio" name="submitform.type" value="1" checked="@(Model.SubmitForm.Type == SubmissionType.Story)" />
+                <label class="radio-label" for="story">Story</label>
+                <input id="errord" class="radio-dial" type="radio" name="submitform.type" value="2" checked="@(Model.SubmitForm.Type == SubmissionType.Errord)" />
+                <label class="radio-label" for="errord">Error'd</label>
 
                 <div class="field">
                     <label for="submitform-name">Your Name:</label>
@@ -103,11 +103,9 @@
 
                 @Html.Partial(Views.Shared.PartialRecaptcha)
 
-                <div class="medium primary btn">
-                    <input class="input" type="submit" value="Submit WTF" />
-                </div>
+          
+                    <input class="input submit-button" type="submit" value="Submit WTF" />
+              
 
             </form>
         </div>
-    </div>
-</div>

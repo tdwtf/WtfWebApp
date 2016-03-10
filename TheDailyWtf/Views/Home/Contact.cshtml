@@ -3,75 +3,70 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="content" id="article-page">
-    <div class="article-container contact">
-        <h2 class="title">Contact</h2>
+<div class="content" id="contact">
 
-        <div class="article-body">
-            <div class="author-box">
-                <p>
-                    Use this form if you'd like to send a personal note to a WTF staffer. For article and story submissions,
-                    please use the <a href="/submit-wtf">submission form</a>.
-                </p>
-            </div>
+    <h1 class="title">Contact</h1>
+    <p>
+        Use this form if you'd like to send a personal note to a WTF staffer. For article and story submissions,
+        please use the <a href="/submit-wtf">submission form</a>.
+    </p>
+    <hr />
 
-            @Html.ValidationSummary()
+    @Html.ValidationSummary()
 
-            <form method="post" action="/contact" enctype="multipart/form-data">
+    <form method="post" action="/contact" enctype="multipart/form-data">
 
-                @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-                <div class="field">
-                    <label for="contactform-to">Send To:</label>
-                    <select name="contactform.to" id="contactform-to" required="required">
-                        <option value=""></option>
-                        <optgroup label="Editors">
-                            @foreach (var editor in Model.Editors)
-                            {
-                                <option value="@editor.Name" @(editor.Selected ? "selected=\"selected\"" : "")>@editor.Name (@editor.Title)</option>
-                            }
-                        </optgroup>
-                        <optgroup label="Writers">
-                            @foreach (var writer in Model.Writers)
-                            {
-                                <option value="@writer.Name" @(writer.Selected ? "selected=\"selected\"" : "")>@writer.Name (@writer.Title)</option>
-                            }
-                        </optgroup>
-                        <optgroup label="Admin">
-                            @foreach (var admin in Model.Admins)
-                            {
-                                <option value="@admin.Name" @(admin.Selected ? "selected=\"selected\"" : "")>@admin.Name (@admin.Title)</option>
-                            }
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="field">
-                    <label for="contentform-name">Your Name:</label>
-                    <input name="contactform.name" id="contactform-name" class="input" type="text" maxlength="50" value="@Model.ContactForm.Name" required="required" />
-                </div>
-                <div class="field">
-                    <label for="contactform-email">Your Email:</label>
-                    <input name="contactform.email" id="contactform-email" class="input" type="email" maxlength="250" value="@Model.ContactForm.Email" required="required" />
-                </div>
-                <div class="field">
-                    <label for="contactform-subject">Subject:</label>
-                    <input name="contactform.subject" id="contactform-subject" class="input" type="text" maxlength="250" value="@Model.ContactForm.Subject" required="required" />
-                </div>
-                <div class="field">
-                    <label for="contactform-file">Attachment (optional):</label>
-                    <input name="contactform.file" id="contactform-file" class="input" type="file" />
-                </div>
-                <div class="field">
-                    <label for="contactform-message">Message:</label>
-                    <textarea name="contactform.message" id="contactform-message" class="input textarea" rows="8" cols="60" required="required">@Model.ContactForm.Message</textarea>
-                </div>
-
-                @Html.Partial(Views.Shared.PartialRecaptcha)
-
-                <div class="medium primary btn">
-                    <input class="input" type="submit" value="Send Message" />
-                </div>
-            </form>
+        <div class="field">
+            <label for="contactform-to">Send To:</label>
+            <select name="contactform.to" id="contactform-to" required="required">
+                <option value=""></option>
+                <optgroup label="Editors">
+                    @foreach (var editor in Model.Editors)
+                    {
+                        <option value="@editor.Name" @(editor.Selected ? "selected=\"selected\"" : "")>@editor.Name (@editor.Title)</option>
+                    }
+                </optgroup>
+                <optgroup label="Writers">
+                    @foreach (var writer in Model.Writers)
+                    {
+                        <option value="@writer.Name" @(writer.Selected ? "selected=\"selected\"" : "")>@writer.Name (@writer.Title)</option>
+                    }
+                </optgroup>
+                <optgroup label="Admin">
+                    @foreach (var admin in Model.Admins)
+                    {
+                        <option value="@admin.Name" @(admin.Selected ? "selected=\"selected\"" : "")>@admin.Name (@admin.Title)</option>
+                    }
+                </optgroup>
+            </select>
         </div>
-    </div>
+        <div class="field">
+            <label for="contentform-name">Your Name:</label>
+            <input name="contactform.name" id="contactform-name" class="input" type="text" maxlength="50" value="@Model.ContactForm.Name" required="required" />
+        </div>
+        <div class="field">
+            <label for="contactform-email">Your Email:</label>
+            <input name="contactform.email" id="contactform-email" class="input" type="email" maxlength="250" value="@Model.ContactForm.Email" required="required" />
+        </div>
+        <div class="field">
+            <label for="contactform-subject">Subject:</label>
+            <input name="contactform.subject" id="contactform-subject" class="input" type="text" maxlength="250" value="@Model.ContactForm.Subject" required="required" />
+        </div>
+        <div class="field">
+            <label for="contactform-file">Attachment (optional):</label>
+            <input name="contactform.file" id="contactform-file" class="input" type="file" />
+        </div>
+        <div class="field">
+            <label for="contactform-message">Message:</label>
+            <textarea name="contactform.message" id="contactform-message" class="input textarea" rows="8" cols="60" required="required">@Model.ContactForm.Message</textarea>
+        </div>
+
+        @Html.Partial(Views.Shared.PartialRecaptcha)
+
+
+        <input class="input submit-button" type="submit" value="Send Message" />
+
+    </form>
 </div>
