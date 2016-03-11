@@ -63,6 +63,7 @@ a:hover {
                 vertical-align: top;
                 position: relative;
                 left: 3%;
+                z-index:1;
 
                 @media (max-width: 767px) {
                     width: 99%;
@@ -109,10 +110,12 @@ a:hover {
                             position: absolute;
                             display: block;
                             top: 0;
-                            right: 0;
-                            bottom: 0;
-                            left: 0;
-                            z-index: 10;
+                            right: -10px;
+                            bottom: -7.5px;
+                            left: -10px;
+                            z-index: 2;
+                            margin:0;
+                            
                         }
 
                         h2.title {
@@ -217,7 +220,7 @@ a:hover {
                         }
                     }
 
-                    &.codesode, &.code {
+                    &.codesod, &.code {
                         border-left: 10px solid @tdwtf-red;
                     }
 
