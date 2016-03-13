@@ -1,9 +1,9 @@
 ﻿using System;
 using TheDailyWtf.Models;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json.Linq;
+using System.Net;
+using System.Web.Mvc;
 
 namespace TheDailyWtf.Controllers
 {
@@ -14,171 +14,176 @@ namespace TheDailyWtf.Controllers
             Response.Redirect("https://github.com/tdwtf/WtfWebApp/blob/master/Docs/API.md");
         }
 
-        public string ViewArticleById(int id, bool onlyBodyAndAdHtml = false)
+        public ActionResult ViewArticleById(int id, bool onlyBodyAndAdHtml = false)
         {
             var article = ArticleModel.GetArticleById(id);
             if (article == null)
-                return ErrorStatus("Invalid Id");            
+            {
+                return ErrorStatus(HttpStatusCode.NotFound, "Invalid Id");
+            }
 
             return FormatOutput(article, onlyBodyAndAdHtml);
         }
-        
-        public string ViewArticleBySlug(string articleSlug, bool onlyBodyAndAdHtml = false)
+
+        public ActionResult ViewArticleBySlug(string articleSlug, bool onlyBodyAndAdHtml = false)
         {
             var article = ArticleModel.GetArticleBySlug(articleSlug);
             if (article == null)
-                return ErrorStatus("Invalid Article Slug");
+            {
+                return ErrorStatus(HttpStatusCode.NotFound, "Invalid Article Slug");
+            }
 
             return FormatOutput(article, onlyBodyAndAdHtml);
         }
 
-        public string ViewRandomArticle()
+        public ActionResult ViewRandomArticle()
         {
             var article = ArticleModel.GetRandomArticle();
             if (article == null)
-                return ErrorStatus("Service Unavailable");
+            {
+                return ErrorStatus(HttpStatusCode.ServiceUnavailable, "Service Unavailable");
+            }
 
             return FormatOutput(article, false);
         }
 
-        public string ViewArticlesByDate(int year, int month)
+        public ActionResult ViewArticlesByDate(int year, int month)
         {
-            var date = new DateTime(year, month, 1);
+            DateTime date;
+            try
+            {
+                date = new DateTime(year, month, 1);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return ErrorStatus(HttpStatusCode.BadRequest, "Invalid date");
+            }
             var articles = ArticleModel.GetAllArticlesByMonth(date);
             if (IsEmpty(articles))
-                return ErrorStatus("No articles found for the current date range");
+            {
+                return ErrorStatus(HttpStatusCode.NotFound, "No articles found for the current date range");
+            }
 
             return FormatOutput(articles);
         }
-        
-        public string ViewRecentArticlesByCount(int count = 8)
+
+        public ActionResult ViewRecentArticlesByCount(int count = 8)
         {
-            if(count > 100)
-                return ErrorStatus("Count cannot be greater than 100");
+            if (count > 100)
+            {
+                return ErrorStatus(HttpStatusCode.BadRequest, "Count cannot be greater than 100");
+            }
 
             var articles = ArticleModel.GetRecentArticles(count);
             if (IsEmpty(articles))
-                return ErrorStatus("Service Unavailable");            
+            {
+                return ErrorStatus(HttpStatusCode.ServiceUnavailable, "Service Unavailable");
+            }
 
             return FormatOutput(articles);
         }
-        
-        public string ViewRecentArticlesBySeriesAndCount(string slug, int count = 8)
+
+        public ActionResult ViewRecentArticlesBySeriesAndCount(string slug, int count = 8)
         {
             if (count > 100)
-                return ErrorStatus("Count cannot be greater than 100");
+            {
+                return ErrorStatus(HttpStatusCode.BadRequest, "Count cannot be greater than 100");
+            }
 
             var articles = ArticleModel.GetRecentArticlesBySeries(slug, count);
             if (IsEmpty(articles))
-                return ErrorStatus("Invalid Series");
+            {
+                return ErrorStatus(HttpStatusCode.NotFound, SeriesModel.GetSeriesBySlug(slug) == null ? "Invalid Series" : "No articles found");
+            }
 
             return FormatOutput(articles);
         }
 
-        public string ViewArticlesBySeriesAndDate(string slug, int year, int month)
+        public ActionResult ViewArticlesBySeriesAndDate(string slug, int year, int month)
         {
-            var date = new DateTime(year, month, 1);
+            DateTime date;
+            try
+            {
+                date = new DateTime(year, month, 1);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return ErrorStatus(HttpStatusCode.BadRequest, "Invalid date");
+            }
             var articles = ArticleModel.GetSeriesArticlesByMonth(slug, date);
             if (IsEmpty(articles))
-                return ErrorStatus("No articles found for the current date range or Invalid Series");
+            {
+                return ErrorStatus(HttpStatusCode.NotFound, SeriesModel.GetSeriesBySlug(slug) == null ? "Invalid Series" : "No articles found");
+            }
 
             return FormatOutput(articles);
         }
 
-        public string ViewSeries()
+        public ActionResult ViewSeries()
         {
             var series = SeriesModel.GetAllSeries();
             if (IsEmpty(series))
-                return ErrorStatus("Error getting series listing");
+            {
+                return ErrorStatus(HttpStatusCode.InternalServerError, "Error getting series listing");
+            }
             return FormatOutput(series);
         }
 
-        public string ViewRecentArticlesByAuthorAndCount(string slug, int count = 8)
+        public ActionResult ViewRecentArticlesByAuthorAndCount(string slug, int count = 8)
         {
             if (count > 100)
-                return ErrorStatus("Count cannot be greater than 100");
+            {
+                return ErrorStatus(HttpStatusCode.BadRequest, "Count cannot be greater than 100");
+            }
 
             var articles = ArticleModel.GetRecentArticlesByAuthor(slug, count);
             if (IsEmpty(articles))
-                return ErrorStatus("Invalid Author");
+            {
+                return ErrorStatus(HttpStatusCode.NotFound, "Invalid Author");
+            }
 
             return FormatOutput(articles);
         }
 
-        private bool IsEmpty(IEnumerable<ArticleModel> enumerable)
+        private bool IsEmpty<T>(IEnumerable<T> enumerable)
         {
-            return (!enumerable.Any() || enumerable == null);
+            return enumerable == null || !enumerable.Any();
         }
 
-        private bool IsEmpty(IEnumerable<SeriesModel> enumerable)
+        private ActionResult FormatOutput(ArticleModel article, bool onlyBodyAndAdHtml)
         {
-            return (!enumerable.Any() || enumerable == null);
-        }
-
-        private string FormatOutput(ArticleModel article, bool onlyBodyAndAdHtml)
-        {
-            Response.ContentType = "application/json";
-            try
+            if (onlyBodyAndAdHtml)
             {
-                if (onlyBodyAndAdHtml)
-                {
-                    JObject data = new JObject();
-                    data["BodyHtml"] = article.BodyHtml;
-                    data["FooterAdHtml"] = article.FooterAdHtml;
-                    data["Status"] = "OK";
-                    return JsonConvert.SerializeObject(data);
-                }
-                else
-                {
-                    article.BodyAndAdHtml = "";
-                    return JsonConvert.SerializeObject(article);
-                }
+                return Json(new { BodyHtml = article.BodyHtml, FooterAdHtml = article.FooterAdHtml, Status = article.Status }, JsonRequestBehavior.AllowGet);
             }
-            catch (JsonException je)
-            {
-                return ErrorStatus("JSON Serialization Error : " + je.Message);
-            }
+
+            article.BodyAndAdHtml = "";
+            return Json(article, JsonRequestBehavior.AllowGet);
         }
 
-        private string FormatOutput(IEnumerable<ArticleModel> articles)
+        private ActionResult FormatOutput(IEnumerable<ArticleModel> articles)
         {
-            Response.ContentType = "application/json";
-            List<ArticleModel> updatedArticles = articles.ToList<ArticleModel>();
-            foreach (ArticleModel article in updatedArticles)
+            foreach (var article in articles)
             {
                 article.BodyHtml = "";
                 article.BodyAndAdHtml = "";
                 article.FooterAdHtml = "";
             }
 
-            try
-            {
-                return JsonConvert.SerializeObject(updatedArticles);
-            }
-            catch (JsonException je)
-            {
-                return ErrorStatus("JSON Serialization Error : " + je.Message);
-            }
+            return Json(articles, JsonRequestBehavior.AllowGet);
         }
 
-        private string FormatOutput(IEnumerable<SeriesModel> series)
+        private ActionResult FormatOutput(IEnumerable<SeriesModel> series)
         {
-            Response.ContentType = "application/json";
-            List<SeriesModel> updatedArticles = series.ToList<SeriesModel>();
-            try
-            {
-                return JsonConvert.SerializeObject(updatedArticles);
-            }
-            catch (JsonException je)
-            {
-                return ErrorStatus("JSON Serialization Error : " + je.Message);
-            }
+            return Json(series, JsonRequestBehavior.AllowGet);
         }
 
-        private string ErrorStatus(string status)
+        private ActionResult ErrorStatus(HttpStatusCode code, string status)
         {
-            Response.ContentType = "application/json";
-            return "{\"Status\":\"" + status + "\"}";
+            var result = new HttpStatusCodeResult(code);
+            Response.StatusCode = result.StatusCode;
+            Response.StatusDescription = result.StatusDescription;
+            return Json(new { Status = status }, JsonRequestBehavior.AllowGet);
         }
     }
 }
