@@ -255,6 +255,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "ApiViewSeries",
+                url: "api/series/",
+                defaults: new { controller = "Api", action = "ViewSeries" }
+            );
+
+            routes.MapRoute(
                 name: "ApiViewArticlesByAuthor",
                 url: "api/author/{slug}/",
                 defaults: new { controller = "Api", action = "ViewRecentArticlesByAuthorAndCount" }
