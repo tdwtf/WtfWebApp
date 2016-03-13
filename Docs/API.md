@@ -17,7 +17,7 @@
   * These commands get all the information about a specific article.
   * They also have parameters to allow return of only BodyHtml and FooterAdHtml attributes of ArticleModel object, to complete the information obtained from a listing command, for any particular valid article.
 * Base url for any api command shall be **http://thedailywtf.com/api** to which the below mentioned commands must be concatenated.
-  * >example api call: http://thedailywtf.com/api/articles/slug/the-apple-genius
+  * example api call: http://thedailywtf.com/api/articles/slug/the-apple-genius
 
 ### Bugs/Requests
 Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
@@ -33,7 +33,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
 * Parameters
   * **id** : integer : Unique identifier of the article
 * Example
-  * >  http://thedailywtf.com/api/articles/id/8301
+  * http://thedailywtf.com/api/articles/id/8301
 * Exceptions
   *  { "Status": "Invalid Id" }
   *  { "Status": "JSON Serialization Error : <Error Message>" }
@@ -46,7 +46,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
   * **id** : integer : Unique identifier of the article
   * **onlyBodyAndAdHtml** : bool : Default value is false.
 * Example
-  * >  http://thedailywtf.com/api/articles/id/8301/true
+  * http://thedailywtf.com/api/articles/id/8301/true
 * Exceptions
   *  { "Status": "Invalid Id" }
   *  { "Status": "JSON Serialization Error : <Error Message>" }
@@ -58,7 +58,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
 * Parameters
   * **articleSlug** : string : Article Slug
 * Example
-  * >  http://thedailywtf.com/api/articles/slug/your-recommended-virus
+  * http://thedailywtf.com/api/articles/slug/your-recommended-virus
 * Exceptions
   *  { "Status": "Invalid Article Slug" }
   *  { "Status": "JSON Serialization Error : <Error Message>" }
@@ -71,7 +71,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
   * **articleSlug** : string : Article Slug
   * **onlyBodyAndAdHtml** : bool : Default value is false.
 * Example
-  * >  http://thedailywtf.com/api/articles/slug/your-recommended-virus/true
+  * http://thedailywtf.com/api/articles/slug/your-recommended-virus/true
 * Exceptions
   *  { "Status": "Invalid Article Slug" }
   *  { "Status": "JSON Serialization Error : <Error Message>" }
@@ -82,7 +82,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
   * Returns a random article
 * No Parameters
 * Example
-  * >  http://thedailywtf.com/api/articles/random
+  * http://thedailywtf.com/api/articles/random
 * Exceptions
   *  { "Status": "Service Unavailable" }
   *  { "Status": "JSON Serialization Error : <Error Message>" }
@@ -95,7 +95,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
   * Returns an array of **8 recent** articles
 * No Parameters
 * Example
-  * >  http://thedailywtf.com/api/articles/recent
+  * http://thedailywtf.com/api/articles/recent
 * Exceptions
   *  { "Status": "Service Unavailable" }
   *  { "Status": "JSON Serialization Error : <Error Message>" }
@@ -107,7 +107,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
 * Parameters
   * **count** : int
 * Example
-  * >  http://thedailywtf.com/api/articles/recent/15
+  * http://thedailywtf.com/api/articles/recent/15
 * Exceptions
   *  { "Status": "Service Unavailable" }
   *  { "Status": "Count cannot be greater than 100" }
@@ -121,7 +121,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
   * **year** : int : ideally > 1999
   * **month** : int : 1-12
 * Example
-  * >  http://thedailywtf.com/api/articles/2015/12
+  * http://thedailywtf.com/api/articles/2015/12
 * Exceptions
   *  { "Status": "No articles found for the current date range" }
   *  { "Status": "JSON Serialization Error : <Error Message>" }
@@ -133,7 +133,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
 * Parameters
   * **slug** : string : eg. code-sod, errord, feature-articles
 * Example
-  * >  http://thedailywtf.com/api/series/code-sod
+  * http://thedailywtf.com/api/series/code-sod
 * Exceptions
   *  { "Status": "Invalid Series" }
   *  { "Status": "JSON Serialization Error : <Error Message>" }
@@ -146,7 +146,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
   * **slug** : string : eg. code-sod, errord, feature-articles
   * **count** : int
 * Example
-  * >  http://thedailywtf.com/api/series/code-sod/42
+  * http://thedailywtf.com/api/series/code-sod/42
 * Exceptions
   *  { "Status": "Invalid Series" }
   *  { "Status": "Count cannot be greater than 100" }
@@ -161,7 +161,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
   * **year** : int : ideally > 1999
   * **month** : int : 1-12
 * Example
-  * >  http://thedailywtf.com/api/series/code-sod/2015/12
+  * http://thedailywtf.com/api/series/code-sod/2015/12
 * Exceptions
   *  { "Status": "No articles found for the current date range or Invalid Series" }
   *  { "Status": "JSON Serialization Error : <Error Message>" }
@@ -173,7 +173,7 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
 * Parameters
   * **slug** : string : eg. alex-papadimoulis, remy-porter
 * Example
-  * >  http://thedailywtf.com/api/author/alex-papadimoulis
+  * http://thedailywtf.com/api/author/alex-papadimoulis
 * Exceptions
   *  { "Status": "Invalid Author" }
   *  { "Status": "JSON Serialization Error : <Error Message>" }
@@ -186,8 +186,17 @@ Please create a new issue [here](https://github.com/tdwtf/WtfWebApp/issues)
   * **slug** : string : eg. alex-papadimoulis, remy-porter
   * **count** : int
 * Example
-  * >  http://thedailywtf.com/api/author/alex-papadimoulis/11
+  * http://thedailywtf.com/api/author/alex-papadimoulis/11
 * Exceptions
   *  { "Status": "Invalid Author" }
   *  { "Status": "Count cannot be greater than 100" }
+  *  { "Status": "JSON Serialization Error : <Error Message>" }
+
+#### 14. /series/
+
+* Description
+  * Returns an array of all available series
+* Example
+  * http://thedailywtf.com/api/series/
+* Exceptions
   *  { "Status": "JSON Serialization Error : <Error Message>" }
