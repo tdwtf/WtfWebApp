@@ -84,7 +84,15 @@ namespace TheDailyWtf.Controllers
 
             return FormatOutput(articles);
         }
-        
+
+        public string ViewSeries()
+        {
+            var series = SeriesModel.GetAllSeries();
+            if (IsEmpty(series))
+                return ErrorStatus("Error getting series listing");
+            return FormatOutput(series);
+        }
+
         public string ViewRecentArticlesByAuthorAndCount(string slug, int count = 8)
         {
             if (count > 100)
@@ -98,6 +106,11 @@ namespace TheDailyWtf.Controllers
         }
 
         private bool IsEmpty(IEnumerable<ArticleModel> enumerable)
+        {
+            return (!enumerable.Any() || enumerable == null);
+        }
+
+        private bool IsEmpty(IEnumerable<SeriesModel> enumerable)
         {
             return (!enumerable.Any() || enumerable == null);
         }
@@ -138,6 +151,20 @@ namespace TheDailyWtf.Controllers
                 article.FooterAdHtml = "";
             }
 
+            try
+            {
+                return JsonConvert.SerializeObject(updatedArticles);
+            }
+            catch (JsonException je)
+            {
+                return ErrorStatus("JSON Serialization Error : " + je.Message);
+            }
+        }
+
+        private string FormatOutput(IEnumerable<SeriesModel> series)
+        {
+            Response.ContentType = "application/json";
+            List<SeriesModel> updatedArticles = series.ToList<SeriesModel>();
             try
             {
                 return JsonConvert.SerializeObject(updatedArticles);
