@@ -33,7 +33,49 @@ namespace TheDailyWtf
             routes.MapRoute(
                 name: "ArticleAdmin",
                 url: "admin/article/edit/{id}",
-                defaults: new { controller = "Admin", action = "EditArticle", id = UrlParameter.Optional  }
+                defaults: new { controller = "Admin", action = "EditArticle", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "ArticleCommentsAdmin",
+                url: "admin/article/comments/{id}/{page}",
+                defaults: new { controller = "Admin", action = "ArticleComments", page = 1 }
+            );
+
+            routes.MapRoute(
+                name: "UserIPCommentsAdmin",
+                url: "admin/user-comments/by-ip/{ip}/{page}",
+                defaults: new { controller = "Admin", action = "CommentsByIP", page = 1 }
+            );
+
+            routes.MapRoute(
+                name: "UserTokenCommentsAdmin",
+                url: "admin/user-comments/by-token/{token}/{page}",
+                defaults: new { controller = "Admin", action = "CommentsByToken", page = 1 }
+            );
+
+            routes.MapRoute(
+                name: "DeleteCommentsAdmin",
+                url: "admin/delete-comments",
+                defaults: new { controller = "Admin", action = "DeleteComments" }
+            );
+
+            routes.MapRoute(
+                name: "EditCommentAdmin",
+                url: "admin/edit-comment",
+                defaults: new { controller = "Admin", action = "EditComment" }
+            );
+
+            routes.MapRoute(
+                name: "FeatureComment",
+                url: "admin/feature-comment",
+                defaults: new { controller = "Admin", action = "FeatureComment" }
+            );
+
+            routes.MapRoute(
+                name: "UnfeatureComment",
+                url: "admin/unfeature-comment",
+                defaults: new { controller = "Admin", action = "UnfeatureComment" }
             );
 
             routes.MapRoute(
@@ -61,9 +103,9 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
-                name: "ReenableDiscourse",
-                url: "admin/reenable-discourse",
-                defaults: new { controller = "Admin", action = "ReenableDiscourse" }
+                name: "ReenableSideBar",
+                url: "admin/reenable-side-bar",
+                defaults: new { controller = "Admin", action = "ReenableSideBar" }
             );
 
             routes.MapRoute(
@@ -140,8 +182,38 @@ namespace TheDailyWtf
 
             routes.MapRoute(
                 name: "ViewArticleComments",
-                url: "articles/comments/{articleSlug}",
-                defaults: new { controller = "Articles", action = "ViewArticleComments" }
+                url: "articles/comments/{articleSlug}/{page}",
+                defaults: new { controller = "Articles", action = "ViewArticleComments", page = 1 }
+            );
+
+            routes.MapRoute(
+                name: "CommentsLogin",
+                url: "login",
+                defaults: new { controller = "Articles", action = "Login" }
+            );
+
+            routes.MapRoute(
+                name: "CommentsLoginGoogle",
+                url: "login/google",
+                defaults: new { controller = "Articles", action = "LoginGoogle" }
+            );
+
+            routes.MapRoute(
+                name: "CommentsLoginGitHub",
+                url: "login/github",
+                defaults: new { controller = "Articles", action = "LoginGitHub" }
+            );
+
+            routes.MapRoute(
+                name: "CommentsLoginFacebook",
+                url: "login/facebook",
+                defaults: new { controller = "Articles", action = "LoginFacebook" }
+            );
+
+            routes.MapRoute(
+                name: "CommentsAddendum",
+                url: "articles/comments/{articleSlug}/addendum/{id}",
+                defaults: new { controller = "Articles", action = "Addendum" }
             );
 
             routes.MapRoute(

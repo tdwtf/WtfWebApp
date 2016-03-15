@@ -3,133 +3,109 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script type="text/javascript" src="/scripts/knockout-3.1.0.js"></script>
+<div class="content" id="contact">
+    
+        <h1 class="title">Submit WTF</h1>
 
-<script type="text/javascript">
-   $(function () {
-      function ViewModel() {
-         var self = this;
-         self.selectedField = ko.observable('@((int)Model.SubmitForm.Type)');
-      }
-      var vm = new ViewModel();
-      ko.applyBindings(vm);
-   });
-</script>
+       
+            <p>Your stories are what make The Daily WTF so great, so please, send in your WTF moments!</p>
+   
+      <hr />
+       
+            @Html.ValidationSummary()
 
-<style type="text/css">
-   .field input[type="radio"] { width: inherit; margin-left: 15px; -webkit-appearance: radio; }
-   .field label { display: inline; }
-</style>
+            <form method="post" action="/submit-wtf" enctype="multipart/form-data">
 
-<div>
+                @Html.AntiForgeryToken()
 
-    <h2>Submit WTF</h2>
+                <p>Submission Type:</p>
+                <input id="code" class="radio-dial" type="radio" name="submitform.type" value="0" checked="@(Model.SubmitForm.Type == SubmissionType.CodeSod)" />
+                <label class="radio-label" for="code">Code</label>
+                <input id="story" class="radio-dial" type="radio" name="submitform.type" value="1" checked="@(Model.SubmitForm.Type == SubmissionType.Story)" />
+                <label class="radio-label" for="story">Story</label>
+                <input id="errord" class="radio-dial" type="radio" name="submitform.type" value="2" checked="@(Model.SubmitForm.Type == SubmissionType.Errord)" />
+                <label class="radio-label" for="errord">Error'd</label>
 
-    <div>
-       Your stories are what make The Daily WTF so great, so please, send in your WTF moments! 
-    </div>
-    <hr />
+                <div class="field">
+                    <label for="submitform-name">Your Name:</label>
+                    <input value="@Model.SubmitForm.Name" name="submitform.name" id="submitform-name" class="input" type="text" maxlength="50" />
+                </div>
+                <div class="field">
+                    <label for="submitform-nameusage">Name Usage:</label>
+                    <select name="submitform.nameusage" id="submitform-nameusage">
+                        <option selected="@(Model.SubmitForm.NameUsage == NameUsage.Anonymous)" value="0">Anonymous! Just make something up...</option>
+                        <option selected="@(Model.SubmitForm.NameUsage == NameUsage.FirstNameOnly)" value="1">First name only</option>
+                        <option selected="@(Model.SubmitForm.NameUsage == NameUsage.FirstNameLastInitial)" value="2">First name, last initial</option>
+                        <option selected="@(Model.SubmitForm.NameUsage == NameUsage.FullName)" value="3">I don't care, you can use my name!</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="submitform-title">Subject/Title:</label>
+                    <input value="@Model.SubmitForm.Title" name="submitform.title" id="submitform-title" class="input" type="text" maxlength="250" placeholder="Brief title for this submission..." />
+                </div>
+                <div class="field">
+                    <label for="submitform-email">Your Email:</label>
+                    <input value="@Model.SubmitForm.Email" name="submitform.email" id="submitform-email" class="input" type="email" maxlength="250" placeholder="Your email address will NOT be posted on the site..." />
+                </div>
 
-   @Html.ValidationSummary()
+                <div class="submit-code">
+                    <p>
+                        Note that we may post your code snippet/background as is! We do our best to edit out sensitive
+                        and/or identifying data such as namespaces, class names, etc., but we may not always know what's
+                        only for our eyes, and what's for the public. If there's anything sensitive in the code you are
+                        sending, make sure to tell us so we can anonymize as needed.
+                    </p>
+                    <div class="field">
+                        <label for="submitform-language">Language(s):</label>
+                        <input value="@Model.SubmitForm.Language" name="submitform.language" id="submitform-language" class="input" type="text" maxlength="250" />
+                    </div>
+                    <div class="field">
+                        <label for="submitform-codesnippet">Code Snippet:</label>
+                        <textarea name="submitform.codesnippet" id="submitform-codesnippet" class="input textarea" rows="8" cols="60" placeholder="Copy/paste your code snippets here...">@Model.SubmitForm.CodeSnippet</textarea>
+                    </div>
+                    <div class="field">
+                        <label for="submitform-background">Background:</label>
+                        <textarea name="submitform.background" id="submitform-background" class="input textarea" rows="8" cols="60" placeholder="How did this code come to be? Why is it so bad? Etc...">@Model.SubmitForm.Background</textarea>
+                    </div>
+                    <div class="field">
+                        <label for="submitform-codefile">Attachment (optional):</label>
+                        <input name="submitform.codefile" id="submitform-codefile" class="input" type="file" />
+                    </div>
+                </div>
 
-    <form method="post" action="/submit-wtf" enctype="multipart/form-data">
+                <div class="submit-story">
+                    <div class="field">
+                        <p>
+                            Check out the <a href="/submit-wtf/story-guidelines">Submission Guidelines</a> to learn a
+                            bit more about the story/submission process; but here, just describe the who, what, where,
+                            and when of the story in approximately 2-5 paragraphs or so.
+                        </p>
+                        <label for="submitform-storycomments">Core WTF:</label>
+                        <textarea name="submitform.storycomments" id="submitform-storycomments" class="input textarea" rows="8" cols="60">@Model.SubmitForm.StoryComments</textarea>
+                    </div>
+                </div>
 
-         @Html.AntiForgeryToken()
+                <div class="submit-errord">
+                    <p>
+                        Aside from a little bit of cropping/resizing, we rarely censor identifying information
+                        like names/addresses. If you're going to censor, please black-out only the bare minimum of
+                        text, using simple, straight lines.
+                    </p>
+                    <div class="field">
+                        <label for="submitform-errordfile">Error'd Image:</label>
+                        <input name="submitform.errordfile" id="submitform-errordfile" class="input" type="file" />
+                    </div>
+                    <div class="field">
+                        <label for="submitform-errordcomments">Snarky Comments:</label>
+                        <textarea name="submitform.errordcomments" id="submitform-errordcomments" class="input textarea" rows="8" cols="60" placeholder="Please try to keep to a sentence or two, we'd love to quote you verbatim...">@Model.SubmitForm.ErrordComments</textarea>
+                    </div>
+                </div>
 
-        <div class="field">
-           <div>Submission Type:</div>
-           <input data-bind="checked: selectedField" id="code" type="radio" name="submitform.type" value="0" />
-           <label for="code">Code</label>
-           <input data-bind="checked: selectedField" id="story" type="radio" name="submitform.type" value="1" />
-           <label for="story">Story</label>
-           <input data-bind="checked: selectedField" id="errord" type="radio" name="submitform.type" value="2" />
-           <label for="errord">Error'd</label>
+                @Html.Partial(Views.Shared.PartialRecaptcha)
+
+          
+                    <input class="input submit-button" type="submit" value="Submit WTF" />
+              
+
+            </form>
         </div>
-        <div class="field">
-            <div>Your Name:</div>
-           <input value="@Model.SubmitForm.Name" name="submitform.name" class="input" type="text" maxlength="50" />
-        </div>
-       <div class="field">
-          <div>Name Usage:</div>
-          <div class="picker">
-             <select name="submitform.nameusage">
-                <option selected="@(Model.SubmitForm.NameUsage == NameUsage.Anonymous)" value="0">Anonymous! Just make something up...</option>
-                <option selected="@(Model.SubmitForm.NameUsage == NameUsage.FirstNameOnly)" value="1">First name only</option>
-                <option selected="@(Model.SubmitForm.NameUsage == NameUsage.FirstNameLastInitial)" value="2">First name, last initial</option>
-                <option selected="@(Model.SubmitForm.NameUsage == NameUsage.FullName)" value="3">I don't care, you can use my name!</option>
-             </select>
-          </div>
-       </div>
-       <div class="field">
-          <div>Subject/Title:</div>
-          <input value="@Model.SubmitForm.Title" name="submitform.title" class="input" type="text" maxlength="250" placeholder="Brief title for this submission..." />
-       </div>
-        <div class="field">
-            <div>Your Email:</div>
-            <input value="@Model.SubmitForm.Email" name="submitform.email" class="input" type="text" maxlength="250" placeholder="Your email address will NOT be posted on the site..." />
-        </div>
-
-       <div data-bind="if: selectedField() == 0">
-          <p>
-             Note that we may post your code snippet/background as is! We do our best to edit out sensitive
-             and/or identifying data such as namespaces, class names, etc., but we may not always know what's
-             only for our eyes, and what's for the public. If there's anything sensitive in the code you are
-             sending, make sure to tell us so we can anonymize as needed.
-          </p>
-          <div class="field">
-             <div>Language(s):</div>
-             <input value="@Model.SubmitForm.Language" name="submitform.language" class="input" type="text" maxlength="250" />
-          </div>
-          <div class="field">
-             <div>Code Snippet:</div>
-             <textarea name="submitform.codesnippet" class="input textarea" rows="8" cols="60" placeholder="Copy/paste your code snippets here...">@Model.SubmitForm.CodeSnippet</textarea>
-          </div>
-          <div class="field">
-             <div>Background:</div>
-             <textarea name="submitform.background" class="input textarea" rows="8" cols="60" placeholder="How did this code come to be? Why is it so bad? Etc...">@Model.SubmitForm.Background</textarea>
-          </div>
-          <div class="field">
-             <div>Attachment (optional):</div>
-             <input name="submitform.codefile" class="input" type="file" />
-          </div>
-       </div>
-
-       <div data-bind="if: selectedField() == 1">
-          <div class="field">
-             <p>
-              Check out the <a href="/submit-wtf/story-guidelines">Submission Guidelines</a> to learn a 
-              bit more about the story/submission process; but here, just describe the who, what, where, 
-              and when of the story in approximately 2-5 paragraphs or so.
-              check out the 
-             </p>
-             <div>Core WTF:</div>
-             <textarea name="submitform.storycomments" class="input textarea" rows="8" cols="60">@Model.SubmitForm.StoryComments</textarea>
-          </div>
-       </div>
-
-       <div data-bind="if: selectedField() == 2">
-          <p>
-             Aside from a little bit of cropping/resizing, we rarely censor identifying information
-             like names/addresses. If you're going to censor, please black-out only the bare minimum of
-             text, using simple, straight lines.
-          </p>
-          <div class="field">
-             <div>Error'd Image:</div>
-             <input name="submitform.errordfile" class="input" type="file" />
-          </div>
-          <div class="field">
-             <div>Snarky Comments:</div>
-             <textarea name="submitform.errordcomments" class="input textarea" rows="8" cols="60" placeholder="Please try to keep to a sentence or two, we'd love to quote you verbatim...">@Model.SubmitForm.ErrordComments</textarea>
-          </div>
-       </div>
-
-       <div class="field">
-          @Html.Recaptcha(theme: Recaptcha.Web.RecaptchaTheme.Clean)
-       </div>
-
-        <div class="medium primary btn">
-            <input class="input" type="submit" value="Submit WTF" />
-        </div>
-
-    </form>
-</div>

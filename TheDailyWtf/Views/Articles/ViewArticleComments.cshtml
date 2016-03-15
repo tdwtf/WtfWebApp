@@ -1,37 +1,52 @@
 ﻿@model ViewCommentsViewModel
 @{
-   Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row @Model.Article.Series.CssClass" id="articlePage">
-   <div class="twelve columns articleWrapper">
-      <div class="content">
-         <div class="row">
-            <div class="container">
-               <h1>@Model.Article.Title</h1>
-               <a href="@Model.Article.Url">&laquo; Return to Article</a>
-               <span class="articleMeta">
-                  @Model.ViewCommentsHeading
-               @if (Model.Article.DiscourseTopicId != null)
-               {
-                  <a class="top-discourse-link clean" href="@Model.Article.DiscourseThreadUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
-               }
-            </span>
-            
-            <div class="row">
-               <div class="twelve columns">
-                  @Html.Partial(Views.Shared.PartialComments, Model.Comments)
-               </div>
-            </div>
-            <div>
-               <a href="@Model.Article.Url">&laquo; Return to Article</a>
-               @if (Model.Article.DiscourseTopicId != null)
-               {
-                  <a class="discourse-link" href="@Model.DiscourseNextUnreadCommentUrl" target="_blank">Continue this discussion on Discourse &raquo;</a>
-               }
-            </div>
-         </div>
-      </div>
-   </div>
-</div>
+<div class="content" id="article-page">
+    <div class="article-container @Model.Article.Series.CssClass">
+        <h2 class="title">@Model.Article.Title</h2>
+        <span class="details">
+            <a href="@Model.Article.Url">&laquo; Return to Article</a>
+            @Model.ViewCommentsHeading
+        </span>
+        <div class="banner-triangle"></div>
+
+        <div class="article-body">
+            @Html.Partial(Views.Shared.PartialCommentsPages, Model)
+            @Html.Partial(Views.Shared.PartialComments, Model)
+            @Html.Partial(Views.Shared.PartialCommentsPages, Model)
+
+            @Html.ValidationSummary()
+
+            <form method="post" id="comment-form" action="#comment-form" class="no-print">
+
+                @Html.AntiForgeryToken()
+
+                <h2>Leave a comment on &ldquo;@Model.Article.Title&rdquo;</h2>
+
+                <input id="comment-parent" name="parent" type="hidden" value="@Model.Comment.Parent" />
+
+                <div class="field">
+                    <label for="comment-name">Name:</label>
+                    <input id="comment-name" name="name" type="text" class="input" placeholder="Paula Bean" required tabindex="1" value="@Model.Comment.Name" />
+                    <a href="/login" class="comment-anonymous-only">or log in</a>
+                </div>
+
+                <div class="field">
+                    <label for="comment-body">Comment:</label>
+                    <textarea id="comment-body" name="body" class="input textarea resizeable" rows="8" cols="60" required tabindex="2">@Model.Comment.Body</textarea>
+                </div>
+
+                @Html.Partial(Views.Shared.PartialRecaptcha)
+
+                <div class="medium primary btn">
+                    <input class="input" type="submit" tabindex="3" value="Submit" />
+                </div>
+
+            </form>
+
+            <p><a href="@Model.Article.Url">&laquo; Return to Article</a></p>
+        </div>
+    </div>
 </div>

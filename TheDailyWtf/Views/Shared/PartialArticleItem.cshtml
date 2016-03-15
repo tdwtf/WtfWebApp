@@ -1,43 +1,33 @@
 @model ArticleItemViewModel
 
-<div class="articleListItem">
-    <div class="row">
-        @if (Model.DisplayAuthorLink)
-        { 
-            <div class="two columns">
-                <div class="author">by <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a></div>
-                <div class="date">
-                    <span class="date">@Model.Article.PublishedDate.Value.ToString("dd")</span>
-                    <span class="month">@Model.Article.PublishedDate.Value.ToString("MMM")</span>
-                    <span class="year">@Model.Article.PublishedDate.Value.Year</span>
-                </div>
-            </div>
-        }
-        <article class="@(Model.DisplayAuthorLink ? "ten" : "twelve") columns articleContainer @Model.Article.Series.CssClass">
-            <header>
-                <h4>@Model.Article.Title</h4>
-                <h5>by @Model.Article.Author.Name in @Model.Article.Series.Title on @Model.Article.DisplayDate</h5>
-            </header>
-            <div class="container">
-                <p>@Html.Raw(Model.Article.SummaryHtml)</p>
-            </div>
-            <div class="clearfix"></div>
-            <footer>
-                <div class="container">
-                    <i class="icon-comment"></i><span class="comments"><a href="@Model.Article.CommentsUrl"></a><span class="fakeLink">@Model.Article.DiscourseCommentCount Comments</span></span> - Last Comment @@ @Model.Article.LastCommentDateDescription
-                    <div class="social">
-                        <div class="socialButtons">
 
-                            <a class="social-icon facebook" href="@Model.Article.FacebookUrl">&nbsp;</a>
-                            <a class="social-icon twitter" href="@Model.Article.TwitterUrl">&nbsp;</a>
-                            <a class="social-icon email" href="@Model.Article.EmailUrl">&nbsp;</a>
-                            <a class="social-icon google-plus" href="@Model.Article.GooglePlusUrl">&nbsp;</a>
+<div class="article @Model.Article.Series.CssClass">
+   
+        <div class="article-content">
+            <a href="@Model.Article.Url" class="link-overlay"> </a>
+            <h2 class="title">@Model.Article.Title</h2>
+            <span class="details">
+                by <span class="author">@Model.Article.Author.Name</span>
+                in <span class="source">@Model.Article.Series.Title</span>
+                on <span class="date">@Model.Article.DisplayDate</span>
+            </span>
 
-                        </div>
-                    </div>
-                </div>
-            </footer>
-            <a href="/articles/@(Model.Article.Slug)" class="readMore"></a>
-        </article>
+            @Html.Raw(Model.Article.SummaryHtml)
+        </div>
+   
+    <hr />
+
+    <div class="article-footer">
+        <div class="comment-container">
+            <span class="comments"><b><span class="number-of-comments">@Model.Article.CachedCommentCount</span> comments</b> - Last comment @@ <span class="last-comment-time">@Model.Article.LastCommentDateDescription</span></span>
+        </div>
+
+        <ul class="sm-link-bar">
+            <li><a href="@Model.Article.EmailUrl"><img src="~/Content/Images/email-24.png" class="email" /></a></li>
+            <li><a href="@Model.Article.GooglePlusUrl"><img src="~/Content/Images/googleplus-24.png" class="googleplus" /></a></li>
+            <li><a href="@Model.Article.FacebookUrl"><img src="~/Content/Images/facebook-24.png" class="facebook" /></a></li>
+            <li><a href="@Model.Article.TwitterUrl"><img src="~/Content/Images/twitter-24.png" class="twitter" /></a></li>
+        </ul>
+
     </div>
 </div>

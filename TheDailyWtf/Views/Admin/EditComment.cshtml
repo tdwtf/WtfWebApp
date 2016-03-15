@@ -1,0 +1,27 @@
+﻿@model EditCommentViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <h3>Editing a comment on &ldquo;@Model.Article.Title&rdquo;</h3>
+
+    <input name="article" type="hidden" value="@Model.Article.Id" />
+    <input name="comment" type="hidden" value="@Model.Comment.Id" />
+
+    <div class="field">
+        <label for="comment-name">Name:</label>
+        <input id="comment-name" name="name" type="text" class="input" placeholder="Paula Bean" required tabindex="1" value="@Model.Post.Name" />
+    </div>
+
+    <div class="field">
+        <label for="comment-body">Comment:</label>
+        <textarea id="comment-body" name="body" class="input textarea resizeable" rows="6" required tabindex="2">@Model.Post.Body</textarea>
+    </div>
+
+    <div class="medium primary btn">
+        <input class="input" type="submit" tabindex="3" value="Submit" />
+    </div>
+</form>

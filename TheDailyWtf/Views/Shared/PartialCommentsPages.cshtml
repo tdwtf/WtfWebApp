@@ -1,0 +1,53 @@
+﻿@model ViewCommentsViewModel
+
+<nav class="comment-nav">
+    Pages:
+@if (!Model.Comments.Any())
+{
+    if (Model.PageCount >= 1)
+    {
+        <a href="@Model.BaseUrl/1">1</a>
+    }
+    if (Model.PageCount > 1)
+    {
+        <span class="spacer">&hellip;</span>
+        <a href="@Model.BaseUrl/@Model.PageCount">@Model.PageCount</a>
+    }
+}
+else
+{
+    if (Model.PageNumber <= 1 + ViewCommentsViewModel.NearbyPages)
+    {
+        for (int n = 1; n <= ViewCommentsViewModel.NearbyPages && n < Model.PageNumber; n++)
+        {
+            <a href="@Model.BaseUrl/@n">@n</a>
+        }
+    }
+    else
+    {
+        <a href="@Model.BaseUrl/1">1</a>
+        <span class="spacer">&hellip;</span>
+        for (int n = Model.PageNumber - ViewCommentsViewModel.NearbyPages; n < Model.PageNumber; n++)
+        {
+            <a href="@Model.BaseUrl/@n">@n</a>
+        }
+    }
+    <strong>@Model.PageNumber</strong>
+    if (Model.PageNumber >= Model.PageCount - ViewCommentsViewModel.NearbyPages - 1)
+    {
+        for (int n = Math.Max(Model.PageCount - ViewCommentsViewModel.NearbyPages, Model.PageNumber + 1); n <= Model.PageCount; n++)
+        {
+            <a href="@Model.BaseUrl/@n">@n</a>
+        }
+    }
+    else
+    {
+        for (int n = Model.PageNumber + 1; n <= Model.PageNumber + ViewCommentsViewModel.NearbyPages; n++)
+        {
+            <a href="@Model.BaseUrl/@n">@n</a>
+        }
+        @:&hellip;
+        <a href="@Model.BaseUrl/@Model.PageCount">@Model.PageCount</a>
+    }
+}
+</nav>

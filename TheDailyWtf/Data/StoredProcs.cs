@@ -192,14 +192,18 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Articles_FeatureComment : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Articles_FeatureComment(int? Article_Id, int? Discourse_Post_Id)
+		public Articles_FeatureComment(int? Article_Id, int? Comment_Id, YNIndicator? Valid_Indicator)
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
-			AddParam("@Discourse_Post_Id", DbType.Int32, 0, ParameterDirection.Input, Discourse_Post_Id);
+			AddParam("@Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Comment_Id);
+			AddParam("@Valid_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.InputOutput, Valid_Indicator != null ? Valid_Indicator.ToString() : null);
 		}
-		public IEnumerable<Tables.FeaturedComments> Execute()
+
+		public string Valid_Indicator { get { return (YNIndicator?)GetParamVal<string>("@Valid_Indicator"); } }
+		public YNIndicator? Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.FeaturedComments>();
+			this.ExecuteNonQuery();
+			return this.Valid_Indicator;
 		}
 	}
 
@@ -275,9 +279,9 @@ namespace TheDailyWtf.Data.StoredProcedures
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
 		}
-		public IEnumerable<Tables.FeaturedComments> Execute()
+		public IEnumerable<Tables.Comments> Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.FeaturedComments>();
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments>();
 		}
 	}
 
@@ -349,14 +353,18 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Articles_UnfeatureComment : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Articles_UnfeatureComment(int? Article_Id, int? Discourse_Post_Id)
+		public Articles_UnfeatureComment(int? Article_Id, int? Comment_Id, YNIndicator? Valid_Indicator)
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
-			AddParam("@Discourse_Post_Id", DbType.Int32, 0, ParameterDirection.Input, Discourse_Post_Id);
+			AddParam("@Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Comment_Id);
+			AddParam("@Valid_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.InputOutput, Valid_Indicator != null ? Valid_Indicator.ToString() : null);
 		}
-		public IEnumerable<Tables.FeaturedComments> Execute()
+
+		public string Valid_Indicator { get { return (YNIndicator?)GetParamVal<string>("@Valid_Indicator"); } }
+		public YNIndicator? Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.FeaturedComments>();
+			this.ExecuteNonQuery();
+			return this.Valid_Indicator;
 		}
 	}
 
@@ -451,13 +459,34 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Comments_CreateOrUpdateComment : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Comments_CreateOrUpdateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, int? Discourse_Post_Id)
+		public Comments_CreateOrUpdateComment(int? Comment_Id, int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id)
 		{
+			AddParam("@Comment_Id", DbType.Int32, 0, ParameterDirection.InputOutput, Comment_Id);
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
 			AddParam("@Body_Html", DbType.String, -1, ParameterDirection.Input, Body_Html);
 			AddParam("@User_Name", DbType.String, 255, ParameterDirection.Input, User_Name);
 			AddParam("@Posted_Date", DbType.DateTime, 0, ParameterDirection.Input, Posted_Date);
-			AddParam("@Discourse_Post_Id", DbType.Int32, 0, ParameterDirection.Input, Discourse_Post_Id);
+			AddParam("@User_IP", DbType.AnsiString, 45, ParameterDirection.Input, User_IP);
+			AddParam("@User_Token", DbType.AnsiString, -1, ParameterDirection.Input, User_Token);
+			AddParam("@Parent_Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Parent_Comment_Id);
+		}
+
+		public int? Comment_Id { get { return GetParamVal<int?>("@Comment_Id"); } }
+		public int? Execute()
+		{
+			this.ExecuteNonQuery();
+			return this.Comment_Id;
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Comments_DeleteComments : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Comments_DeleteComments(string CommentIds_Csv)
+		{
+			AddParam("@CommentIds_Csv", DbType.AnsiString, -1, ParameterDirection.Input, CommentIds_Csv);
 		}
 		public void Execute()
 		{
@@ -473,6 +502,36 @@ namespace TheDailyWtf.Data.StoredProcedures
 		public Comments_GetComments(int? Article_Id)
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
+		}
+		public IEnumerable<Tables.Comments> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Comments_GetCommentsByIP : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Comments_GetCommentsByIP(string User_IP)
+		{
+			AddParam("@User_IP", DbType.AnsiString, 45, ParameterDirection.Input, User_IP);
+		}
+		public IEnumerable<Tables.Comments> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Comments_GetCommentsByToken : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Comments_GetCommentsByToken(string User_Token)
+		{
+			AddParam("@User_Token", DbType.AnsiString, -1, ParameterDirection.Input, User_Token);
 		}
 		public IEnumerable<Tables.Comments> Execute()
 		{
@@ -531,7 +590,7 @@ namespace TheDailyWtf.Data
 {
 	public static class StoredProcs
 	{
-		public static StoredProcedures.AdImpressions_GetImpressions AdImpressions_GetImpressions(DateTime? Start_Date, DateTime? End_Date)
+		public static StoredProcedures.AdImpressions_GetImpressions AdImpressions_GetImpressions(DateTime? Start_Date = null, DateTime? End_Date = null)
 		{
 			return new StoredProcedures.AdImpressions_GetImpressions(Start_Date, End_Date);
 		}
@@ -581,9 +640,9 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_DeleteArticle(Article_Id);
 		}
 
-		public static StoredProcedures.Articles_FeatureComment Articles_FeatureComment(int? Article_Id, int? Discourse_Post_Id)
+		public static StoredProcedures.Articles_FeatureComment Articles_FeatureComment(int? Article_Id, int? Comment_Id, YNIndicator? Valid_Indicator = null)
 		{
-			return new StoredProcedures.Articles_FeatureComment(Article_Id, Discourse_Post_Id);
+			return new StoredProcedures.Articles_FeatureComment(Article_Id, Comment_Id, Valid_Indicator);
 		}
 
 		public static StoredProcedures.Articles_GetArticleById Articles_GetArticleById(int? Article_Id)
@@ -626,14 +685,14 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_GetRecentArticles(PublishedStatus_Name, Series_Slug, Author_Slug, Article_Count);
 		}
 
-		public static StoredProcedures.Articles_GetUnpublishedArticles Articles_GetUnpublishedArticles(string Author_Slug)
+		public static StoredProcedures.Articles_GetUnpublishedArticles Articles_GetUnpublishedArticles(string Author_Slug = null)
 		{
 			return new StoredProcedures.Articles_GetUnpublishedArticles(Author_Slug);
 		}
 
-		public static StoredProcedures.Articles_UnfeatureComment Articles_UnfeatureComment(int? Article_Id, int? Discourse_Post_Id)
+		public static StoredProcedures.Articles_UnfeatureComment Articles_UnfeatureComment(int? Article_Id, int? Comment_Id, YNIndicator? Valid_Indicator = null)
 		{
-			return new StoredProcedures.Articles_UnfeatureComment(Article_Id, Discourse_Post_Id);
+			return new StoredProcedures.Articles_UnfeatureComment(Article_Id, Comment_Id, Valid_Indicator);
 		}
 
 		public static StoredProcedures.Authors_CreateOrUpdateAuthor Authors_CreateOrUpdateAuthor(string Author_Slug, string Display_Name, YNIndicator? Admin_Indicator, string Bio_Html, string ShortBio_Text, string Image_Url, YNIndicator? Active_Indicator)
@@ -661,14 +720,29 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Authors_ValidateLogin(Author_Slug, Password_Text, Valid_Indicator);
 		}
 
-		public static StoredProcedures.Comments_CreateOrUpdateComment Comments_CreateOrUpdateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, int? Discourse_Post_Id)
+		public static StoredProcedures.Comments_CreateOrUpdateComment Comments_CreateOrUpdateComment(int? Comment_Id, int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id)
 		{
-			return new StoredProcedures.Comments_CreateOrUpdateComment(Article_Id, Body_Html, User_Name, Posted_Date, Discourse_Post_Id);
+			return new StoredProcedures.Comments_CreateOrUpdateComment(Comment_Id, Article_Id, Body_Html, User_Name, Posted_Date, User_IP, User_Token, Parent_Comment_Id);
+		}
+
+		public static StoredProcedures.Comments_DeleteComments Comments_DeleteComments(string CommentIds_Csv)
+		{
+			return new StoredProcedures.Comments_DeleteComments(CommentIds_Csv);
 		}
 
 		public static StoredProcedures.Comments_GetComments Comments_GetComments(int? Article_Id)
 		{
 			return new StoredProcedures.Comments_GetComments(Article_Id);
+		}
+
+		public static StoredProcedures.Comments_GetCommentsByIP Comments_GetCommentsByIP(string User_IP)
+		{
+			return new StoredProcedures.Comments_GetCommentsByIP(User_IP);
+		}
+
+		public static StoredProcedures.Comments_GetCommentsByToken Comments_GetCommentsByToken(string User_Token)
+		{
+			return new StoredProcedures.Comments_GetCommentsByToken(User_Token);
 		}
 
 		public static StoredProcedures.Series_CreateOrUpdateSeries Series_CreateOrUpdateSeries(string Series_Slug, string Title_Text, string Description_Text = null)

@@ -2,7 +2,7 @@ EXEC [__AddStoredProcInfo]
     /* StoredProc_Name         */ 'Articles_GetFeaturedComments',
     /* Internal_Indicator      */ 'N',
     /* ReturnType_Name         */ 'DataTable',
-    /* DataTableNames_Csv      */ 'FeaturedComments',
+    /* DataTableNames_Csv      */ 'Comments',
     /* OutputPropertyNames_Csv */ NULL,
     /* Description_Text        */ NULL
 GO
@@ -22,8 +22,10 @@ AS
 BEGIN
 
 
-    SELECT * FROM [FeaturedComments]
+    SELECT * FROM [Comments]
             WHERE [Article_Id] = @Article_Id
+              AND [Featured_Indicator] = 'Y'
+         ORDER BY [Posted_Date] ASC
 
 END
 GO

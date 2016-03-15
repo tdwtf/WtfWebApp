@@ -4,77 +4,57 @@
    Model.PageTitle = Model.Article.Title + " - The Daily WTF";
 }
 
-<div class="row @Model.Article.Series.CssClass" id="articlePage">
+<div class="content" id="article-page">
 
-   <div class="twelve columns articleWrapper">
-      <div class="content">
-         <div class="row">
-            <div class="container">
+    <div class="article-container @Model.Article.Series.CssClass">
 
-               <h1>@Model.Article.Title</h1>
-               <span class="articleMeta">
-                  @Model.Article.Series.Title by <a href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a> 
-                  <span class="date">on @Model.Article.DisplayDate</span>
-                  <span class="admin-only pull_right"><a href="/admin/article/edit/@Model.Article.Id">Edit &raquo;</a></span>
-               </span>
+        <h2 class="title">@Model.Article.Title</h2>
+        <span class="details">by <a class="author" href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a>
+            in <a href="/series/@Model.Article.Series.Slug" class="source">@Model.Article.Series.Title</a>
+            on <span class="date">@Model.Article.DisplayDate</span></span>
+        <div class="banner-triangle"></div>
+        <div class="author-box">
+            <img src="@Model.Article.Author.ImageUrl" />
+            <p class="author-name">@Model.Article.Author.Name</p>
+            <p class="credentials">@Model.Article.Author.ShortDescription</p>
+        </div>
+        <div class="article-body">
+            @Html.Raw(Model.Article.BodyAndAdHtml)
+        </div>
 
-               <a href="/authors/@Model.Article.Author.Slug" class="author hideMobile">
-                  <div class="authorPic fadeInDown">
-                     <img src="@Model.Article.Author.ImageUrl">
-                  </div>
-                  <br />
-
-                  <h4>@Model.Article.Author.Name</h4>
-                  <p class="short-description">@Model.Article.Author.ShortDescription</p>
-               </a>
-
-               <div class="article-body">
-                  @Html.Raw(Model.Article.BodyAndAdHtml)
-               </div>
-
-               <div class="social">
-                  <div class="socialButtons">
-                     <a class="social-icon facebook" href="@Model.Article.FacebookUrl">&nbsp;</a>
-                     <a class="social-icon twitter" href="@Model.Article.TwitterUrl">&nbsp;</a>
-                     <a class="social-icon email" href="@Model.Article.EmailUrl">&nbsp;</a>
-                     <a class="social-icon google-plus" href="@Model.Article.GooglePlusUrl">&nbsp;</a>
-                  </div>
-               </div>
-
-               <div class="clearfix"></div>
-
-               @if (Model.FeaturedComments.Any())
-               {
-                  <footer class="">
-                     <div class="row">
-                        <div class="twelve columns">
-                           <h5>Featured Comments</h5>
-                           @Html.Partial(Views.Shared.PartialComments, Model.FeaturedComments)
-                        </div>
-                     </div>
-                  </footer>
-               }
-
-               <a class="discourse-link no-print" href="/articles/comments/@Model.Article.Slug">@Model.ViewCommentsText &raquo;</a>
-
-               <hr />
-
-               @if (Model.Article.PreviousArticleId != null)
-               {
-                  <div class="previous-article no-print">
-                     <a href="@Model.Article.PreviousArticleUrl">&laquo; @Model.Article.PreviousArticleTitle</a>
-                  </div>
-               }
-
-               @if (Model.Article.NextArticleId != null)
-               {
-                  <div class="next-article no-print">
-                     <a href="@Model.Article.NextArticleUrl">@Model.Article.NextArticleTitle &raquo;</a>
-                  </div>
-               }
-
+        <div class="article-footer">
+            <div class="comment-container">
+                <a class="comments" href="@Model.Article.CommentsUrl">View all <span class="number-of-comments">@Model.Article.CachedCommentCount</span> comments &raquo;</a>
             </div>
-         </div>
-      </div>
-   </div>
+
+            <ul class="sm-link-bar">
+                <li><a href="@Model.Article.EmailUrl"><img src="~/Content/Images/email-24.png" class="email" /></a></li>
+                <li><a href="@Model.Article.GooglePlusUrl"><img src="~/Content/Images/googleplus-24.png" class="googleplus" /></a></li>
+                <li><a href="@Model.Article.FacebookUrl"><img src="~/Content/Images/facebook-24.png" class="facebook" /></a></li>
+                <li><a href="@Model.Article.TwitterUrl"><img src="~/Content/Images/twitter-24.png" class="twitter" /></a></li>
+            </ul>
+
+            @if (Model.FeaturedComments.Comments.Any())
+            {
+                <hr />
+                <div class="featured-comments">
+                    <h3>Featured Comments</h3>
+                    @Html.Partial(Views.Shared.PartialComments, Model.FeaturedComments)
+                </div>
+            }
+
+            <hr />
+            <div class="prev-next-nav">
+                @if (Model.Article.NextArticleId != null)
+                {
+                    <a href="@Model.Article.NextArticleUrl" class="next-link"><span class="next-article">@Model.Article.NextArticleTitle</span> &raquo;</a>
+                }
+                @if (Model.Article.PreviousArticleId != null)
+                {
+                    <a href="@Model.Article.PreviousArticleUrl" class="prev-link">&laquo; <span class="prev-article">@Model.Article.PreviousArticleTitle</span></a>
+                }
+            </div>
+        </div>
+    </div>
+
 </div>

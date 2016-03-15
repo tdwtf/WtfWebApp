@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using TheDailyWtf.Data;
-using TheDailyWtf.Discourse;
+using TheDailyWtf.Forum;
 
 namespace TheDailyWtf.Models
 {
@@ -38,10 +38,8 @@ namespace TheDailyWtf.Models
                 else
                     return string.Format("{0}: {1}", this.Series.Title, this.Title);
             }
-        }        
-        public int DiscourseCommentCount { get; set; }
+        }
         public int CachedCommentCount { get; set; }
-        public int CoalescedCommentCount { get { return Math.Max(this.DiscourseCommentCount, this.CachedCommentCount); } }
         public DateTime? LastCommentDate { get; set; }
         public string LastCommentDateDescription 
         { 
@@ -56,10 +54,12 @@ namespace TheDailyWtf.Models
         }
         public int? DiscourseTopicId { get; set; }
         public bool DiscourseTopicOpened { get; set; }
-        public string DiscourseTopicSlug { get; set; }
-        public string DiscourseThreadUrl { get { return string.Format("http://what.thedailywtf.com/t/{0}/{1}", this.DiscourseTopicSlug, this.DiscourseTopicId); } }
         public DateTime? PublishedDate { get; set; }
-        public string DisplayDate { get { return this.PublishedDate == null ? "(unpublished)" : this.PublishedDate.Value.ToShortDateString(); } }
+        public string DisplayDate { get { return this.PublishedDate == null ? "(unpublished)" : string.Format("{0:MMMM d}{1} {0:yyyy}", this.PublishedDate.Value,
+            (this.PublishedDate.Value.Day % 10 == 1 && this.PublishedDate.Value.Day != 11) ? "st" :
+            (this.PublishedDate.Value.Day % 10 == 2 && this.PublishedDate.Value.Day != 12) ? "nd" :
+            (this.PublishedDate.Value.Day % 10 == 3 && this.PublishedDate.Value.Day != 13) ? "rd" :
+            "th"); } }
         [Required]
         public SeriesModel Series { get; set; }
         [AllowHtml]
@@ -187,14 +187,13 @@ namespace TheDailyWtf.Models
 
         public static ArticleModel FromTable(Tables.Articles_Extended article)
         {
-            var model = new ArticleModel()
+            return new ArticleModel()
             {
                 Id = article.Article_Id,
                 Slug = article.Article_Slug,
                 Author = AuthorModel.FromTable(article),
                 BodyHtml = article.Body_Html,
                 BodyAndAdHtml = article.BodyAndAd_Html,
-                DiscourseCommentCount = (int)article.Cached_Comment_Count,
                 CachedCommentCount = (int)article.Cached_Comment_Count,
                 DiscourseTopicId = article.Discourse_Topic_Id,
                 DiscourseTopicOpened = article.Discourse_Topic_Opened == "Y",
@@ -212,16 +211,6 @@ namespace TheDailyWtf.Models
                 NextArticleSlug = article.Next_Article_Slug,
                 NextArticleTitle = article.Next_Title_Text
             };
-
-            if (article.Discourse_Topic_Id != null)
-            {
-                var topic = DiscourseHelper.GetDiscussionTopic((int)article.Discourse_Topic_Id);
-                model.LastCommentDate = topic.LastPostedAt;
-                model.DiscourseCommentCount = topic.PostsCount;
-                model.DiscourseTopicSlug = topic.Slug;
-            }
-
-            return model;
         }
 
         private static string ExtractSummary(string articleText)

@@ -15,7 +15,6 @@
          <th>Author</th>
          <th>Series</th>
          <th>Title</th>
-         <th style="width: 125px;">Discourse</th>
          <th></th>
       </tr>
    </thead>
@@ -28,25 +27,6 @@
             <td>@article.Author.Name</td>
             <td>@article.Series.Title</td>
             <td>@article.Title</td>
-            <td>
-               @if (article.DiscourseTopicId == null) {
-                  <i>unassigned</i>  
-               }
-               else
-               {
-                  <a target="_blank" href="@article.DiscourseThreadUrl">View topic</a> 
-                  <br />
-                  if (article.DiscourseTopicOpened)
-                  {
-                     <i class="icon-check"></i><span class="admin-yes">open</span>
-                  }
-                  else
-                  {
-                     <div><i class="icon-lock"></i><span class="admin-no">pending</span></div>
-                  }
-               }
-               
-            </td>
             <td>
                <a target="_blank" href="/articles/@article.Slug">Preview</a>
                <a href="/admin/article/edit/@article.Id">Edit</a>
@@ -71,7 +51,6 @@
          <th>Author</th>
          <th>Series</th>
          <th>Title</th>
-         <th style="width: 125px;">Discourse</th>
          <th></th>
       </tr>
    </thead>
@@ -85,28 +64,9 @@
             <td>@article.Series.Title</td>
             <td>@article.Title</td>
             <td>
-               @if (article.DiscourseTopicId == null)
-               {
-                  <i>unassigned</i>
-               }
-               else
-               {
-                  <a target="_blank" href="@article.DiscourseThreadUrl">View topic</a>
-                  <br />
-                  if (article.DiscourseTopicOpened)
-                  {
-                     <i class="icon-check"></i><span class="admin-yes">open</span>
-                  }
-                  else
-                  {
-                     <div><i class="icon-lock"></i><span class="admin-no">pending</span></div>
-                  }
-               }
-
-            </td>
-            <td>
                <a target="_blank" href="/articles/@article.Slug">View</a>
                <a href="/admin/article/edit/@article.Id">Edit</a>
+               <a href="/admin/article/comments/@article.Id">Comments</a>
             </td>
          </tr>
       }

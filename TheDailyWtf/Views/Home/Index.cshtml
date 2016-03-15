@@ -2,117 +2,115 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="content" id="home-page">
+    <div id="sidebar">
+        <div class="sidebar-content">
 
-<div class="four columns">
+            <div class="sidebar-section" id="about-container">
+                <input id="about" name="accordian" type="checkbox" />
+                <label for="about"><img src="~/Content/Images/about-icon.svg" /><span>WTF is the Daily WTF</span></label>
+                <article>
+                    <p>
+                        Founded in 2004 by <a href="/authors/alex-papadimoulis">Alex Papadimoulis</a>, The Daily WTF is your how-not-to guide for developing
+                        software. We recount tales of disastrous development, from project management gone spectacularly bad to inexplicable coding choices.
+                    </p>
+                    <p>
+                        <a href="/authors/remy-porter">Remy Porter</a> is the editor-in-chief and needs to read your story or see your bad code.
+                    </p>
+                    <p id="submit-link">
+                        <a href="/submit-wtf">Submit Your WTF</a>
+                    </p>
+                </article>
+            </div>
 
-   <aside>
-      <h5 class="heading"><a class="clean" href="#"><i class="icon-info-circled"></i>WTF is The Daily WTF?</a></h5>
-      <div class="about">
-         <p>
-            Founded in 2004 by <a href="/authors/alex-papadimoulis">Alex Papadimoulis</a>, The Daily WTF is your how-not-to guide for developing
-            software. We recount tales of disastrous development, from project management gone spectacularly bad to inexplicable coding choices.
-         </p>
-         <p>
-            <a href="/authors/remy-porter">Remy Porter</a> is the editor-in-chief and needs to read your story or see your bad code.
-         </p>
-         <p style="text-align:center; font-size: 16px;">
-            <a href="/submit-wtf">Submit Your WTF</a>
-         </p>
-      </div>
-   </aside>
+            <div class="sidebar-section" id="contents-container">
+                <input id="contents" name="accordian" type="checkbox" />
+                <label for="contents"><img src="~/Content/Images/contents-icon.svg" /><span>Contents</span></label>
+                <article>
+                    <p><a href="/articles/random">Random Article</a></p>
+                    <hr />
+                    <p><b>Classic Articles</b></p>
+                    <ul>
+                        <li><a href="/articles/The_Brillant_Paula_Bean">The Brillant Paula Bean</a></li>
+                        <li><a href="/articles/Special-Delivery">Special Delivery</a></li>
+                        <li><a href="/articles/Make-It-Work">Radio WTF: Make It Work</a></li>
+                        <li><a href="/articles/ITAPPMONROBOT">ITAPPMONROBOT</a></li>
+                        <li><a href="/articles/The_Call_of_Codethulhu">The Call of Codethulhu</a></li>
+                        <li><a href="/articles/The_Big_Red_Button">The Big Red Button</a></li>
+                        <li><a href="/articles/Happy_Merge_Day!">Happy Merge Day!</a></li>
+                        <li><a target="_blank" href="https://github.com/tdwtf/WtfWebApp/blob/master/TheDailyWtf/Views/Home/Index.cshtml#L31">Add your favorite...</a></li>
+                    </ul>
+                    <hr />
+                    <p><a href="/articles">Article Archives</a></p>
+                </article>
+            </div>
+            @Html.Partial(Views.Shared.PartialSidebarAd, Model.GetNextAd(Dimensions.SideBar))
+            <div class="sidebar-section" id="wtf-sidebar-container">
+                <input id="wtf-sidebar" name="accordian" type="checkbox" />
+                <label for="wtf-sidebar"><img src="~/Content/Images/wtf-sidebar-icon.svg" /><span>Sidebar WTF</span></label>
+                <article>
 
-   <aside>
-      <h5 class="heading"><a href="#" class="clean"><i class="icon-docs"></i>Contents</a></h5>
-      <div class="side-bar-list hideNonDesktop">
-         <ul>
-            <li><div><a href="/articles/random">Random Article</a></div></li>
-            <li>
-               <div>
-                  <strong>Classic Articles</strong>
-                  <ul>
-                     <li><a href="/articles/The_Brillant_Paula_Bean">The Brillant Paula Bean</a></li>
-                     <li><a href="/articles/Special-Delivery">Special Delivery</a></li>
-                     <li><a href="/articles/Make-It-Work">Radio WTF: Make It Work</a></li>
-                     <li><a href="/articles/ITAPPMONROBOT">ITAPPMONROBOT</a></li>
-                     <li><a href="/articles/The_Call_of_Codethulhu">The Call of Codethulhu</a></li>
-                     <li><a href="/articles/The_Big_Red_Button">The Big Red Button</a></li>
-                     <li><a href="/articles/Happy_Merge_Day!">Happy Merge Day!</a></li>
-                     <li><a target="_blank" href="https://github.com/tdwtf/WtfWebApp/blob/master/TheDailyWtf/Views/Home/Index.cshtml#L31">Add your favorite...</a></li>
-                  </ul>
-               </div>
-            </li>
-            <li><div><a href="/articles">Article Archives</a></div></li>
-         </ul>
-      </div>
-   </aside>
+                    @{
+                        var wtfs = ForumHelper.SideBarWtfs;
+                        <ul>
+                            @if (ForumHelper.IsWorking)
+                            {
+                                foreach (var sidebar in wtfs)
+                                {
+                                    <li><a href="@sidebar.Url">@sidebar.Title</a></li>
+                                }
+                            }
+                            else
+                            {
+                                <li><a href="@ForumHelper.SideBarUrl">FILE_NOT_FOUND</a></li>
+                            }
+                        </ul>
+                    }
 
-    @Html.Partial(Views.Shared.PartialSidebarAd, Model.GetNextAd(Dimensions.SideBar))
+                </article>
+            </div>
+            <div class="sidebar-section" id="sponsor-sidebar-container">
+                <input id="sponsors" name="accordian" type="checkbox" />
+                <label for="sponsors"><img src="~/Content/Images/sponsors-icon.svg" /><span>Sponsors</span></label>
+                <article>
 
-   <aside>
-      <h5 class="heading"><a class="clean" href="#"><i class="icon-list"></i>Sidebar WTF</a></h5>
-      <div class="articleList hideNonDesktop">
-         <ul>
-            @foreach (var sidebar in Model.GetSideBarWtfs())
-            {
-               <li class="code">
-                  <div><a class="clean" href="@sidebar.Url">@sidebar.Title</a></div>
-               </li>
-            }
-         </ul>
-      </div>
-   </aside>
+                    <p>These <a href="/sponsors">fine folks</a> make it possible to run The Daily WTF.</p>
 
-   <aside>
-      <h5 class="heading"><a class="clean" href="/sponsors"><i class="icon-network"></i>Sponsors</a></h5>
-      <div class="side-bar-list hideNonDesktop sponsors">
-         <ul>
-            <li class="no-pad">
-               <div class="about">
-                  <p>
-                     These <a href="/sponsors">fine folks</a> folks make it possible to run The Daily WTF.
-                  </p>
-               </div>
-            </li>
-            <li>
-               <div class="sponsor">
-                  <a href="http://puppetlabs.com/?ls=ad&ccn=tdwtf-sponsorship&cid=701G0000000F68y" target="_blank">
-                     <img src="~/Content/Images/Sponsors/puppetlabs.png" />
-                  </a>
-               </div>
-            </li>
-            <li>
-               <div class="sponsor">
-                  <a href="http://inedo.com/?utm_source=TheDailyWTF&utm_medium=link&utm_campaign=TDWTF15&utm_content=sponsor-side" target="_blank">
-                     <img src="~/Content/Images/Sponsors/inedo.png" />
-                  </a>
-               </div>
-            </li>
-            
-         </ul>
-      </div>
-   </aside>
+                    <p class="sponsor">
+                        <a href="http://puppetlabs.com/?ls=ad&ccn=tdwtf-sponsorship&cid=701G0000000F68y">
+                            <img src="~/Content/Images/Sponsors/puppetlabs.png" />
+                        </a>
+                    </p>
 
-   <aside>
-      <h5 class="heading"><a class="clean" href="#"><i class="icon-users"></i>WTF Chat</a></h5>
-      <div class="about">
-         <p>
-            The Daily WTF has an <a href="https://en.wikipedia.org/wiki/Internet_Relay_Chat" target="_blank">IRC</a> channel <a href="irc://irc.freenode.net:6667/thedailywtf">#thedailywtf</a> on the <a href="http://freenode.net/" target="_blank">Freenode</a> IRC network where you can find regulars visiting the site.
-         </p>
-         <p>
-            You can join in through your browser by using the <a href="https://webchat.freenode.net/?channels=thedailywtf" target="_blank">webchat</a> or by connecting with an IRC <a href="https://en.wikipedia.org/wiki/Comparison_of_Internet_Relay_Chat_clients" target="_blank">client</a>.
-         </p>
-      </div>
-   </aside>
+                    <p class="sponsor">
+                        <a href="http://inedo.com/?utm_source=TheDailyWTF&utm_medium=link&utm_campaign=TDWTF15&utm_content=sponsor-side">
+                            <img src="~/Content/Images/Sponsors/inedo.png" />
+                        </a>
+                    </p>
 
-</div>
+                </article>
+            </div>
+            <div class="sidebar-section">
+                <input id="chat" name="accordian" type="checkbox" />
+                <label for="chat"><img src="~/Content/Images/sponsors-icon.svg" /><span>WTF Chat</span></label>
+                <article>
+                    <p>
+                        The Daily WTF has an <a href="https://en.wikipedia.org/wiki/Internet_Relay_Chat" target="_blank">IRC</a> channel <a href="irc://irc.freenode.net:6667/thedailywtf">#thedailywtf</a> on the <a href="http://freenode.net/" target="_blank">Freenode</a> IRC network where you can find regulars visiting the site.
+                    </p>
 
-<div class="eight columns">
-    @foreach (var article in Model.Articles)
-    {
-        @Html.Partial(Views.Shared.PartialArticleItem, article)
-    }
-</div>
+                    <p>
+                        You can join in through your browser by using the <a href="https://webchat.freenode.net/?channels=thedailywtf" target="_blank">webchat</a> or by connecting with an IRC <a href="https://en.wikipedia.org/wiki/Comparison_of_Internet_Relay_Chat_clients" target="_blank">client</a>.
+                    </p>
 
-<div style="float: right;">
-    <a href="/articles">View Article Archives &raquo;</a>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <div id="article-feed">
+        @foreach (var article in Model.Articles)
+        {
+            @Html.Partial(Views.Shared.PartialArticleItem, article)
+        }
+    </div>
 </div>

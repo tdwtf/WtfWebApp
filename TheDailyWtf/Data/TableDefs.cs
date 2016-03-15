@@ -110,6 +110,9 @@ namespace TheDailyWtf.Data
 			public const string Posted_Date = "Posted_Date";
 			public const string Discourse_Post_Id = "Discourse_Post_Id";
 			public const string Featured_Indicator = "Featured_Indicator";
+			public const string User_IP = "User_IP";
+			public const string User_Token = "User_Token";
+			public const string Parent_Comment_Id = "Parent_Comment_Id";
 		}
 		public static class FeaturedComments
 		{

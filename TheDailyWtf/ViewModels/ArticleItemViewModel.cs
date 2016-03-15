@@ -7,10 +7,8 @@ namespace TheDailyWtf.ViewModels
         public ArticleItemViewModel(ArticleModel article)
         {
             this.Article = article;
-            this.DisplayAuthorLink = true;
         }
 
-        public bool DisplayAuthorLink { get; set; }
         public ArticleModel Article { get; private set; }
     }
 }

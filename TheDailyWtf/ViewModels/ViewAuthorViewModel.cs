@@ -18,7 +18,7 @@ namespace TheDailyWtf.ViewModels
             get
             {
                 return ArticleModel.GetRecentArticlesByAuthor(this.Author.Slug)
-                    .Select(a => new ArticleItemViewModel(a) { DisplayAuthorLink = false });
+                    .Select(a => new ArticleItemViewModel(a));
             }
         }
     }

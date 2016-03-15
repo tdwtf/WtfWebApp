@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -6,7 +7,7 @@ using System.Web.Security;
 using Inedo.Diagnostics;
 using Newtonsoft.Json;
 using TheDailyWtf.Data;
-using TheDailyWtf.Discourse;
+using TheDailyWtf.Forum;
 using TheDailyWtf.Models;
 using TheDailyWtf.Security;
 using TheDailyWtf.ViewModels;
@@ -44,9 +45,9 @@ namespace TheDailyWtf.Controllers
             return RedirectToAction("login");
         }
 
-        public ActionResult ReenableDiscourse()
+        public ActionResult ReenableSideBar()
         {
-            DiscourseHelper.UnpauseDiscourseConnections();
+            ForumHelper.UnpauseConnections();
 
             return Redirect("/admin");
         }
@@ -119,9 +120,6 @@ namespace TheDailyWtf.Controllers
 
             try
             {
-                if (post.OpenCommentDiscussionChecked && post.Article.DiscourseTopicId > 0)
-                    DiscourseHelper.OpenCommentDiscussion((int)post.Article.Id, (int)post.Article.DiscourseTopicId);
-
                 Logger.Information("Creating or updating article \"{0}\".", post.Article.Title);
                 int? articleId = StoredProcs.Articles_CreateOrUpdateArticle(
                     post.Article.Id,
@@ -137,9 +135,6 @@ namespace TheDailyWtf.Controllers
 
                 post.Article.Id = post.Article.Id ?? articleId;
 
-                if (post.CreateCommentDiscussionChecked)
-                    DiscourseHelper.CreateCommentDiscussion(post.Article);
-
                 return RedirectToAction("index");
             }
             catch (Exception ex)
@@ -147,6 +142,107 @@ namespace TheDailyWtf.Controllers
                 post.ErrorMessage = ex.ToString();
                 return View(post);
             }
+        }
+
+        public ActionResult ArticleComments(int id, int page)
+        {
+            if (this.User == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            var article = ArticleModel.GetArticleById(id);
+            if (article == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            if (this.User.IsAdmin)
+                return View(new ArticleCommentsViewModel(article, page, true));
+            if (this.User.Identity.Name != article.Author.Slug)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            return View(new ArticleCommentsViewModel(article, page, false));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [RequiresAdmin]
+        public ActionResult DeleteComments(DeleteCommentsModel post)
+        {
+            var commentIdsCsv = string.Join(",", post.Delete);
+            Logger.Information("Deleting comments with IDs \"{0}\".", commentIdsCsv);
+
+            StoredProcs.Comments_DeleteComments(commentIdsCsv).Execute();
+
+            return RedirectToAction("index");
+        }
+
+        [RequiresAdmin]
+        public ActionResult CommentsByIP(string ip, int page)
+        {
+            if (this.User == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            return View(new UserCommentsViewModel("by-ip/" + Url.Encode(ip), CommentModel.GetCommentsByIP(ip), page));
+        }
+
+        [RequiresAdmin]
+        public ActionResult CommentsByToken(string token, int page)
+        {
+            if (this.User == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            return View(new UserCommentsViewModel("by-token/" + Url.Encode(token), CommentModel.GetCommentsByToken(token), page));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [RequiresAdmin]
+        [ValidateInput(false)]
+        public ActionResult EditComment(int article, int comment, string body, string name)
+        {
+            var articleModel = ArticleModel.GetArticleById(article);
+            if (articleModel == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            var commentModel = CommentModel.FromArticle(articleModel).First(c => c.Id == comment);
+            if (commentModel == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            if (body == null)
+            {
+                body = commentModel.BodyRaw;
+                name = commentModel.Username;
+                return View(new EditCommentViewModel { Article = articleModel, Comment = commentModel, Post = new CommentFormModel { Body = body, Name = name } });
+            }
+            StoredProcs.Comments_CreateOrUpdateComment(comment, article, body, name, commentModel.PublishedDate, commentModel.UserIP, commentModel.UserToken, commentModel.ParentCommentId).ExecuteNonQuery();
+            return Redirect("index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FeatureComment(FeatureCommentViewModel post)
+        {
+            if (this.User == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            if (post.Article == null || post.Comment == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var article = ArticleModel.GetArticleById((int)post.Article);
+            if (article == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            if (!this.User.IsAdmin && this.User.Identity.Name != article.Author.Slug)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            if (!StoredProcs.Articles_FeatureComment(article.Id, post.Comment).Execute().Value)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            return RedirectToAction("index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UnfeatureComment(FeatureCommentViewModel post)
+        {
+            if (this.User == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            if (post.Article == null || post.Comment == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var article = ArticleModel.GetArticleById((int)post.Article);
+            if (article == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            if (!this.User.IsAdmin && this.User.Identity.Name != article.Author.Slug)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            if (!StoredProcs.Articles_UnfeatureComment(article.Id, post.Comment).Execute().Value)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            return RedirectToAction("index");
         }
 
         [RequiresAdmin]

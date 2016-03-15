@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using TheDailyWtf.Data;
-using TheDailyWtf.Discourse;
+using TheDailyWtf.Forum;
+using CommonMark;
+using CommonMark.Syntax;
+using CommonMark.Formatters;
 
 namespace TheDailyWtf.Models
 {
@@ -12,79 +15,148 @@ namespace TheDailyWtf.Models
     {
         private static readonly Regex ImgSrcRegex = new Regex(@"src=""(?<comment>[^""]+)""", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
+        public int Id { get; set; }
+        public int ArticleId { get; set; }
+        public string BodyRaw { get; set; }
         public string BodyHtml { get; set; }
         public string Username { get; set;}
         public DateTime PublishedDate { get; set; }
         public int? DiscoursePostId { get; set; }
         public string ImageUrl { get; set; }
+        public bool Featured { get; set; }
+        public bool Anonymous { get { return UserToken == null; } }
+        public int? ParentCommentId { get; set; }
+        [NonSerialized]
+        public string UserIP;
+        [NonSerialized]
+        public string UserToken;
+        public string TokenType { get { return UserToken.Split(':')[0]; } }
 
         public static IEnumerable<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
         {
-            if (article.DiscourseTopicId != null)
-            {
-                var comments = DiscourseHelper.GetFeaturedCommentsForArticle((int)article.Id);
-                return comments.Select(c => CommentModel.FromDiscourse(c));
-            }
-
-            return new CommentModel[0];
+            var comments = StoredProcs.Articles_GetFeaturedComments(article.Id).Execute();
+            return comments.Select(c => FromTable(c));
         }
 
         public static IEnumerable<CommentModel> FromArticle(ArticleModel article)
         {
             var comments = StoredProcs.Comments_GetComments(article.Id).Execute();
-            return comments.Select(c => CommentModel.FromTable(c));
+            return comments.Select(c => FromTable(c));
         }
 
-        public static string TrySanitizeDiscourseBody(string body)
+        public static IEnumerable<CommentModel> GetCommentsByIP(string ip)
         {
-            try
-            {
-                // image src attributes in Discourse comment bodies are relative,
-                // make them absolute to avoid image 404s on comments overview
+            var comments = StoredProcs.Comments_GetCommentsByIP(ip).Execute();
+            return comments.Select(c => FromTable(c));
+        }
 
-                string replaced = ImgSrcRegex.Replace(
-                    body,
-                    m =>
-                    {
-                        string value = m.Groups["comment"].Value;
-                        if (value.StartsWith("//"))
-                            return string.Format("src=\"{0}\"", value);
-
-                        return string.Format("src=\"//{0}{1}\"", Config.Discourse.Host, value);
-                    }
-                );
-
-                return replaced;
-            }
-            catch
-            {
-                return body;
-            }
+        public static IEnumerable<CommentModel> GetCommentsByToken(string token)
+        {
+            var comments = StoredProcs.Comments_GetCommentsByToken(token).Execute();
+            return comments.Select(c => FromTable(c));
         }
 
         private static CommentModel FromTable(Tables.Comments comment)
         {
             return new CommentModel()
             {
-                BodyHtml = comment.Discourse_Post_Id == null 
-                    ? BbCodeFormatComment(comment.Body_Html) 
-                    : comment.Body_Html,
+                Id = comment.Comment_Id,
+                ArticleId = comment.Article_Id,
+                BodyRaw = comment.Body_Html,
+                BodyHtml = MarkdownFormatContent(comment.Body_Html),
                 Username = comment.User_Name,
                 DiscoursePostId = comment.Discourse_Post_Id,
-                PublishedDate = comment.Posted_Date
+                PublishedDate = comment.Posted_Date,
+                Featured = comment.Featured_Indicator,
+                ParentCommentId = comment.Parent_Comment_Id,
+                UserIP = comment.User_IP,
+                UserToken = comment.User_Token
             };
         }
 
-        private static CommentModel FromDiscourse(Post post)
+        private static string MarkdownFormatContent(string text)
         {
-            return new CommentModel()
+            var settings = CommonMarkSettings.Default;
+            settings.OutputDelegate = (d, t, s) => new SafeHtmlFormatter(t, s).WriteDocument(d);
+            settings.UriResolver = url =>
             {
-                BodyHtml = TrySanitizeDiscourseBody(post.BodyHtml),
-                Username = post.Username,
-                PublishedDate = post.PostDate,
-                DiscoursePostId = post.Id,
-                ImageUrl = post.ImageUrl
+                // accept any URL that starts with a safe prefix
+                if (url.StartsWith("http://") || url.StartsWith("https://") || url.StartsWith("/"))
+                {
+                    return url;
+                }
+
+                // prefix anything else with http://. http://javascript:alert("foo") is harmless, and http://www.website.example is
+                // better for users than a relative link to /articles/www.website.example in the middle of a comment about a website.
+                return "http://" + url;
             };
+            return CommonMarkConverter.Convert(text, settings);
+        }
+
+        private class SafeHtmlFormatter : HtmlFormatter
+        {
+            public SafeHtmlFormatter(System.IO.TextWriter target, CommonMarkSettings settings) : base(target, settings)
+            {
+            }
+
+            protected override void WriteBlock(Block block, bool isOpening, bool isClosing, out bool ignoreChildNodes)
+            {
+                // prevent HTML from being rendered
+                if (block.Tag == BlockTag.HtmlBlock)
+                {
+                    ignoreChildNodes = true;
+                    WriteEncodedHtml(block.StringContent);
+                    return;
+                }
+
+                base.WriteBlock(block, isOpening, isClosing, out ignoreChildNodes);
+            }
+
+            protected override void WriteInline(Inline inline, bool isOpening, bool isClosing, out bool ignoreChildNodes)
+            {
+                // prevent HTML from being rendered
+                if (inline.Tag == InlineTag.RawHtml)
+                {
+                    inline.Tag = InlineTag.String;
+                }
+
+                // write our own links so we can mark them as rel="nofollow" and target="_blank"
+                if (inline.Tag == InlineTag.Link)
+                {
+                    ignoreChildNodes = false;
+
+                    if (isOpening)
+                    {
+                        Write("<a rel=\"nofollow\" target=\"_blank\" href=\"");
+                        var uriResolver = Settings.UriResolver;
+                        if (uriResolver != null)
+                            WriteEncodedUrl(uriResolver(inline.TargetUrl));
+                        else
+                            WriteEncodedUrl(inline.TargetUrl);
+
+                        Write('\"');
+                        if (inline.LiteralContent.Length > 0)
+                        {
+                            Write(" title=\"");
+                            WriteEncodedHtml(inline.LiteralContent);
+                            Write('\"');
+                        }
+
+                        if (Settings.TrackSourcePosition) WritePositionAttribute(inline);
+
+                        Write('>');
+                    }
+
+                    if (isClosing)
+                    {
+                        Write("</a>");
+                    }
+
+                    return;
+                }
+
+                base.WriteInline(inline, isOpening, isClosing, out ignoreChildNodes);
+            }
         }
 
         private static string BbCodeFormatComment(string text)

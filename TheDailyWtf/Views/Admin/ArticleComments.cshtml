@@ -1,0 +1,12 @@
+﻿@model ArticleCommentsViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@Html.Partial(Views.Shared.PartialCommentsPages, Model)
+<div class="row">
+    <div class="twelve columns">
+        @Html.Partial(Views.Shared.PartialComments, Model)
+    </div>
+</div>
+@Html.Partial(Views.Shared.PartialCommentsPages, Model)

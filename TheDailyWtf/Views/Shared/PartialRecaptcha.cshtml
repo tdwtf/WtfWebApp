@@ -1,0 +1,10 @@
+﻿<script src="https://www.google.com/recaptcha/api.js"></script>
+<div class="g-recaptcha field" data-sitekey="@Config.RecaptchaPublicKey"></div>
+<noscript>
+    <div>
+        <iframe src="https://www.google.com/recaptcha/api/fallback?k=@Config.RecaptchaPublicKey" frameborder="0" scrolling="no" width="302" height="422"></iframe>
+    </div>
+    <div>
+        <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" placeholder="Paste the code here"></textarea>
+    </div>
+</noscript>

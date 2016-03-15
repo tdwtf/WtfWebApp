@@ -13,6 +13,9 @@ namespace TheDailyWtf
     /// </summary>
     public static class Config
     {
+        public static string RecaptchaPublicKey { get { return WebConfigurationManager.AppSettings["recaptchaPublicKey"]; } }
+        public static string RecaptchaPrivateKey { get { return WebConfigurationManager.AppSettings["recaptchaPrivateKey"]; } }
+
         public static class Wtf
         {
             public static string Host { get { return ReadFromFile(); } }
@@ -59,18 +62,15 @@ namespace TheDailyWtf
             }
         }
 
-        public static class Discourse
+        public static class NodeBB
         {
             public static string Host { get { return ReadFromFile(); } }
-            public static string Username { get { return ReadFromFile(); } }
-            public static string ApiKey { get { return ReadFromFile(); } }
-            public static int ApiRequestTimeout { get { return int.Parse(ReadFromFile()); } }
-            public static string CommentCategory { get { return ReadFromFile(); } }
             public static string SideBarWtfCategory { get { return ReadFromFile(); } }
-            
+            public static int ApiRequestTimeout { get { return int.Parse(ReadFromFile()); } }
+
             private static string ReadFromFile([CallerMemberName] string key = null)
             {
-                return WebConfigurationManager.AppSettings["Discourse." + key];
+                return WebConfigurationManager.AppSettings["NodeBB." + key];
             }
         }
     }

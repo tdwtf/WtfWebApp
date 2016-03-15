@@ -1,9 +1,7 @@
 ﻿@model Ad
 
-<div class="container da-space hideNonDesktop">
-   <div class="daBlock da-300x250">
-      <a href="@AdRotator.GetRedirectUrlFromOriginalUrl(Model.OriginalUrl)">
-         <img src="@Model.ImageUrl" />
-      </a>
-   </div>
+<div class="sidebar-section ad">
+    <a href="@AdRotator.GetRedirectUrlFromOriginalUrl(Model.OriginalUrl)">
+        <img class="sidebar-ad" src="@Model.ImageUrl" />
+    </a>
 </div>

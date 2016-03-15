@@ -10,6 +10,7 @@ namespace TheDailyWtf
         {
             public const string Index = "Index";
             public const string ViewArticle = "ViewArticle";
+            public const string ViewArticleComments = "ViewArticleComments";
             public const string Submit = "Submit";
         }
 
@@ -35,10 +36,12 @@ namespace TheDailyWtf
             public const string Layout = "_Layout";
             public const string PartialArticleItem = "PartialArticleItem";
             public const string PartialComments = "PartialComments";
+            public const string PartialCommentsPages = "PartialCommentsPages";
             public const string PartialNavigationMenu = "PartialNavigationMenu";
             public const string PartialRecentArticleList = "PartialRecentArticleList";
             public const string PartialLeaderboardAd = "PartialLeaderboardAd";
             public const string PartialSidebarAd = "PartialSidebarAd";
+            public const string PartialRecaptcha = "PartialRecaptcha";
         }
     }
 }
