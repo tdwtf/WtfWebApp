@@ -4,36 +4,130 @@
 body {
     background-color: @tdwtf-light-grey;
 }
+h1, h2, h3, h4, h5, h6, p, a, span, li {
+       font-family: "Open Sans";
+}
+h1, h2, h3, h4, h5, h6 {
 
-p, a, li, h1, h2, h3, h4, h5, span, label {
-    font-family: "Open Sans";
-    margin: 7.5px 0;
-    line-height: 125%;
+    font-weight: 300;
+    color: #000;
+    text-rendering: optimizeLegibility;
+    padding-top: 0.273em;
+    line-height: 1.15538em;
+    padding-bottom: 0.273em;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    color: #d04526;
+}
+
+@media only screen and (max-width: 767px) {
+    h1, h2, h3, h4, h5, h6 {
+        word-wrap: break-word;
+    }
 }
 
 h1 {
-    font-size: 200%;
-    font-weight: 600;
+    font-size: 68px;
+    font-size: 4.25rem;
+}
+
+h1.xlarge {
+    font-size: 110px;
+    font-size: 6.875rem;
+}
+
+h1.xxlarge {
+    font-size: 126px;
+    font-size: 7.875rem;
+}
+
+h1.absurd {
+    font-size: 177px;
+    font-size: 11.0625rem;
 }
 
 h2 {
-    font-size: 150%;
-    font-weight: 600;
+    font-size: 42px;
+    font-size: 2.625rem;
 }
 
 h3 {
-    font-size: 130%;
+    font-size: 30px;
+    font-size: 1.875rem;
 }
 
 h4 {
-    font-size: 120%;
+    font-size: 26px;
+    font-size: 1.625rem;
 }
 
-h3 {
-    font-size: 110%;
+h5 {
+    font-size: 18px;
+    font-size: 1.125rem;
+}
+
+h6 {
+    font-size: 15px;
+    font-size: 1rem;
+}
+
+@media only screen and (max-width: 767px) {
+    h1 {
+        font-size: 42px;
+        font-size: 2.625rem;
+    }
+
+    h2 {
+        font-size: 36px;
+        font-size: 2.25rem;
+    }
+}
+
+.subhead {
+    color: #777;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+p {
+    font-family: "Open Sans";
+    font-weight: 400;
+    font-size: 15px;
+    font-size: 1rem;
+    margin-bottom: 13px;
+    line-height: 1.625em;
+}
+
+p.lead {
+    font-size: 20px;
+    font-size: 1.25rem;
+    margin-bottom: 18px;
+}
+
+@media only screen and (max-width: 768px) {
+    p {
+        font-size: 17.6px;
+        font-size: 1.1rem;
+        line-height: 1.625em;
+    }
+}
+
+ul, ol {
+    margin-bottom: 0.273em;
+}
+
+ul {
+    list-style: none outside;
+}
+
+ol {
+    list-style: decimal;
+    margin-left: 30px;
 }
 
 a {
+    font-family: "Open Sans";
     text-decoration: underline;
     color: @tdwtf-black;
 }
@@ -57,13 +151,12 @@ a:hover {
             position: relative;
 
             #article-feed {
-                width: 60%;
+                width: 65%;
                 display: inline-block;
-                margin-left: 15px;
+                margin-left: 1%;
                 vertical-align: top;
                 position: relative;
-                left: 3%;
-                z-index:1;
+                z-index: 1;
 
                 @media (max-width: 767px) {
                     width: 99%;
@@ -114,8 +207,7 @@ a:hover {
                             bottom: -7.5px;
                             left: -10px;
                             z-index: 2;
-                            margin:0;
-                            
+                            margin: 0;
                         }
 
                         h2.title {
@@ -307,6 +399,7 @@ a:hover {
         opacity: .95;
         background-color: @tdwtf-white;
         z-index: 3;
+        padding-top: 5px;
 
         @media (max-width: 767px) {
             position: absolute;
@@ -319,7 +412,7 @@ a:hover {
 
             a {
                 text-decoration: none;
-                color: @tdwtf-black;
+                color: @tdwtf-dark-grey;
                 font-weight: bold;
             }
 
@@ -328,9 +421,7 @@ a:hover {
                 padding: 5px 0;
                 margin-right: 2%;
 
-                @media (max-width: 767px) {
-                    padding-bottom: 15px;
-                }
+
 
                 img {
                     height: 45px;
@@ -338,7 +429,7 @@ a:hover {
             }
 
             #navigation-items {
-                min-width: 630px;
+                min-width: 635px;
                 display: inline-block;
                 height: 57px;
 
@@ -356,7 +447,10 @@ a:hover {
                     text-transform: uppercase;
                     margin-top: 0px;
                     margin-bottom: 0px;
-                    font-size: 90%;
+                    font-size: 15px;
+                    font-weight: 800;
+                    padding-bottom: 8px;
+
 
                     a {
                         padding: 20px 15px 18px;
@@ -370,26 +464,26 @@ a:hover {
                     .dropdown {
                         display: none;
                         position: absolute;
-                        min-width: 300px;
-                        top: 55px;
+                        min-width: 240px;
+                        top: 59px;
                         color: @tdwtf-white;
                         font-weight: 300;
                         text-align: left;
-                        padding: 15px 5px;
+                        padding: 10px;
                         background-color: inherit;
 
                         li {
                             display: block;
                             float: none;
                             text-align: left;
-                            font-weight: 300;
+                            font-weight: normal;
                             text-transform: capitalize;
                             text-align: left;
                             padding: 0;
                             margin: 5px 0;
 
                             a {
-                                font-weight: 300;
+                                font-weight: 400;
                                 text-transform: capitalize;
                                 width: 100%;
                                 display: inline-block;
@@ -400,8 +494,12 @@ a:hover {
 
 
                             &.navigation-heading {
-                                font-size: 125%;
+                                font-family: 'Open Sans';
                                 text-align: left;
+                                font-size: 26px;
+                                font-weight: 300;
+                                font-size: 1.625rem;
+                                line-height: 1.75rem;
                             }
                         }
 
@@ -411,6 +509,12 @@ a:hover {
                             a {
                                 color: @tdwtf-black;
                             }
+                        }
+                    }
+
+                    li:hover {
+                        a {
+                            color: @tdwtf-white;
                         }
                     }
 
@@ -459,7 +563,7 @@ a:hover {
                         a {
 
                             img {
-                                margin-top: 2px;
+                                margin-right: 5px;
                                 width: 15px;
                                 float: left;
 
@@ -474,7 +578,7 @@ a:hover {
                         background-color: @tdwtf-orange;
 
                         img {
-                            margin-top: 2px;
+                            margin-right: 5px;
                             width: 15px;
                             float: left;
 
@@ -523,17 +627,19 @@ a:hover {
                 label {
                     display: block;
                     padding: 5px;
-                    width: 40px;
-                    height: 40px;
-                    position: absolute;
-                    right: 15px;
                     background: @tdwtf-dark-grey;
                     border-radius: 5px;
+                    top: 4px;
+                    right: 4%;
+                    text-align: center;
+                    width: 46px;
+                    height: 40px;
+                    position: absolute;
 
                     img {
-                        width: 40px;
-                        display: table-cell;
-                        vertical-align: middle;
+                        width: 30px;
+                        top: 2px;
+                        position: relative;
                     }
                 }
 
@@ -705,7 +811,7 @@ a:hover {
         }
 
         #sidebar {
-            width: 35%;
+            width: 33%;
             display: inline-block;
             vertical-align: top;
             background-color: @tdwtf-light-grey;
@@ -734,6 +840,11 @@ a:hover {
                     z-index: 1;
                     transition: height 0.3s ease-in-out;
 
+                    p {
+                        font-size: 12px;
+                        padding: 10px;
+                    }
+
                     img {
                         max-width: 100%;
                     }
@@ -754,26 +865,31 @@ a:hover {
                     margin: 0px;
                     width: 100%;
                     display: block;
-                    padding: 7.5px 0px;
+                    padding: 10px 0;
                     border-bottom: 1px solid @tdwtf-white;
                     position: relative;
                     z-index: 2;
 
 
+
                     span {
                         display: inline-block;
-                        font-size: 110%;
+                        font-size: 15px;
+                        font-size: 1.125rem;
+                        font-family: 'Open Sans';
+                        font-weight: 300;
                     }
 
                     img {
                         margin-right: 15px;
                         width: 8%;
-                        min-width: 20px;
-                        max-width: 25px;
+                        min-width: 15px;
+                        max-width: 20px;
                         position: relative;
                         display: inline-block;
-                        top: 5px;
-                        left: 7.5px;
+                        top: 3px;
+                        left: 10px;
+
 
                         @media (max-width: 767px) {
                             width: 4%;
@@ -815,14 +931,24 @@ a:hover {
 
                     #submit-link {
                         text-align: center;
-                        font-weight: bold;
-                        font-size: 110%;
-                        text-transform: uppercase;
+                        font-weight: 600;
+                        font-size: 16px;
+                        text-transform: capitalize;
                         margin: 10px 0;
                     }
                 }
 
                 &#contents-container {
+                    p {
+                        font-size: 15px;
+                        margin-bottom: 5px;
+                        padding-bottom: 5px;
+
+                        a {
+                            font-weight: 600;
+                        }
+                    }
+
                     ul {
                         margin: 4px 0 5px 20%;
 
@@ -836,10 +962,15 @@ a:hover {
 
                 &#sponsor-sidebar-container {
                     p {
-                        img {
-                            width: 75%;
-                            display: block;
-                            margin: 25px auto;
+                        &.sponsor {
+                            text-align: center;
+                            border-top: 1px solid @tdwtf-light-grey;
+
+                            img {
+                                width: 75%;
+                                padding: 0;
+                                position: relative;
+                            }
                         }
                     }
                 }
@@ -860,6 +991,15 @@ a:hover {
                                 }
                             }
                         }
+                    }
+                }
+                &#chat-sidebar-container{
+                    p{
+                        margin-bottom:0;
+                    }
+                    p:last-child{
+                        margin-bottom:15px;
+
                     }
                 }
             }
@@ -883,6 +1023,9 @@ a:hover {
                 margin-left: 15px;
                 margin-bottom: 7.5px;
                 text-align: center;
+                 @media(max-width: 767px) {
+                        display: none;
+                    }
 
                 img {
                     margin: 15px 0;
@@ -899,9 +1042,13 @@ a:hover {
             }
 
             h2.title {
-                font-size: 400%;
+                 @media(min-width: 767px) {
+                        font-size: 60px;
+                font-size: 4rem;
+                    }
+                text-transform:uppercase;
                 font-weight: 700;
-                padding: 15px 30px;
+                padding: 15px 15px;
             }
 
             span.details {
@@ -938,9 +1085,7 @@ a:hover {
                     border-left: 5px solid darken(@tdwtf-light-grey, 10%);
                     padding: 30px 15px;
 
-                    &.picture {
-                        text-align: center;
-                    }
+                   
                 }
             }
 
@@ -1292,27 +1437,28 @@ a:hover {
         }
 
         #sponsor-listing {
-            
-            margin:50px auto;
+            margin: 50px auto;
+
             .sponsor-container {
                 display: inline-block;
                 width: 47%;
-                min-width:290px;
+                min-width: 290px;
                 margin: 0 1% 0 0;
                 vertical-align: top;
-                
+
                 .sponsor-logo-container {
                     text-align: center;
 
                     img {
                         height: 75px;
-                        margin-bottom:15px;
+                        margin-bottom: 15px;
                     }
                 }
+
                 .sponsor-bio {
-                    width:80%;
-                    margin:0 auto;
-               }
+                    width: 80%;
+                    margin: 0 auto;
+                }
             }
 
             .sponsor-container:nth-child(2) {
@@ -1322,7 +1468,7 @@ a:hover {
 
         .sponsor-footer {
             text-align: center;
-            padding:25px;
+            padding: 25px;
 
             img {
                 height: 15px;
@@ -1349,9 +1495,12 @@ a:hover {
 }
 
 
-
-
-
+/*Left over classes still in use from first CSS revision, kept to keep archival articles current*/
+.inset{
+    float: right;
+    margin: 8pt;
+    width: 52%;
+    }
 b, strong {
     font-weight: bold;
 }
