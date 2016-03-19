@@ -23,7 +23,7 @@ CREATE PROCEDURE [Comments_CreateOrUpdateComment]
     @Posted_Date DATETIME,
     @User_IP VARCHAR(45),
     @User_Token VARCHAR(MAX),
-    @Parent_Comment_Id INT NULL
+    @Parent_Comment_Id INT = NULL
 )
 AS
 BEGIN
