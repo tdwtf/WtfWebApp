@@ -1099,6 +1099,24 @@ a:hover {
             .article-body {
                 padding: 15px 30px;
 
+                .comments {
+                    ul {
+                        li {
+                            span {
+                                #comment-reply-button {
+                                    font-family: "Open Sans", sans-serif;
+                                    padding: 5px;
+                                    border: 1px solid @tdwtf-dark-grey;
+                                    border-radius: 2px;
+                                    margin: 15px auto;
+                                    display: block;
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 .callout {
                     border-left: 5px solid darken(@tdwtf-light-grey, 10%);
                     padding: 30px 15px;
@@ -1579,16 +1597,6 @@ a:hover {
         margin: 5px 0;
         padding: 5px;
         background-color: #EEE;
-    }
-
-    #comment-reply-button {
-        font-family: "Open Sans", sans-serif;
-        padding: 5px;
-        border: 1px solid @tdwtf-dark-grey;
-        border-radius: 2px;
-        margin: 15px auto;
-        display: block;
-        cursor: pointer;
     }
 
     clear: right;

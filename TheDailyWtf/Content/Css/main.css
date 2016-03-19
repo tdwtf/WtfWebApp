@@ -1128,6 +1128,15 @@ a:hover {
 #wrapper .content#article-page .article-container .article-body {
   padding: 15px 30px;
 }
+#wrapper .content#article-page .article-container .article-body .comments ul li span #comment-reply-button {
+  font-family: "Open Sans", sans-serif;
+  padding: 5px;
+  border: 1px solid #2c2c2c;
+  border-radius: 2px;
+  margin: 15px auto;
+  display: block;
+  cursor: pointer;
+}
 #wrapper .content#article-page .article-container .article-body .callout {
   border-left: 5px solid #d5d5d5;
   padding: 30px 15px;
@@ -1528,15 +1537,6 @@ a:hover {
   margin: 5px 0;
   padding: 5px;
   background-color: #EEE;
-}
-.comment #comment-reply-button {
-  font-family: "Open Sans", sans-serif;
-  padding: 5px;
-  border: 1px solid #2c2c2c;
-  border-radius: 2px;
-  margin: 15px auto;
-  display: block;
-  cursor: pointer;
 }
 /* TODO: update when final CSS is ready */
 .g-recaptcha {
