@@ -1513,6 +1513,42 @@ a:hover {
     }
 }
 /* Comment section */
+#comment-form {
+    border-top: solid 1px #eee;
+    margin: 25px 0;
+    field{
+        p{
+            margin-bottom:2px;
+        }
+        a#log-in-button{
+            padding:5px;
+            border:1 px solid @tdwtf-dark-grey;
+            border-radius:2px;
+            margin: 15px 0;
+
+
+        }
+        input, textarea{
+             padding: 5px;
+        margin: 15px 0;
+        font-family:'Open Sans';
+            padding: 5px;
+        margin: 15px 0;
+        background:@tdwtf-light-grey;
+
+        }
+    input {
+        width: 30%;
+        
+    }
+    textarea{
+        width:100%;
+        
+    }
+
+    }
+}
+
 .comment-nav {
     text-align: center;
     font-family: "Open Sans", sans-serif;
@@ -1531,15 +1567,16 @@ a:hover {
         float: right;
         font-size: 12px;
     }
+
     blockquote {
-    margin: 5px 0;
-    padding: 5px;
-    background-color: #EEE;
+        margin: 5px 0;
+        padding: 5px;
+        background-color: #EEE;
     }
 
     clear: right;
     border-top: 1px solid @tdwtf-light-grey;
-    padding:15px 0;
+    padding: 15px 0;
 }
 /* TODO: update when final CSS is ready */
 .g-recaptcha {
@@ -1551,13 +1588,15 @@ a:hover {
     margin: 8pt;
     width: 52%;
 }
-blockquote{
+
+blockquote {
     line-height: 20px;
     color: #777;
     margin: 0 0 18px;
     padding: 9px 20px 0 19px;
     border-left: 5px solid #ccc;
-    }
+}
+
 b, strong {
     font-weight: bold;
 }
