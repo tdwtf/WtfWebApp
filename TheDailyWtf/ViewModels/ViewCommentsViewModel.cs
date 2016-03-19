@@ -7,7 +7,7 @@ namespace TheDailyWtf.ViewModels
 {
     public class ViewCommentsViewModel : WtfViewModelBase
     {
-        public const int CommentsPerPage = 20;
+        public const int CommentsPerPage = 50;
         public const int NearbyPages = 3;
 
         public ViewCommentsViewModel(ArticleModel article, int page)
