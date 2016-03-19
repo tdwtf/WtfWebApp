@@ -11,7 +11,9 @@
         <h2 class="title">@Model.Article.Title</h2>
         <span class="details">by <a class="author" href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a>
             in <a href="/series/@Model.Article.Series.Slug" class="source">@Model.Article.Series.Title</a>
-            on <span class="date">@Model.Article.DisplayDate</span></span>
+            on <span class="date">@Model.Article.DisplayDate</span>
+            <a href="/admin/article/edit/@Model.Article.Id" rel="nofollow" class="hide admin-only">Edit</a>
+        </span>
         <div class="banner-triangle"></div>
         <div class="author-box">
             <img src="@Model.Article.Author.ImageUrl" />
