@@ -414,10 +414,14 @@ a:hover {
   margin: 0;
 }
 #wrapper .content-container .content #article-feed .article .article-content h2.title {
+  font-size: 26px;
+  font-size: 1.625rem;
   text-transform: uppercase;
-  font-weight: bold;
-  font-size: 150%;
-  margin-bottom: 10px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  padding-top: 0.273em;
+  line-height: 1.15538em;
+  padding-bottom: 0.273em;
 }
 #wrapper .content-container .content #article-feed .article .article-content span.details {
   color: #808080;
