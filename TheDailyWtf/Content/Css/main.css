@@ -553,11 +553,11 @@ a:hover {
   }
 }
 #wrapper .content-container:nth-last-child(2) {
-  padding-bottom: 125px;
+  padding-bottom: 190px;
 }
 @media (max-width: 430px) {
   #wrapper .content-container:nth-last-child(2) {
-    padding-bottom: 150px;
+    padding-bottom: 250px;
   }
 }
 #wrapper .content-container#navigation {
@@ -1273,9 +1273,10 @@ a:hover {
 }
 #wrapper .content#article-page .article-container #comment-form a#log-in-button {
   padding: 5px;
-  border: 1 px solid #2c2c2c;
+  border: 1px solid #2c2c2c;
   border-radius: 2px;
   margin: 15px 0;
+  display: inline-block;
 }
 #wrapper .content#article-page .article-container #comment-form input,
 #wrapper .content#article-page .article-container #comment-form textarea {
@@ -1283,6 +1284,7 @@ a:hover {
   padding: 5px;
   margin: 15px 0;
   background: #eeeeee;
+  border: 1px solid black;
 }
 #wrapper .content#article-page .article-container #comment-form input {
   width: 30%;
