@@ -1525,6 +1525,15 @@ a:hover {
   padding: 5px;
   background-color: #EEE;
 }
+.comment #comment-reply-button {
+  font-family: "Open Sans", sans-serif;
+  padding: 5px;
+  border: 1px solid #2c2c2c;
+  border-radius: 2px;
+  margin: 15px auto;
+  display: block;
+  cursor: pointer;
+}
 /* TODO: update when final CSS is ready */
 .g-recaptcha {
   margin: 1em 0;

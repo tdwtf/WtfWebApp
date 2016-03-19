@@ -62,7 +62,7 @@
                 @if (Model.CanReply)
                 {
                     <br />
-                    <button onclick="document.getElementById('comment-parent').value = @comment.Id">Reply</button>
+                    <button id="#comment-reply-button" onclick="document.getElementById('comment-parent').value = @comment.Id">Reply</button>
                     if (!comment.Anonymous && comment.PublishedDate.Add(TheDailyWtf.Controllers.ArticlesController.CommentEditTimeout) > DateTime.Now)
                     {
                         <a href="/articles/comments/@Model.Article.Slug/addendum/@comment.Id" rel="nofollow" data-user="@comment.Username" class="hide comment-edit-link">Edit</a>

@@ -19,7 +19,7 @@
 
     <div class="article-footer">
         <div class="comment-container">
-            <span class="comments"><b><span class="number-of-comments">@Model.Article.CachedCommentCount</span> comments</b> - Last comment @@ <span class="last-comment-time">@Model.Article.LastCommentDateDescription</span></span>
+           <span class="comments"><a href="@Model.Article.CommentsUrl"><b><span class="number-of-comments">@Model.Article.CachedCommentCount</span> comments</b></a> - Last comment @@ <span class="last-comment-time">@Model.Article.LastCommentDateDescription</span></span>
         </div>
 
         <ul class="sm-link-bar">
