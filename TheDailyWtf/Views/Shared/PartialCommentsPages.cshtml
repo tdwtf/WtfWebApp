@@ -1,5 +1,7 @@
 ﻿@model ViewCommentsViewModel
 
+@if (Model.PageCount > 0)
+{
 <nav class="comment-nav">
     Pages:
 @if (!Model.Comments.Any())
@@ -46,8 +48,9 @@ else
         {
             <a href="@Model.BaseUrl/@n">@n</a>
         }
-        @:&hellip;
+        <span class="spacer">&hellip;</span>
         <a href="@Model.BaseUrl/@Model.PageCount">@Model.PageCount</a>
     }
 }
 </nav>
+}
