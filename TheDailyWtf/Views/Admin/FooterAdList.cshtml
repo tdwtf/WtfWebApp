@@ -1,0 +1,30 @@
+﻿@model TheDailyWtf.ViewModels.AdminViewModel
+
+@{
+    ViewBag.Title = "Footer Ads Rotation";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Footer Ads Rotation</h2>
+<em>These footer ads are uniform-randomly appended to an article once it becomes published.</em>
+<table class="striped">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ad in Model.AllAds)
+        {
+            <tr>
+                <td>@Html.Raw(ad.BodyHtml)</td>
+                <td><a href="/admin/ad/edit/@ad.Id">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="medium primary btn">
+    <a href="/admin/ad/edit">New Footer Ad</a>
+</div>

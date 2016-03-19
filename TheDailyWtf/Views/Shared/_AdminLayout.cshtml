@@ -40,9 +40,22 @@
 
     <div id="wrapper">
         <div class="row">
+            @if (User.IsAdmin)
+            {
+                <div class="navbar">
+                    <ul>
+                        <li><a href="/admin/articles">Articles</a></li>
+                        <li><a href="/admin/series">Series</a></li>
+                        <li><a href="/admin/logins">Authors &amp; Logins</a></li>
+                        <li><a href="/admin/footer-ads">Footer Ads</a></li>
+                        <li><a href="/admin/ads">Ads</a></li>
+                    </ul>
+                </div>
+            }
+
             <a href="/admin" style="text-decoration: none;"><img style="vertical-align: text-bottom;" src="/content/images/thedailywtfLogoNav.png" class="logo" /> Administration </a>
             @if (User != null)
-            {               
+            {
                 <div class="twelve columns" style="text-align: right;">
                     Logged in as @User.DisplayName : <a href="/admin/logout">Logout</a>
                 </div>

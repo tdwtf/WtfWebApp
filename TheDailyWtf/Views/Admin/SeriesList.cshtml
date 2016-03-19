@@ -1,0 +1,33 @@
+﻿@model TheDailyWtf.ViewModels.AdminViewModel
+
+@{
+    ViewBag.Title = "Series";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Series Listing</h2>
+<table class="striped series-listing">
+    <thead>
+        <tr>
+            <th>Slug</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var series in Model.AllSeries)
+        {
+            <tr>
+                <td>@series.Slug</td>
+                <td>@series.Title</td>
+                <td>@series.Description</td>
+                <td><a href="/admin/series/edit/@series.Slug">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="medium primary btn">
+    <a href="/admin/series/edit">New Series</a>
+</div>

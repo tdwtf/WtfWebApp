@@ -25,7 +25,7 @@ namespace TheDailyWtf.Controllers
             if (!this.User.IsAdmin)
                 return Redirect("/admin/my-articles");
 
-            return View(new AdminViewModel());
+            return Redirect("/admin/articles");
         }
 
         [AllowAnonymous]
@@ -55,6 +55,30 @@ namespace TheDailyWtf.Controllers
         public ActionResult MyArticles()
         {
             return View(new MyArticlesViewModel(this.User.Identity.Name));
+        }
+
+        [RequiresAdmin]
+        public ActionResult ArticleList()
+        {
+            return View(new AdminViewModel());
+        }
+
+        [RequiresAdmin]
+        public ActionResult SeriesList()
+        {
+            return View(new AdminViewModel());
+        }
+
+        [RequiresAdmin]
+        public ActionResult LoginList()
+        {
+            return View(new AdminViewModel());
+        }
+
+        [RequiresAdmin]
+        public ActionResult FooterAdList()
+        {
+            return View(new AdminViewModel());
         }
 
         [HttpPost]

@@ -1,0 +1,39 @@
+﻿@model TheDailyWtf.ViewModels.AdminViewModel
+
+@{
+    ViewBag.Title = "Authors and Logins";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Authors &amp; Logins</h2>
+<table class="striped authors-listing">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Slug / Username</th>
+            <th>Name</th>
+            <th>Active</th>
+            <th>Administrator</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in Model.AllAuthors)
+        {
+            <tr>
+                <td>
+                    <img src="@author.ImageUrl" style="width: 40px;" />
+                </td>
+                <td>@author.Slug</td>
+                <td>@author.Name</td>
+                <td><span class="@(author.IsActive ? "admin-yes" : "admin-no")">@(author.IsActive ? "Yes" : "No")</span></td>
+                <td><span class="@(author.IsAdmin ? "admin-yes" : "admin-no")">@(author.IsAdmin ? "Yes" : "No")</span></td>
+                <td><a href="/admin/author/edit/@author.Slug">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="medium primary btn">
+    <a href="/admin/author/edit">New Author/Login</a>
+</div>

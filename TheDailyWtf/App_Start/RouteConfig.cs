@@ -31,6 +31,30 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "ArticleListAdmin",
+                url: "admin/articles",
+                defaults: new { controller = "Admin", action = "ArticleList" }
+            );
+
+            routes.MapRoute(
+                name: "SeriesListAdmin",
+                url: "admin/series",
+                defaults: new { controller = "Admin", action = "SeriesList" }
+            );
+
+            routes.MapRoute(
+                name: "LoginListAdmin",
+                url: "admin/logins",
+                defaults: new { controller = "Admin", action = "LoginList" }
+            );
+
+            routes.MapRoute(
+                name: "FooterAdListAdmin",
+                url: "admin/footer-ads",
+                defaults: new { controller = "Admin", action = "FooterAdList" }
+            );
+
+            routes.MapRoute(
                 name: "ArticleAdmin",
                 url: "admin/article/edit/{id}",
                 defaults: new { controller = "Admin", action = "EditArticle", id = UrlParameter.Optional }

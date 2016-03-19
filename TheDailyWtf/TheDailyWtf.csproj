@@ -355,9 +355,6 @@
     <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Admin\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -493,6 +490,18 @@
     <Content Include="Content\Fonts\SemiboldItalic\OpenSans-SemiboldItalic.ttf" />
     <Content Include="Content\Fonts\SemiboldItalic\OpenSans-SemiboldItalic.woff" />
     <Content Include="Content\Fonts\SemiboldItalic\OpenSans-SemiboldItalic.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\ArticleList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\SeriesList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\LoginList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\FooterAdList.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
