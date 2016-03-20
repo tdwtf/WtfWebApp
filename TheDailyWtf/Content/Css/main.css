@@ -394,12 +394,7 @@ a:hover {
   padding: 15px;
   position: relative;
 }
-#wrapper .content-container .content #article-feed .article .article-content p img {
-  text-align: right;
-  max-height: 250px;
-}
 #wrapper .content-container .content #article-feed .article .article-content p a img {
-  width: 75%;
   display: block;
   margin: 0 auto;
   max-height: none;
@@ -532,13 +527,11 @@ a:hover {
   border-left: 10px solid #95397a;
 }
 #wrapper .content-container .content #article-feed .article.other:hover,
-#wrapper .content-container .content #article-feed .article.soapbox:hover,
-#wrapper .content-container .content #article-feed .article.tales:hover {
+#wrapper .content-container .content #article-feed .article.soapbox:hover {
   border-right: 10px solid #95397a;
 }
 #wrapper .content-container .content #article-feed .article.other:hover h2,
-#wrapper .content-container .content #article-feed .article.soapbox:hover h2,
-#wrapper .content-container .content #article-feed .article.tales:hover h2 {
+#wrapper .content-container .content #article-feed .article.soapbox:hover h2 {
   color: #95397a;
 }
 #wrapper .content-container .content #article-feed .article.soapbox {
@@ -1141,15 +1134,6 @@ a:hover {
 #wrapper .content#article-page .article-container .article-body {
   padding: 15px 30px;
 }
-#wrapper .content#article-page .article-container .article-body .comments ul li span #comment-reply-button {
-  font-family: "Open Sans", sans-serif;
-  padding: 5px;
-  border: 1px solid #2c2c2c;
-  border-radius: 2px;
-  margin: 15px auto;
-  display: block;
-  cursor: pointer;
-}
 #wrapper .content#article-page .article-container .article-body .callout {
   border-left: 5px solid #d5d5d5;
   padding: 30px 15px;
@@ -1613,6 +1597,15 @@ a:hover {
   float: right;
   font-size: 12px;
 }
+.comment .timestamp button {
+  font-family: "Open Sans", sans-serif;
+  padding: 5px;
+  border: 1px solid #2c2c2c;
+  border-radius: 2px;
+  margin: 15px auto;
+  display: block;
+  cursor: pointer;
+}
 .comment blockquote {
   margin: 5px 0;
   padding: 5px;
@@ -1666,3 +1659,13 @@ p {
 .hide {
   display: none;
 }
+button {
+  font-family: "Open Sans", sans-serif;
+  padding: 5px;
+  border: 1px solid #2c2c2c;
+  border-radius: 2px;
+  margin: 15px auto;
+  display: block;
+  cursor: pointer;
+}
+
