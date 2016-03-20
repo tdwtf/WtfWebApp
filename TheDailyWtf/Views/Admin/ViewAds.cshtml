@@ -4,109 +4,120 @@
 }
 
 <style type="text/css">
-   .ad-info ul { list-style-type: disc; }
-   .ad-info ul, .ad-info ol { padding-left: 10px; margin-left: 10px; }
+    .ad-info ul {
+        list-style-type: disc;
+    }
+
+    .ad-info ul, .ad-info ol {
+        padding-left: 10px;
+        margin-left: 10px;
+        
+    }
+    li {
+        margin-bottom:7.5px;
+    }
 </style>
+<div class="content">
+    @if (AdRotator.LoadException != null)
+    {
+        <div class="message error">
+            <h4>There was an error loading the Ad server:</h4>
+            @AdRotator.LoadException.ToString()
+        </div>
+    }
 
-@if (AdRotator.LoadException != null)
-{
-   <div class="message error">
-      <h4>There was an error loading the Ad server:</h4>
-      @AdRotator.LoadException.ToString()
-   </div>
-}
+    <form method="get">
+        <div>
+            From: <input type="date" name="start" value="@Model.StartValue" />
+            To: <input type="date" name="end" value="@Model.EndValue" />
+            <input type="submit" value="Filter" />
+            <input type="reset" onclick="window.location = '/admin/ads'" />
+        </div>
+    </form>
 
-<form method="get">
-   <div>
-      From: <input type="date" name="start" value="@Model.StartValue" />
-      To: <input type="date" name="end" value="@Model.EndValue" />
-      <input type="submit" value="Filter" />
-      <input type="reset" onclick="window.location = '/admin/ads'" />
-   </div>
-</form>
-
-   <h2>Impressions By Date</h2>
-   <table>
-      <thead>
-         <tr>
-            <th>Date</th>
-            <th>Banner File Name</th>
-            <th>Impressions</th>
-         </tr>
-      </thead>
-      <tbody>
-         @foreach (var impression in Model.GetAdImpressions())
-         {
+    <h2>Impressions By Date</h2>
+    <table>
+        <thead>
             <tr>
-               <td>@impression.Impression_Date.ToShortDateString()</td>
-               <td>@impression.Banner_Name</td>
-               <td>@impression.Impression_Count</td>
+                <th>Date</th>
+                <th>Banner File Name</th>
+                <th>Impressions</th>
             </tr>
-         }
-      </tbody>
-   </table>
+        </thead>
+        <tbody>
+            @foreach (var impression in Model.GetAdImpressions())
+            {
+                <tr>
+                    <td>@impression.Impression_Date.ToShortDateString()</td>
+                    <td>@impression.Banner_Name</td>
+                    <td>@impression.Impression_Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<h2>Total Impressions For Date Range</h2>
-<table>
-   <thead>
-      <tr>
-         <th>Banner File Name</th>
-         <th>Impressions</th>
-      </tr>
-   </thead>
-   <tbody>
-      @foreach (var impression in Model.GetTotalAdImpressions())
-      {
-         <tr>
-            <td>@impression.Banner_Name</td>
-            <td>@impression.Impression_Count</td>
-         </tr>
-      }
-   </tbody>
-</table>
+    <h2>Total Impressions For Date Range</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Banner File Name</th>
+                <th>Impressions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var impression in Model.GetTotalAdImpressions())
+            {
+                <tr>
+                    <td>@impression.Banner_Name</td>
+                    <td>@impression.Impression_Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<h2>URL Clicks</h2>
-<table>
-   <thead>
-      <tr>
-         <th>URL</th>
-         <th>Total Clicks</th>
-      </tr>
-   </thead>
-   <tbody>
-      @foreach (var url in Model.GetAdClicks())
-      {
-         <tr>
-            <td>@url.Redirect_Url</td>
-            <td>@url.Click_Count</td>
-         </tr>
-      }
-   </tbody>
-</table>
+    <h2>URL Clicks</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Total Clicks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var url in Model.GetAdClicks())
+            {
+                <tr>
+                    <td>@url.Redirect_Url</td>
+                    <td>@url.Click_Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<h2>Loaded Ads</h2>
-<div class="ad-info">
-   @foreach (var root in Model.AllAdDimensions)
-   {
-      <hr />
-      
-      <h3>Dimensions: @root.Dimensions</h3>
-      <h4>Companies</h4>
-      <ul>
-         @foreach (var company in root.Companies)
-         {
-            <li>
-               <h5>@company.Name</h5>
-               <ol>
-                  @foreach (var ad in company.Ads)
-                  {
-                     <li>
-                        <img src="@ad.ImageUrlWithoutImpression" />
-                     </li>
-                  }
-               </ol>
-            </li>
-         }
-      </ul>
-   }
+    <h2>Loaded Ads</h2>
+    <div class="ad-info">
+        @foreach (var root in Model.AllAdDimensions)
+        {
+            <hr />
+
+            <h3>Dimensions: @root.Dimensions</h3>
+            <h4>Companies</h4>
+            <ul>
+                @foreach (var company in root.Companies)
+                {
+                    <li>
+                        <h5>@company.Name</h5>
+                        <ol>
+                            @foreach (var ad in company.Ads)
+                            {
+                                <li>
+                                    <img src="@ad.ImageUrlWithoutImpression" />
+                                </li>
+                            }
+                        </ol>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
 </div>

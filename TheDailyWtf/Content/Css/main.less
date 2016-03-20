@@ -354,7 +354,7 @@ a:hover {
                         }
                     }
 
-                    &.other, &.soapbox, &.tales {
+                    &.other, &.soapbox {
                         border-left: 10px solid @tdwtf-purple;
                     }
 
@@ -375,6 +375,17 @@ a:hover {
 
                         h2 {
                             color: @tdwtf-purple;
+                        }
+                    }
+                     &.tales{
+                        border-left: 10px solid @alex-orange;
+                    }
+
+                    &.tales:hover {
+                        border-right: 10px solid @alex-orange;
+
+                        h2 {
+                            color: @alex-orange;
                         }
                     }
                 }
@@ -1160,13 +1171,22 @@ a:hover {
                 }
             }
 
-            &.other, &.soapbox, &.tales {
+            &.other, &.soapbox {
                 span.details {
                     background-color: @tdwtf-purple;
                 }
 
                 .banner-triangle {
                     border-top-color: darken(@tdwtf-purple, 30%);
+                }
+            }
+            &.tales {
+                span.details {
+                    background-color: @alex-orange;
+                }
+
+                .banner-triangle {
+                    border-top-color: darken(@alex-orange, 30%);
                 }
             }
 
