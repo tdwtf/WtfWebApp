@@ -5,9 +5,20 @@
 }
 
 <div class="content" id="listing">
-    <h1 class="title">@Model.Author.Name</h1>
+   
+    <div class="author-box">
+        <div class="author-image-container">
+        <img src="@Model.Author.ImageUrl" />
+            </div>
+        <div class="author-details">
+            <h1 class="title">@Model.Author.Name</h1>
+
+            <p class="credentials">@Model.Author.ShortDescription</p>
+        </div>
+    </div>
 
     <div id="article-feed">
+      
         @foreach (var article in Model.Articles)
         {
             @Html.Partial(Views.Shared.PartialArticleItem, article)

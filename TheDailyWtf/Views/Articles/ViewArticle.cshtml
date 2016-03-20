@@ -17,7 +17,7 @@
         <div class="banner-triangle"></div>
         <div class="author-box">
             <img src="@Model.Article.Author.ImageUrl" />
-            <p class="author-name">@Model.Article.Author.Name</p>
+            <a href="/authors/@Model.Article.Author.Slug" class="author-name">@Model.Article.Author.Name</a>
             <p class="credentials">@Model.Article.Author.ShortDescription</p>
         </div>
         <div class="article-body">
