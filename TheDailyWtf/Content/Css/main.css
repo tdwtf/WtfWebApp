@@ -571,7 +571,7 @@ a:hover {
   box-shadow: 0 8px 6px -6px #808080;
   margin-bottom: 15px;
   position: fixed;
-  top: 0px;
+  top: -5px;
   opacity: .95;
   background-color: #ffffff;
   z-index: 3;
@@ -705,6 +705,7 @@ a:hover {
 #wrapper .content-container#navigation .content #navigation-items li.forum a img {
   margin-right: 5px;
   width: 15px;
+  height: 15px;
   float: left;
 }
 #wrapper .content-container#navigation .content #navigation-items li.forum a img.hover-icon {
@@ -1382,7 +1383,7 @@ a:hover {
 #wrapper .content#listing div.author-box .author-image-container {
   width: 25%;
   display: table-cell;
-  padding-right: 1%;
+  padding-right: 2%;
   vertical-align: middle;
 }
 @media (max-width: 500px) {
