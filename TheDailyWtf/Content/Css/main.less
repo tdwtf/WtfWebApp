@@ -358,7 +358,7 @@ a:hover {
                         border-left: 10px solid @tdwtf-purple;
                     }
 
-                    &.other:hover, &.soapbox:hover, &.tales:hover {
+                    &.other:hover, &.soapbox:hover {
                         border-right: 10px solid @tdwtf-purple;
 
                         h2 {
@@ -377,7 +377,8 @@ a:hover {
                             color: @tdwtf-purple;
                         }
                     }
-                     &.tales{
+
+                    &.tales {
                         border-left: 10px solid @alex-orange;
                     }
 
@@ -467,7 +468,7 @@ a:hover {
                     font-size: 15px;
                     font-weight: 800;
                     padding-bottom: 8px;
-                   
+
 
 
                     a {
@@ -583,7 +584,7 @@ a:hover {
                             img {
                                 margin-right: 5px;
                                 width: 15px;
-                                height:15px;
+                                height: 15px;
                                 float: left;
 
                                 &.hover-icon {
@@ -1117,23 +1118,6 @@ a:hover {
             .article-body {
                 padding: 15px 30px;
 
-                .comments {
-                    ul {
-                        li {
-                            span {
-                                #comment-reply-button {
-                                    font-family: "Open Sans", sans-serif;
-                                    padding: 5px;
-                                    border: 1px solid @tdwtf-dark-grey;
-                                    border-radius: 2px;
-                                    margin: 15px auto;
-                                    display: block;
-                                    cursor: pointer;
-                                }
-                            }
-                        }
-                    }
-                }
 
                 .callout {
                     border-left: 5px solid darken(@tdwtf-light-grey, 10%);
@@ -1180,6 +1164,7 @@ a:hover {
                     border-top-color: darken(@tdwtf-purple, 30%);
                 }
             }
+
             &.tales {
                 span.details {
                     background-color: @alex-orange;
@@ -1416,47 +1401,47 @@ a:hover {
             }
         }
 
-       
+
         div.author-box {
-            display:table;
-            width:95%;
-            margin:15px auto;
+            display: table;
+            width: 95%;
+            margin: 15px auto;
             padding: 10px;
-             border-bottom: .1px solid @tdwtf-grey;
+            border-bottom: .1px solid @tdwtf-grey;
 
             @media(max-width: 500px) {
-               margin:0;
-               border-bottom: 0
+                margin: 0;
+                border-bottom: 0;
             }
 
             h1.title {
                 border-bottom: .1px solid @tdwtf-grey;
-               @media(max-width: 500px) {
-      
-            }
+
+                @media(max-width: 500px) {
+                }
             }
 
             .author-image-container {
-                width:25%;
-                display:table-cell;
-                padding-right:2%;
-                vertical-align:middle;
-                    @media(max-width: 500px) {
-                display: none;
-            }
-                img{
-                width: 100%;
-                -webkit-clip-path: ellipse(48% 49% at 50% 50%);
-                clip-path: ellipse(48% 49% at 50% 50%);
-                border-radius: 50%;
-            
+                width: 25%;
+                display: table-cell;
+                padding-right: 2%;
+                vertical-align: middle;
+
+                @media(max-width: 500px) {
+                    display: none;
+                }
+
+                img {
+                    width: 100%;
+                    -webkit-clip-path: ellipse(48% 49% at 50% 50%);
+                    clip-path: ellipse(48% 49% at 50% 50%);
+                    border-radius: 50%;
                 }
             }
-            .author-details{
-                 display:table-cell;
-                 vertical-align:top;
 
-
+            .author-details {
+                display: table-cell;
+                vertical-align: top;
             }
 
             .credentials {
@@ -1682,6 +1667,16 @@ a:hover {
     .timestamp {
         float: right;
         font-size: 12px;
+
+      button {
+            font-family: "Open Sans", sans-serif;
+            padding: 5px;
+            border: 1px solid @tdwtf-dark-grey;
+            border-radius: 2px;
+            margin: 15px auto;
+            display: block;
+            cursor: pointer;
+        }
     }
 
     blockquote {
