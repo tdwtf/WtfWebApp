@@ -257,6 +257,7 @@
     <Content Include="Content\Images\banner300x75.png" />
     <Content Include="Content\Images\banner728.png" />
     <Content Include="Content\Images\banner970x90.jpg" />
+    <Content Include="Content\Images\chat.svg" />
     <Content Include="Content\Images\circled-arrow.svg" />
     <Content Include="Content\Images\comments-icon.svg" />
     <Content Include="Content\Images\contents-icon.svg" />
