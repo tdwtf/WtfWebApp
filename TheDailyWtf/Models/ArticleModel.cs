@@ -245,13 +245,7 @@ namespace TheDailyWtf.Models
 
             summary += (index == 0) ? articleText : articleText.Substring(0, index);
 
-            //Close Blockquotes
-            var quotMatches = Regexes.BlockQuoteStart.Matches(summary);
-            var quotClosMatches = Regexes.BlockQuoteEnd.Matches(summary);
-            for (int i = 0; i < quotMatches.Count - quotClosMatches.Count; i++)
-                summary += "</blockquote>";
-
-            return summary;
+            return HtmlCleaner.CloseTags(summary);
         }
 
         private static class Regexes
