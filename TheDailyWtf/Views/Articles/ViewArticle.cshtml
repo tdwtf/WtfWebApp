@@ -6,27 +6,27 @@
 
 <div class="content" id="article-page">
 
-    <div class="article-container @Model.Article.Series.CssClass">
+    <div itemscope itemtype="http://schema.org/Article" class="article-container @Model.Article.Series.CssClass">
 
-        <h2 class="title">@Model.Article.Title</h2>
-        <span class="details">by <a class="author" href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a>
-            in <a href="/series/@Model.Article.Series.Slug" class="source">@Model.Article.Series.Title</a>
-            on <span class="date">@Model.Article.DisplayDate</span>
+        <h2 itemprop="headline" class="title">@Model.Article.Title</h2>
+        <span class="details">by <a class="author" rel="author" href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a>
+            in <a itemprop="articleSection" href="/series/@Model.Article.Series.Slug" class="source">@Model.Article.Series.Title</a>
+            on <span itemprop="datePublished" content="@Model.Article.PublishedDate.Value.ToString("yyyy-MM-dd")" class="date">@Model.Article.DisplayDate</span>
             <a href="/admin/article/edit/@Model.Article.Id" rel="nofollow" class="hide admin-only">Edit</a>
         </span>
         <div class="banner-triangle"></div>
-        <div class="author-box">
-            <img src="@Model.Article.Author.ImageUrl" />
-            <a href="/authors/@Model.Article.Author.Slug" class="author-name">@Model.Article.Author.Name</a>
-            <p class="credentials">@Model.Article.Author.ShortDescription</p>
+        <div class="author-box" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <img itemprop="image" src="@Model.Article.Author.ImageUrl" />
+            <a itemprop="name" href="/authors/@Model.Article.Author.Slug" class="author-name">@Model.Article.Author.Name</a>
+            <p itemprop="description" class="credentials">@Model.Article.Author.ShortDescription</p>
         </div>
-        <div class="article-body">
+        <div itemprop="articleBody" class="article-body">
             @Html.Raw(Model.Article.BodyAndAdHtml)
         </div>
 
         <div class="article-footer">
             <div class="comment-container">
-                <a class="comments" href="@Model.Article.CommentsUrl">View all <span class="number-of-comments">@Model.Article.CachedCommentCount</span> comments &raquo;</a>
+                <a itemprop="discussionUrl" class="comments" href="@Model.Article.CommentsUrl">View all <span itemprop="commentCount" class="number-of-comments">@Model.Article.CachedCommentCount</span> comments &raquo;</a>
             </div>
 
             <ul class="sm-link-bar">
@@ -49,11 +49,11 @@
             <div class="prev-next-nav">
                 @if (Model.Article.NextArticleId != null)
                 {
-                    <a href="@Model.Article.NextArticleUrl" class="next-link"><span class="next-article">@Model.Article.NextArticleTitle</span> &raquo;</a>
+                    <a rel="next" href="@Model.Article.NextArticleUrl" class="next-link"><span class="next-article">@Model.Article.NextArticleTitle</span> &raquo;</a>
                 }
                 @if (Model.Article.PreviousArticleId != null)
                 {
-                    <a href="@Model.Article.PreviousArticleUrl" class="prev-link">&laquo; <span class="prev-article">@Model.Article.PreviousArticleTitle</span></a>
+                    <a rel="prev" href="@Model.Article.PreviousArticleUrl" class="prev-link">&laquo; <span class="prev-article">@Model.Article.PreviousArticleTitle</span></a>
                 }
             </div>
         </div>
