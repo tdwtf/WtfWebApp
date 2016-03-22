@@ -187,6 +187,18 @@ namespace TheDailyWtf.Models
 
         public static ArticleModel FromTable(Tables.Articles_Extended article)
         {
+            // add microdata to take advantage of Google's rich snippets for articles:
+            // https://developers.google.com/structured-data/rich-snippets/articles
+            if (article.Body_Html.Contains("<img ") && !article.Body_Html.Contains(" itemprop=\"image\" "))
+            {
+                // only modify the first image
+                int index = article.Body_Html.IndexOf("<img ") + "<img ".Length;
+                article.Body_Html = article.Body_Html.Substring(0, index) + "itemprop=\"image\" " + article.Body_Html.Substring(index);
+                // assume the body+ad contains the entire body
+                index = article.BodyAndAd_Html.IndexOf("<img ") + "<img ".Length;
+                article.BodyAndAd_Html = article.BodyAndAd_Html.Substring(0, index) + "itemprop=\"image\" " + article.BodyAndAd_Html.Substring(index);
+            }
+
             return new ArticleModel()
             {
                 Id = article.Article_Id,

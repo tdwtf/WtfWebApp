@@ -14,7 +14,7 @@
 <ul class="comments">
     @foreach (var comment in Model.Comments)
     {
-        <li class="comment" id="comment-@comment.Id">
+        <li itemprop="comment" itemscope itemtype="http://schema.org/Comment" class="comment" id="comment-@comment.Id">
             <span class="poster">@comment.Username</span> @if (comment.Anonymous) { <span class="poster-anon">(unregistered)</span> } else { <span class="poster-token poster-token-@comment.TokenType">(@comment.TokenType)</span> }
             @if (Model.CanEditDelete)
             {
@@ -34,8 +34,8 @@
                     <a href="@string.Format("{0}/{1}#comment-{2}", Model.BaseUrl, index / ViewCommentsViewModel.CommentsPerPage + 1, comment.ParentCommentId)" class="reply-to clean">in reply to @repliedToUser</a>
                 }
             }
-            <span class="timestamp">
-                <a href="#comment-@comment.Id">@comment.PublishedDate</a>
+            <span class="timestamp" itemprop="datePublished" contenteditable="@comment.PublishedDate.ToString("o")">
+                <a itemprop="url" href="#comment-@comment.Id">@comment.PublishedDate</a>
                 @if (Model.CanFeature)
                 {
                     <br />
@@ -70,7 +70,7 @@
                     <a href="/admin/article/comments/@Model.Article.Id#comment-@comment.Id" rel="nofollow" class="hide admin-only">Admin</a>
                 }
             </span>
-            <div>
+            <div itemprop="text">
                 @Html.Raw(comment.BodyHtml)
             </div>
         </li>

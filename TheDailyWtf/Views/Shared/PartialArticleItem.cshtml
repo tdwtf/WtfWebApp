@@ -1,25 +1,27 @@
 @model ArticleItemViewModel
 
 
-<div class="article @Model.Article.Series.CssClass">
+<div itemscope itemtype="http://schema.org/Article" class="article @Model.Article.Series.CssClass">
    
         <div class="article-content">
-            <a href="@Model.Article.Url" class="link-overlay"> </a>
-            <h2 class="title">@Model.Article.Title</h2>
+            <a itemprop="url" href="@Model.Article.Url" class="link-overlay"> </a>
+            <h2 itemprop="headline" class="title">@Model.Article.Title</h2>
             <span class="details">
-                by <span class="author">@Model.Article.Author.Name</span>
-                in <span class="source">@Model.Article.Series.Title</span>
-                on <span class="date">@Model.Article.DisplayDate</span>
+                by <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="author" itemprop="name">@Model.Article.Author.Name</span></span>
+                in <span itemprop="articleSection" class="source">@Model.Article.Series.Title</span>
+                on <span itemprop="datePublished" content="@Model.Article.PublishedDate.Value.ToString("yyyy-MM-dd")" class="date">@Model.Article.DisplayDate</span>
             </span>
 
-            @Html.Raw(Model.Article.SummaryHtml)
+            <div itemprop="articleBody">
+                @Html.Raw(Model.Article.SummaryHtml)
+            </div>
         </div>
    
     <hr />
 
     <div class="article-footer">
         <div class="comment-container">
-           <span class="comments"><a href="@Model.Article.CommentsUrl"><b><span class="number-of-comments">@Model.Article.CachedCommentCount</span> comments</b></a> - Last comment @@ <span class="last-comment-time">@Model.Article.LastCommentDateDescription</span></span>
+           <span class="comments"><a itemprop="discussionUrl" href="@Model.Article.CommentsUrl"><b><span itemprop="commentCount" class="number-of-comments">@Model.Article.CachedCommentCount</span> comments</b></a> - Last comment @@ <span class="last-comment-time">@Model.Article.LastCommentDateDescription</span></span>
         </div>
 
         <ul class="sm-link-bar">
