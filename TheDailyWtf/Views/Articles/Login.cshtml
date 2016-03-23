@@ -4,30 +4,27 @@
 
 <div class="content-container" id="loginPage">
     <div class="content" id="contact">
-    
-            <form method="post">
-                @Html.ValidationSummary()
-                @Html.AntiForgeryToken()
-              <h2>Log in with your forum account</h2>
-            
-                <div class="field">
-                    <label for="login-name">Username or email address:</label>
-                    <input id="login-name" name="username" type="text" class="input" placeholder="Username or email address" required tabindex="1" />
-                
-                </div>
+        <form method="post">
+            @Html.ValidationSummary()
+            @Html.AntiForgeryToken()
+            <h2>Log in with your forum account</h2>
 
-                <div class="field">
-                    <label for="login-password">Password:</label>
-                    <input id="login-password" name="password" type="password" class="input" placeholder="Password" required tabindex="1" />
-                </div>
+            <div class="field">
+                <label for="login-name">NodeBB username:</label>
+                <input id="login-name" name="username" type="text" class="input" placeholder="NodeBB username" required tabindex="1" />
 
-         
-                    <input class="input submit-button" type="submit" tabindex="3" value="Log In" />
-                 <p id="alternate-login"> or Log in with <a href="@Html.OAuth2Url(OAuth2.Google)">Google</a>, <a href="@Html.OAuth2Url(OAuth2.GitHub)">GitHub</a>, or <a href="@Html.OAuth2Url(OAuth2.Facebook)">Facebook</a></p>
+            </div>
 
+            <div class="field">
+                <label for="login-password">NodeBB password:</label>
+                <input id="login-password" name="password" type="password" class="input" placeholder="NodeBB password" required tabindex="2" />
+            </div>
 
-            </form>
-        </div>
+            <input class="input submit-button" type="submit" tabindex="3" value="Log In" />
+
+            <p id="alternate-login">or Log in with <a href="@Html.OAuth2Url(OAuth2.Google)">Google</a>, <a href="@Html.OAuth2Url(OAuth2.GitHub)">GitHub</a>, or <a href="@Html.OAuth2Url(OAuth2.Facebook)">Facebook</a></p>
+        </form>
     </div>
+</div>
 
 
