@@ -30,33 +30,38 @@ namespace TheDailyWtf
         private static HashSet<string> allowedElements = new HashSet<string>()
         {
             "a", "img", "video", "audio",
-		    "b", "i", "u", "s",
-		    "em", "strong", "strike",
-		    "big", "small", "sup", "sub",
-		    "ins", "del",
-		    "abbr", "address", "cite", "q",
-		    "p", "blockquote",
-		    "pre", "code", "kbd", "tt",
-		    "details", "summary",
-		    "h1", "h2", "h3", "h4", "h5", "h6",
+            "b", "i", "u", "s",
+            "em", "strong", "strike",
+            "big", "small", "sup", "sub",
+            "ins", "del",
+            "abbr", "address", "cite", "q",
+            "p", "blockquote",
+            "pre", "code", "kbd", "tt",
+            "details", "summary",
+            "h1", "h2", "h3", "h4", "h5", "h6",
             "ul", "ol", "li",
-		    "hr", "br",
-		    "div", "table",
-		    "thead", "tbody", "tfoot",
-		    "tr", "th", "td",
+            "hr", "br",
+            "div", "table",
+            "thead", "tbody", "tfoot",
+            "tr", "th", "td",
             "caption"
         };
+
+        private static HtmlTextNode HtmlRealEscapeString(this HtmlDocument doc, string text)
+        {
+            return doc.CreateTextNode(text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;"));
+        }
 
         private static HtmlNode CleanNode(HtmlNode node, int maxDepth)
         {
             if (maxDepth == 0)
             {
-                return node.OwnerDocument.CreateTextNode("[omitted]");
+                return node.OwnerDocument.HtmlRealEscapeString("[omitted]");
             }
 
             if (node.NodeType == HtmlNodeType.Comment)
             {
-                return node.OwnerDocument.CreateTextNode(node.OuterHtml);
+                return node.OwnerDocument.HtmlRealEscapeString(node.OuterHtml);
             }
 
             if (node.NodeType == HtmlNodeType.Text)
@@ -66,7 +71,7 @@ namespace TheDailyWtf
 
             if (!allowedElements.Contains(node.Name.ToLowerInvariant()))
             {
-                return node.OwnerDocument.CreateTextNode(node.OuterHtml);
+                return node.OwnerDocument.HtmlRealEscapeString(node.OuterHtml);
             }
 
             var toRemove = new List<HtmlAttribute>();
