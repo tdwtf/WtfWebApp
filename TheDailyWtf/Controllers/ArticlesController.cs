@@ -98,6 +98,7 @@ namespace TheDailyWtf.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult Login(string username, string password)
         {
             using (var client = new HttpClient())
