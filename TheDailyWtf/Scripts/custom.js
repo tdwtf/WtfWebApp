@@ -50,6 +50,14 @@ $(document).ready(function () {
                 }
             });
         }
+        $(".comment-reply-link").click(function () {
+            var id = $(this).attr("data-reply-to");
+            $("#comment-parent").val(id);
+            $("#comment-parent-text").show();
+            $("#comment-parent-display").text(id).attr("href", "#comment-" + id);
+            $("html,body").animate({ scrollTop: $("#comment-form").offset().top });
+            return false;
+        });
     }
 
     var lastCommentDelete = null;

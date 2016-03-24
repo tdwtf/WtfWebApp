@@ -47,11 +47,16 @@ namespace TheDailyWtf.Controllers
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed1Minute)]
-        public ActionResult ViewArticleComments(string articleSlug, int page)
+        public ActionResult ViewArticleComments(string articleSlug, int page, int? parent)
         {
             var article = ArticleModel.GetArticleBySlug(articleSlug);
             if (article == null)
                 return HttpNotFound();
+
+            if (parent.HasValue)
+            {
+                return View(new ViewCommentsViewModel(article, page) { Comment = new CommentFormModel() { Parent = parent } });
+            }
 
             return View(new ViewCommentsViewModel(article, page));
         }

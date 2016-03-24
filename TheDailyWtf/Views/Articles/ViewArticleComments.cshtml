@@ -25,12 +25,17 @@
 
                 <h3>Leave a comment on &ldquo;@Model.Article.Title&rdquo;</h3>
 
+                <p class="comment-anonymous-only"><a id="log-in-button" href="/login">Log In</a> or post as a guest</p>
+
                 <input id="comment-parent" name="parent" type="hidden" value="@Model.Comment.Parent" />
+                <p id="comment-parent-text" class="@(Model.Comment.Parent.HasValue ? "" : "hide")">Replying to comment #<a id="comment-parent-display" href="#comment-@Model.Comment.Parent">@Model.Comment.Parent</a>:</p>
+                @if (Model.Comment.Parent.HasValue) // don't index ?parent= pages
+                {
+                    <meta name="robots" content="noindex" />
+                }
 
                 <div class="field">
-                    <p class="comment-anonymous-only"><a id="log-in-button" href="/login">Log In</a> or post as a guest</p>
                     <input id="comment-name" name="name" type="text" class="input" placeholder="Your Name" required tabindex="1" value="@Model.Comment.Name" />
-                  
                 </div>
 
                 <div class="field">

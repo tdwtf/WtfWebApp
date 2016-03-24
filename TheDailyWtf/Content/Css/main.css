@@ -1586,13 +1586,13 @@ a:hover {
   float: right;
   font-size: 12px;
 }
-.comment .timestamp button {
+.comment .timestamp .comment-reply-link {
   font-family: "Open Sans", sans-serif;
   padding: 5px;
   border: 1px solid #2c2c2c;
   border-radius: 2px;
   margin: 15px auto;
-  display: block;
+  display: inline-block;
   cursor: pointer;
 }
 .comment blockquote {
