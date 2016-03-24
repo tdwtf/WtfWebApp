@@ -1,4 +1,5 @@
-﻿@{
+﻿@model CommentsLoginViewModel
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -7,22 +8,31 @@
         <form method="post">
             @Html.ValidationSummary()
             @Html.AntiForgeryToken()
-            <h2>Log in with your forum account</h2>
 
-            <div class="field">
-                <label for="login-name">NodeBB username:</label>
-                <input id="login-name" name="username" type="text" class="input" placeholder="NodeBB username" required tabindex="1" />
+            @if (Model.UserToken == null)
+            {
+                <h2>Log in with your forum account</h2>
 
-            </div>
+                <div class="field">
+                    <label for="login-name">NodeBB username:</label>
+                    <input id="login-name" name="username" type="text" class="input" placeholder="NodeBB username" required tabindex="1" />
+                </div>
 
-            <div class="field">
-                <label for="login-password">NodeBB password:</label>
-                <input id="login-password" name="password" type="password" class="input" placeholder="NodeBB password" required tabindex="2" />
-            </div>
+                <div class="field">
+                    <label for="login-password">NodeBB password:</label>
+                    <input id="login-password" name="password" type="password" class="input" placeholder="NodeBB password" required tabindex="2" />
+                </div>
 
-            <input class="input submit-button" type="submit" tabindex="3" value="Log In" />
+                <input class="input submit-button" type="submit" tabindex="3" value="Log In" />
 
-            <p id="alternate-login">or Log in with <a href="@Html.OAuth2Url(OAuth2.Google)">Google</a>, <a href="@Html.OAuth2Url(OAuth2.GitHub)">GitHub</a>, or <a href="@Html.OAuth2Url(OAuth2.Facebook)">Facebook</a></p>
+                <p id="alternate-login">or Log in with <a href="@Html.OAuth2Url(OAuth2.Google)">Google</a>, <a href="@Html.OAuth2Url(OAuth2.GitHub)">GitHub</a>, or <a href="@Html.OAuth2Url(OAuth2.Facebook)">Facebook</a></p>
+            }
+            else
+            {
+                <h2>Logged in as @Model.UserName (@Model.TokenType)</h2>
+
+                <input class="input submit-button" type="submit" tabindex="1" value="Log Out" />
+            }
         </form>
     </div>
 </div>

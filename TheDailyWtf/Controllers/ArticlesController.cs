@@ -63,7 +63,19 @@ namespace TheDailyWtf.Controllers
 
         public ActionResult Login()
         {
-            return View(new CommentsLoginViewModel());
+            string name = null;
+            string token = null;
+            var cookie = Request.Cookies["tdwtf_token"];
+            if (cookie != null)
+            {
+                var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                if (!ticket.Expired)
+                {
+                    name = ticket.Name;
+                    token = ticket.UserData;
+                }
+            }
+            return View(new CommentsLoginViewModel(name, token));
         }
 
         class LoginError
@@ -106,6 +118,24 @@ namespace TheDailyWtf.Controllers
         [ValidateInput(false)]
         public ActionResult Login(string username, string password)
         {
+            if (username == null && password == null && Request.Cookies["tdwtf_token"] != null)
+            {
+                var expiration = DateTime.Today.AddDays(-1);
+                Response.SetCookie(new HttpCookie("tdwtf_token", "")
+                {
+                    HttpOnly = true,
+                    Expires = expiration,
+                    Path = FormsAuthentication.FormsCookiePath,
+                });
+                Response.SetCookie(new HttpCookie("tdwtf_token_name", "")
+                {
+                    HttpOnly = false,
+                    Expires = expiration,
+                    Path = FormsAuthentication.FormsCookiePath,
+                });
+                return Redirect("/login");
+            }
+
             using (var client = new HttpClient())
             {
                 using (var response = client.PostAsync("https://" + Config.NodeBB.Host + "/api/ns/login", new FormUrlEncodedContent(
@@ -115,7 +145,7 @@ namespace TheDailyWtf.Controllers
                     {
                         var err = JsonConvert.DeserializeObject<LoginError>(response.Content.ReadAsStringAsync().Result);
                         ModelState.AddModelError(string.Empty, err.Message);
-                        return View(new CommentsLoginViewModel());
+                        return View(new CommentsLoginViewModel(null, null));
                     }
                     response.EnsureSuccessStatusCode();
                     var user = JsonConvert.DeserializeObject<LoginSuccess>(response.Content.ReadAsStringAsync().Result);
