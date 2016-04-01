@@ -276,6 +276,12 @@ namespace TheDailyWtf
                 defaults: new { controller = "Authors", action = "ViewAuthor" }
             );
 
+            routes.MapRoute(
+                name: "ViewAuthorByMonth",
+                url: "authors/{year}/{month}/{authorSlug}",
+                defaults: new { controller = "Authors", action = "ViewAuthorByMonth" }
+            );
+
             // API Routes
 
             routes.MapRoute(

@@ -1,0 +1,41 @@
+﻿@model ViewAuthorViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content" id="listing">
+
+    <div class="author-box">
+        <div class="author-image-container">
+            <img src="@Model.Author.ImageUrl" />
+        </div>
+        <div class="author-details">
+            <h1 class="title">@Model.Author.Name</h1>
+
+            <p class="credentials">@Model.Author.ShortDescription</p>
+        </div>
+    </div>
+
+    <div class="series-nav">
+        <div class="prev">
+            <a href="@Model.PreviousMonthUrl"><img src="~/Content/Images/circled-arrow.svg" />@Model.ReferenceDate.PreviousMonthAndYear</a>
+        </div>
+        <div class="next">
+            <a href="@Model.NextMonthUrl" class="@Model.ReferenceDate.NextMonthCssClass">@Model.ReferenceDate.NextMonthAndYear<img src="~/Content/Images/circled-arrow.svg" /></a>
+        </div>
+        <span>@Model.ReferenceDate.CurrentMonthAndYear</span>
+    </div>
+
+    <div id="article-feed">
+        @foreach (var article in Model.Articles)
+        {
+            @Html.Partial(Views.Shared.PartialArticleItem, article)
+        }
+
+        @if (!Model.Articles.Any())
+        {
+            <p>There are no articles to display.</p>
+        }
+    </div>
+</div>

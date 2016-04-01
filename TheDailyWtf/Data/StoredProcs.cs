@@ -257,12 +257,13 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Articles_GetArticles : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Articles_GetArticles(string Series_Slug, string PublishedStatus_Name, DateTime? RangeStart_Date, DateTime? RangeEnd_Date)
+		public Articles_GetArticles(string Series_Slug, string PublishedStatus_Name, DateTime? RangeStart_Date, DateTime? RangeEnd_Date, string Author_Slug)
 		{
 			AddParam("@Series_Slug", DbType.String, 255, ParameterDirection.Input, Series_Slug);
 			AddParam("@PublishedStatus_Name", DbType.AnsiString, 15, ParameterDirection.Input, PublishedStatus_Name);
 			AddParam("@RangeStart_Date", DbType.DateTime, 0, ParameterDirection.Input, RangeStart_Date);
 			AddParam("@RangeEnd_Date", DbType.DateTime, 0, ParameterDirection.Input, RangeEnd_Date);
+			AddParam("@Author_Slug", DbType.String, 255, ParameterDirection.Input, Author_Slug);
 		}
 		public IEnumerable<Tables.Articles_Extended> Execute()
 		{
@@ -660,9 +661,9 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Articles_GetArticleBySlug(Article_Slug);
 		}
 
-		public static StoredProcedures.Articles_GetArticles Articles_GetArticles(string Series_Slug, string PublishedStatus_Name, DateTime? RangeStart_Date, DateTime? RangeEnd_Date)
+		public static StoredProcedures.Articles_GetArticles Articles_GetArticles(string Series_Slug, string PublishedStatus_Name, DateTime? RangeStart_Date, DateTime? RangeEnd_Date, string Author_Slug = null)
 		{
-			return new StoredProcedures.Articles_GetArticles(Series_Slug, PublishedStatus_Name, RangeStart_Date, RangeEnd_Date);
+			return new StoredProcedures.Articles_GetArticles(Series_Slug, PublishedStatus_Name, RangeStart_Date, RangeEnd_Date, Author_Slug);
 		}
 
 		public static StoredProcedures.Articles_GetFeaturedComments Articles_GetFeaturedComments(int? Article_Id)
@@ -720,7 +721,7 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Authors_ValidateLogin(Author_Slug, Password_Text, Valid_Indicator);
 		}
 
-		public static StoredProcedures.Comments_CreateOrUpdateComment Comments_CreateOrUpdateComment(int? Comment_Id, int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id)
+		public static StoredProcedures.Comments_CreateOrUpdateComment Comments_CreateOrUpdateComment(int? Comment_Id, int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id = null)
 		{
 			return new StoredProcedures.Comments_CreateOrUpdateComment(Comment_Id, Article_Id, Body_Html, User_Name, Posted_Date, User_IP, User_Token, Parent_Comment_Id);
 		}

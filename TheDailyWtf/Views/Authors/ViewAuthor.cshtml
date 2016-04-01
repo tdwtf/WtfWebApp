@@ -24,7 +24,11 @@
             @Html.Partial(Views.Shared.PartialArticleItem, article)
         }
 
-        @if (!Model.Articles.Any())
+        @if (Model.Articles.Any())
+        {
+            <p><a href="@Model.ArchivesUrl" class="archives-link">Archives</a></p>
+        }
+        else
         {
             <p>There are no articles to display.</p>
         }

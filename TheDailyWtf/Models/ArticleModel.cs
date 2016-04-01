@@ -98,22 +98,33 @@ namespace TheDailyWtf.Models
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
+        private static IEnumerable<ArticleModel> GetArticlesByMonth(DateTime month, string series = null, string author = null)
+        {
+            var monthStart = new DateTime(month.Year, month.Month, 1);
+            var articles = StoredProcs.Articles_GetArticles(
+                Series_Slug: series,
+                PublishedStatus_Name: Domains.PublishedStatus.Published,
+                RangeStart_Date: monthStart,
+                RangeEnd_Date: monthStart.AddMonths(1).AddSeconds(-1.0),
+                Author_Slug: author
+              ).Execute();
+
+            return articles.Select(a => ArticleModel.FromTable(a));
+        }
+
         public static IEnumerable<ArticleModel> GetAllArticlesByMonth(DateTime month)
         {
-            return GetSeriesArticlesByMonth(null, month);
+            return GetArticlesByMonth(month);
         }
 
         public static IEnumerable<ArticleModel> GetSeriesArticlesByMonth(string series, DateTime month)
         {
-            var monthStart = new DateTime(month.Year, month.Month, 1);
-            var articles = StoredProcs.Articles_GetArticles(
-                series, 
-                Domains.PublishedStatus.Published, 
-                monthStart, 
-                monthStart.AddMonths(1).AddSeconds(-1.0)
-              ).Execute();
+            return GetArticlesByMonth(month, series: series);
+        }
 
-            return articles.Select(a => ArticleModel.FromTable(a));
+        public static IEnumerable<ArticleModel> GetAuthorArticlesByMonth(string author, DateTime month)
+        {
+            return GetArticlesByMonth(month, author: author);
         }
 
         public static IEnumerable<ArticleModel> GetRecentArticles()

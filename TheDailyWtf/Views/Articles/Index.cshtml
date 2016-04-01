@@ -13,11 +13,10 @@
             <div class="prev">
                 <a href="@Model.PreviousMonthUrl"><img src="~/Content/Images/circled-arrow.svg" />@Model.ReferenceDate.PreviousMonthAndYear</a>
             </div>
-    <div class="next">
-        <a href="@Model.NextMonthUrl" class="@Model.ReferenceDate.NextMonthCssClass">@Model.ReferenceDate.NextMonthAndYear<img src="~/Content/Images/circled-arrow.svg" /></a>
-    </div>
+            <div class="next">
+                <a href="@Model.NextMonthUrl" class="@Model.ReferenceDate.NextMonthCssClass">@Model.ReferenceDate.NextMonthAndYear<img src="~/Content/Images/circled-arrow.svg" /></a>
+            </div>
             <span>@Model.ReferenceDate.CurrentMonthAndYear</span>
-         
         }
     </div>
 

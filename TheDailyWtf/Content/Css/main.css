@@ -1668,3 +1668,12 @@ button {
 .validation-summary-errors ul {
   margin-bottom: 0;
 }
+.archives-link {
+  font-size: 1.2em;
+  display: block;
+  text-align: center;
+  margin-top: 1em;
+  padding: 1em;
+  background-color: #fff;
+  box-shadow: 0 8px 6px -6px #808080;
+}

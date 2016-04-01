@@ -18,7 +18,7 @@ namespace TheDailyWtf.ViewModels
         public DateInfo ReferenceDate { get; set; }
         public SeriesModel Series { get; set; }
         public string SeriesDescription { get { return this.Series != null ? this.Series.Description : ""; } }
-        public bool PaginateArticleListByMonth { get { return this.Series == null || paginatedSeries.Contains(this.Series.Slug); } }
+        public bool PaginateArticleListByMonth { get { return true; /* BenLubar(2016-04-01) - do we still need this? It was causing less populated categories to only ever show the last 8 articles. */ } }
         public string ListHeading 
         { 
             get 

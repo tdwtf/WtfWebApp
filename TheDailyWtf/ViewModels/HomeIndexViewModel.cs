@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TheDailyWtf.Models;
@@ -20,6 +21,15 @@ namespace TheDailyWtf.ViewModels
         public IEnumerable<DimensionRoot> AllAdDimensions
         {
             get { return AdRotator.DimensionRoots; }
+        }
+
+        public string ArchivesUrl
+        {
+            get
+            {
+                var date = DateTime.Today;
+                return string.Format("/articles/{0}/{1}", date.Year, date.Month);
+            }
         }
     }
 }
