@@ -809,9 +809,15 @@ a:hover {
 #wrapper .content-container#navigation .content #mini-navigation article ul li.soapbox:hover {
   background-color: #95397a;
 }
+#wrapper .content-container#navigation .content #mini-navigation article ul li.random {
+  border-top: 5px solid #808080;
+}
+#wrapper .content-container#navigation .content #mini-navigation article ul li.random:hover {
+  background-color: #808080;
+}
 #wrapper .content-container#navigation .content #mini-navigation input:checked ~ article {
   transition: height 0.5s ease-in-out;
-  height: 325px;
+  height: 390px;
 }
 @media (max-width: 767px) {
   #wrapper .content-container#navigation .content #mini-navigation {
@@ -1674,6 +1680,6 @@ button {
   text-align: center;
   margin-top: 1em;
   padding: 1em;
-  background-color: #fff;
+  background-color: #ffffff;
   box-shadow: 0 8px 6px -6px #808080;
 }

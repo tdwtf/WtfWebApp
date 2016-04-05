@@ -726,6 +726,14 @@ a:hover {
                             &.soapbox:hover {
                                 background-color: @tdwtf-purple;
                             }
+                            
+                            &.random {
+                                border-top: 5px solid @tdwtf-grey;
+                            }
+
+                            &.random:hover {
+                                background-color: @tdwtf-grey;
+                            }
                         }
                     }
                 }
@@ -733,7 +741,7 @@ a:hover {
 
                 input:checked ~ article {
                     transition: height 0.5s ease-in-out;
-                    height: 325px;
+                    height: 390px;
                 }
 
                 @media (max-width:767px) {
