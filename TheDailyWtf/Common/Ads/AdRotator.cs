@@ -81,11 +81,7 @@ namespace TheDailyWtf
 
         public static string GetRedirectUrlFromOriginalUrl(string originalUrl)
         {
-            if (adRedirects == null)
-                return "/fbuster";
-            else
-                return "/fbuster/" + adRedirects.GuidsByOriginalUrl.GetValueOrDefault(originalUrl);
-
+            return "/fbuster/" + adRedirects.GuidsByOriginalUrl.GetValueOrDefault(originalUrl);
         }
 
         private static int GetRandomIndex(int length) 
