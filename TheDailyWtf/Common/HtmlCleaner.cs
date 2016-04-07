@@ -71,7 +71,21 @@ namespace TheDailyWtf
 
             if (!allowedElements.Contains(node.Name.ToLowerInvariant()))
             {
-                return node.OwnerDocument.HtmlRealEscapeString(node.OuterHtml);
+                string html;
+                try
+                {
+                    html = node.OuterHtml;
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    // "Use HtmlAgilityPack", they said. "It's the best HTML parser around", they said.
+                    if (ex.ParamName != "length" || ex.TargetSite.Name != "Substring")
+                    {
+                        throw;
+                    }
+                    html = "<" + node.OriginalName + ">";
+                }
+                return node.OwnerDocument.HtmlRealEscapeString(html);
             }
 
             var toRemove = new List<HtmlAttribute>();
