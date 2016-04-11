@@ -1683,3 +1683,8 @@ button {
   background-color: #ffffff;
   box-shadow: 0 8px 6px -6px #808080;
 }
+pre > code {
+  padding: 0.5em;
+  display: block;
+  overflow-x: scroll;
+}
