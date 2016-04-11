@@ -11,7 +11,7 @@
         <h2 itemprop="headline" class="title">@Model.Article.Title</h2>
         <span class="details">by <a class="author" rel="author" href="/authors/@Model.Article.Author.Slug">@Model.Article.Author.Name</a>
             in <a itemprop="articleSection" href="/series/@Model.Article.Series.Slug" class="source">@Model.Article.Series.Title</a>
-            on <span itemprop="datePublished" content="@Model.Article.PublishedDate.Value.ToString("yyyy-MM-dd")" class="date">@Model.Article.DisplayDate</span>
+            on <span itemprop="datePublished" content="@Model.Article.ISODate" class="date">@Model.Article.DisplayDate</span>
             <a href="/admin/article/edit/@Model.Article.Id" rel="nofollow" class="hide admin-only">Edit</a>
         </span>
         <div class="banner-triangle"></div>
