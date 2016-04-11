@@ -35,7 +35,7 @@
                 }
             }
             <span class="timestamp" itemprop="datePublished" contenteditable="@comment.PublishedDate.ToString("o")">
-                <a itemprop="url" href="#comment-@comment.Id">@comment.PublishedDate</a>
+                <a itemprop="url" href="#comment-@comment.Id">@comment.PublishedDate.ToString("yyyy-MM-dd")</a>
                 @if (Model.CanFeature)
                 {
                     <br />
