@@ -329,6 +329,18 @@ namespace TheDailyWtf.Controllers
             return RedirectToActionPermanent("ViewArticle", new { articleSlug = article.Slug });
         }
 
+        public ActionResult ViewLegacyAttachment(int? postId)
+        {
+            if (postId == null)
+                return HttpNotFound();
+
+            var article = ArticleModel.GetArticleByLegacyPost((int)postId);
+            if (article == null)
+                return RedirectPermanent(string.Format("https://{0}/forums/{1}/PostAttachment.aspx", Config.NodeBB.Host, postId));
+
+            return RedirectToActionPermanent("ViewArticle", new { articleSlug = article.Slug });
+        }
+
         public ActionResult ViewLegacyArticleComments(string articleSlug)
         {
             return RedirectToActionPermanent("ViewArticleComments", new { articleSlug });

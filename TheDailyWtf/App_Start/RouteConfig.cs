@@ -473,7 +473,7 @@ namespace TheDailyWtf
                 name: "LegacyForumPost12",
                 url: "forums/{postId}/PostAttachment.aspx",
                 constraints: new { postId = @"\d+" },
-                defaults: new { controller = "Articles", action = "ViewLegacyPost" }
+                defaults: new { controller = "Articles", action = "ViewLegacyAttachment" }
             );
         }
     }
