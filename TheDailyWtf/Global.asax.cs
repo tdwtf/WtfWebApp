@@ -42,6 +42,22 @@ namespace TheDailyWtf
             AdRotator.Initialize(Config.Wtf.AdsBaseDirectory);
         }
 
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            if (Request.Cookies.Get("IS_ADMIN") != null)
+            {
+                var err = Server.GetLastError();
+
+                Response.Clear();
+
+                Response.Headers.Set("Content-Type", "text/plain; charset=utf-8");
+                Response.Write("Because you are logged in to the admin panel, you are seeing this stack trace:\n\n");
+                Response.Write(err.ToString());
+
+                Server.ClearError();
+            }
+        }
+
         private void SetCustomDateFormat()
         {
             var culture = new CultureInfo("en-US");
