@@ -72,6 +72,7 @@ namespace ImportDiscourseComments
 
                         var postNumberToCommentId = new Dictionary<int, int>();
 
+                        int count = 0;
                         int page = 1;
                         string url = string.Format("{0}/t/{1}.json?include_raw=1", baseUrl, discourseTopicId);
                         while (url != null)
@@ -91,6 +92,7 @@ namespace ImportDiscourseComments
                             }
                             foreach (var post in topic.PostStream.Posts)
                             {
+                                count++;
                                 if (post.UserName == ConfigurationManager.AppSettings["Discourse.Username"])
                                 {
                                     continue;
@@ -120,7 +122,7 @@ namespace ImportDiscourseComments
                             }
 
                             page++;
-                            if (page * topic.ChunkSize <= topic.PostsCount)
+                            if (count <= topic.PostsCount)
                                 url = string.Format("{0}/t/{1}.json?include_raw=1&page={2}", baseUrl, discourseTopicId, page);
                             else
                                 url = null;
