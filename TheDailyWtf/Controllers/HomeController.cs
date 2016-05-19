@@ -20,6 +20,8 @@ namespace TheDailyWtf.Controllers
             return View(new HomeIndexViewModel());
         }
 
+        // TODO: this is just the front page
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult Search()
         {
             return View(new HomeIndexViewModel());

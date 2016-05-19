@@ -9,11 +9,13 @@ namespace TheDailyWtf.Controllers
 {
     public class ApiController : WtfControllerBase
     {
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public void ViewApiDocumentation()
         {
             Response.Redirect("https://github.com/tdwtf/WtfWebApp/blob/master/Docs/API.md");
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewArticleById(int id, bool onlyBodyAndAdHtml = false)
         {
             var article = ArticleModel.GetArticleById(id);
@@ -25,6 +27,7 @@ namespace TheDailyWtf.Controllers
             return FormatOutput(article, onlyBodyAndAdHtml);
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewArticleBySlug(string articleSlug, bool onlyBodyAndAdHtml = false)
         {
             var article = ArticleModel.GetArticleBySlug(articleSlug);
@@ -47,6 +50,7 @@ namespace TheDailyWtf.Controllers
             return FormatOutput(article, false);
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewArticlesByDate(int year, int month)
         {
             DateTime date;
@@ -67,6 +71,7 @@ namespace TheDailyWtf.Controllers
             return FormatOutput(articles);
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewRecentArticlesByCount(int count = 8)
         {
             if (count > 100)
@@ -83,6 +88,7 @@ namespace TheDailyWtf.Controllers
             return FormatOutput(articles);
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewRecentArticlesBySeriesAndCount(string slug, int count = 8)
         {
             if (count > 100)
@@ -99,6 +105,7 @@ namespace TheDailyWtf.Controllers
             return FormatOutput(articles);
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewArticlesBySeriesAndDate(string slug, int year, int month)
         {
             DateTime date;
@@ -119,6 +126,7 @@ namespace TheDailyWtf.Controllers
             return FormatOutput(articles);
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewSeries()
         {
             var series = SeriesModel.GetAllSeries();
@@ -129,6 +137,7 @@ namespace TheDailyWtf.Controllers
             return FormatOutput(series);
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewRecentArticlesByAuthorAndCount(string slug, int count = 8)
         {
             if (count > 100)

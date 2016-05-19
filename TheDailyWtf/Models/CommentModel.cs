@@ -32,28 +32,28 @@ namespace TheDailyWtf.Models
         public string UserToken;
         public string TokenType { get { return UserToken.Split(':')[0]; } }
 
-        public static IEnumerable<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
+        public static IList<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
         {
             var comments = StoredProcs.Articles_GetFeaturedComments(article.Id).Execute();
-            return comments.Select(c => FromTable(c));
+            return comments.Select(c => FromTable(c)).ToList();
         }
 
-        public static IEnumerable<CommentModel> FromArticle(ArticleModel article)
+        public static IList<CommentModel> FromArticle(ArticleModel article)
         {
             var comments = StoredProcs.Comments_GetComments(article.Id).Execute();
-            return comments.Select(c => FromTable(c));
+            return comments.Select(c => FromTable(c)).ToList();
         }
 
-        public static IEnumerable<CommentModel> GetCommentsByIP(string ip)
+        public static IList<CommentModel> GetCommentsByIP(string ip)
         {
             var comments = StoredProcs.Comments_GetCommentsByIP(ip).Execute();
-            return comments.Select(c => FromTable(c));
+            return comments.Select(c => FromTable(c)).ToList();
         }
 
-        public static IEnumerable<CommentModel> GetCommentsByToken(string token)
+        public static IList<CommentModel> GetCommentsByToken(string token)
         {
             var comments = StoredProcs.Comments_GetCommentsByToken(token).Execute();
-            return comments.Select(c => FromTable(c));
+            return comments.Select(c => FromTable(c)).ToList();
         }
 
         private static CommentModel FromTable(Tables.Comments comment)

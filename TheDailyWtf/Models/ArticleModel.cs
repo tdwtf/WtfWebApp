@@ -158,7 +158,7 @@ namespace TheDailyWtf.Models
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
-        public IEnumerable<CommentModel> GetFeaturedComments()
+        public IList<CommentModel> GetFeaturedComments()
         {
             return CommentModel.GetFeaturedCommentsForArticle(this);
         }

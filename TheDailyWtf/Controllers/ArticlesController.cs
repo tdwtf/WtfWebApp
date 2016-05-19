@@ -27,6 +27,7 @@ namespace TheDailyWtf.Controllers
             return View(new ArticlesIndexViewModel());
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewArticleById(int id)
         {
             var article = ArticleModel.GetArticleById(id);
@@ -317,6 +318,7 @@ namespace TheDailyWtf.Controllers
             return RedirectToActionPermanent("ViewArticle", new { articleSlug });
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewLegacyPost(int? postId)
         {
             if (postId == null)
@@ -329,6 +331,7 @@ namespace TheDailyWtf.Controllers
             return RedirectToActionPermanent("ViewArticle", new { articleSlug = article.Slug });
         }
 
+        [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
         public ActionResult ViewLegacyAttachment(int? postId)
         {
             if (postId == null)

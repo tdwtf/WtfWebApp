@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using TheDailyWtf.Models;
 
 namespace TheDailyWtf.ViewModels
 {
     public sealed class UserCommentsViewModel : ViewCommentsViewModel
     {
-        public UserCommentsViewModel(string prefix, IEnumerable<CommentModel> comments, int page) : base(comments, page)
+        public UserCommentsViewModel(string prefix, IList<CommentModel> comments, int page) : base(comments, page)
         {
             this.prefix = prefix;
         }
