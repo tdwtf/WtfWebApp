@@ -283,6 +283,8 @@
     <Content Include="Content\Images\social-icons.png" />
     <Content Include="Content\Images\sound.svg" />
     <Content Include="Content\Images\sponsors-icon.svg" />
+    <Content Include="Content\Images\Sponsors\atalasoft-50x50.png" />
+    <Content Include="Content\Images\Sponsors\atalasoft.png" />
     <Content Include="Content\Images\Sponsors\inedo.png" />
     <Content Include="Content\Images\Sponsors\infragistics.jpg" />
     <Content Include="Content\Images\Sponsors\puppetlabs.png" />
