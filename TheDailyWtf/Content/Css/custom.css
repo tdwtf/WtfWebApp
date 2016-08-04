@@ -114,5 +114,5 @@ div.validation-summary-errors ul li { list-style-type: disc; margin-left: 15px; 
     .no-print { display: none; }
 }
 
-table.article { border:1px solid black;border-collapse:collapse; }
-.article th, .article td { border:1px solid black; border-collapse:collapse; padding:0.5em;}
+.article-body table { border:1px solid black;border-collapse:collapse; }
+.article-body th, .article-body td { border:1px solid black; border-collapse:collapse; padding:0.5em;}
