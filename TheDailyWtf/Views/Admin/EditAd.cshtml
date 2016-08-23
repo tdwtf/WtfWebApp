@@ -18,6 +18,7 @@
 </form>
 
 <form method="post" action="/admin/ad/delete/@Model.AdId">
+    @Html.AntiForgeryToken()
    <div>
       To remove this ad from rotation, it may be deleted.
       <div class="medium primary btn">

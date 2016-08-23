@@ -159,7 +159,7 @@ namespace TheDailyWtf.Controllers
 
                 post.Article.Id = post.Article.Id ?? articleId;
 
-                return RedirectToAction("index");
+                return RedirectToAction(this.User.IsAdmin ? "ArticleListAdmin" : "MyArticlesAdmin");
             }
             catch (Exception ex)
             {
@@ -192,7 +192,7 @@ namespace TheDailyWtf.Controllers
 
             StoredProcs.Comments_DeleteComments(commentIdsCsv).Execute();
 
-            return RedirectToAction("index");
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         [RequiresAdmin]
@@ -230,7 +230,7 @@ namespace TheDailyWtf.Controllers
                 return View(new EditCommentViewModel { Article = articleModel, Comment = commentModel, Post = new CommentFormModel { Body = body, Name = name } });
             }
             StoredProcs.Comments_CreateOrUpdateComment(comment, article, body, name, commentModel.PublishedDate, commentModel.UserIP, commentModel.UserToken, commentModel.ParentCommentId).ExecuteNonQuery();
-            return Redirect("index");
+            return RedirectToRoute("ArticleCommentsAdmin", new { id = articleModel.Id });
         }
 
         [HttpPost]
@@ -248,7 +248,7 @@ namespace TheDailyWtf.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             if (!StoredProcs.Articles_FeatureComment(article.Id, post.Comment).Execute().Value)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            return RedirectToAction("index");
+            return RedirectToRoute("ArticleCommentsAdmin", new { id = article.Id });
         }
 
         [HttpPost]
@@ -266,7 +266,7 @@ namespace TheDailyWtf.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             if (!StoredProcs.Articles_UnfeatureComment(article.Id, post.Comment).Execute().Value)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            return RedirectToAction("index");
+            return RedirectToRoute("ArticleCommentsAdmin", new { id = article.Id });
         }
 
         [RequiresAdmin]
@@ -286,7 +286,7 @@ namespace TheDailyWtf.Controllers
                 post.Series.Description
               ).Execute();
 
-            return RedirectToAction("index");
+            return RedirectToRoute("SeriesListAdmin");
         }
 
         [RequiresAdmin]
@@ -302,16 +302,17 @@ namespace TheDailyWtf.Controllers
         {
             StoredProcs.Ads_CreateOrUpdateAd(post.Ad.BodyHtml, post.Ad.Id).Execute();
 
-            return RedirectToAction("index");
+            return RedirectToRoute("FooterAdListAdmin");
         }
 
         [RequiresAdmin]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult DeleteAd(int id)
         {
             StoredProcs.Ads_DeleteAd(id).Execute();
 
-            return RedirectToAction("index");
+            return RedirectToRoute("FooterAdListAdmin");
         }
 
         public ActionResult EditAuthor(string slug)
@@ -339,13 +340,13 @@ namespace TheDailyWtf.Controllers
                 StoredProcs.Authors_SetPassword(post.Author.Slug, post.Password).Execute();
             }
 
-            return RedirectToAction("index");
+            return RedirectToRoute("LoginListAdmin");
         }
 
         public ActionResult ViewAds(DateTime? start, DateTime? end)
         {
             if (!this.User.IsAdmin)
-                return Redirect("/admin/my-articles");
+                return RedirectToRoute("MyArticlesAdmin");
 
             return View(new ViewAdsViewModel(start, end));
         }
