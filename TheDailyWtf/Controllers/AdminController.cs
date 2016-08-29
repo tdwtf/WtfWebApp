@@ -159,7 +159,7 @@ namespace TheDailyWtf.Controllers
 
                 post.Article.Id = post.Article.Id ?? articleId;
 
-                return RedirectToAction(this.User.IsAdmin ? "ArticleListAdmin" : "MyArticlesAdmin");
+                return RedirectToRoute(this.User.IsAdmin ? "ArticleListAdmin" : "MyArticlesAdmin");
             }
             catch (Exception ex)
             {
