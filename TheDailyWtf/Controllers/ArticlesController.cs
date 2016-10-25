@@ -374,7 +374,7 @@ namespace TheDailyWtf.Controllers
             if (series == null)
                 return HttpNotFound();
 
-            return View(Views.Articles.Index, new ArticlesIndexViewModel() { Series = series });
+            return View(Views.Articles.Index, new ArticlesIndexViewModel(series));
         }
 
         [OutputCache(CacheProfile = CacheProfile.Timed5Minutes)]
@@ -385,14 +385,7 @@ namespace TheDailyWtf.Controllers
             if (series == null)
                 return HttpNotFound();
 
-            return View(
-                Views.Articles.Index, 
-                new ArticlesIndexViewModel() 
-                { 
-                    Series = series, 
-                    ReferenceDate = new ArticlesIndexViewModel.DateInfo(date) 
-                }
-            );
+            return View(Views.Articles.Index, new ArticlesIndexViewModel(series, date));
         }
 
         public ActionResult RandomArticle()

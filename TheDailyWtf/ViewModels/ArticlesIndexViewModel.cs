@@ -7,25 +7,27 @@ namespace TheDailyWtf.ViewModels
 {
     public class ArticlesIndexViewModel : WtfViewModelBase
     {
-        private static readonly HashSet<string> paginatedSeries 
-            = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "feature-articles", "code-sod", "errord" };
-
         public ArticlesIndexViewModel()
         {
             this.ReferenceDate = new DateInfo(DateTime.Now);
         }
 
+        public ArticlesIndexViewModel(SeriesModel series, DateTime? reference = null)
+        {
+            this.Series = series;
+            this.ReferenceDate = new DateInfo(reference ?? ArticleModel.GetRecentArticlesBySeries(series.Slug, 1).FirstOrDefault()?.PublishedDate ?? DateTime.Now);
+        }
+
         public DateInfo ReferenceDate { get; set; }
         public SeriesModel Series { get; set; }
         public string SeriesDescription { get { return this.Series != null ? this.Series.Description : ""; } }
-        public bool PaginateArticleListByMonth { get { return true; /* BenLubar(2016-04-01) - do we still need this? It was causing less populated categories to only ever show the last 8 articles. */ } }
         public string ListHeading 
         { 
             get 
             {
                 if (this.Series == null)
                     return "Recent Articles";
-                return string.Format("{0} {1}", this.PaginateArticleListByMonth ? "Recent" : "All", this.Series.Title);
+                return string.Format("{0} {1}", "Recent", this.Series.Title);
             } 
         }
         public string PreviousMonthUrl { get { return this.FormatUrl(this.ReferenceDate.PrevMonth); } }
@@ -35,16 +37,8 @@ namespace TheDailyWtf.ViewModels
         {
             get
             {
-                if (this.PaginateArticleListByMonth)
-                {
-                    return ArticleModel.GetSeriesArticlesByMonth(this.Series == null ? null : this.Series.Slug, this.ReferenceDate.Reference)
-                        .Select(a => new ArticleItemViewModel(a));
-                }
-                else
-                {
-                    return ArticleModel.GetAllArticlesBySeries(this.Series == null ? null : this.Series.Slug)
-                        .Select(a => new ArticleItemViewModel(a));
-                }
+                return ArticleModel.GetSeriesArticlesByMonth(this.Series == null ? null : this.Series.Slug, this.ReferenceDate.Reference)
+                    .Select(a => new ArticleItemViewModel(a));
             }
         }
 

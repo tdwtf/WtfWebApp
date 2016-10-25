@@ -28,7 +28,7 @@ div.nav-article a { display: block; }
 
 a.social-icon,
 a.social-icon:visited,
-a.social-icon:hover { width: 24px; height: 24px; display: inline-block; text-decoration: none; } 
+a.social-icon:hover { width: 24px; height: 24px; display: inline-block; text-decoration: none; }
 a.social-icon.facebook { background-image: url('/content/images/icons/facebook-24.png'); background-color: #3b5998; }
 a.social-icon.twitter { background-image: url('/content/images/icons/twitter-24.png'); background-color: #00aced; }
 a.social-icon.email { background-image: url('/content/images/icons/email-24.png'); background-color: #999; }
@@ -97,6 +97,7 @@ div.validation-summary-errors ul li { list-style-type: disc; margin-left: 15px; 
 .comment blockquote { margin: 5px 0; padding: 5px; background-color: #EEE; }
 .comment blockquote p { margin: 0; padding: 5px; }
 .comment form { margin-bottom: 0; }
+.article-body .comment { border: none };
 
 .comments-link { float: right; color: #08c; background: #e0f5ff; padding: 8px 20px; margin-left: 10px; font-size: 16px; vertical-align: top; }
 
@@ -113,3 +114,5 @@ div.validation-summary-errors ul li { list-style-type: disc; margin-left: 15px; 
     .no-print { display: none; }
 }
 
+.article-body table { border:1px solid black;border-collapse:collapse; }
+.article-body th, .article-body td { border:1px solid black; border-collapse:collapse; padding:0.5em;}
