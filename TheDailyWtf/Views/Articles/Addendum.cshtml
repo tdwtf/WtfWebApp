@@ -10,21 +10,32 @@
                 @Html.Raw(Model.Comment.BodyHtml)
             </div>
 
-            <form method="post">
-
-                @Html.ValidationSummary()
-
-                @Html.AntiForgeryToken()
-
-                <div class="field">
-                    <label for="comment-body">Addendum:</label>
-                    <textarea id="comment-body" name="body" class="input textarea resizeable" rows="6" required tabindex="1"></textarea>
+            @if (Model.MaxBodyLength == 0)
+            {
+                <div class="validation-summary-errors" data-valmsg-summary="true">
+                    <ul>
+                        <li>Your comment is already the maximum length.</li>
+                    </ul>
                 </div>
+            }
+            else
+            {
+                <form method="post">
 
-                <div class="medium primary btn">
-                    <input class="input" type="submit" tabindex="2" value="Submit" />
-                </div>
-            </form>
+                    @Html.ValidationSummary()
+
+                    @Html.AntiForgeryToken()
+
+                    <div class="field">
+                        <label for="comment-body">Addendum:</label>
+                        <textarea id="comment-body" maxlength="@Model.MaxBodyLength" name="body" class="input textarea resizeable" rows="6" required tabindex="1">@Model.Body</textarea>
+                    </div>
+
+                    <div class="medium primary btn">
+                        <input class="input" type="submit" tabindex="2" value="Submit" />
+                    </div>
+                </form>
+            }
         </li>
     </ul>
 </div>

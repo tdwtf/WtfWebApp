@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="field">
-                    <textarea id="comment-body" name="body" class="input textarea resizeable" placeholder="Your Comment" rows="8" cols="60" required tabindex="2">@Model.Comment.Body</textarea>
+                    <textarea id="comment-body" maxlength="@CommentFormModel.MaxBodyLength" name="body" class="input textarea resizeable" placeholder="Your Comment" rows="8" cols="60" required tabindex="2">@Model.Comment.Body</textarea>
                 </div>
 
                 @Html.Partial(Views.Shared.PartialRecaptcha)

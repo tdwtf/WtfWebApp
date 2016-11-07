@@ -258,6 +258,8 @@ namespace TheDailyWtf.Controllers
                 ModelState.AddModelError(string.Empty, "A comment is required.");
             if (form.Parent != null && !CommentModel.FromArticle(article).Any(c => c.Id == form.Parent))
                 ModelState.AddModelError(string.Empty, "Invalid parent comment.");
+            if (form.Body.Length > CommentFormModel.MaxBodyLength)
+                ModelState.AddModelError(string.Empty, "Comment too long.");
             if (ModelState.IsValid)
             {
                 int commentId = StoredProcs.Comments_CreateOrUpdateComment(null, article.Id, form.Body, form.Name, DateTime.Now, Request.ServerVariables["REMOTE_ADDR"], token, form.Parent).Execute().Value;
@@ -337,10 +339,17 @@ namespace TheDailyWtf.Controllers
                 return Redirect("/login");
             }
 
-            StoredProcs.Comments_CreateOrUpdateComment(comment.Id, article.Id, string.Format("{0}\n\n**Addendum {1}:**\n{2}", comment.BodyRaw, DateTime.Now, post.Body),
-                comment.Username, comment.PublishedDate, comment.UserIP, comment.UserToken, comment.ParentCommentId).ExecuteNonQuery();
+            var addendumModel = new AddendumViewModel(article, comment) { Body = post.Body };
+            if (post.Body.Length > addendumModel.MaxBodyLength)
+                ModelState.AddModelError(string.Empty, "Comment too long.");
+            if (ModelState.IsValid)
+            {
+                StoredProcs.Comments_CreateOrUpdateComment(comment.Id, article.Id, string.Format("{0}\n\n**Addendum {1}:**\n{2}", comment.BodyRaw, DateTime.Now, post.Body),
+                    comment.Username, comment.PublishedDate, comment.UserIP, comment.UserToken, comment.ParentCommentId).ExecuteNonQuery();
+                return Redirect(article.Url);
+            }
 
-            return Redirect(article.Url);
+            return View(addendumModel);
         }
 
         public ActionResult ViewLegacyArticle(string articleSlug)
