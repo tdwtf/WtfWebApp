@@ -21,6 +21,12 @@ CREATE PROCEDURE [Comments_DeleteComments]
 AS
 BEGIN
 
+    UPDATE [Comments]
+       SET [Parent_Comment_Id] = NULL
+     WHERE [Parent_Comment_Id]
+        IN (SELECT CAST([Value_Text] AS INT)
+              FROM dbo.CsvToTable(@CommentIds_Csv, ','))
+
     DELETE FROM [Comments]
           WHERE [Comment_Id]
              IN (SELECT CAST([Value_Text] AS INT)
