@@ -29,7 +29,7 @@ namespace TheDailyWtf
 
         private static HashSet<string> allowedElements = new HashSet<string>()
         {
-            "a", "img", "video", "audio",
+            "a",
             "b", "i", "u", "s",
             "em", "strong", "strike",
             "big", "small", "sup", "sub",
@@ -67,6 +67,13 @@ namespace TheDailyWtf
             if (node.NodeType == HtmlNodeType.Text)
             {
                 return node;
+            }
+
+            if (node.Name.Equals("img", StringComparison.InvariantCultureIgnoreCase))
+            {
+                node.Name = "a";
+                node.Attributes["href"] = node.Attributes["src"];
+                node.InnerHtml = "[image]";
             }
 
             if (!allowedElements.Contains(node.Name.ToLowerInvariant()))
@@ -117,36 +124,6 @@ namespace TheDailyWtf
                     {
                         continue;
                     }
-                }
-
-                if (a.Name.Equals("src", StringComparison.InvariantCultureIgnoreCase) && (
-                    node.Name.Equals("img", StringComparison.InvariantCultureIgnoreCase) ||
-                    node.Name.Equals("video", StringComparison.InvariantCultureIgnoreCase) ||
-                    node.Name.Equals("audio", StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    if (AllowedUri(a.Value))
-                    {
-                        continue;
-                    }
-                }
-
-                if (a.Name.Equals("controls", StringComparison.InvariantCultureIgnoreCase) && (
-                    node.Name.Equals("video", StringComparison.InvariantCultureIgnoreCase) ||
-                    node.Name.Equals("audio", StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    continue;
-                }
-
-                if (a.Name.Equals("poster", StringComparison.InvariantCultureIgnoreCase) &&
-                    node.Name.Equals("video", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    continue;
-                }
-
-                if (a.Name.Equals("alt", StringComparison.InvariantCultureIgnoreCase) &&
-                    node.Name.Equals("img", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    continue;
                 }
 
                 toRemove.Add(a);
