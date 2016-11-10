@@ -69,11 +69,18 @@ namespace TheDailyWtf.Controllers
             var cookie = Request.Cookies["tdwtf_token"];
             if (cookie != null)
             {
-                var ticket = FormsAuthentication.Decrypt(cookie.Value);
-                if (!ticket.Expired)
+                try
                 {
-                    name = ticket.Name;
-                    token = ticket.UserData;
+                    var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                    if (!ticket.Expired)
+                    {
+                        name = ticket.Name;
+                        token = ticket.UserData;
+                    }
+                }
+                catch (HttpException)
+                {
+                    // cookie was invalid, ignore it.
                 }
             }
             return View(new CommentsLoginViewModel(name, token));
@@ -224,11 +231,19 @@ namespace TheDailyWtf.Controllers
             var cookie = Request.Cookies["tdwtf_token"];
             if (cookie != null)
             {
-                var ticket = FormsAuthentication.Decrypt(cookie.Value);
-                if (!ticket.Expired)
+                try
                 {
-                    form.Name = ticket.Name;
-                    token = ticket.UserData;
+                    var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                    if (!ticket.Expired)
+                    {
+                        form.Name = ticket.Name;
+                        token = ticket.UserData;
+                    }
+                }
+                catch (HttpException)
+                {
+                    // cookie was invalid, redirect to login page
+                    return Redirect("/login");
                 }
             }
 
@@ -243,6 +258,8 @@ namespace TheDailyWtf.Controllers
                 ModelState.AddModelError(string.Empty, "A comment is required.");
             if (form.Parent != null && !CommentModel.FromArticle(article).Any(c => c.Id == form.Parent))
                 ModelState.AddModelError(string.Empty, "Invalid parent comment.");
+            if (form.Body.Length > CommentFormModel.MaxBodyLength)
+                ModelState.AddModelError(string.Empty, "Comment too long.");
             if (ModelState.IsValid)
             {
                 int commentId = StoredProcs.Comments_CreateOrUpdateComment(null, article.Id, form.Body, form.Name, DateTime.Now, Request.ServerVariables["REMOTE_ADDR"], token, form.Parent).Execute().Value;
@@ -271,9 +288,17 @@ namespace TheDailyWtf.Controllers
             if (cookie == null)
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
-            var ticket = FormsAuthentication.Decrypt(cookie.Value);
-            if (ticket.Expired || comment.UserToken != ticket.UserData)
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            try
+            {
+                var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                if (ticket.Expired || comment.UserToken != ticket.UserData)
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            catch (HttpException)
+            {
+                // cookie was invalid, redirect to login
+                return Redirect("/login");
+            }
 
             return View(new AddendumViewModel(article, comment));
         }
@@ -303,14 +328,28 @@ namespace TheDailyWtf.Controllers
             if (cookie == null)
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
-            var ticket = FormsAuthentication.Decrypt(cookie.Value);
-            if (ticket.Expired || comment.UserToken != ticket.UserData)
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            try
+            {
+                var ticket = FormsAuthentication.Decrypt(cookie.Value);
+                if (ticket.Expired || comment.UserToken != ticket.UserData)
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            catch (HttpException)
+            {
+                return Redirect("/login");
+            }
 
-            StoredProcs.Comments_CreateOrUpdateComment(comment.Id, article.Id, string.Format("{0}\n\n**Addendum {1}:**\n{2}", comment.BodyRaw, DateTime.Now, post.Body),
-                comment.Username, comment.PublishedDate, comment.UserIP, comment.UserToken, comment.ParentCommentId).ExecuteNonQuery();
+            var addendumModel = new AddendumViewModel(article, comment) { Body = post.Body };
+            if (post.Body.Length > addendumModel.MaxBodyLength)
+                ModelState.AddModelError(string.Empty, "Comment too long.");
+            if (ModelState.IsValid)
+            {
+                StoredProcs.Comments_CreateOrUpdateComment(comment.Id, article.Id, string.Format("{0}\n\n**Addendum {1}:**\n{2}", comment.BodyRaw, DateTime.Now, post.Body),
+                    comment.Username, comment.PublishedDate, comment.UserIP, comment.UserToken, comment.ParentCommentId).ExecuteNonQuery();
+                return Redirect(article.Url);
+            }
 
-            return Redirect(article.Url);
+            return View(addendumModel);
         }
 
         public ActionResult ViewLegacyArticle(string articleSlug)
