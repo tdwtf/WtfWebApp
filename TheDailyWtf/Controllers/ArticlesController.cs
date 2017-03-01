@@ -185,7 +185,7 @@ namespace TheDailyWtf.Controllers
         {
             [JsonProperty(PropertyName = "login", Required = Required.Always)]
             public string Login { get; set; }
-            [JsonProperty(PropertyName = "name", Required = Required.Always)]
+            [JsonProperty(PropertyName = "name", Required = Required.AllowNull)]
             public string Name { get; set; }
         }
 
@@ -195,7 +195,7 @@ namespace TheDailyWtf.Controllers
             {
                 client.DefaultRequestHeaders.Add("Authorization", "token " + token);
                 var user = JsonConvert.DeserializeObject<GitHubUser>(client.GetStringAsync("https://api.github.com/user").Result);
-                return SetLoginCookie(user.Name, "github:" + user.Login);
+                return SetLoginCookie(user.Name ?? user.Login, "github:" + user.Login);
             });
         }
 
