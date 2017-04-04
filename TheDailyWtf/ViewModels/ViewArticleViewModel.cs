@@ -1,4 +1,7 @@
+using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TheDailyWtf.Models;
 
 namespace TheDailyWtf.ViewModels
@@ -15,6 +18,24 @@ namespace TheDailyWtf.ViewModels
         {
             this.Slug = article.Slug;
             this.Article = article;
+            ParseSummaryAndImage(article.SummaryHtml, out string description, out string image);
+            this.OpenGraph = new OpenGraphData
+            {
+                Title = article.Title,
+                Url = article.Url,
+                Description = description,
+                Image = image ?? (new Uri(new Uri("http://" + Config.Wtf.Host), this.Article.Author.ImageUrl).AbsoluteUri),
+                Type = "article",
+                Article = article
+            };
+        }
+
+        private static void ParseSummaryAndImage(string summaryHtml, out string description, out string image)
+        {
+            var node = HtmlNode.CreateNode("<div>");
+            node.InnerHtml = summaryHtml;
+            description = node.InnerText;
+            image = node.Descendants("img").FirstOrDefault()?.GetAttributeValue("src", null);
         }
 
         public string Slug { get; private set; }

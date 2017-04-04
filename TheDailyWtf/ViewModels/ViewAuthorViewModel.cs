@@ -11,6 +11,16 @@ namespace TheDailyWtf.ViewModels
         {
             this.Author = AuthorModel.GetAuthorBySlug(slug);
             this.ReferenceDate = month.HasValue ? new ArticlesIndexViewModel.DateInfo(month.Value) : null;
+
+            this.OpenGraph = new OpenGraphData
+            {
+                Title = this.Author.Name,
+                Type = "profile",
+                Image = new Uri(new Uri("http://" + Config.Wtf.Host), this.Author.ImageUrl).AbsoluteUri,
+                Description = this.Author.ShortDescription,
+                Url = "http://" + Config.Wtf.Host + "/authors/" + this.Author.Slug,
+                Author = this.Author
+            };
         }
 
         public AuthorModel Author { get; set; }

@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# profile: http://ogp.me/ns/profile#">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@Model.PageTitle</title>
@@ -19,6 +19,25 @@
     <script src="/scripts/jquery-2.0.1.min.js"></script>
     <!--<![endif]-->
 
+    @if (Model.OpenGraph != null)
+    {
+    <meta property="og:title" content="@Model.OpenGraph.Title" />
+	<meta property="og:type" content="@Model.OpenGraph.Type" />
+    <meta property="og:url" content="@Model.OpenGraph.Url" />
+    <meta property="og:image" content="@Model.OpenGraph.Image" />
+    <meta property="og:description" content="@Model.OpenGraph.Description" />
+    <meta property="og:site_name" content="The Daily WTF" />
+        if (Model.OpenGraph.Article != null)
+        {
+    <meta property="article:author" content="http://@Config.Wtf.Host/authors/@Model.OpenGraph.Article.Author.Slug" />
+    <meta property="article:published_time" content="@(Model.OpenGraph.Article.PublishedDate.HasValue ? Model.OpenGraph.Article.PublishedDate.Value.ToString("u") : null)" />
+        }
+        if (Model.OpenGraph.Author != null)
+        {
+    <meta property="profile:first_name" content="@Model.OpenGraph.Author.FirstName" />
+    <meta property="profile:username" content="@Model.OpenGraph.Author.Slug" />
+        }
+    }
 </head>
 <body>
     <div id="wrapper">

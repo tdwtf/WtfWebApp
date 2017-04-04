@@ -27,6 +27,7 @@ namespace TheDailyWtf.ViewModels
         public NavigationMenuViewModel NavigationMenu { get { return new NavigationMenuViewModel(); } }
         public string Copyright { get { return copyright; } }
         public string Version { get { return version; } }
+        public OpenGraphData OpenGraph { get; set; }
 
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
@@ -45,6 +46,17 @@ namespace TheDailyWtf.ViewModels
         public Ad GetNextAd(Dimensions dimensions)
         {
             return AdRotator.GetNextAd(dimensions);
+        }
+
+        public class OpenGraphData
+        {
+            public string Title { get; set; }
+            public string Type { get; set; }
+            public string Url { get; set; }
+            public string Image { get; set; }
+            public string Description { get; set; }
+            public ArticleModel Article { get; set; }
+            public AuthorModel Author { get; set; }
         }
     }
 }
