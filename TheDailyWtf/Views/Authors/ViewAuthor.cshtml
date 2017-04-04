@@ -13,7 +13,7 @@
         <div class="author-details">
             <h1 class="title">@Model.Author.Name</h1>
 
-            <p class="credentials">@Model.Author.DescriptionHtml</p>
+            <div class="credentials">@Html.Raw(Model.Author.DescriptionHtml)</div>
         </div>
     </div>
 
