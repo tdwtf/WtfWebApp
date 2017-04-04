@@ -18,7 +18,8 @@ namespace TheDailyWtf.ViewModels
         {
             this.Slug = article.Slug;
             this.Article = article;
-            ParseSummaryAndImage(article.SummaryHtml, out string description, out string image);
+            string description, image;
+            ParseSummaryAndImage(article.SummaryHtml, out description, out image);
             this.OpenGraph = new OpenGraphData
             {
                 Title = article.Title,
