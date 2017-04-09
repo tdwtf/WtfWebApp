@@ -22,6 +22,7 @@ namespace TheDailyWtf.ViewModels
             ParseSummaryAndImage(article.SummaryHtml, out description, out image);
             this.OpenGraph = new OpenGraphData
             {
+                AuthorName = article.Author.Name,
                 Title = article.Title,
                 Url = article.Url,
                 Description = description,
@@ -35,7 +36,7 @@ namespace TheDailyWtf.ViewModels
         {
             var node = HtmlNode.CreateNode("<div>");
             node.InnerHtml = summaryHtml;
-            description = node.InnerText;
+            description = HtmlEntity.DeEntitize(node.InnerText);
             image = node.Descendants("img").FirstOrDefault()?.GetAttributeValue("src", null);
         }
 
