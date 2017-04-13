@@ -2,6 +2,7 @@ using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using TheDailyWtf.Models;
 
 namespace TheDailyWtf.ViewModels
@@ -36,7 +37,7 @@ namespace TheDailyWtf.ViewModels
         {
             var node = HtmlNode.CreateNode("<div>");
             node.InnerHtml = summaryHtml;
-            description = HtmlEntity.DeEntitize(node.InnerText);
+            description = HttpUtility.HtmlDecode(node.InnerText);
             image = node.Descendants("img").FirstOrDefault()?.GetAttributeValue("src", null);
         }
 
