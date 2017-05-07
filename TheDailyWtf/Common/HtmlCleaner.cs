@@ -134,6 +134,11 @@ namespace TheDailyWtf
                 node.Attributes.Remove(a);
             }
 
+            if (node.Name.Equals("a", StringComparison.InvariantCultureIgnoreCase))
+            {
+                node.Attributes.Add("rel", "nofollow");
+            }
+
             for (int i = 0; i < node.ChildNodes.Count; i++)
             {
                 node.ChildNodes.Replace(i, CleanNode(node.ChildNodes[i], maxDepth - 1));
