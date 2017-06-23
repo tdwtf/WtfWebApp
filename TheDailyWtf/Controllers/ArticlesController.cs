@@ -62,6 +62,7 @@ namespace TheDailyWtf.Controllers
             return View(new ViewCommentsViewModel(article, page));
         }
 
+        [RequireHttps]
         public ActionResult Login()
         {
             string name = null;
@@ -120,6 +121,7 @@ namespace TheDailyWtf.Controllers
             return Redirect("/");
         }
 
+        [RequireHttps]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
