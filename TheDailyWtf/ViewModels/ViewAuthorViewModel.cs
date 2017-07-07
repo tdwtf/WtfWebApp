@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using TheDailyWtf.Models;
 
 namespace TheDailyWtf.ViewModels
@@ -10,6 +11,10 @@ namespace TheDailyWtf.ViewModels
         public ViewAuthorViewModel(string slug, DateTime? month = null)
         {
             this.Author = AuthorModel.GetAuthorBySlug(slug);
+            if (this.Author == null)
+            {
+                throw new HttpException(404, "author not found");
+            }
             this.ReferenceDate = month.HasValue ? new ArticlesIndexViewModel.DateInfo(month.Value) : null;
 
             this.OpenGraph = new OpenGraphData

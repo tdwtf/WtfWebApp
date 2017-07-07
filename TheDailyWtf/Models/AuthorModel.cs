@@ -56,6 +56,10 @@ namespace TheDailyWtf.Models
         public static AuthorModel GetAuthorBySlug(string slug)
         {
             var author = StoredProcs.Authors_GetAuthorBySlug(slug).Execute();
+            if (author == null)
+            {
+                return null;
+            }
             return AuthorModel.FromTable(author);
         }
 
