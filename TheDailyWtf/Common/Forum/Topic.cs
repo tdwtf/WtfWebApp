@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Web;
 
 namespace TheDailyWtf.Forum
 {
@@ -10,7 +9,7 @@ namespace TheDailyWtf.Forum
 
         public int Id { get; private set; }
         public string Slug { get; private set; }
-        public string Title { get; private set; }
+        public HtmlString Title { get; private set; }
         public int PostsCount { get; private set; }
         public bool Pinned { get; private set; }
         public DateTime CreatedDate { get; private set; }
@@ -29,7 +28,7 @@ namespace TheDailyWtf.Forum
             {
                 Id = topic.tid,
                 Slug = topic.slug,
-                Title = topic.title,
+                Title = new HtmlString(((string) topic.title).Replace("<", "&lt;").Replace(">", "&gt;")),
                 PostsCount = topic.postcount,
                 Pinned = topic.pinned,
                 CreatedDate = Epoch.AddMilliseconds((long) topic.timestamp),
