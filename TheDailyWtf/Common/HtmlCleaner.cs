@@ -6,6 +6,44 @@ namespace TheDailyWtf
 {
     public static class HtmlCleaner
     {
+        public static string UnmixContent(string html)
+        {
+            if (html == null)
+            {
+                return null;
+            }
+
+            var doc = new HtmlDocument();
+            doc.DocumentNode.InnerHtml = html;
+
+            foreach (var node in doc.DocumentNode.Descendants("img"))
+            {
+                var src = node.GetAttributeValue("src", "").TrimStart();
+                if (src.StartsWith("http://thedailywtf.com/") || src.StartsWith("http://img.thedailywtf.com/"))
+                {
+                    node.SetAttributeValue("src", src.Substring("http:".Length));
+                }
+            }
+            foreach (var node in doc.DocumentNode.Descendants("a"))
+            {
+                var href = node.GetAttributeValue("href", "").TrimStart();
+                if (href.StartsWith("http://thedailywtf.com/"))
+                {
+                    node.SetAttributeValue("href", href.Substring("http:".Length));
+                }
+            }
+            foreach (var node in doc.DocumentNode.Descendants("script"))
+            {
+                var src = node.GetAttributeValue("src", "").TrimStart();
+                if (src.StartsWith("http://www.cornify.com/"))
+                {
+                    node.SetAttributeValue("src", src.Substring("http:".Length));
+                }
+            }
+
+            return doc.DocumentNode.InnerHtml;
+        }
+
         public static string CloseTags(string html)
         {
             var doc = new HtmlDocument();

@@ -61,8 +61,8 @@ namespace TheDailyWtf.Models
         public SeriesModel Series { get; set; }
         [AllowHtml]
         public string FooterAdHtml { get; set; }
-        public string Url { get { return string.Format("http://{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
-        public string CommentsUrl { get { return string.Format("http://{0}/articles/comments/{1}", Config.Wtf.Host, this.Slug); } }
+        public string Url { get { return string.Format("https://{0}/articles/{1}", Config.Wtf.Host, this.Slug); } }
+        public string CommentsUrl { get { return string.Format("https://{0}/articles/comments/{1}", Config.Wtf.Host, this.Slug); } }
         public string Slug { get; set; }
         public string TwitterUrl { get { return string.Format("//www.twitter.com/home?status={0}+-+{1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
         public string FacebookUrl { get { return string.Format("//www.facebook.com/sharer.php?u={0}&t={1}+-+The+Daily+WTF", HttpUtility.UrlEncode(this.Url), HttpUtility.UrlEncode(this.Title)); } }
@@ -212,17 +212,17 @@ namespace TheDailyWtf.Models
                 Id = article.Article_Id,
                 Slug = article.Article_Slug,
                 Author = AuthorModel.FromTable(article),
-                BodyHtml = article.Body_Html,
-                BodyAndAdHtml = article.BodyAndAd_Html,
+                BodyHtml = HtmlCleaner.UnmixContent(article.Body_Html),
+                BodyAndAdHtml = HtmlCleaner.UnmixContent(article.BodyAndAd_Html),
                 CachedCommentCount = (int)article.Cached_Comment_Count,
                 DiscourseTopicId = article.Discourse_Topic_Id,
                 DiscourseTopicOpened = article.Discourse_Topic_Opened == "Y",
                 LastCommentDate = article.Last_Comment_Date,
                 PublishedDate = article.Published_Date,
                 Series = SeriesModel.FromTable(article),
-                FooterAdHtml = article.Ad_Html,
+                FooterAdHtml = HtmlCleaner.UnmixContent(article.Ad_Html),
                 Status = article.PublishedStatus_Name,
-                SummaryHtml = ArticleModel.ExtractSummary(article.Body_Html),
+                SummaryHtml = HtmlCleaner.UnmixContent(ArticleModel.ExtractSummary(article.Body_Html)),
                 Title = article.Title_Text,
                 PreviousArticleId = article.Previous_Article_Id,
                 PreviousArticleSlug = article.Previous_Article_Slug,

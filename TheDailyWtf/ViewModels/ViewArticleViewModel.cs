@@ -27,7 +27,7 @@ namespace TheDailyWtf.ViewModels
                 Title = article.Title,
                 Url = article.Url,
                 Description = description,
-                Image = image ?? (new Uri(new Uri("http://" + Config.Wtf.Host), this.Article.Author.ImageUrl).AbsoluteUri),
+                Image = image ?? (new Uri(new Uri("https://" + Config.Wtf.Host), this.Article.Author.ImageUrl).AbsoluteUri),
                 Type = "article",
                 Article = article
             };
