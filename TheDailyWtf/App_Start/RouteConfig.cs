@@ -282,6 +282,27 @@ namespace TheDailyWtf
                 defaults: new { controller = "Authors", action = "ViewAuthorByMonth" }
             );
 
+            // Legacy bonus page routes
+            // The I-Hate-Oracle Club GIFs
+
+            routes.MapRoute(
+                name: "LegacyIHateOracleClubGifs",
+                url: "images/ihoc/{imagename}.gif",
+                defaults: new { controller = "Info", action = "ViewIhocGif" }
+            );
+
+            routes.MapRoute(
+                name: "LegacyIHateOracleClubRotator",
+                url: "images/ihoc/random200x80.aspx",
+                defaults: new { controller = "Info", action = "ViewIhocRotator"}
+            );
+
+            routes.MapRoute(
+                name: "LegacyIHateOracleClub",
+                url: "images/ihoc/",
+                defaults: new { controller = "Info", action = "IHOC"}
+            );
+
             // API Routes
 
             routes.MapRoute(
