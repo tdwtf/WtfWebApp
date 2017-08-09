@@ -68,6 +68,18 @@
                 </div>
                 <div>
                     <div>
+                        @if (Model != null && Model.SuccessMessage != null)
+                        {
+                            <div class="message success">
+                                @Model.SuccessMessage
+                            </div>
+                        }
+                        @if (Model != null && Model.ErrorMessage != null)
+                        {
+                            <div class="message error">
+                                @Model.ErrorMessage
+                            </div>
+                        }
                         @RenderBody()
                     </div>
                 </div>
