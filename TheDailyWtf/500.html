@@ -46,10 +46,13 @@
             </div>
             <div class="row">
                 <p>
-                    Copyright &#169; 2004 - 2016 Inedo Publishing
+                    Copyright &#169; 2004 - <span id="copy-year">2017</span> Inedo Publishing
                 </p>
             </div>
         </footer>
+        <script type="text/javascript">
+            document.getElementById("copy-year").textContent = new Date().getFullYear();
+        </script>
     </div>
 </body>
 </html>
