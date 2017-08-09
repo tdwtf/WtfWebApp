@@ -1,5 +1,12 @@
-﻿<% Response.StatusCode = 404 %>
-
+﻿<%@ Page Language="C#" %>
+<%@ Import Namespace="System.Reflection" %>
+<% Response.StatusCode = 404; %>
+<script runat="server">
+    string copyright = typeof(WtfViewModelBase).Assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)
+                .Cast<AssemblyCopyrightAttribute>()
+                .First()
+                .Copyright;
+</script>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -43,7 +50,7 @@
             </div>
             <div class="row">
                 <p>
-                    Copyright &#169; 2004 - 2016 Inedo Publishing
+                    <%= copyright %>
                 </p>
             </div>
         </footer>
