@@ -278,6 +278,22 @@
     <Content Include="Content\Images\Icons\facebook-24.png" />
     <Content Include="Content\Images\Icons\googleplus-24.png" />
     <Content Include="Content\Images\Icons\twitter-24.png" />
+    <Content Include="Content\Images\IHOC\Obsolete_L_R.gif" />
+    <Content Include="Content\Images\IHOC\Obsolete_L_W.gif" />
+    <Content Include="Content\Images\IHOC\Obsolete_punchcards.gif" />
+    <Content Include="Content\Images\IHOC\Obsolete_S_R.gif" />
+    <Content Include="Content\Images\IHOC\Obsolete_S_W.gif" />
+    <Content Include="Content\Images\IHOC\Obstacle_hlf_2x.gif" />
+    <Content Include="Content\Images\IHOC\Obstacle_L_R.gif" />
+    <Content Include="Content\Images\IHOC\Obstacle_L_W.gif" />
+    <Content Include="Content\Images\IHOC\Obstacle_S_R.gif" />
+    <Content Include="Content\Images\IHOC\Obstacle_S_W.gif" />
+    <Content Include="Content\Images\IHOC\Orable_BetterThanOrable.gif" />
+    <Content Include="Content\Images\IHOC\Orable_Ggggreat.gif" />
+    <Content Include="Content\Images\IHOC\Orable_L_R.gif" />
+    <Content Include="Content\Images\IHOC\Orable_L_W.gif" />
+    <Content Include="Content\Images\IHOC\Orable_S_R.gif" />
+    <Content Include="Content\Images\IHOC\Orable_S_W.gif" />
     <Content Include="Content\Images\mobile-menu.svg" />
     <Content Include="Content\Images\placeholder.png" />
     <Content Include="Content\Images\social-icons.png" />
@@ -517,6 +533,10 @@
   <ItemGroup>
     <Content Include=".well-known\acme-challenge\Web.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Info\IHOC.cshtml" />
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
