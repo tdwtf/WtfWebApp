@@ -23,7 +23,8 @@ CREATE PROCEDURE [Comments_CreateOrUpdateComment]
     @Posted_Date DATETIME,
     @User_IP VARCHAR(45),
     @User_Token VARCHAR(MAX),
-    @Parent_Comment_Id INT = NULL
+    @Parent_Comment_Id INT = NULL,
+    @Hidden_Indicator YNINDICATOR = NULL
 )
 AS
 BEGIN
@@ -33,7 +34,8 @@ BEGIN
 
         UPDATE [Comments]
            SET [Body_Html] = @Body_Html,
-               [User_Name] = @User_Name
+               [User_Name] = @User_Name,
+               [Hidden_Indicator] = COALESCE(@Hidden_Indicator, [Hidden_Indicator])
          WHERE [Comment_Id] = @Comment_Id
 
     END
@@ -49,7 +51,8 @@ BEGIN
             [Featured_Indicator],
             [User_IP],
             [User_Token],
-            [Parent_Comment_Id]
+            [Parent_Comment_Id],
+            [Hidden_Indicator]
         )
         VALUES
         (
@@ -60,7 +63,8 @@ BEGIN
             'N',
             @User_IP,
             @User_Token,
-            @Parent_Comment_Id
+            @Parent_Comment_Id,
+            COALESCE(@Hidden_Indicator, 'N')
         )
 
         SET @Comment_Id = SCOPE_IDENTITY()

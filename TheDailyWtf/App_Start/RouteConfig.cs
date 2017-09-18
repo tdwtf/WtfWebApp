@@ -61,6 +61,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "CommentModerationAdmin",
+                url: "admin/comment-moderation/{page}",
+                defaults: new { controller = "Admin", action = "CommentModeration", page = 1 }
+            );
+
+            routes.MapRoute(
                 name: "ArticleCommentsAdmin",
                 url: "admin/article/comments/{id}/{page}",
                 defaults: new { controller = "Admin", action = "ArticleComments", page = 1 }
@@ -88,6 +94,12 @@ namespace TheDailyWtf
                 name: "EditCommentAdmin",
                 url: "admin/edit-comment",
                 defaults: new { controller = "Admin", action = "EditComment" }
+            );
+
+            routes.MapRoute(
+                name: "ApproveComment",
+                url: "admin/approve-comment",
+                defaults: new { controller = "Admin", action = "ApproveComment" }
             );
 
             routes.MapRoute(

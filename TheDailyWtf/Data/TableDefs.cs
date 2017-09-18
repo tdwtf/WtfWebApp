@@ -113,6 +113,7 @@ namespace TheDailyWtf.Data
 			public const string User_IP = "User_IP";
 			public const string User_Token = "User_Token";
 			public const string Parent_Comment_Id = "Parent_Comment_Id";
+			public const string Hidden_Indicator = "Hidden_Indicator";
 		}
 		public static class FeaturedComments
 		{

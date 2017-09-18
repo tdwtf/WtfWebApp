@@ -2876,3 +2876,13 @@ footer .articleList li { background-color: transparent; }
     .avatarContainer .imgContainer { width: 50px; height: 50px; background-color: #2c2c2c; }
 
 .social { font-size: 2.4em; }
+
+.navbar .bubble {
+    display: inline-block;
+    background-color: #dc3;
+    padding: 0.25em 0.5em;
+    line-height: 1;
+    margin-left: 0.25em;
+    color: #000;
+    text-shadow: none;
+}

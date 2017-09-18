@@ -1,13 +1,9 @@
-﻿using System;
+﻿using CommonMark;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 using TheDailyWtf.Data;
-using TheDailyWtf.Forum;
-using CommonMark;
-using CommonMark.Syntax;
-using CommonMark.Formatters;
 
 namespace TheDailyWtf.Models
 {
@@ -25,6 +21,7 @@ namespace TheDailyWtf.Models
         public string ImageUrl { get; set; }
         public bool Featured { get; set; }
         public bool Anonymous { get { return UserToken == null; } }
+        public bool Hidden { get; set; }
         public int? ParentCommentId { get; set; }
         [NonSerialized]
         public string UserIP;
@@ -56,6 +53,17 @@ namespace TheDailyWtf.Models
             return comments.Select(c => FromTable(c)).ToList();
         }
 
+        public static IList<CommentModel> GetHiddenComments(string authorSlug = null)
+        {
+            var comments = StoredProcs.Comments_GetHiddenComments(Author_Slug: authorSlug).Execute();
+            return comments.Select(c => FromTable(c)).ToList();
+        }
+
+        public static int GetHiddenCommentCount(string authorSlug = null)
+        {
+            return StoredProcs.Comments_CountHiddenComments(Author_Slug: authorSlug).Execute().Value;
+        }
+
         private static CommentModel FromTable(Tables.Comments comment)
         {
             return new CommentModel()
@@ -68,6 +76,7 @@ namespace TheDailyWtf.Models
                 DiscoursePostId = comment.Discourse_Post_Id,
                 PublishedDate = comment.Posted_Date,
                 Featured = comment.Featured_Indicator,
+                Hidden = comment.Hidden_Indicator,
                 ParentCommentId = comment.Parent_Comment_Id,
                 UserIP = comment.User_IP,
                 UserToken = comment.User_Token

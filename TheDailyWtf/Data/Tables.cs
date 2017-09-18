@@ -113,6 +113,7 @@ namespace TheDailyWtf.Data
 			public string User_IP { get; set; }
 			public string User_Token { get; set; }
 			public int? Parent_Comment_Id { get; set; }
+			public YNIndicator Hidden_Indicator { get; set; }
 		}
 		public class FeaturedComments
 		{

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CommonMark;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -254,6 +255,8 @@ namespace TheDailyWtf.Controllers
                 CheckRecaptcha();
             }
 
+            var ip = Request.ServerVariables["REMOTE_ADDR"];
+
             if (string.IsNullOrWhiteSpace(form.Name))
                 ModelState.AddModelError(string.Empty, "A name is required.");
             if (string.IsNullOrWhiteSpace(form.Body))
@@ -264,7 +267,9 @@ namespace TheDailyWtf.Controllers
                 ModelState.AddModelError(string.Empty, "Comment too long.");
             if (ModelState.IsValid)
             {
-                int commentId = StoredProcs.Comments_CreateOrUpdateComment(null, article.Id, form.Body, form.Name, DateTime.Now, Request.ServerVariables["REMOTE_ADDR"], token, form.Parent).Execute().Value;
+                var containsLinks = CommonMarkConverter.Parse(form.Body).AsEnumerable().Any(n => n.Inline?.Tag == CommonMark.Syntax.InlineTag.Link || n.Inline?.Tag == CommonMark.Syntax.InlineTag.Image || n.Inline?.Tag == CommonMark.Syntax.InlineTag.RawHtml || n.Block?.Tag == CommonMark.Syntax.BlockTag.HtmlBlock);
+                var shouldHide = containsLinks || StoredProcs.Comments_UserHasApprovedComment(ip, token).Execute() != true;
+                int commentId = StoredProcs.Comments_CreateOrUpdateComment(null, article.Id, form.Body, form.Name, DateTime.Now, ip, token, form.Parent, shouldHide).Execute().Value;
                 return Redirect(string.Format("{0}/{1}#comment-{2}", article.CommentsUrl, article.CachedCommentCount / ViewCommentsViewModel.CommentsPerPage + 1, commentId));
             }
 

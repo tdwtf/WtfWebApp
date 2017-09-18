@@ -182,6 +182,13 @@ namespace TheDailyWtf.Controllers
             return View(new ArticleCommentsViewModel(article, page, false));
         }
 
+        public ActionResult CommentModeration(int page)
+        {
+            if (this.User == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            return View(new HiddenCommentsViewModel(page, this.User.IsAdmin ? null : this.User.Identity.Name));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RequiresAdmin]
@@ -231,6 +238,24 @@ namespace TheDailyWtf.Controllers
             }
             StoredProcs.Comments_CreateOrUpdateComment(comment, article, body, name, commentModel.PublishedDate, commentModel.UserIP, commentModel.UserToken, commentModel.ParentCommentId).ExecuteNonQuery();
             return RedirectToRoute("ArticleCommentsAdmin", new { id = articleModel.Id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ApproveComment(FeatureCommentViewModel post)
+        {
+            if (this.User == null)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            if (post.Article == null || post.Comment == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var article = ArticleModel.GetArticleById((int)post.Article);
+            if (article == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            if (!this.User.IsAdmin && this.User.Identity.Name != article.Author.Slug)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            if (!StoredProcs.Articles_ApproveComment(article.Id, post.Comment).Execute().Value)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            return RedirectToRoute("ArticleCommentsAdmin", new { id = article.Id });
         }
 
         [HttpPost]

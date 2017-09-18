@@ -36,7 +36,7 @@
             }
             <span class="timestamp" itemprop="datePublished" contenteditable="@comment.PublishedDate.ToString("o")">
                 <a itemprop="url" href="#comment-@comment.Id">@comment.PublishedDate.ToString("yyyy-MM-dd")</a>
-                @if (Model.CanFeature)
+                @if (!comment.Hidden && Model.CanFeature)
                 {
                     <br />
                     var action = comment.Featured ? "Unfeature" : "Feature";
@@ -46,6 +46,16 @@
                         @Html.Hidden("article", comment.ArticleId)
                         @Html.AntiForgeryToken()
                         <button>@action</button>
+                    }
+                }
+                @if (comment.Hidden && (Model.CanFeature || Model.CanEditDelete))
+                {
+                    using (Html.BeginForm("ApproveComment", "Admin", FormMethod.Post))
+                    {
+                        @Html.Hidden("comment", comment.Id)
+                        @Html.Hidden("article", comment.ArticleId)
+                        @Html.AntiForgeryToken()
+                        <button>Approve</button>
                     }
                 }
                 @if (Model.CanEditDelete)
@@ -59,7 +69,7 @@
                     }
                     <label for="delete-@comment.Id">Delete: <input type="checkbox" class="comment-delete" id="delete-@comment.Id" /></label>
                 }
-                @if (Model.CanReply)
+                @if (!comment.Hidden && Model.CanReply)
                 {
                     <br />
                     <a href="?parent=@comment.Id#comment-form" rel="nofollow" data-reply-to="@comment.Id" class="comment-reply-link">Reply</a>
@@ -71,7 +81,14 @@
                 }
             </span>
             <div itemprop="text">
-                @Html.Raw(comment.BodyHtml)
+                @if (comment.Hidden)
+                {
+                    <em class="comment-moderation">Comment held for moderation.</em>
+                }
+                @if (!comment.Hidden || Model.CanEditDelete)
+                {
+                    @Html.Raw(comment.BodyHtml)
+                }
             </div>
         </li>
     }
