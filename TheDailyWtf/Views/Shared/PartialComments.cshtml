@@ -23,6 +23,10 @@
                 {
                     <span class="poster-token">Token: <a href="/admin/user-comments/by-token/@Url.Encode(comment.UserToken)"><code>@comment.UserToken</code></a></span>
                 }
+                if (Model.Article == null)
+                {
+                    <span class="comment-article">Article: <a href="@Model.Articles[comment.ArticleId].Url">@Model.Articles[comment.ArticleId].Title</a></span>
+                }
             }
             @if (comment.ParentCommentId != null && Model.AllComments != null)
             {
