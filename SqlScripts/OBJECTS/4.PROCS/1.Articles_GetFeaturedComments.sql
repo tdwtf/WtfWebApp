@@ -22,10 +22,15 @@ AS
 BEGIN
 
 
-    SELECT C.* FROM [Comments_Extended] C
-              WHERE C.[Article_Id] = @Article_Id
-                AND C.[Featured_Indicator] = 'Y'
-           ORDER BY C.[Posted_Date] ASC, C.[Comment_Id] ASC
+    SELECT C.*, CI.[Comment_Index], PI.[Comment_Index] [Parent_Comment_Index]
+      FROM [Comments_Extended_Slim] C
+     INNER JOIN [Comment_Index] CI
+             ON C.[Comment_Id] = CI.[Comment_Id]
+      LEFT OUTER JOIN [Comment_Index] PI
+                   ON C.[Parent_Comment_Id] = PI.[Comment_Id]
+     WHERE C.[Article_Id] = @Article_Id
+       AND C.[Featured_Indicator] = 'Y'
+     ORDER BY C.[Posted_Date] ASC, C.[Comment_Id] ASC
 
 END
 GO

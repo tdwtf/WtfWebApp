@@ -23,11 +23,15 @@ CREATE PROCEDURE [Comments_GetCommentsByIP]
 AS
 BEGIN
 
-    SELECT CR.*
+    SELECT CR.*, CI.[Comment_Index], PI.[Comment_Index] [Parent_Comment_Index]
       FROM (SELECT C.*,
                    ROW_NUMBER() OVER (ORDER BY C.[Posted_Date] ASC, C.[Comment_Id] ASC) [Row_Number]
-              FROM [Comments_Extended] C
+              FROM [Comments_Extended_Slim] C
              WHERE C.[User_IP] = @User_IP) CR
+     INNER JOIN [Comment_Index] CI
+             ON CR.[Comment_Id] = CI.[Comment_Id]
+      LEFT OUTER JOIN [Comment_Index] PI
+                   ON CR.[Parent_Comment_Id] = PI.[Comment_Id]
      WHERE CR.[Row_Number] > @Skip_Count AND CR.[Row_Number] <= @Skip_Count + @Limit_Count
      ORDER BY CR.[Row_Number] ASC
 
