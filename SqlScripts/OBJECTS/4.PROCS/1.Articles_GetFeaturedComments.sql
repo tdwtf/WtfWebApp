@@ -24,9 +24,9 @@ BEGIN
 
     SELECT C.*, CI.[Comment_Index], PI.[Comment_Index] [Parent_Comment_Index]
       FROM [Comments_Extended_Slim] C
-     INNER JOIN [Comment_Index] CI
+     INNER JOIN [Comments_Index] CI
              ON C.[Comment_Id] = CI.[Comment_Id]
-      LEFT OUTER JOIN [Comment_Index] PI
+      LEFT OUTER JOIN [Comments_Index] PI
                    ON C.[Parent_Comment_Id] = PI.[Comment_Id]
      WHERE C.[Article_Id] = @Article_Id
        AND C.[Featured_Indicator] = 'Y'

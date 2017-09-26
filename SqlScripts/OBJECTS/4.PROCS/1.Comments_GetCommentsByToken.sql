@@ -28,9 +28,9 @@ BEGIN
                    ROW_NUMBER() OVER (ORDER BY C.[Posted_Date] ASC, C.[Comment_Id] ASC) [Row_Number]
               FROM [Comments_Extended_Slim] C
              WHERE C.[User_Token] = @User_Token) CR
-     INNER JOIN [Comment_Index] CI
+     INNER JOIN [Comments_Index] CI
              ON CR.[Comment_Id] = CI.[Comment_Id]
-      LEFT OUTER JOIN [Comment_Index] PI
+      LEFT OUTER JOIN [Comments_Index] PI
                    ON CR.[Parent_Comment_Id] = PI.[Comment_Id]
      WHERE CR.[Row_Number] > @Skip_Count AND CR.[Row_Number] <= @Skip_Count + @Limit_Count
      ORDER BY CR.[Row_Number] ASC

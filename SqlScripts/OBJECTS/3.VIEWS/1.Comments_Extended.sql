@@ -19,9 +19,9 @@ CREATE VIEW [Comments_Extended] AS
            PI.[Comment_Index] [Parent_Comment_Index],
            CES.[Parent_Comment_User_Name]
       FROM [Comments_Extended_Slim] CES
-     INNER JOIN [Comment_Index] CI
+     INNER JOIN [Comments_Index] CI
              ON CES.[Comment_Id] = CI.[Comment_Id]
-      LEFT OUTER JOIN [Comment_Index] PI
+      LEFT OUTER JOIN [Comments_Index] PI
                    ON CES.[Parent_Comment_Id] = PI.[Comment_Id]
 
 GO

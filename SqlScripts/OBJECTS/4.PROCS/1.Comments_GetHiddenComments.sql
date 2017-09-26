@@ -31,9 +31,9 @@ BEGIN
                      ON A.[Article_Id] = C.[Article_Id]
              WHERE C.[Hidden_Indicator] = 'Y'
                AND (@Author_Slug IS NULL OR A.[Author_Slug] = @Author_Slug)) CR
-     INNER JOIN [Comment_Index] CI
+     INNER JOIN [Comments_Index] CI
              ON CR.[Comment_Id] = CI.[Comment_Id]
-      LEFT OUTER JOIN [Comment_Index] PI
+      LEFT OUTER JOIN [Comments_Index] PI
                    ON CR.[Parent_Comment_Id] = PI.[Comment_Id]
      WHERE CR.[Row_Number] > @Skip_Count AND CR.[Row_Number] <= @Skip_Count + @Limit_Count
      ORDER BY CR.[Row_Number] ASC
