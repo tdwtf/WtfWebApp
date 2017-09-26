@@ -38,6 +38,12 @@ namespace TheDailyWtf.Models
             return comments.Select(c => FromTable(c)).ToList();
         }
 
+        public static CommentModel GetCommentById(int id)
+        {
+            var comments = StoredProcs.Comments_GetCommentById(Comment_Id: id).Execute();
+            return comments.Select(c => FromTable(c)).FirstOrDefault();
+        }
+
         public static IList<CommentModel> FromArticle(ArticleModel article, int? offset = null, int? limit = null)
         {
             var comments = StoredProcs.Comments_GetComments(Article_Id: article.Id, Skip_Count: offset, Limit_Count: limit).Execute();

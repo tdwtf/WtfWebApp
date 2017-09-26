@@ -261,7 +261,7 @@ namespace TheDailyWtf.Controllers
                 ModelState.AddModelError(string.Empty, "A name is required.");
             if (string.IsNullOrWhiteSpace(form.Body))
                 ModelState.AddModelError(string.Empty, "A comment is required.");
-            if (form.Parent != null && !CommentModel.FromArticle(article).Any(c => c.Id == form.Parent))
+            if (form.Parent.HasValue && CommentModel.GetCommentById(form.Parent.Value) == null)
                 ModelState.AddModelError(string.Empty, "Invalid parent comment.");
             if (form.Body.Length > CommentFormModel.MaxBodyLength)
                 ModelState.AddModelError(string.Empty, "Comment too long.");
@@ -282,12 +282,10 @@ namespace TheDailyWtf.Controllers
             if (article == null)
                 return HttpNotFound();
 
-            // TODO: get comment by ID would be much more efficient here
-            var comments = CommentModel.FromArticle(article);
-            if (!comments.Any(c => c.Id == id))
+            var comment = CommentModel.GetCommentById(id);
+            if (comment == null || comment.ArticleId != article.Id)
                 return HttpNotFound();
 
-            var comment = comments.First(c => c.Id == id);
             if (comment.UserToken == null || comment.PublishedDate.Add(CommentEditTimeout) <= DateTime.Now)
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
@@ -322,12 +320,10 @@ namespace TheDailyWtf.Controllers
             if (string.IsNullOrWhiteSpace(post.Body))
                 return Redirect(article.Url);
 
-            // TODO: get comment by ID would be much more efficient here
-            var comments = CommentModel.FromArticle(article);
-            if (!comments.Any(c => c.Id == id))
+            var comment = CommentModel.GetCommentById(id);
+            if (comment == null || comment.ArticleId != article.Id)
                 return HttpNotFound();
 
-            var comment = comments.First(c => c.Id == id);
             if (comment.UserToken == null || comment.PublishedDate.Add(CommentEditTimeout) <= DateTime.Now)
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 

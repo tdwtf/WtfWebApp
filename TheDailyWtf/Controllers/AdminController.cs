@@ -227,7 +227,7 @@ namespace TheDailyWtf.Controllers
             var articleModel = ArticleModel.GetArticleById(article);
             if (articleModel == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-            var commentModel = CommentModel.FromArticle(articleModel).First(c => c.Id == comment);
+            var commentModel = CommentModel.GetCommentById(comment);
             if (commentModel == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             if (body == null)
@@ -255,7 +255,7 @@ namespace TheDailyWtf.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             if (!StoredProcs.Articles_ApproveComment(article.Id, post.Comment).Execute().Value)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            return RedirectToRoute("ArticleCommentsAdmin", new { id = article.Id });
+            return RedirectToRoute("CommentModerationAdmin");
         }
 
         [HttpPost]

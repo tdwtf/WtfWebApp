@@ -32,7 +32,7 @@ BEGIN
              ON CR.[Comment_Id] = CI.[Comment_Id]
       LEFT OUTER JOIN [Comments_Index] PI
                    ON CR.[Parent_Comment_Id] = PI.[Comment_Id]
-     WHERE CR.[Row_Number] > @Skip_Count AND CR.[Row_Number] <= @Skip_Count + @Limit_Count
+     WHERE (CR.[Row_Number] > @Skip_Count AND CR.[Row_Number] <= @Skip_Count + @Limit_Count) OR (@Skip_Count IS NULL AND @Limit_Count IS NULL)
      ORDER BY CR.[Row_Number] ASC
 
 END
