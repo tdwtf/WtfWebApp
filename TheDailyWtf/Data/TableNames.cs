@@ -32,6 +32,8 @@ namespace TheDailyWtf.Data
 		[Obsolete("Comments is obsolete. Use Comments_Extended instead.", true)]
 		public const string Comments = "Comments";
 		public const string Comments_Extended = "Comments_Extended";
+		public const string Comments_Extended_Slim = "Comments_Extended_Slim";
+		public const string Comments_Index = "Comments_Index";
 		public const string FeaturedComments = "FeaturedComments";
 		public const string Series = "Series";
 	}

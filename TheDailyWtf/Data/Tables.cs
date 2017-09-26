@@ -134,6 +134,27 @@ namespace TheDailyWtf.Data
 			public int? Parent_Comment_Index { get; set; }
 			public string Parent_Comment_User_Name { get; set; }
 		}
+		public class Comments_Extended_Slim
+		{
+			public int Comment_Id { get; set; }
+			public int Article_Id { get; set; }
+			public string Article_Title { get; set; }
+			public string Body_Html { get; set; }
+			public string User_Name { get; set; }
+			public DateTime Posted_Date { get; set; }
+			public int? Discourse_Post_Id { get; set; }
+			public YNIndicator Featured_Indicator { get; set; }
+			public YNIndicator Hidden_Indicator { get; set; }
+			public string User_IP { get; set; }
+			public string User_Token { get; set; }
+			public int? Parent_Comment_Id { get; set; }
+			public string Parent_Comment_User_Name { get; set; }
+		}
+		public class Comments_Index
+		{
+			public int Comment_Id { get; set; }
+			public int? Comment_Index { get; set; }
+		}
 		public class FeaturedComments
 		{
 			public int Article_Id { get; set; }
