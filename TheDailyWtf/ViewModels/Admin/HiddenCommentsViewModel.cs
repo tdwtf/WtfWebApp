@@ -4,7 +4,9 @@ namespace TheDailyWtf.ViewModels
 {
     public sealed class HiddenCommentsViewModel : ViewCommentsViewModel
     {
-        public HiddenCommentsViewModel(int page, string authorSlug) : base(CommentModel.GetHiddenComments(authorSlug), page)
+        public HiddenCommentsViewModel(int page, string authorSlug) :
+            base(CommentModel.GetHiddenComments(authorSlug, (page - 1) * CommentsPerPage, CommentsPerPage),
+                page, CommentModel.CountHiddenComments(authorSlug))
         {
             this.authorSlug = authorSlug;
         }

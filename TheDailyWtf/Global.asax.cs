@@ -50,7 +50,7 @@ namespace TheDailyWtf
 
                 Response.Clear();
 
-                Response.Headers.Set("Content-Type", "text/plain; charset=utf-8");
+                Response.ContentType = "text/plain";
                 Response.Write("Because you are logged in to the admin panel, you are seeing this stack trace:\n\n");
                 Response.Write(err.ToString());
 

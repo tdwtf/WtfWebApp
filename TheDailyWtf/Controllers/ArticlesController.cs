@@ -57,7 +57,7 @@ namespace TheDailyWtf.Controllers
 
             if (parent.HasValue)
             {
-                return View(new ViewCommentsViewModel(article, page) { Comment = new CommentFormModel() { Parent = parent } });
+                return View(new ViewCommentsViewModel(article, page) { Comment = { Parent = parent } });
             }
 
             return View(new ViewCommentsViewModel(article, page));

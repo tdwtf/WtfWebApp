@@ -2,7 +2,7 @@ EXEC [__AddStoredProcInfo]
     /* StoredProc_Name         */ 'Comments_GetHiddenComments',
     /* Internal_Indicator      */ 'N',
     /* ReturnType_Name         */ 'DataTable',
-    /* DataTableNames_Csv      */ 'Comments',
+    /* DataTableNames_Csv      */ 'Comments_Extended',
     /* OutputPropertyNames_Csv */ NULL,
     /* Description_Text        */ NULL
 GO
@@ -16,17 +16,23 @@ GO
 
 CREATE PROCEDURE [Comments_GetHiddenComments]
 (
-    @Author_Slug NVARCHAR(255) = NULL
+    @Author_Slug NVARCHAR(255) = NULL,
+    @Skip_Count INT = NULL,
+    @Limit_Count INT = NULL
 )
 AS
 BEGIN
 
-    SELECT C.* FROM [Comments] C
-     INNER JOIN [Articles] A
-             ON A.[Article_Id] = C.[Article_Id]
-     WHERE C.[Hidden_Indicator] = 'Y'
-       AND (@Author_Slug IS NULL OR A.[Author_Slug] = @Author_Slug)
-     ORDER BY [Posted_Date] ASC
+    SELECT CR.*
+      FROM (SELECT C.*,
+                   ROW_NUMBER() OVER (ORDER BY C.[Posted_Date] ASC, C.[Comment_Id] ASC) [Row_Number]
+              FROM [Comments_Extended] C
+             INNER JOIN [Articles] A
+                     ON A.[Article_Id] = C.[Article_Id]
+             WHERE C.[Hidden_Indicator] = 'Y'
+               AND (@Author_Slug IS NULL OR A.[Author_Slug] = @Author_Slug)) CR
+     WHERE CR.[Row_Number] > @Skip_Count AND CR.[Row_Number] <= @Skip_Count + @Limit_Count
+     ORDER BY CR.[Row_Number] ASC
 
 END
 GO

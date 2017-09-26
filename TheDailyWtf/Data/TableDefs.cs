@@ -101,6 +101,7 @@ namespace TheDailyWtf.Data
 			public const string Image_Url = "Image_Url";
 			public const string Active_Indicator = "Active_Indicator";
 		}
+		[Obsolete("Comments is obsolete. Use Comments_Extended instead.", true)]
 		public static class Comments
 		{
 			public const string Comment_Id = "Comment_Id";
@@ -114,6 +115,24 @@ namespace TheDailyWtf.Data
 			public const string User_Token = "User_Token";
 			public const string Parent_Comment_Id = "Parent_Comment_Id";
 			public const string Hidden_Indicator = "Hidden_Indicator";
+		}
+		public static class Comments_Extended
+		{
+			public const string Comment_Id = "Comment_Id";
+			public const string Comment_Index = "Comment_Index";
+			public const string Article_Id = "Article_Id";
+			public const string Article_Title = "Article_Title";
+			public const string Body_Html = "Body_Html";
+			public const string User_Name = "User_Name";
+			public const string Posted_Date = "Posted_Date";
+			public const string Discourse_Post_Id = "Discourse_Post_Id";
+			public const string Featured_Indicator = "Featured_Indicator";
+			public const string Hidden_Indicator = "Hidden_Indicator";
+			public const string User_IP = "User_IP";
+			public const string User_Token = "User_Token";
+			public const string Parent_Comment_Id = "Parent_Comment_Id";
+			public const string Parent_Comment_Index = "Parent_Comment_Index";
+			public const string Parent_Comment_User_Name = "Parent_Comment_User_Name";
 		}
 		public static class FeaturedComments
 		{

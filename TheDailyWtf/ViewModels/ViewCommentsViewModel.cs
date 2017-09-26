@@ -12,10 +12,8 @@ namespace TheDailyWtf.ViewModels
         public ViewCommentsViewModel(ArticleModel article, int page)
         {
             this.Article = article;
-            var comments = CommentModel.FromArticle(article);
-            this.AllComments = comments;
-            this.Comments = comments.Skip((page - 1) * CommentsPerPage).Take(CommentsPerPage).ToList();
-            this.Articles = new Dictionary<int, ArticleModel> { { article.Id.Value, article } };
+            this.TotalComments = article.CachedCommentCount;
+            this.Comments = CommentModel.FromArticle(article, (page - 1) * CommentsPerPage, CommentsPerPage);
             this.PageNumber = page;
 
             this.Comment = new CommentFormModel();
@@ -24,17 +22,16 @@ namespace TheDailyWtf.ViewModels
         public ViewCommentsViewModel(ArticleModel article, IList<CommentModel> comments)
         {
             this.Article = article;
+            this.TotalComments = article.CachedCommentCount;
             this.Comments = comments;
-            this.Articles = new Dictionary<int, ArticleModel> { { article.Id.Value, article } };
             this.PageNumber = -1;
         }
 
-        public ViewCommentsViewModel(IList<CommentModel> comments, int page)
+        public ViewCommentsViewModel(IList<CommentModel> comments, int page, int totalComments)
         {
             this.Article = null;
-            this.AllComments = comments;
-            this.Comments = comments.Skip((page - 1) * CommentsPerPage).Take(CommentsPerPage).ToList();
-            this.Articles = this.Comments.Select(c => c.ArticleId).Distinct().ToDictionary(id => id, id => ArticleModel.GetArticleById(id));
+            this.TotalComments = totalComments;
+            this.Comments = comments;
             this.PageNumber = page;
         }
 
@@ -42,16 +39,15 @@ namespace TheDailyWtf.ViewModels
         public virtual bool CanFeature { get { return false; } }
         public virtual bool CanEditDelete { get { return false; } }
         public virtual bool CanReply { get { return this.PageNumber != -1; } }
-        public ArticleModel Article { get; private set; }
-        public IReadOnlyDictionary<int, ArticleModel> Articles { get; private set; }
-        public IList<CommentModel> AllComments { get; protected set; }
-        public IList<CommentModel> Comments { get; protected set; }
-        public int PageNumber { get; private set; }
+        public ArticleModel Article { get; }
+        public int TotalComments { get; }
+        public IList<CommentModel> Comments { get; }
+        public int PageNumber { get; }
         public int PageCount
         {
             get
             {
-                return ((this.AllComments != null ? this.AllComments.Count : this.Article.CachedCommentCount) + CommentsPerPage - 1) / CommentsPerPage;
+                return (this.TotalComments + CommentsPerPage - 1) / CommentsPerPage;
             }
         }
         public string ViewCommentsHeading
@@ -65,10 +61,10 @@ namespace TheDailyWtf.ViewModels
         {
             get
             {
-                if (this.Comments.Count() < this.Article.CachedCommentCount)
-                    return string.Format("{0} of {1}", this.Comments.Count, this.Article.CachedCommentCount);
+                if (this.Comments.Count() < this.TotalComments)
+                    return string.Format("{0} of {1}", this.Comments.Count, this.TotalComments);
                 else
-                    return this.Article.CachedCommentCount.ToString();
+                    return this.TotalComments.ToString();
             }
         }
         public CommentFormModel Comment { get; set; }

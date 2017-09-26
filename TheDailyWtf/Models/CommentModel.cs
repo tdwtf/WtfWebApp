@@ -12,17 +12,20 @@ namespace TheDailyWtf.Models
         private static readonly Regex ImgSrcRegex = new Regex(@"src=""(?<comment>[^""]+)""", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
         public int Id { get; set; }
+        public int Index { get; set; }
         public int ArticleId { get; set; }
+        public string ArticleTitle { get; set; }
         public string BodyRaw { get; set; }
         public string BodyHtml { get; set; }
         public string Username { get; set;}
         public DateTime PublishedDate { get; set; }
         public int? DiscoursePostId { get; set; }
-        public string ImageUrl { get; set; }
         public bool Featured { get; set; }
         public bool Anonymous { get { return UserToken == null; } }
         public bool Hidden { get; set; }
         public int? ParentCommentId { get; set; }
+        public int? ParentCommentIndex { get; set; }
+        public string ParentCommentUsername { get; set; }
         [NonSerialized]
         public string UserIP;
         [NonSerialized]
@@ -35,41 +38,53 @@ namespace TheDailyWtf.Models
             return comments.Select(c => FromTable(c)).ToList();
         }
 
-        public static IList<CommentModel> FromArticle(ArticleModel article)
+        public static IList<CommentModel> FromArticle(ArticleModel article, int? offset = null, int? limit = null)
         {
-            var comments = StoredProcs.Comments_GetComments(article.Id).Execute();
+            var comments = StoredProcs.Comments_GetComments(Article_Id: article.Id, Skip_Count: offset, Limit_Count: limit).Execute();
             return comments.Select(c => FromTable(c)).ToList();
         }
 
-        public static IList<CommentModel> GetCommentsByIP(string ip)
+        public static IList<CommentModel> GetCommentsByIP(string ip, int? offset = null, int? limit = null)
         {
-            var comments = StoredProcs.Comments_GetCommentsByIP(ip).Execute();
+            var comments = StoredProcs.Comments_GetCommentsByIP(User_IP: ip, Skip_Count: offset, Limit_Count: limit).Execute();
             return comments.Select(c => FromTable(c)).ToList();
         }
 
-        public static IList<CommentModel> GetCommentsByToken(string token)
+        public static IList<CommentModel> GetCommentsByToken(string token, int? offset = null, int? limit = null)
         {
-            var comments = StoredProcs.Comments_GetCommentsByToken(token).Execute();
+            var comments = StoredProcs.Comments_GetCommentsByToken(User_Token: token, Skip_Count: offset, Limit_Count: limit).Execute();
             return comments.Select(c => FromTable(c)).ToList();
         }
 
-        public static IList<CommentModel> GetHiddenComments(string authorSlug = null)
+        public static IList<CommentModel> GetHiddenComments(string authorSlug = null, int? offset = null, int? limit = null)
         {
-            var comments = StoredProcs.Comments_GetHiddenComments(Author_Slug: authorSlug).Execute();
+            var comments = StoredProcs.Comments_GetHiddenComments(Author_Slug: authorSlug, Skip_Count: offset, Limit_Count: limit).Execute();
             return comments.Select(c => FromTable(c)).ToList();
         }
 
-        public static int GetHiddenCommentCount(string authorSlug = null)
+        public static int CountCommentsByIP(string ip)
+        {
+            return StoredProcs.Comments_CountCommentsByIP(User_IP: ip).Execute().Value;
+        }
+
+        public static int CountCommentsByToken(string token)
+        {
+            return StoredProcs.Comments_CountCommentsByToken(User_Token: token).Execute().Value;
+        }
+
+        public static int CountHiddenComments(string authorSlug = null)
         {
             return StoredProcs.Comments_CountHiddenComments(Author_Slug: authorSlug).Execute().Value;
         }
 
-        private static CommentModel FromTable(Tables.Comments comment)
+        private static CommentModel FromTable(Tables.Comments_Extended comment)
         {
             return new CommentModel()
             {
                 Id = comment.Comment_Id,
+                Index = comment.Comment_Index.Value,
                 ArticleId = comment.Article_Id,
+                ArticleTitle = comment.Article_Title,
                 BodyRaw = comment.Body_Html,
                 BodyHtml = MarkdownFormatContent(comment.Body_Html),
                 Username = comment.User_Name,
@@ -78,6 +93,8 @@ namespace TheDailyWtf.Models
                 Featured = comment.Featured_Indicator,
                 Hidden = comment.Hidden_Indicator,
                 ParentCommentId = comment.Parent_Comment_Id,
+                ParentCommentIndex = comment.Parent_Comment_Index,
+                ParentCommentUsername = comment.Parent_Comment_User_Name,
                 UserIP = comment.User_IP,
                 UserToken = comment.User_Token
             };

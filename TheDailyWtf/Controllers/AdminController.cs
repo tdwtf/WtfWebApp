@@ -207,7 +207,7 @@ namespace TheDailyWtf.Controllers
         {
             if (this.User == null)
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            return View(new UserCommentsViewModel("by-ip/" + Url.Encode(ip), CommentModel.GetCommentsByIP(ip), page));
+            return View(UserCommentsViewModel.ByIP(ip, page));
         }
 
         [RequiresAdmin]
@@ -215,7 +215,7 @@ namespace TheDailyWtf.Controllers
         {
             if (this.User == null)
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            return View(new UserCommentsViewModel("by-token/" + Url.Encode(token), CommentModel.GetCommentsByToken(token), page));
+            return View(UserCommentsViewModel.ByToken(token, page));
         }
 
         [HttpPost]

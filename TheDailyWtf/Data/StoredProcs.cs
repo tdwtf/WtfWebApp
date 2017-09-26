@@ -300,9 +300,9 @@ namespace TheDailyWtf.Data.StoredProcedures
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
 		}
-		public IEnumerable<Tables.Comments> Execute()
+		public IEnumerable<Tables.Comments_Extended> Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments>();
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments_Extended>();
 		}
 	}
 
@@ -478,6 +478,44 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
+	public class Comments_CountCommentsByIP : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Comments_CountCommentsByIP(string User_IP, int? Comments_Count)
+		{
+			AddParam("@User_IP", DbType.AnsiString, 45, ParameterDirection.Input, User_IP);
+			AddParam("@Comments_Count", DbType.Int32, 0, ParameterDirection.InputOutput, Comments_Count);
+		}
+
+		public int? Comments_Count { get { return GetParamVal<int?>("@Comments_Count"); } }
+		public int? Execute()
+		{
+			this.ExecuteNonQuery();
+			return this.Comments_Count;
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Comments_CountCommentsByToken : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Comments_CountCommentsByToken(string User_Token, int? Comments_Count)
+		{
+			AddParam("@User_Token", DbType.AnsiString, -1, ParameterDirection.Input, User_Token);
+			AddParam("@Comments_Count", DbType.Int32, 0, ParameterDirection.InputOutput, Comments_Count);
+		}
+
+		public int? Comments_Count { get { return GetParamVal<int?>("@Comments_Count"); } }
+		public int? Execute()
+		{
+			this.ExecuteNonQuery();
+			return this.Comments_Count;
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public class Comments_CountHiddenComments : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public Comments_CountHiddenComments(string Author_Slug, int? Comments_Count)
@@ -540,13 +578,15 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Comments_GetComments : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Comments_GetComments(int? Article_Id)
+		public Comments_GetComments(int? Article_Id, int? Skip_Count, int? Limit_Count)
 		{
 			AddParam("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id);
+			AddParam("@Skip_Count", DbType.Int32, 0, ParameterDirection.Input, Skip_Count);
+			AddParam("@Limit_Count", DbType.Int32, 0, ParameterDirection.Input, Limit_Count);
 		}
-		public IEnumerable<Tables.Comments> Execute()
+		public IEnumerable<Tables.Comments_Extended> Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments>();
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments_Extended>();
 		}
 	}
 
@@ -555,13 +595,15 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Comments_GetCommentsByIP : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Comments_GetCommentsByIP(string User_IP)
+		public Comments_GetCommentsByIP(string User_IP, int? Skip_Count, int? Limit_Count)
 		{
 			AddParam("@User_IP", DbType.AnsiString, 45, ParameterDirection.Input, User_IP);
+			AddParam("@Skip_Count", DbType.Int32, 0, ParameterDirection.Input, Skip_Count);
+			AddParam("@Limit_Count", DbType.Int32, 0, ParameterDirection.Input, Limit_Count);
 		}
-		public IEnumerable<Tables.Comments> Execute()
+		public IEnumerable<Tables.Comments_Extended> Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments>();
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments_Extended>();
 		}
 	}
 
@@ -570,13 +612,15 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Comments_GetCommentsByToken : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Comments_GetCommentsByToken(string User_Token)
+		public Comments_GetCommentsByToken(string User_Token, int? Skip_Count, int? Limit_Count)
 		{
 			AddParam("@User_Token", DbType.AnsiString, -1, ParameterDirection.Input, User_Token);
+			AddParam("@Skip_Count", DbType.Int32, 0, ParameterDirection.Input, Skip_Count);
+			AddParam("@Limit_Count", DbType.Int32, 0, ParameterDirection.Input, Limit_Count);
 		}
-		public IEnumerable<Tables.Comments> Execute()
+		public IEnumerable<Tables.Comments_Extended> Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments>();
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments_Extended>();
 		}
 	}
 
@@ -585,13 +629,15 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// </summary>
 	public class Comments_GetHiddenComments : WrappedStoredProcedure<SqlServerDataFactory>
 	{
-		public Comments_GetHiddenComments(string Author_Slug)
+		public Comments_GetHiddenComments(string Author_Slug, int? Skip_Count, int? Limit_Count)
 		{
 			AddParam("@Author_Slug", DbType.String, 255, ParameterDirection.Input, Author_Slug);
+			AddParam("@Skip_Count", DbType.Int32, 0, ParameterDirection.Input, Skip_Count);
+			AddParam("@Limit_Count", DbType.Int32, 0, ParameterDirection.Input, Limit_Count);
 		}
-		public IEnumerable<Tables.Comments> Execute()
+		public IEnumerable<Tables.Comments_Extended> Execute()
 		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments>();
+			return this.ExecuteDataTable().AsStrongTyped<Tables.Comments_Extended>();
 		}
 	}
 
@@ -801,6 +847,16 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Authors_ValidateLogin(Author_Slug, Password_Text, Valid_Indicator);
 		}
 
+		public static StoredProcedures.Comments_CountCommentsByIP Comments_CountCommentsByIP(string User_IP, int? Comments_Count = null)
+		{
+			return new StoredProcedures.Comments_CountCommentsByIP(User_IP, Comments_Count);
+		}
+
+		public static StoredProcedures.Comments_CountCommentsByToken Comments_CountCommentsByToken(string User_Token, int? Comments_Count = null)
+		{
+			return new StoredProcedures.Comments_CountCommentsByToken(User_Token, Comments_Count);
+		}
+
 		public static StoredProcedures.Comments_CountHiddenComments Comments_CountHiddenComments(string Author_Slug = null, int? Comments_Count = null)
 		{
 			return new StoredProcedures.Comments_CountHiddenComments(Author_Slug, Comments_Count);
@@ -816,24 +872,24 @@ namespace TheDailyWtf.Data
 			return new StoredProcedures.Comments_DeleteComments(CommentIds_Csv);
 		}
 
-		public static StoredProcedures.Comments_GetComments Comments_GetComments(int? Article_Id)
+		public static StoredProcedures.Comments_GetComments Comments_GetComments(int? Article_Id, int? Skip_Count = null, int? Limit_Count = null)
 		{
-			return new StoredProcedures.Comments_GetComments(Article_Id);
+			return new StoredProcedures.Comments_GetComments(Article_Id, Skip_Count, Limit_Count);
 		}
 
-		public static StoredProcedures.Comments_GetCommentsByIP Comments_GetCommentsByIP(string User_IP)
+		public static StoredProcedures.Comments_GetCommentsByIP Comments_GetCommentsByIP(string User_IP, int? Skip_Count = null, int? Limit_Count = null)
 		{
-			return new StoredProcedures.Comments_GetCommentsByIP(User_IP);
+			return new StoredProcedures.Comments_GetCommentsByIP(User_IP, Skip_Count, Limit_Count);
 		}
 
-		public static StoredProcedures.Comments_GetCommentsByToken Comments_GetCommentsByToken(string User_Token)
+		public static StoredProcedures.Comments_GetCommentsByToken Comments_GetCommentsByToken(string User_Token, int? Skip_Count = null, int? Limit_Count = null)
 		{
-			return new StoredProcedures.Comments_GetCommentsByToken(User_Token);
+			return new StoredProcedures.Comments_GetCommentsByToken(User_Token, Skip_Count, Limit_Count);
 		}
 
-		public static StoredProcedures.Comments_GetHiddenComments Comments_GetHiddenComments(string Author_Slug = null)
+		public static StoredProcedures.Comments_GetHiddenComments Comments_GetHiddenComments(string Author_Slug = null, int? Skip_Count = null, int? Limit_Count = null)
 		{
-			return new StoredProcedures.Comments_GetHiddenComments(Author_Slug);
+			return new StoredProcedures.Comments_GetHiddenComments(Author_Slug, Skip_Count, Limit_Count);
 		}
 
 		public static StoredProcedures.Comments_UserHasApprovedComment Comments_UserHasApprovedComment(string User_IP, string User_Token, YNIndicator? Exists_Indicator = null)

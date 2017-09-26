@@ -25,18 +25,12 @@
                 }
                 if (Model.Article == null)
                 {
-                    <span class="comment-article">Article: <a href="@Model.Articles[comment.ArticleId].Url">@Model.Articles[comment.ArticleId].Title</a></span>
+                    <span class="comment-article">Article: <a href="/admin/article/comments/@comment.ArticleId/@((comment.Index - 1) / ViewCommentsViewModel.CommentsPerPage + 1)#comment-@comment.Id">@comment.ArticleTitle</a></span>
                 }
             }
-            @if (comment.ParentCommentId != null && Model.AllComments != null)
+            @if (comment.ParentCommentId != null)
             {
-                // FIXME: this is probably the *least* efficient way to do this.
-                var index = Model.AllComments.TakeWhile(c => c.Id != comment.ParentCommentId).Count();
-                if (index != Model.AllComments.Count())
-                {
-                    var repliedToUser = Model.AllComments.ElementAt(index).Username;
-                    <a href="@string.Format("{0}/{1}#comment-{2}", Model.BaseUrl, index / ViewCommentsViewModel.CommentsPerPage + 1, comment.ParentCommentId)" class="reply-to clean">in reply to @repliedToUser</a>
-                }
+                <a href="@string.Format("{0}/{1}#comment-{2}", Model.BaseUrl, (comment.ParentCommentIndex - 1) / ViewCommentsViewModel.CommentsPerPage + 1, comment.ParentCommentId)" class="reply-to clean">in reply to @comment.ParentCommentUsername</a>
             }
             <span class="timestamp" itemprop="datePublished" contenteditable="@comment.PublishedDate.ToString("o")">
                 <a itemprop="url" href="#comment-@comment.Id">@comment.PublishedDate.ToString("yyyy-MM-dd")</a>
@@ -81,7 +75,7 @@
                     {
                         <a href="/articles/comments/@Model.Article.Slug/addendum/@comment.Id" rel="nofollow" data-user="@comment.Username" class="hide comment-edit-link">Edit</a>
                     }
-                    <a href="/admin/article/comments/@Model.Article.Id#comment-@comment.Id" rel="nofollow" class="hide admin-only">Admin</a>
+                    <a href="/admin/article/comments/@Model.Article.Id/@((comment.Index - 1) / ViewCommentsViewModel.CommentsPerPage + 1)#comment-@comment.Id" rel="nofollow" class="hide admin-only">Admin</a>
                 }
             </span>
             <div itemprop="text">

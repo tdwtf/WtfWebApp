@@ -29,7 +29,9 @@ namespace TheDailyWtf.Data
 		public const string Articles = "Articles";
 		public const string Articles_Extended = "Articles_Extended";
 		public const string Authors = "Authors";
+		[Obsolete("Comments is obsolete. Use Comments_Extended instead.", true)]
 		public const string Comments = "Comments";
+		public const string Comments_Extended = "Comments_Extended";
 		public const string FeaturedComments = "FeaturedComments";
 		public const string Series = "Series";
 	}

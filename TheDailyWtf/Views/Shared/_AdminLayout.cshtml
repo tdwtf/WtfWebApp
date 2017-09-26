@@ -56,7 +56,7 @@
                                 <li><a href="/admin/ads">Ads</a></li>
                                 <li>
                                     @{
-                                        int count = CommentModel.GetHiddenCommentCount();
+                                        int count = CommentModel.CountHiddenComments();
                                         if (count > 0)
                                         {
                                             <a href="/admin/comment-moderation">Comments<span class="bubble">@count</span></a>
@@ -77,7 +77,7 @@
                                 <li><a href="/admin/my-articles">My Articles</a></li>
                                 <li>
                                     @{
-                                        int count = CommentModel.GetHiddenCommentCount(User.Identity.Name);
+                                        int count = CommentModel.CountHiddenComments(User.Identity.Name);
                                         if (count > 0)
                                         {
                                             <a href="/admin/comment-moderation">Comments<span class="bubble">@count</span></a>
