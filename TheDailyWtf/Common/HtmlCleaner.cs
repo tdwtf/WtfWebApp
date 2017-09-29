@@ -109,9 +109,14 @@ namespace TheDailyWtf
 
             if (node.Name.Equals("img", StringComparison.InvariantCultureIgnoreCase))
             {
+                var src = node.Attributes["src"]?.Value;
+                var alt = node.Attributes["alt"]?.Value ?? "[image]";
                 node.Name = "a";
-                node.Attributes["href"] = node.Attributes["src"];
-                node.InnerHtml = "[image]";
+                node.Attributes.Remove("src");
+                node.Attributes.Remove("alt");
+                node.Attributes.Add("href", src);
+                node.RemoveAllChildren();
+                node.AppendChild(node.OwnerDocument.HtmlRealEscapeString(alt));
             }
 
             if (!allowedElements.Contains(node.Name.ToLowerInvariant()))
