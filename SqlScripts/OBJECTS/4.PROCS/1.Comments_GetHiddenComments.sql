@@ -8,7 +8,7 @@ EXEC [__AddStoredProcInfo]
 GO
 
 IF OBJECT_ID('[Comments_GetHiddenComments]') IS NOT NULL
-	DROP PROCEDURE [Comments_GetHiddenComments]
+    DROP PROCEDURE [Comments_GetHiddenComments]
 GO
 
 SET QUOTED_IDENTIFIER ON
@@ -23,18 +23,14 @@ CREATE PROCEDURE [Comments_GetHiddenComments]
 AS
 BEGIN
 
-    SELECT CR.*, CI.[Comment_Index], PI.[Comment_Index] [Parent_Comment_Index]
+    SELECT CR.*
       FROM (SELECT C.*,
                    ROW_NUMBER() OVER (ORDER BY C.[Posted_Date] ASC, C.[Comment_Id] ASC) [Row_Number]
-              FROM [Comments_Extended_Slim] C
+              FROM [Comments_Extended] C
              INNER JOIN [Articles] A
                      ON A.[Article_Id] = C.[Article_Id]
              WHERE C.[Hidden_Indicator] = 'Y'
                AND (@Author_Slug IS NULL OR A.[Author_Slug] = @Author_Slug)) CR
-     INNER JOIN [Comments_Index] CI
-             ON CR.[Comment_Id] = CI.[Comment_Id]
-      LEFT OUTER JOIN [Comments_Index] PI
-                   ON CR.[Parent_Comment_Id] = PI.[Comment_Id]
      WHERE (CR.[Row_Number] > @Skip_Count AND CR.[Row_Number] <= @Skip_Count + @Limit_Count) OR (@Skip_Count IS NULL AND @Limit_Count IS NULL)
      ORDER BY CR.[Row_Number] ASC
 

@@ -34,13 +34,6 @@ namespace TheDailyWtf
                     .ToList()
                     .AsReadOnly();
 
-                adsById = dimensionRoots
-                    .SelectMany(r => r.Companies)
-                    .SelectMany(c => c.Ads)
-                    .ToDictionary(a => a.UniqueId, StringComparer.OrdinalIgnoreCase);
-
-                adRedirects = new AdUrlRedirects(adsById.Values.Select(a => a.OriginalUrl));
-
                 Logger.Information("AdRotator initialized successfully.");
             }
             catch (Exception ex)
@@ -48,6 +41,13 @@ namespace TheDailyWtf
                 Logger.Error("There was an error loading the AdRotator: " + ex);
                 LoadException = ex;
             }
+
+            adsById = dimensionRoots
+                .SelectMany(r => r.Companies)
+                .SelectMany(c => c.Ads)
+                .ToDictionary(a => a.UniqueId, StringComparer.OrdinalIgnoreCase);
+
+            adRedirects = new AdUrlRedirects(adsById.Values.Select(a => a.OriginalUrl));
         }
 
         public static Ad GetNextAd(Dimensions dimensions)
@@ -240,7 +240,7 @@ namespace TheDailyWtf
     {
         private FileInfo file;
 
-        public static readonly Ad Error = new Ad { ImageUrl = "/content/images/ad-load-error.png" };
+        public static readonly Ad Error = new Ad { ImageUrl = "/content/images/ad-load-error.png", OriginalUrl = "" };
 
         private Ad() { }
 

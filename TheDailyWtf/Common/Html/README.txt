@@ -1,0 +1,1 @@
+﻿Ported from https://github.com/golang/net/tree/278c6cf336eb9139d63479da09da0cfb40fdc4c8/html because C# doesn't really have what I want in any of its community-supported HTML parsing libraries, and this is what is used on the forum.

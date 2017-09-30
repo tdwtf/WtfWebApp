@@ -11,8 +11,17 @@ namespace TheDailyWtf.Models
     {
         private static readonly Regex ImgSrcRegex = new Regex(@"src=""(?<comment>[^""]+)""", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
+        private readonly Lazy<int> index;
+        private readonly Lazy<int?> parentCommentIndex;
+
+        public CommentModel()
+        {
+            this.index = new Lazy<int>(() => StoredProcs.Comments_GetCommentIndex(this.Id).Execute().Value);
+            this.parentCommentIndex = new Lazy<int?>(() => this.ParentCommentId.HasValue ? StoredProcs.Comments_GetCommentIndex(this.ParentCommentId).Execute() : null);
+        }
+
         public int Id { get; set; }
-        public int Index { get; set; }
+        public int Index => this.index.Value;
         public int ArticleId { get; set; }
         public string ArticleTitle { get; set; }
         public string BodyRaw { get; set; }
@@ -24,7 +33,7 @@ namespace TheDailyWtf.Models
         public bool Anonymous { get { return UserToken == null; } }
         public bool Hidden { get; set; }
         public int? ParentCommentId { get; set; }
-        public int? ParentCommentIndex { get; set; }
+        public int? ParentCommentIndex => this.parentCommentIndex.Value;
         public string ParentCommentUsername { get; set; }
         [NonSerialized]
         public string UserIP;
@@ -88,7 +97,6 @@ namespace TheDailyWtf.Models
             return new CommentModel()
             {
                 Id = comment.Comment_Id,
-                Index = comment.Comment_Index.Value,
                 ArticleId = comment.Article_Id,
                 ArticleTitle = comment.Article_Title,
                 BodyRaw = comment.Body_Html,
@@ -99,7 +107,6 @@ namespace TheDailyWtf.Models
                 Featured = comment.Featured_Indicator,
                 Hidden = comment.Hidden_Indicator,
                 ParentCommentId = comment.Parent_Comment_Id,
-                ParentCommentIndex = comment.Parent_Comment_Index,
                 ParentCommentUsername = comment.Parent_Comment_User_Name,
                 UserIP = comment.User_IP,
                 UserToken = comment.User_Token

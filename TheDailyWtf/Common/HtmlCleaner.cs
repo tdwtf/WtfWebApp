@@ -1,11 +1,129 @@
-﻿using System;
-using System.Collections.Generic;
-using HtmlAgilityPack;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using TheDailyWtf.Common.HtmlCleaner;
+using atom = TheDailyWtf.Common.Html.Atom;
 
 namespace TheDailyWtf
 {
     public static class HtmlCleaner
     {
+        private static readonly Common.HtmlCleaner.Config Config = (new Common.HtmlCleaner.Config
+        {
+            ValidateURL = Cleaner.SafeURLScheme,
+            EscapeComments = true, // work around https://github.com/psychobunny/templates.js/issues/54
+            WrapText = false, // https://what.thedailywtf.com/post/1049805
+        }).
+            GlobalAttrAtom(atom.Title).
+            ElemAttrAtom(atom.A, atom.Href).
+            ElemAttrAtomMatch(atom.A, atom.Rel, new Regex(@"^nofollow$", RegexOptions.Compiled)).
+            ElemAttrAtom(atom.Img, atom.Src, atom.Alt, atom.Width, atom.Height).
+            //ElemAttrAtomMatch(atom.Img, atom.Class, new Regex(@"^((emoji|img-markdown|img-responsive)(\s+|\s*$))*$")).
+            ElemAttrAtom(atom.Video, atom.Src, atom.Poster, atom.Controls).
+            ElemAttrAtom(atom.Audio, atom.Src, atom.Controls).
+            ElemAtom(atom.B, atom.I, atom.U, atom.S).
+            ElemAtom(atom.Em, atom.Strong, atom.Strike).
+            ElemAtom(atom.Big, atom.Small, atom.Sup, atom.Sub).
+            ElemAtom(atom.Ins, atom.Del).
+            ElemAtom(atom.Abbr, atom.Address, atom.Cite, atom.Q).
+            ElemAtom(atom.P, atom.Blockquote).
+            ElemAtom(atom.Pre, atom.Code).
+            //ElemAttrAtomMatch(atom.Pre, atom.Class, new Regex(@"^((markdown-highlight)(\s+|\s*$))*")).
+            //ElemAttrAtomMatch(atom.Code, atom.Class, new Regex(@"^((hljs|language-[a-z0-9]+)(\s+|\s*$))*$")).
+            ElemAtom(atom.Kbd, atom.Tt).
+            ElemAttrAtom(atom.Details, atom.Open).
+            ElemAtom(atom.Summary).
+            ElemAtom(atom.H1, atom.H2, atom.H3, atom.H4, atom.H5, atom.H6).
+            ElemAttrAtom(atom.Ul, atom.Start).
+            ElemAttrAtom(atom.Ol, atom.Start).
+            ElemAttrAtom(atom.Li, atom.Value).
+            ElemAtom(atom.Hr, atom.Br).
+            ElemAtom(atom.Div, atom.Span).
+            ElemAtom(atom.Table).
+            //ElemAttrAtomMatch(atom.Table, atom.Class, new Regex(@"^((table|table-bordered|table-striped)(\s+|\s*$))*$")).
+            ElemAtom(atom.Thead, atom.Tbody, atom.Tfoot).
+            ElemAtom(atom.Tr, atom.Th, atom.Td).
+            ElemAtom(atom.Caption).
+            ElemAtom(atom.Dl, atom.Dt, atom.Dd);
+
+        internal static IEnumerable<Common.Html.Node> Descendants(this Common.Html.Node[] roots, string tagName)
+        {
+            return roots.SelectMany(r => r.Descendants(tagName));
+        }
+
+        internal static IEnumerable<Common.Html.Node> Descendants(this Common.Html.Node root, string tagName)
+        {
+            if (root.Type != Common.Html.NodeType.Element)
+            {
+                yield break;
+            }
+            if (root.Data == tagName)
+            {
+                yield return root;
+            }
+            for (var c = root.FirstChild; c != null; c = c.NextSibling)
+            {
+                foreach (var d in c.Descendants(tagName))
+                {
+                    yield return d;
+                }
+            }
+        }
+
+        internal static string GetAttributeValue(this Common.Html.Node node, string key, string defaultValue)
+        {
+            foreach (var attr in node.Attr)
+            {
+                if (attr.Namespace == "" && attr.Key == key)
+                {
+                    return attr.Val;
+                }
+            }
+            return defaultValue;
+        }
+
+        internal static void SetAttributeValue(this Common.Html.Node node, string key, string value)
+        {
+            foreach (var attr in node.Attr)
+            {
+                if (attr.Namespace == "" && attr.Key == key)
+                {
+                    attr.Val = value;
+                    return;
+                }
+            }
+            node.Attr.Add(new Common.Html.Attribute
+            {
+                Namespace = "",
+                Key = key,
+                Val = value,
+            });
+        }
+
+        internal static string GetInnerText(this Common.Html.Node[] nodes)
+        {
+            return string.Join("", nodes.Select(n => n.GetInnerText()));
+        }
+
+        internal static string GetInnerText(this Common.Html.Node node)
+        {
+            switch (node.Type)
+            {
+                case Common.Html.NodeType.Text:
+                    return node.Data;
+                case Common.Html.NodeType.Element:
+                    var buf = new StringBuilder();
+                    for (var c = node.FirstChild; c != null; c = c.NextSibling)
+                    {
+                        buf.Append(c.GetInnerText());
+                    }
+                    return buf.ToString();
+                default:
+                    return "";
+            }
+        }
+
         public static string UnmixContent(string html)
         {
             if (html == null)
@@ -13,10 +131,9 @@ namespace TheDailyWtf
                 return null;
             }
 
-            var doc = new HtmlDocument();
-            doc.DocumentNode.InnerHtml = html;
+            var doc = Cleaner.ParseDepth(html, 0);
 
-            foreach (var node in doc.DocumentNode.Descendants("img"))
+            foreach (var node in doc.Descendants("img"))
             {
                 var src = node.GetAttributeValue("src", "").TrimStart();
                 if (src.StartsWith("http://thedailywtf.com/") || src.StartsWith("http://img.thedailywtf.com/"))
@@ -24,7 +141,7 @@ namespace TheDailyWtf
                     node.SetAttributeValue("src", src.Substring("http:".Length));
                 }
             }
-            foreach (var node in doc.DocumentNode.Descendants("a"))
+            foreach (var node in doc.Descendants("a"))
             {
                 var href = node.GetAttributeValue("href", "").TrimStart();
                 if (href.StartsWith("http://thedailywtf.com/"))
@@ -32,7 +149,7 @@ namespace TheDailyWtf
                     node.SetAttributeValue("href", href.Substring("http:".Length));
                 }
             }
-            foreach (var node in doc.DocumentNode.Descendants("script"))
+            foreach (var node in doc.Descendants("script"))
             {
                 var src = node.GetAttributeValue("src", "").TrimStart();
                 if (src.StartsWith("http://www.cornify.com/"))
@@ -41,166 +158,50 @@ namespace TheDailyWtf
                 }
             }
 
-            return doc.DocumentNode.InnerHtml;
+            return Cleaner.Render(doc);
         }
 
         public static string CloseTags(string html)
         {
-            var doc = new HtmlDocument();
-            doc.DocumentNode.InnerHtml = html;
-
-            return doc.DocumentNode.InnerHtml;
+            return Cleaner.Render(Cleaner.ParseDepth(html, 0));
         }
 
         public static string Clean(string html)
         {
-            var doc = new HtmlDocument();
-            doc.DocumentNode.InnerHtml = html;
-
-            for (int i = 0; i < doc.DocumentNode.ChildNodes.Count; i++)
+            html = Cleaner.Preprocess(Config, html);
+            var nodes = Cleaner.Parse(html);
+            foreach (var img in nodes.Descendants("img"))
             {
-                doc.DocumentNode.ChildNodes.Replace(i, CleanNode(doc.DocumentNode.ChildNodes[i], 100));
-            }
-
-            return doc.DocumentNode.InnerHtml;
-        }
-
-        private static HashSet<string> allowedElements = new HashSet<string>()
-        {
-            "a",
-            "b", "i", "u", "s",
-            "em", "strong", "strike",
-            "big", "small", "sup", "sub",
-            "ins", "del",
-            "abbr", "address", "cite", "q",
-            "p", "blockquote",
-            "pre", "code", "kbd", "tt",
-            "details", "summary",
-            "h1", "h2", "h3", "h4", "h5", "h6",
-            "ul", "ol", "li",
-            "hr", "br",
-            "div", "table",
-            "thead", "tbody", "tfoot",
-            "tr", "th", "td",
-            "caption"
-        };
-
-        private static HtmlTextNode HtmlRealEscapeString(this HtmlDocument doc, string text)
-        {
-            return doc.CreateTextNode(text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;"));
-        }
-
-        private static HtmlNode CleanNode(HtmlNode node, int maxDepth)
-        {
-            if (maxDepth == 0)
-            {
-                return node.OwnerDocument.HtmlRealEscapeString("[omitted]");
-            }
-
-            if (node.NodeType == HtmlNodeType.Comment)
-            {
-                return node.OwnerDocument.HtmlRealEscapeString(node.OuterHtml);
-            }
-
-            if (node.NodeType == HtmlNodeType.Text)
-            {
-                return node;
-            }
-
-            if (node.Name.Equals("img", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var src = node.Attributes["src"]?.Value;
-                var alt = node.Attributes["alt"]?.Value ?? "[image]";
-                node.Name = "a";
-                node.Attributes.Remove("src");
-                node.Attributes.Remove("alt");
-                node.Attributes.Add("href", src);
-                node.RemoveAllChildren();
-                node.AppendChild(node.OwnerDocument.HtmlRealEscapeString(alt));
-            }
-
-            if (!allowedElements.Contains(node.Name.ToLowerInvariant()))
-            {
-                string html;
-                try
+                img.Data = "a";
+                img.DataAtom = atom.A;
+                var alt = new Common.Html.Node
                 {
-                    html = node.OuterHtml;
-                }
-                catch (ArgumentOutOfRangeException ex)
+                    Type = Common.Html.NodeType.Text,
+                    Data = "[image]",
+                };
+                img.AppendChild(alt);
+                foreach (var attr in img.Attr)
                 {
-                    // "Use HtmlAgilityPack", they said. "It's the best HTML parser around", they said.
-                    if (ex.ParamName != "length" || ex.TargetSite.Name != "Substring")
-                    {
-                        throw;
-                    }
-                    html = "<" + node.OriginalName + ">";
-                }
-                return node.OwnerDocument.HtmlRealEscapeString(html);
-            }
-
-            var toRemove = new List<HtmlAttribute>();
-            foreach (var a in node.Attributes)
-            {
-                if (a.Name.Equals("title", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    // title is always allowed
-                    continue;
-                }
-
-                if (a.Name.Equals("value", StringComparison.InvariantCultureIgnoreCase) &&
-                    node.Name.Equals("li", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    continue;
-                }
-
-                if (a.Name.Equals("start", StringComparison.InvariantCultureIgnoreCase) && (
-                    node.Name.Equals("ul", StringComparison.InvariantCultureIgnoreCase) ||
-                    node.Name.Equals("ol", StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    continue;
-                }
-
-                if (a.Name.Equals("href", StringComparison.InvariantCultureIgnoreCase) &&
-                    node.Name.Equals("a", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    if (AllowedUri(a.Value))
+                    if (attr.Namespace != "")
                     {
                         continue;
                     }
+                    if (attr.Key == "src")
+                    {
+                        attr.Key = "href";
+                    }
+                    if (attr.Key == "alt")
+                    {
+                        alt.Data = attr.Val;
+                    }
                 }
-
-                toRemove.Add(a);
             }
-
-            foreach (var a in toRemove)
+            foreach (var a in nodes.Descendants("a"))
             {
-                node.Attributes.Remove(a);
+                a.SetAttributeValue("rel", "nofollow");
             }
-
-            if (node.Name.Equals("a", StringComparison.InvariantCultureIgnoreCase))
-            {
-                node.Attributes.Add("rel", "nofollow");
-            }
-
-            for (int i = 0; i < node.ChildNodes.Count; i++)
-            {
-                node.ChildNodes.Replace(i, CleanNode(node.ChildNodes[i], maxDepth - 1));
-            }
-
-            return node;
-        }
-
-        private static bool AllowedUri(string href)
-        {
-            try
-            {
-                var uri = new Uri(href);
-                return !uri.IsAbsoluteUri || uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeMailto;
-            }
-            catch (UriFormatException)
-            {
-                return false;
-            }
+            nodes = Cleaner.CleanNodes(Config, nodes);
+            return Cleaner.Render(nodes);
         }
     }
 }

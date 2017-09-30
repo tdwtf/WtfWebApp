@@ -53,12 +53,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonMark, Version=0.1.0.0, Culture=neutral, PublicKeyToken=001ef8810438905d, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonMark.NET.0.11.0\lib\net45\CommonMark.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\CommonMark.NET.0.15.1\lib\net45\CommonMark.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -93,6 +88,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -142,6 +140,19 @@
     <Compile Include="Common\Forum\IForumApi.cs" />
     <Compile Include="Common\Forum\MockForumApi.cs" />
     <Compile Include="Common\HtmlCleaner.cs" />
+    <Compile Include="Common\HtmlCleaner\Cleaner.cs" />
+    <Compile Include="Common\HtmlCleaner\Config.cs" />
+    <Compile Include="Common\Html\Atom\Atom.cs" />
+    <Compile Include="Common\Html\Atom\Table.cs" />
+    <Compile Include="Common\Html\Const.cs" />
+    <Compile Include="Common\Html\Doctype.cs" />
+    <Compile Include="Common\Html\Entity.cs" />
+    <Compile Include="Common\Html\Escape.cs" />
+    <Compile Include="Common\Html\Foreign.cs" />
+    <Compile Include="Common\Html\Node.cs" />
+    <Compile Include="Common\Html\Parse.cs" />
+    <Compile Include="Common\Html\Render.cs" />
+    <Compile Include="Common\Html\Token.cs" />
     <Compile Include="Common\Legacy\LegacyEncodedUrlPart.cs" />
     <Compile Include="Common\Logs\FileSystemMessenger.cs" />
     <Compile Include="Common\OAuth2.cs" />
@@ -214,6 +225,7 @@
     <Content Include="404.aspx" />
     <Content Include="455.html" />
     <Content Include="455.aspx" />
+    <Content Include="Common\Html\README.txt" />
     <Content Include="Content\Css\animate.min.css" />
     <Content Include="Content\Css\bootstrap-datepicker.css" />
     <Content Include="Content\Css\gumby.css" />

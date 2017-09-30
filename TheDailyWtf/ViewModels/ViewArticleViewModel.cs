@@ -1,8 +1,8 @@
-using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TheDailyWtf.Common.HtmlCleaner;
 using TheDailyWtf.Models;
 
 namespace TheDailyWtf.ViewModels
@@ -35,9 +35,8 @@ namespace TheDailyWtf.ViewModels
 
         private static void ParseSummaryAndImage(string summaryHtml, out string description, out string image)
         {
-            var node = HtmlNode.CreateNode("<div>");
-            node.InnerHtml = summaryHtml;
-            description = HttpUtility.HtmlDecode(node.InnerText);
+            var node = Cleaner.Parse(summaryHtml);
+            description = HttpUtility.HtmlDecode(node.GetInnerText());
             image = node.Descendants("img").FirstOrDefault()?.GetAttributeValue("src", null);
         }
 

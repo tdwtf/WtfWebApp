@@ -8,7 +8,7 @@ EXEC [__AddStoredProcInfo]
 GO
 
 IF OBJECT_ID('[Articles_GetFeaturedComments]') IS NOT NULL
-	DROP PROCEDURE [Articles_GetFeaturedComments]
+    DROP PROCEDURE [Articles_GetFeaturedComments]
 GO
 
 SET QUOTED_IDENTIFIER ON
@@ -16,18 +16,14 @@ GO
 
 CREATE PROCEDURE [Articles_GetFeaturedComments]
 (
-	@Article_Id INT
+    @Article_Id INT
 )
 AS
 BEGIN
 
 
-    SELECT C.*, CI.[Comment_Index], PI.[Comment_Index] [Parent_Comment_Index]
-      FROM [Comments_Extended_Slim] C
-     INNER JOIN [Comments_Index] CI
-             ON C.[Comment_Id] = CI.[Comment_Id]
-      LEFT OUTER JOIN [Comments_Index] PI
-                   ON C.[Parent_Comment_Id] = PI.[Comment_Id]
+    SELECT C.*
+      FROM [Comments_Extended] C
      WHERE C.[Article_Id] = @Article_Id
        AND C.[Featured_Indicator] = 'Y'
      ORDER BY C.[Posted_Date] ASC, C.[Comment_Id] ASC

@@ -1,7 +1,11 @@
 IF OBJECT_ID('[Comments_Extended_Slim]') IS NOT NULL DROP VIEW [Comments_Extended_Slim]
 GO
+IF OBJECT_ID('[Comments_Index]') IS NOT NULL DROP VIEW [Comments_Index]
+GO
+IF OBJECT_ID('[Comments_Extended]') IS NOT NULL DROP VIEW [Comments_Extended]
+GO
 
-CREATE VIEW [Comments_Extended_Slim] AS
+CREATE VIEW [Comments_Extended] AS
 
     SELECT C.[Comment_Id],
            C.[Article_Id],

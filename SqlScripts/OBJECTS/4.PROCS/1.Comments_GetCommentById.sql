@@ -21,12 +21,8 @@ CREATE PROCEDURE [Comments_GetCommentById]
 AS
 BEGIN
 
-    SELECT C.*, CI.[Comment_Index], PI.[Comment_Index] [Parent_Comment_Index]
-      FROM [Comments_Extended_Slim] C
-     INNER JOIN [Comments_Index] CI
-             ON C.[Comment_Id] = CI.[Comment_Id]
-      LEFT OUTER JOIN [Comments_Index] PI
-                   ON C.[Parent_Comment_Id] = PI.[Comment_Id]
+    SELECT C.*
+      FROM [Comments_Extended] C
      WHERE C.[Comment_Id] = @Comment_Id
 
 END
