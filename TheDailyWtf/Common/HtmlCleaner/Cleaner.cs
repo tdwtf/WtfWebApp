@@ -408,7 +408,15 @@ namespace TheDailyWtf.Common.HtmlCleaner
             {
                 return false;
             }
-            attr.Val = u.ToString();
+            try
+            {
+                attr.Val = u.ToString();
+            }
+            catch (UriFormatException)
+            {
+                // C# LIED TO ME IT'S NOT A VALID URL AFTER ALL
+                return false;
+            }
             return true;
         }
 
