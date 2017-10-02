@@ -13,11 +13,13 @@ namespace TheDailyWtf.Models
 
         private readonly Lazy<int> index;
         private readonly Lazy<int?> parentCommentIndex;
+        private readonly Lazy<IList<string>> getLinks;
 
         public CommentModel()
         {
             this.index = new Lazy<int>(() => StoredProcs.Comments_GetCommentIndex(this.Id).Execute().Value);
             this.parentCommentIndex = new Lazy<int?>(() => this.ParentCommentId.HasValue ? StoredProcs.Comments_GetCommentIndex(this.ParentCommentId).Execute() : null);
+            this.getLinks = new Lazy<IList<string>>(() => HtmlCleaner.GetLinkUrls(this.BodyHtml).ToList());
         }
 
         public int Id { get; set; }
@@ -40,6 +42,7 @@ namespace TheDailyWtf.Models
         [NonSerialized]
         public string UserToken;
         public string TokenType { get { return UserToken.Split(':')[0]; } }
+        public IList<string> Links => this.getLinks.Value;
 
         public static IList<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
         {

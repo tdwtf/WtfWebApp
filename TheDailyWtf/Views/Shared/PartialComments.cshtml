@@ -30,7 +30,7 @@
             }
             @if (comment.ParentCommentId != null)
             {
-                <a href="@string.Format("{0}/{1}#comment-{2}", Model.BaseUrl, (comment.ParentCommentIndex - 1) / ViewCommentsViewModel.CommentsPerPage + 1, comment.ParentCommentId)" class="reply-to clean">in reply to @comment.ParentCommentUsername</a>
+                <a href="@string.Format("{0}/{1}#comment-{2}", (Model.CanFeature || Model.CanEditDelete) ? "/admin/article/comments/" + comment.ArticleId : Model.BaseUrl, (comment.ParentCommentIndex - 1) / ViewCommentsViewModel.CommentsPerPage + 1, comment.ParentCommentId)" class="reply-to clean">in reply to @comment.ParentCommentUsername</a>
             }
             <span class="timestamp" itemprop="datePublished" contenteditable="@comment.PublishedDate.ToString("o")">
                 <a itemprop="url" href="#comment-@comment.Id">@comment.PublishedDate.ToString("yyyy-MM-dd")</a>
@@ -81,9 +81,25 @@
             <div itemprop="text">
                 @if (comment.Hidden)
                 {
-                    <em class="comment-moderation">Comment held for moderation.</em>
+                    if (Model.CanFeature || Model.CanEditDelete)
+                    {
+                        <div class="comment-moderation">
+                            <em>Comment held for moderation.</em>
+                            <p>Links: <strong>@comment.Links.Count</strong></p>
+                            <ul>
+                                @foreach (var link in comment.Links)
+                                {
+                                    <li><a href="@link" rel="nofollow noreferrer">@link</a></li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <em class="comment-moderation">Comment held for moderation.</em>
+                    }
                 }
-                @if (!comment.Hidden || Model.CanEditDelete)
+                @if (!comment.Hidden || Model.CanFeature || Model.CanEditDelete)
                 {
                     @Html.Raw(comment.BodyHtml)
                 }

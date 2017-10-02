@@ -203,5 +203,33 @@ namespace TheDailyWtf
             nodes = Cleaner.CleanNodes(Config, nodes);
             return Cleaner.Render(nodes);
         }
+
+        public static IEnumerable<string> GetLinkUrls(string html)
+        {
+            var nodes = Cleaner.Parse(html);
+            return nodes.SelectMany(n => GetLinkUrls(n));
+        }
+
+        private static IEnumerable<string> GetLinkUrls(Common.Html.Node node)
+        {
+            if (node.Type != Common.Html.NodeType.Element)
+            {
+                yield break;
+            }
+
+            var href = node.GetAttributeValue("href", null);
+            if (href != null)
+            {
+                yield return href;
+            }
+
+            for (var c = node.FirstChild; c != null; c = c.NextSibling)
+            {
+                foreach (var u in GetLinkUrls(c))
+                {
+                    yield return u;
+                }
+            }
+        }
     }
 }

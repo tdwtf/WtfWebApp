@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<p>Comments on <a href="@Model.Article.Url">@Model.Article.Title</a></p>
+
 @Html.Partial(Views.Shared.PartialCommentsPages, Model)
 <div class="row">
     <div class="twelve columns">
