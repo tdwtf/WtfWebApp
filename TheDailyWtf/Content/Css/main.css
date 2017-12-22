@@ -883,6 +883,7 @@ a:hover {
   padding: 1%;
   background-color: #e6eae9;
   margin-top: 7.5px;
+  object-fit: scale-down;
 }
 @media (max-width: 767px) {
   #wrapper .content#top-banner {
