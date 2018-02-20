@@ -319,6 +319,7 @@
     <Content Include="Content\Images\Sponsors\inedo.png" />
     <Content Include="Content\Images\Sponsors\infragistics.jpg" />
     <Content Include="Content\Images\Sponsors\puppetlabs.png" />
+    <Content Include="Content\Images\Sponsors\raygun.png" />
     <Content Include="Content\Images\Sponsors\scout 50x50.png" />
     <Content Include="Content\Images\Sponsors\scout_high_res.svg" />
     <Content Include="Content\Images\thedailywtfLogoNav.png" />
