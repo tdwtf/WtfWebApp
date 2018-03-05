@@ -79,3 +79,76 @@ appending to this document.
 View my publicly-auditable identity here: https://keybase.io/remyporter
 
 ==================================================================
+https://keybase.io/benlubar
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://thedailywtf.com
+  * I am benlubar (https://keybase.io/benlubar) on keybase.
+  * I have a public key with fingerprint B89F F284 21E2 3E0F 3B05  4D76 018B AB45 DB2D 2B24
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01205f5b531a71d0db5d9cdce66cd8111ceee5acf7452a43e93fb5d03638886083300a",
+      "fingerprint": "b89ff28421e23e0f3b054d76018bab45db2d2b24",
+      "host": "keybase.io",
+      "key_id": "018bab45db2d2b24",
+      "kid": "010111aee96be072f012ddedaa989a36cde7eaf56c43c1ca7b103803684d89d5631a0a",
+      "uid": "5af99b5b198a1485984dcb0f398cf319",
+      "username": "benlubar"
+    },
+    "service": {
+      "hostname": "thedailywtf.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1520293896,
+  "expire_in": 157680000,
+  "prev": "9981fdacd462d552955bd4b84fab3adae870ef3da82096f444757b96b8379a65",
+  "seqno": 27,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owFlkn1MVWUcx++FsMAIZi6EOZSTmcmNzvt5DpSmAjp6cVBKE+3uOed5Dhy53Av3
+Hl4NFWcoNUG2YgMGkTCQ1wgm6lzINASSgtgAgQEjUycviW6tnEN7LsO/Ov+cned8
+v9/n8/3td9bX0+RhNn/dGDXxdugm8837iulAxS3fI5TiQNlU+BEqGS+/sA1hl2FN
+1hEVTtEMSwuaoAgcAyUG0UgRkKwiFYuiigDDMCrGWICqJvECC3kOy5xGJDQncgAA
+kQYcR9OQslCabk/EzlSnbjdIrAJkTWMBzzKY5TCtcQot8EgSaQYoUOEFpLCIVVie
+GJMcLreDwCnQhcN0BzkjH9YVvP/pn3PTBA5iLIsKpiVWI0UQwghCGciQI/BYwlAT
+RJXnVEaFksLQHCDYgEdARoJI+i5zpy/HCVCTZUVQGBlAhgeCTGSqQrhloGocI7uF
+Luy0wxTsbofttnQFOqlcC0VOM3QVuwfrbrKiMJIIim7LzjS0MNWRQuypTofhUB02
+8jPJMFJd4W6zkZ3qVmdixbqSY1V0OyKjJI4M7HTpDjsVzhClaujuYEZgaVbmgCxa
+KJyVqjuxVXcrBEkENHnc9+AMEinLgDmoIagiXmSRILCyICiIVwCvQYWDCGIg0Vjj
+EAQsLYsaz/OSIClkmoCTZCgKlLtamt1BhbMSAYWJJNSlJ9qhke7EVK5Pgcf6F0xm
+D9MqLw/3lpl8vP2fr54R42861/Kwf9PvFw/5lE3dmwxa/OZaQ+sV5+MzO2Vx7/Zn
+TdPX1hf+GpBdsn/M40HXqy1ebVVHt7bivvmWgtrRzKW4kT1QuRpctxjd3nM4+qXN
+nT98tLTmRFbMt6EfFud/drByeqO3NcEaVW9vaB4vfHHh7r/wS6/xOqc5qKwjZd10
+zu6u65wzIvanrCuuodZBsgdb6bT7geC7cZfll866tTcyYt9g/SoHE0NLfpQnb1ev
+GSy5Ac5d3+U/suqpo/nJsbqagNrFr37r7JBeG3sl6/XGqwP9nZfii8v375hZfTou
++s6JFKNtXMqLtmZsi087cLdpW+tN89TQjt6+dRVdHmml3FzjsYWFJEFsK4ge2jyS
+5/lxtVbtNzWa/0k9TCvqmCzsjg8vnp73/XtLZOCF2Q3tMyUbbHnNEb0NS8mFJ0/p
+YGM1A+Kyo1DImykJOKciZ9H1NHXOe7XU0PqoHgW7So7WbukZz60qfBT28MFww6mF
+T/e9W1AZ/M5cEVRFa0v33PB2473z9wYTxA8mat4f2Vk+U7yryMLOmipZn8LLUc23
+a76IO/+P3/He/MNV1NkQBIfaA7tLI73XDl/oiE2EfzQN5sfMDjyryJTLDx3PCGj8
+POhJRL/lTohfS4Hnz4at8uXR3Y/jR/rKLo5FVu9b1WOO+34enHmr4nLahGNuYG/I
+n2UnL1XvKf3r1n8=
+=4aXv
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/benlubar
+
+==================================================================
