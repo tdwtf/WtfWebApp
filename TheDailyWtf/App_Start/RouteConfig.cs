@@ -140,7 +140,7 @@ namespace TheDailyWtf
 
             routes.MapRoute(
                 name: "ReassignAds",
-                url: "admin/ads/reassign",
+                url: "admin/ad/reassign",
                 defaults: new { controller = "Admin", action = "ReassignAds" }
             );
 
