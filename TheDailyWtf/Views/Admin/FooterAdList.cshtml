@@ -28,3 +28,13 @@
 <div class="medium primary btn">
     <a href="/admin/ad/edit">New Footer Ad</a>
 </div>
+
+<form method="post" action="/admin/ad/reassign">
+    @Html.AntiForgeryToken()
+    <div>
+        If ads have been deleted, articles with those ads will not have footer ads until they are reassigned.
+        <div class="medium primary btn">
+            <input class="input" type="submit" value="Reassign" />
+        </div>
+    </div>
+</form>

@@ -139,6 +139,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "ReassignAds",
+                url: "admin/ads/reassign",
+                defaults: new { controller = "Admin", action = "ReassignAds" }
+            );
+
+            routes.MapRoute(
                 name: "ReenableSideBar",
                 url: "admin/reenable-side-bar",
                 defaults: new { controller = "Admin", action = "ReenableSideBar" }

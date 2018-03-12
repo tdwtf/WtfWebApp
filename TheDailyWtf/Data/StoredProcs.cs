@@ -22,54 +22,6 @@ namespace TheDailyWtf.Data.StoredProcedures
 	/// <summary>
 	/// 
 	/// </summary>
-	public class AdImpressions_GetImpressions : WrappedStoredProcedure<SqlServerDataFactory>
-	{
-		public AdImpressions_GetImpressions(DateTime? Start_Date, DateTime? End_Date)
-		{
-			AddParam("@Start_Date", DbType.Date, 0, ParameterDirection.Input, Start_Date);
-			AddParam("@End_Date", DbType.Date, 0, ParameterDirection.Input, End_Date);
-		}
-		public IEnumerable<Tables.AdImpressions> Execute()
-		{
-			return this.ExecuteDataTable().AsStrongTyped<Tables.AdImpressions>();
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	public class AdImpressions_IncrementCount : WrappedStoredProcedure<SqlServerDataFactory>
-	{
-		public AdImpressions_IncrementCount(string Banner_Name, DateTime? Impression_Date, int? Impression_Count)
-		{
-			AddParam("@Banner_Name", DbType.AnsiString, 100, ParameterDirection.Input, Banner_Name);
-			AddParam("@Impression_Date", DbType.Date, 0, ParameterDirection.Input, Impression_Date);
-			AddParam("@Impression_Count", DbType.Int32, 0, ParameterDirection.Input, Impression_Count);
-		}
-		public void Execute()
-		{
-			this.ExecuteNonQuery();
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	public class AdRedirectUrls_AddRedirectUrl : WrappedStoredProcedure<SqlServerDataFactory>
-	{
-		public AdRedirectUrls_AddRedirectUrl(string Redirect_Url)
-		{
-			AddParam("@Redirect_Url", DbType.String, 255, ParameterDirection.Input, Redirect_Url);
-		}
-		public void Execute()
-		{
-			this.ExecuteNonQuery();
-		}
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
 	public class AdRedirectUrls_GetRedirectUrls : WrappedStoredProcedure<SqlServerDataFactory>
 	{
 		public AdRedirectUrls_GetRedirectUrls()
@@ -224,6 +176,20 @@ namespace TheDailyWtf.Data.StoredProcedures
 		{
 			this.ExecuteNonQuery();
 			return this.Valid_Indicator;
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Articles_FixMissingAds : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public Articles_FixMissingAds()
+		{
+		}
+		public void Execute()
+		{
+			this.ExecuteNonQuery();
 		}
 	}
 
@@ -741,26 +707,59 @@ namespace TheDailyWtf.Data.StoredProcedures
 		}
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
+	public class AdImpressions_GetImpressions : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public AdImpressions_GetImpressions(DateTime? Start_Date, DateTime? End_Date)
+		{
+			AddParam("@Start_Date", DbType.Date, 0, ParameterDirection.Input, Start_Date);
+			AddParam("@End_Date", DbType.Date, 0, ParameterDirection.Input, End_Date);
+		}
+		public IEnumerable<Tables.AdImpressions> Execute()
+		{
+			return this.ExecuteDataTable().AsStrongTyped<Tables.AdImpressions>();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class AdImpressions_IncrementCount : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public AdImpressions_IncrementCount(string Banner_Name, DateTime? Impression_Date, int? Impression_Count)
+		{
+			AddParam("@Banner_Name", DbType.AnsiString, 100, ParameterDirection.Input, Banner_Name);
+			AddParam("@Impression_Date", DbType.Date, 0, ParameterDirection.Input, Impression_Date);
+			AddParam("@Impression_Count", DbType.Int32, 0, ParameterDirection.Input, Impression_Count);
+		}
+		public void Execute()
+		{
+			this.ExecuteNonQuery();
+		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class AdRedirectUrls_AddRedirectUrl : WrappedStoredProcedure<SqlServerDataFactory>
+	{
+		public AdRedirectUrls_AddRedirectUrl(string Redirect_Url)
+		{
+			AddParam("@Redirect_Url", DbType.String, 255, ParameterDirection.Input, Redirect_Url);
+		}
+		public void Execute()
+		{
+			this.ExecuteNonQuery();
+		}
+	}
+
 }
 namespace TheDailyWtf.Data
 {
 	public static class StoredProcs
 	{
-		public static StoredProcedures.AdImpressions_GetImpressions AdImpressions_GetImpressions(DateTime? Start_Date = null, DateTime? End_Date = null)
-		{
-			return new StoredProcedures.AdImpressions_GetImpressions(Start_Date, End_Date);
-		}
-
-		public static StoredProcedures.AdImpressions_IncrementCount AdImpressions_IncrementCount(string Banner_Name, DateTime? Impression_Date, int? Impression_Count)
-		{
-			return new StoredProcedures.AdImpressions_IncrementCount(Banner_Name, Impression_Date, Impression_Count);
-		}
-
-		public static StoredProcedures.AdRedirectUrls_AddRedirectUrl AdRedirectUrls_AddRedirectUrl(string Redirect_Url)
-		{
-			return new StoredProcedures.AdRedirectUrls_AddRedirectUrl(Redirect_Url);
-		}
-
 		public static StoredProcedures.AdRedirectUrls_GetRedirectUrls AdRedirectUrls_GetRedirectUrls()
 		{
 			return new StoredProcedures.AdRedirectUrls_GetRedirectUrls();
@@ -804,6 +803,11 @@ namespace TheDailyWtf.Data
 		public static StoredProcedures.Articles_FeatureComment Articles_FeatureComment(int? Article_Id, int? Comment_Id, YNIndicator? Valid_Indicator = null)
 		{
 			return new StoredProcedures.Articles_FeatureComment(Article_Id, Comment_Id, Valid_Indicator);
+		}
+
+		public static StoredProcedures.Articles_FixMissingAds Articles_FixMissingAds()
+		{
+			return new StoredProcedures.Articles_FixMissingAds();
 		}
 
 		public static StoredProcedures.Articles_GetArticleById Articles_GetArticleById(int? Article_Id)
@@ -954,6 +958,21 @@ namespace TheDailyWtf.Data
 		public static StoredProcedures.Series_GetSeriesBySlug Series_GetSeriesBySlug(string Series_Slug)
 		{
 			return new StoredProcedures.Series_GetSeriesBySlug(Series_Slug);
+		}
+
+		public static StoredProcedures.AdImpressions_GetImpressions AdImpressions_GetImpressions(DateTime? Start_Date = null, DateTime? End_Date = null)
+		{
+			return new StoredProcedures.AdImpressions_GetImpressions(Start_Date, End_Date);
+		}
+
+		public static StoredProcedures.AdImpressions_IncrementCount AdImpressions_IncrementCount(string Banner_Name, DateTime? Impression_Date, int? Impression_Count)
+		{
+			return new StoredProcedures.AdImpressions_IncrementCount(Banner_Name, Impression_Date, Impression_Count);
+		}
+
+		public static StoredProcedures.AdRedirectUrls_AddRedirectUrl AdRedirectUrls_AddRedirectUrl(string Redirect_Url)
+		{
+			return new StoredProcedures.AdRedirectUrls_AddRedirectUrl(Redirect_Url);
 		}
 
 	}

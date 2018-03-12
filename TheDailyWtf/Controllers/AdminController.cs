@@ -340,6 +340,16 @@ namespace TheDailyWtf.Controllers
             return RedirectToRoute("FooterAdListAdmin");
         }
 
+        [RequiresAdmin]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult ReassignAds()
+        {
+            StoredProcs.Articles_FixMissingAds().Execute();
+
+            return RedirectToRoute("FooterAdListAdmin");
+        }
+
         public ActionResult EditAuthor(string slug)
         {
             return View(new EditAuthorViewModel(slug));
