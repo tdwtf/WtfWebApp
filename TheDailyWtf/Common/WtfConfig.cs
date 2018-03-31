@@ -73,5 +73,15 @@ namespace TheDailyWtf
                 return WebConfigurationManager.AppSettings["NodeBB." + key];
             }
         }
+
+        public static class Asana
+        {
+            public static string AccessToken { get { return ReadFromFile(); } }
+
+            private static string ReadFromFile([CallerMemberName] string key = null)
+            {
+                return WebConfigurationManager.AppSettings["Asana." + key];
+            }
+        }
     }
 }

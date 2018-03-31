@@ -4,6 +4,7 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using Inedo;
+using TheDailyWtf.Common.Asana;
 using TheDailyWtf.Models;
 using TheDailyWtf.ViewModels;
 
@@ -114,39 +115,42 @@ namespace TheDailyWtf.Controllers
 
             try
             {
-                using(var writer = new StringWriter())
-                using (var smtp = new SmtpClient(Config.Wtf.Mail.Host))
-                using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.SubmitForm.Email, Config.Wtf.Mail.FromAddress), Config.Wtf.Mail.ToAddress))
+                using (var writer = new StringWriter())
                 {
-                    WriteCommonBody(writer, model.SubmitForm.Name, model.SubmitForm.NameUsage);
+                    WriteCommonBody(writer, model.SubmitForm.Name, model.SubmitForm.NameUsage, model.SubmitForm.Email);
 
+                    long tag;
+                    string title;
+                    var attachments = new HttpPostedFileBase[0];
                     switch (model.SubmitForm.Type)
                     {
                         case SubmissionType.CodeSod:
-                            message.Subject = "[Code]";
+                            tag = AsanaClient.CodeSodTagId;
+                            title = "[CodeSOD] ";
                             WriteCodeSodBody(writer, model.SubmitForm.Language, model.SubmitForm.CodeSnippet, model.SubmitForm.Background);
-                            AttachFile(message, model.SubmitForm.CodeFile);
+                            attachments = AttachFile(model.SubmitForm.CodeFile);
                             break;
 
                         case SubmissionType.Story:
-                            message.Subject = "[Story]";
+                            tag = AsanaClient.StoryTagId;
+                            title = "[Story] ";
                             WriteStoryBody(writer, model.SubmitForm.StoryComments);
                             break;
 
                         case SubmissionType.Errord:
-                            message.Subject = "[Error'd]";
+                            tag = AsanaClient.ErrordTagId;
+                            title = "[Error'd] ";
                             WriteErrordBody(writer, model.SubmitForm.ErrordComments);
-                            AttachFile(message, model.SubmitForm.ErrordFile);
+                            attachments = AttachFile(model.SubmitForm.ErrordFile);
                             break;
 
                         default:
                             throw new InvalidOperationException("Invalid submission type");
                     }
 
-                    message.Subject = message.Subject + " " + model.SubmitForm.Title;
-                    message.Body = writer.ToString();
+                    title += model.SubmitForm.Title;
 
-                    smtp.Send(message);
+                    AsanaClient.Instance.CreateTaskAsync(tag, title, writer.ToString(), attachments).Wait();
                 }
 
                 return View(new SubmitWtfViewModel { ShowLeaderboardAd = false, SuccessMessage = "Your submission was sent, thank you!" });
@@ -166,7 +170,15 @@ namespace TheDailyWtf.Controllers
             message.Attachments.Add(new Attachment(file.InputStream, file.FileName));
         }
 
-        private void WriteCommonBody(TextWriter writer, string submitterName, NameUsage nameUsage)
+        private HttpPostedFileBase[] AttachFile(HttpPostedFileBase file)
+        {
+            if (file == null || file.ContentLength < 1)
+                return new HttpPostedFileBase[0];
+
+            return new[] { file };
+        }
+
+        private void WriteCommonBody(TextWriter writer, string submitterName, NameUsage nameUsage, string email)
         {
             writer.WriteLine("Your Name: {0}", submitterName);
             writer.WriteLine(
@@ -176,6 +188,7 @@ namespace TheDailyWtf.Controllers
                 nameUsage == NameUsage.FirstNameOnly ? "First Name Only" :
                 "ANONYMOUS"
             );
+            writer.WriteLine("Email (do not publish): {0}", email);
         }
 
         private void WriteCodeSodBody(TextWriter writer, string language, string codeSnippet, string background)
