@@ -36,6 +36,9 @@ namespace TheDailyWtf
             public static class Mail
             {
                 public static string Host { get { return ReadFromFile(); } }
+                public static int Port { get { return int.Parse(ReadFromFile()); } }
+                public static string Username { get { return ReadFromFile(); } }
+                public static string Password { get { return ReadFromFile(); } }
                 public static string ToAddress { get { return ReadFromFile(); } }
                 public static string FromAddress { get { return ReadFromFile(); } }
                 public static Dictionary<string, string> CustomEmailAddresses 

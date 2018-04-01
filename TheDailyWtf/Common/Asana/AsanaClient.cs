@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace TheDailyWtf.Common.Asana
 {
@@ -16,52 +15,52 @@ namespace TheDailyWtf.Common.Asana
         public const long StoryTagId = 614974001148585;
         public const long ErrordTagId = 614974001148586;
 
-        private readonly HttpClient client = new HttpClient()
+        private HttpClient CreateClient()
         {
-            BaseAddress = new Uri("https://app.asana.com/api/1.0/"),
-            DefaultRequestHeaders =
+            return new HttpClient()
             {
-                { "Authorization", "Bearer " + Config.Asana.AccessToken }
-            }
-        };
+                BaseAddress = new Uri("https://app.asana.com/api/1.0/"),
+                DefaultRequestHeaders =
+                {
+                    { "Authorization", "Bearer " + Config.Asana.AccessToken }
+                }
+            };
+        }
 
         private AsanaClient()
         {
+            ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12;
         }
 
-        public async Task CreateTaskAsync(long tagID, string name, string notes, params HttpPostedFileBase[] attachments)
+        public async Task CreateTaskAsync(long tagID, string name, string notes, params KeyValuePair<string, HttpContent>[] attachments)
         {
-            long id;
-            using (var response = await this.client.PostAsync("task", new FormUrlEncodedContent(new Dictionary<string, string>
+            using (var client = this.CreateClient())
             {
-                { "project", ProjectId.ToString() },
-                { "name", name },
-                { "notes", notes },
-                { "tags", tagID.ToString() }
-            })))
-            {
-                response.EnsureSuccessStatusCode();
-
-                var content = JsonConvert.DeserializeAnonymousType(await response.Content.ReadAsStringAsync(), new { data = new { id = 0L } });
-                id = content.data.id;
-            }
-
-            foreach (var attachment in attachments)
-            {
-                using (var content = new MultipartFormDataContent())
+                long id;
+                using (var response = await client.PostAsync("tasks", new FormUrlEncodedContent(new Dictionary<string, string>
                 {
-                    content.Add(new StreamContent(attachment.InputStream)
-                    {
-                        Headers =
-                        {
-                            ContentType = MediaTypeHeaderValue.Parse(attachment.ContentType),
-                            ContentLength = attachment.ContentLength
-                        }
-                    }, "file", attachment.FileName);
+                    { "projects", ProjectId.ToString() },
+                    { "name", name },
+                    { "notes", notes },
+                    { "tags", tagID.ToString() }
+                })).ConfigureAwait(false))
+                {
+                    response.EnsureSuccessStatusCode();
 
-                    using (var response = await this.client.PostAsync($"task/{id}/attachments", content))
+                    var content = JsonConvert.DeserializeAnonymousType(await response.Content.ReadAsStringAsync().ConfigureAwait(false), new { data = new { id = 0L } });
+                    id = content.data.id;
+                }
+
+                foreach (var attachment in attachments)
+                {
+                    using (var content = new MultipartFormDataContent())
                     {
-                        response.EnsureSuccessStatusCode();
+                        content.Add(attachment.Value, "file", attachment.Key);
+
+                        using (var response = await client.PostAsync($"tasks/{id}/attachments", content).ConfigureAwait(false))
+                        {
+                            response.EnsureSuccessStatusCode();
+                        }
                     }
                 }
             }
