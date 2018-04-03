@@ -77,8 +77,10 @@ namespace TheDailyWtf.Controllers
             try
             {
                 using (var writer = new StringWriter())
-                using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.ContactForm.Email, Config.Wtf.Mail.FromAddress), Config.Wtf.Mail.ToAddress))
+                using (var message = new MailMessage(Config.Wtf.Mail.FromAddress, Config.Wtf.Mail.ToAddress))
                 {
+                    message.ReplyToList.Add(model.ContactForm.Email);
+
                     if (Config.Wtf.Mail.CustomEmailAddresses.TryGetValue(model.ContactForm.To, out var customToAddress))
                     {
                         message.To.Clear();
@@ -87,6 +89,7 @@ namespace TheDailyWtf.Controllers
 
                     writer.WriteLine("To: {0}", model.ContactForm.To);
                     writer.WriteLine("Your Name: {0}", model.ContactForm.Name);
+                    writer.WriteLine("From: {0}", model.ContactForm.Email);
                     writer.WriteLine();
                     writer.WriteLine("Message:");
                     writer.WriteLine("--------------------------------");
@@ -131,8 +134,10 @@ namespace TheDailyWtf.Controllers
             try
             {
                 using (var writer = new StringWriter())
-                using (var message = new MailMessage(InedoLib.Util.CoalesceStr(model.SubmitForm.Email, Config.Wtf.Mail.FromAddress), Config.Wtf.Mail.ToAddress))
+                using (var message = new MailMessage(Config.Wtf.Mail.FromAddress, Config.Wtf.Mail.ToAddress))
                 {
+                    message.ReplyToList.Add(model.SubmitForm.Email);
+
                     WriteCommonBody(writer, model.SubmitForm.Name, model.SubmitForm.NameUsage, model.SubmitForm.Email);
 
                     long tag;
@@ -169,7 +174,7 @@ namespace TheDailyWtf.Controllers
                     message.Body = writer.ToString();
 
                     Task.WhenAll(
-                        AsanaClient.Instance.CreateTaskAsync(tag, title, writer.ToString(), attachments),
+                        //AsanaClient.Instance.CreateTaskAsync(tag, title, writer.ToString(), attachments),
                         this.SendMailAsync(message)
                     ).GetAwaiter().GetResult();
                 }
