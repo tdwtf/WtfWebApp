@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="Common\ActionResults\RssArticlesResult.cs" />
     <Compile Include="Common\Ads\AdRotator.cs" />
+    <Compile Include="Common\Asana\AsanaClient.cs" />
     <Compile Include="Common\BaseViewPage.cs" />
     <Compile Include="Common\CacheProfile.cs" />
     <Compile Include="Common\Forum\IForumApi.cs" />
