@@ -77,7 +77,7 @@ namespace TheDailyWtf.Controllers
             try
             {
                 using (var writer = new StringWriter())
-                using (var message = new MailMessage(Config.Wtf.Mail.FromAddress, Config.Wtf.Mail.ToAddress))
+                using (var message = new MailMessage(new MailAddress(Config.Wtf.Mail.FromAddress, model.ContactForm.Name), new MailAddress(Config.Wtf.Mail.ToAddress)))
                 {
                     message.ReplyToList.Add(model.ContactForm.Email);
 
@@ -134,7 +134,7 @@ namespace TheDailyWtf.Controllers
             try
             {
                 using (var writer = new StringWriter())
-                using (var message = new MailMessage(Config.Wtf.Mail.FromAddress, Config.Wtf.Mail.ToAddress))
+                using (var message = new MailMessage(new MailAddress(Config.Wtf.Mail.FromAddress, model.SubmitForm.Name), new MailAddress(Config.Wtf.Mail.ToAddress)))
                 {
                     message.ReplyToList.Add(model.SubmitForm.Email);
 
