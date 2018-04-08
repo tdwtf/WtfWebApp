@@ -66,10 +66,10 @@ namespace TheDailyWtf.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Contact(ContactFormViewModel model)
+        public async Task<ActionResult> Contact(ContactFormViewModel model)
         {
             if (this.ModelState.IsValid)
-                CheckRecaptcha();
+                await this.CheckRecaptchaAsync();
 
             if (!this.ModelState.IsValid)
                 return View(model);
@@ -99,7 +99,7 @@ namespace TheDailyWtf.Controllers
                     message.Body = writer.ToString();
                     AttachFile(message, model.ContactForm.File);
 
-                    this.SendMailAsync(message).GetAwaiter().GetResult();
+                    await this.SendMailAsync(message);
                 }
 
                 return View(new ContactFormViewModel { SuccessMessage = "Your feedback has been submitted, thank you!" });
@@ -123,10 +123,10 @@ namespace TheDailyWtf.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Submit(SubmitWtfViewModel model)
+        public async Task<ActionResult> Submit(SubmitWtfViewModel model)
         {
             if (this.ModelState.IsValid)
-                CheckRecaptcha();
+                await this.CheckRecaptchaAsync();
 
             if (!this.ModelState.IsValid)
                 return View(model);
@@ -173,10 +173,10 @@ namespace TheDailyWtf.Controllers
                     message.Subject = title;
                     message.Body = writer.ToString();
 
-                    Task.WhenAll(
-                        //AsanaClient.Instance.CreateTaskAsync(tag, title, writer.ToString(), attachments),
+                    await Task.WhenAll(
+                        AsanaClient.Instance.CreateTaskAsync(tag, title, writer.ToString(), attachments),
                         this.SendMailAsync(message)
-                    ).GetAwaiter().GetResult();
+                    );
                 }
 
                 return View(new SubmitWtfViewModel { ShowLeaderboardAd = false, SuccessMessage = "Your submission was sent, thank you!" });

@@ -1516,10 +1516,6 @@ a:hover {
             -o-border-radius: 4px;
             border-radius: 4px;
 
-            &#submitform-name, &#login-name, &#login-password {
-                width: 30%;
-            }
-
             &.submit-button {
                 background: @tdwtf-red;
                 border: none;
@@ -1807,4 +1803,31 @@ pre > code {
     color: #000;
     background-color: #eee;
     background-image: repeating-linear-gradient(-45deg, #fff, #fff 4px, #ddd 5px, #ddd 8px, #fff 9px);
+}
+
+#wrapper #loginPage .content#contact form {
+    max-width: 500px;
+    margin: 15px auto 0;
+    background: #fff;
+    padding: 25px;
+    box-shadow: 0 8px 6px -6px #808080;
+    text-align: center;
+
+    #alternate-login {
+        font-size: 0.8rem;
+
+        &:not(:hover), a:not(:hover) {
+            color: #808080;
+        }
+    }
+
+    input {
+        display: inline-block;
+        width: auto;
+        cursor: pointer;
+
+        &:hover {
+            border-color: #808080;
+        }
+    }
 }

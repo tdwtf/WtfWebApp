@@ -41,7 +41,24 @@ namespace TheDailyWtf.Models
         public string UserIP;
         [NonSerialized]
         public string UserToken;
-        public string TokenType { get { return UserToken.Split(':')[0]; } }
+        public string TokenType => UserToken?.Split(':')[0];
+        public string ProfileUrl
+        {
+            get
+            {
+                if (UserToken == null)
+                {
+                    return null;
+                }
+
+                var split = UserToken.Split(':');
+                return split[0] == "author" ? $"https://{Config.Wtf.Host}/authors/{split[1]}" :
+                    split[0] == "nodebb" ? $"https://{Config.NodeBB.Host}/user/{split[1]}" :
+                    split[0] == "disco" ? $"https://{Config.NodeBB.Host}/api/tdwtf-disco-user-redirect/{split[1]}" :
+                    split[0] == "cs" ? $"https://{Config.NodeBB.Host}/user/Profile.aspx?UserID={split[1]}" :
+                    null;
+            }
+        }
         public IList<string> Links => this.getLinks.Value;
 
         public static IList<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)

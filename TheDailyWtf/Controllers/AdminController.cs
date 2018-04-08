@@ -15,6 +15,7 @@ using TheDailyWtf.ViewModels;
 namespace TheDailyWtf.Controllers
 {
     [Authorize]
+    [RequireHttps]
     public class AdminController : WtfControllerBase
     {
         //
@@ -41,6 +42,25 @@ namespace TheDailyWtf.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+
+            this.Response.Cookies.Add(new HttpCookie("IS_ADMIN", "")
+            {
+                HttpOnly = false,
+                Expires = DateTime.Now.AddDays(-1),
+                Path = FormsAuthentication.FormsCookiePath
+            });
+            this.Response.Cookies.Add(new HttpCookie("tdwtf_token", "")
+            {
+                HttpOnly = true,
+                Expires = DateTime.Now.AddDays(-1),
+                Path = FormsAuthentication.FormsCookiePath
+            });
+            this.Response.Cookies.Add(new HttpCookie("tdwtf_token_name", "")
+            {
+                HttpOnly = false,
+                Expires = DateTime.Now.AddDays(-1),
+                Path = FormsAuthentication.FormsCookiePath
+            });
 
             return RedirectToAction("login");
         }
@@ -94,8 +114,9 @@ namespace TheDailyWtf.Controllers
                 var principal = new AuthorPrincipal(author);
 
                 var userData = JsonConvert.SerializeObject(principal.ToSerializableModel());
-                var expiresDate = DateTime.Now.AddMinutes(30);
-                var authTicket = new FormsAuthenticationTicket(1, author.Slug, DateTime.Now, expiresDate, false, userData);
+                var issued = DateTime.Now;
+                var expiresDate = issued.AddMinutes(30);
+                var authTicket = new FormsAuthenticationTicket(1, author.Slug, issued, expiresDate, false, userData);
 
                 string encTicket = FormsAuthentication.Encrypt(authTicket);
                 var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket)
@@ -105,13 +126,29 @@ namespace TheDailyWtf.Controllers
                     Path = FormsAuthentication.FormsCookiePath
                 };
                 this.Response.Cookies.Add(cookie);
+
+                var expiresLong = issued.AddYears(2);
                 var cookieIsAdmin = new HttpCookie("IS_ADMIN", "1")
                 {
                     HttpOnly = false,
-                    Expires = expiresDate,
+                    Expires = expiresLong,
                     Path = FormsAuthentication.FormsCookiePath
                 };
                 this.Response.Cookies.Add(cookieIsAdmin);
+
+                var ticket = new FormsAuthenticationTicket(1, author.Name, issued, expiresLong, true, "author:" + author.Slug);
+                this.Response.SetCookie(new HttpCookie("tdwtf_token", FormsAuthentication.Encrypt(ticket))
+                {
+                    HttpOnly = true,
+                    Expires = expiresLong,
+                    Path = FormsAuthentication.FormsCookiePath
+                });
+                this.Response.SetCookie(new HttpCookie("tdwtf_token_name", author.Name)
+                {
+                    HttpOnly = false,
+                    Expires = expiresLong,
+                    Path = FormsAuthentication.FormsCookiePath
+                });
 
                 return new RedirectResult(FormsAuthentication.GetRedirectUrl(author.Slug, false));
             }

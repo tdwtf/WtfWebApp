@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using TheDailyWtf.Data;
+using TheDailyWtf.Forum;
 using TheDailyWtf.Legacy;
 using TheDailyWtf.Models;
 using TheDailyWtf.ViewModels;
@@ -88,48 +90,38 @@ namespace TheDailyWtf.Controllers
             return View(new CommentsLoginViewModel(name, token));
         }
 
-        class LoginError
-        {
-            [JsonProperty(PropertyName = "message", Required = Required.Always)]
-            public string Message { get; set; }
-        }
-
-        class LoginSuccess
-        {
-            [JsonProperty(PropertyName = "username", Required = Required.Always)]
-            public string Name { get; set; }
-            [JsonProperty(PropertyName = "userslug", Required = Required.Always)]
-            public string Slug { get; set; }
-        }
-
         private ActionResult SetLoginCookie(string name, string token)
         {
             var issued = DateTime.Now;
             var expiration = issued.AddYears(2);
             var ticket = new FormsAuthenticationTicket(1, name, issued, expiration, true, token);
+
             Response.SetCookie(new HttpCookie("tdwtf_token", FormsAuthentication.Encrypt(ticket))
             {
                 HttpOnly = true,
                 Expires = expiration,
-                Path = FormsAuthentication.FormsCookiePath,
+                Path = FormsAuthentication.FormsCookiePath
             });
             Response.SetCookie(new HttpCookie("tdwtf_token_name", name)
             {
                 HttpOnly = false,
                 Expires = expiration,
-                Path = FormsAuthentication.FormsCookiePath,
+                Path = FormsAuthentication.FormsCookiePath
             });
-            return Redirect("/");
+
+            // Log out of the admin panel to avoid confusion between accounts. Leave IS_ADMIN set.
+            FormsAuthentication.SignOut();
+
+            return Redirect("/login");
         }
 
         [RequireHttps]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [ValidateInput(false)]
-        public ActionResult Login(string username, string password)
+        public ActionResult Login(string mode)
         {
-            if (username == null && password == null && Request.Cookies["tdwtf_token"] != null)
+            if (mode == "logout")
             {
                 var expiration = DateTime.Today.AddDays(-1);
                 Response.SetCookie(new HttpCookie("tdwtf_token", "")
@@ -147,23 +139,23 @@ namespace TheDailyWtf.Controllers
                 return Redirect("/login");
             }
 
-            using (var client = new HttpClient())
+            if (mode == "login")
             {
-                using (var response = client.PostAsync("https://" + Config.NodeBB.Host + "/api/ns/login", new FormUrlEncodedContent(
-                    new Dictionary<string, string> { { "username", username }, { "password", password } })).Result)
-                {
-                    if (response.StatusCode == HttpStatusCode.Forbidden)
-                    {
-                        var err = JsonConvert.DeserializeObject<LoginError>(response.Content.ReadAsStringAsync().Result);
-                        ModelState.AddModelError(string.Empty, err.Message);
-                        return View(new CommentsLoginViewModel(null, null));
-                    }
-                    response.EnsureSuccessStatusCode();
-                    var user = JsonConvert.DeserializeObject<LoginSuccess>(response.Content.ReadAsStringAsync().Result);
-
-                    return SetLoginCookie(user.Name, "nodebb:" + user.Slug);
-                }
+                return Redirect(NodeBBCustomAuth.GenerateAuthUrl(this.HttpContext));
             }
+
+            return Redirect("/login");
+        }
+
+        public ActionResult LoginNodeBB()
+        {
+            if (Request.QueryString["token"] == null)
+            {
+                return Redirect("/login");
+            }
+
+            var result = NodeBBCustomAuth.VerifyAuth(this.HttpContext);
+            return SetLoginCookie(result.Name, result.Token);
         }
 
         class GoogleUser
@@ -174,12 +166,12 @@ namespace TheDailyWtf.Controllers
             public string Name { get; set; }
         }
 
-        public ActionResult LoginGoogle()
+        public Task<ActionResult> LoginGoogle()
         {
-            return this.OAuth2Login(OAuth2.Google, (client, token) =>
+            return this.OAuth2LoginAsync(OAuth2.Google, async (client, token) =>
             {
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
-                var user = JsonConvert.DeserializeObject<GoogleUser>(client.GetStringAsync("https://www.googleapis.com/oauth2/v2/userinfo").Result);
+                var user = JsonConvert.DeserializeObject<GoogleUser>(await client.GetStringAsync("https://www.googleapis.com/oauth2/v2/userinfo"));
                 return SetLoginCookie(user.Name, "google:" + user.Email);
             });
         }
@@ -192,12 +184,12 @@ namespace TheDailyWtf.Controllers
             public string Name { get; set; }
         }
 
-        public ActionResult LoginGitHub()
+        public Task<ActionResult> LoginGitHub()
         {
-            return this.OAuth2Login(OAuth2.GitHub, (client, token) =>
+            return this.OAuth2LoginAsync(OAuth2.GitHub, async (client, token) =>
             {
                 client.DefaultRequestHeaders.Add("Authorization", "token " + token);
-                var user = JsonConvert.DeserializeObject<GitHubUser>(client.GetStringAsync("https://api.github.com/user").Result);
+                var user = JsonConvert.DeserializeObject<GitHubUser>(await client.GetStringAsync("https://api.github.com/user"));
                 return SetLoginCookie(user.Name ?? user.Login, "github:" + user.Login);
             });
         }
@@ -210,12 +202,12 @@ namespace TheDailyWtf.Controllers
             public string Name { get; set; }
         }
 
-        public ActionResult LoginFacebook()
+        public Task<ActionResult> LoginFacebook()
         {
-            return this.OAuth2Login(OAuth2.Facebook, (client, token) =>
+            return this.OAuth2LoginAsync(OAuth2.Facebook, async (client, token) =>
             {
                 client.DefaultRequestHeaders.Add("Authorization", "OAuth " + token);
-                var user = JsonConvert.DeserializeObject<FacebookUser>(client.GetStringAsync("https://graph.facebook.com/me?fields=name,email").Result);
+                var user = JsonConvert.DeserializeObject<FacebookUser>(await client.GetStringAsync("https://graph.facebook.com/me?fields=name,email"));
                 return SetLoginCookie(user.Name, "facebook:" + user.Email);
             });
         }
@@ -224,7 +216,7 @@ namespace TheDailyWtf.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ViewArticleComments(string articleSlug, int page, CommentFormModel form)
+        public async Task<ActionResult> ViewArticleComments(string articleSlug, int page, CommentFormModel form)
         {
             var article = ArticleModel.GetArticleBySlug(articleSlug);
             if (article == null)
@@ -252,7 +244,7 @@ namespace TheDailyWtf.Controllers
 
             if (token == null)
             {
-                CheckRecaptcha();
+                await this.CheckRecaptchaAsync();
             }
 
             var ip = Request.ServerVariables["REMOTE_ADDR"];

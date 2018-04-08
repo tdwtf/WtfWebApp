@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -38,7 +39,7 @@ namespace TheDailyWtf
             public string AccessToken { get; set; }
         }
 
-        public static ActionResult OAuth2Login(this ArticlesController controller, Endpoint endpoint, Func<HttpClient, string, ActionResult> login)
+        public static async Task<ActionResult> OAuth2LoginAsync(this ArticlesController controller, Endpoint endpoint, Func<HttpClient, string, Task<ActionResult>> login)
         {
             string code = controller.Request.QueryString["code"];
 
@@ -53,18 +54,18 @@ namespace TheDailyWtf
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
 
                 string accessToken;
-                using (var response = client.PostAsync(endpoint.Token, new FormUrlEncodedContent(new Dictionary<string, string>()
+                using (var response = await client.PostAsync(endpoint.Token, new FormUrlEncodedContent(new Dictionary<string, string>()
                     {
                         { "client_id", endpoint.ClientId },
                         { "client_secret", endpoint.Secret },
                         { "code", code },
                         { "grant_type", "authorization_code" },
                         { "redirect_uri", endpoint.RedirectUrl }
-                    })).Result)
+                    })))
                 {
                     response.EnsureSuccessStatusCode();
 
-                    var content = response.Content.ReadAsStringAsync().Result;
+                    var content = await response.Content.ReadAsStringAsync();
 
                     if (content[0] != '{')
                     {
@@ -77,7 +78,7 @@ namespace TheDailyWtf
                     }
                 }
 
-                return login(client, accessToken);
+                return await login(client, accessToken);
             }
         }
     }

@@ -235,6 +235,12 @@ namespace TheDailyWtf
             );
 
             routes.MapRoute(
+                name: "CommentsLoginNodeBB",
+                url: "login/nodebb",
+                defaults: new { controller = "Articles", action = "LoginNodeBB" }
+            );
+
+            routes.MapRoute(
                 name: "CommentsLoginGoogle",
                 url: "login/google",
                 defaults: new { controller = "Articles", action = "LoginGoogle" }

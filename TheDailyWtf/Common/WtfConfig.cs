@@ -70,6 +70,10 @@ namespace TheDailyWtf
             public static string Host { get { return ReadFromFile(); } }
             public static string SideBarWtfCategory { get { return ReadFromFile(); } }
             public static int ApiRequestTimeout { get { return int.Parse(ReadFromFile()); } }
+            public static string KeyS { get { return ReadFromFile(); } }
+            public static string KeyE { get { return ReadFromFile(); } }
+            public static string KeyV { get { return ReadFromFile(); } }
+            public static string KeyD { get { return ReadFromFile(); } }
 
             private static string ReadFromFile([CallerMemberName] string key = null)
             {

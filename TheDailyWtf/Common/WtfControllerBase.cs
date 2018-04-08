@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using TheDailyWtf.Security;
 
@@ -22,7 +23,7 @@ namespace TheDailyWtf
             public IEnumerable<string> ErrorCodes { get; set; }
         }
 
-        protected void CheckRecaptcha()
+        protected async Task CheckRecaptchaAsync()
         {
             if (string.IsNullOrEmpty(Request.Form["g-recaptcha-response"]))
             {
@@ -39,12 +40,13 @@ namespace TheDailyWtf
                             { "remoteip", Request.ServerVariables["REMOTE_ADDR"] },
                         };
 
-                var response = client.PostAsync("https://www.google.com/recaptcha/api/siteverify", new FormUrlEncodedContent(request)).Result;
-
-                var result = JsonConvert.DeserializeObject<RecaptchaResponse>(response.Content.ReadAsStringAsync().Result);
-                if (!result.Success)
+                using (var response = await client.PostAsync("https://www.google.com/recaptcha/api/siteverify", new FormUrlEncodedContent(request)))
                 {
-                    ModelState.AddModelError(string.Empty, "The CAPTCHA was invalid. Try again.");
+                    var result = JsonConvert.DeserializeObject<RecaptchaResponse>(await response.Content.ReadAsStringAsync());
+                    if (!result.Success)
+                    {
+                        ModelState.AddModelError(string.Empty, "The CAPTCHA was invalid. Try again.");
+                    }
                 }
             }
         }

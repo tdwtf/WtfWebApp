@@ -11,27 +11,22 @@
 
             @if (Model.UserToken == null)
             {
-                <h2>Log in with your forum account</h2>
+                <input type="hidden" name="mode" value="login"/>
+                <p><input type="submit" tabindex="1" value="Log in" /> with your <a href="https://@Config.NodeBB.Host">What The Daily WTF</a> forum account.</p>
 
-                <div class="field">
-                    <label for="login-name">NodeBB username:</label>
-                    <input id="login-name" name="username" type="text" class="input" placeholder="NodeBB username" required tabindex="1" />
-                </div>
-
-                <div class="field">
-                    <label for="login-password">NodeBB password:</label>
-                    <input id="login-password" name="password" type="password" class="input" placeholder="NodeBB password" required tabindex="2" />
-                </div>
-
-                <input class="input submit-button" type="submit" tabindex="3" value="Log In" />
-
-                <p id="alternate-login">or Log in with <a href="@Html.OAuth2Url(OAuth2.Google)">Google</a>, <a href="@Html.OAuth2Url(OAuth2.GitHub)">GitHub</a>, or <a href="@Html.OAuth2Url(OAuth2.Facebook)">Facebook</a></p>
+                <p id="alternate-login">or Log in with <a href="@Html.OAuth2Url(OAuth2.Google)">Google</a> or <a href="@Html.OAuth2Url(OAuth2.GitHub)">GitHub</a></p>
             }
             else
             {
-                <h2>Logged in as @Model.UserName (@Model.TokenType)</h2>
+                <p>Logged in as @Model.UserName (@Model.TokenType)</p>
 
-                <input class="input submit-button" type="submit" tabindex="1" value="Log Out" />
+                <input type="hidden" name="mode" value="logout"/>
+                <p><input type="submit" tabindex="1" value="Log Out" /></p>
+
+                if (Model.UserToken.StartsWith("author:"))
+                {
+                <p id="alternate-login">This will only log you out of the comments.<br/>To log out of your author account, log out via the <a href="/admin">admin panel</a>.</p>
+                }
             }
         </form>
     </div>

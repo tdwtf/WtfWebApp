@@ -15,7 +15,7 @@
     @foreach (var comment in Model.Comments)
     {
         <li itemprop="comment" itemscope itemtype="http://schema.org/Comment" class="comment" id="comment-@comment.Id">
-            <span class="poster">@comment.Username</span> @if (comment.Anonymous) { <span class="poster-anon">(unregistered)</span> } else { <span class="poster-token poster-token-@comment.TokenType">(@comment.TokenType)</span> }
+            @if (comment.ProfileUrl != null) { <a href="@comment.ProfileUrl" class="poster" rel="author">@comment.Username</a> } else { <span class="poster">@comment.Username</span> } @if (comment.Anonymous) { <span class="poster-anon">(unregistered)</span> } else { <span class="poster-token poster-token-@comment.TokenType">(@comment.TokenType)</span> }
             @if (Model.CanEditDelete)
             {
                 <span class="poster-ip">IP: @if (comment.UserIP == null) { <code>unknown</code> } else { <a href="/admin/user-comments/by-ip/@Url.Encode(comment.UserIP)"><code>@comment.UserIP</code></a> }</span>
@@ -32,7 +32,7 @@
             {
                 <a href="@string.Format("{0}/{1}#comment-{2}", (Model.CanFeature || Model.CanEditDelete) ? "/admin/article/comments/" + comment.ArticleId : Model.BaseUrl, (comment.ParentCommentIndex - 1) / ViewCommentsViewModel.CommentsPerPage + 1, comment.ParentCommentId)" class="reply-to clean">in reply to @comment.ParentCommentUsername</a>
             }
-            <span class="timestamp" itemprop="datePublished" contenteditable="@comment.PublishedDate.ToString("o")">
+            <span class="timestamp" itemprop="datePublished" content="@comment.PublishedDate.ToString("o")">
                 <a itemprop="url" href="#comment-@comment.Id">@comment.PublishedDate.ToString("yyyy-MM-dd")</a>
                 @if (!comment.Hidden && Model.CanFeature)
                 {
