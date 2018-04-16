@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TheDailyWtf.Common.Asana
@@ -23,7 +24,8 @@ namespace TheDailyWtf.Common.Asana
                 DefaultRequestHeaders =
                 {
                     { "Authorization", "Bearer " + Config.Asana.AccessToken }
-                }
+                },
+                Timeout = Timeout.InfiniteTimeSpan
             };
         }
 
