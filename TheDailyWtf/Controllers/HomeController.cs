@@ -195,6 +195,7 @@ namespace TheDailyWtf.Controllers
 
             var memory = new MemoryStream();
             file.InputStream.CopyTo(memory);
+            memory.Position = 0;
 
             message.Attachments.Add(new Attachment(memory, file.FileName, file.ContentType));
             if (!returnContent)
