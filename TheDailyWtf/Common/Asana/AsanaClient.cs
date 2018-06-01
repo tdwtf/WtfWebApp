@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,34 +37,78 @@ namespace TheDailyWtf.Common.Asana
 
         public async Task CreateTaskAsync(long tagID, string name, string notes, params KeyValuePair<string, HttpContent>[] attachments)
         {
-            using (var client = this.CreateClient())
+            try
             {
-                long id;
-                using (var response = await client.PostAsync("tasks", new FormUrlEncodedContent(new Dictionary<string, string>
+                using (var client = this.CreateClient())
                 {
-                    { "projects", ProjectId.ToString() },
-                    { "name", name },
-                    { "notes", notes },
-                    { "tags", tagID.ToString() }
-                })).ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
-
-                    var content = JsonConvert.DeserializeAnonymousType(await response.Content.ReadAsStringAsync().ConfigureAwait(false), new { data = new { id = 0L } });
-                    id = content.data.id;
-                }
-
-                foreach (var attachment in attachments)
-                {
-                    using (var content = new MultipartFormDataContent())
+                    long id;
+                    for (int attempts = 0; ; attempts++)
                     {
-                        content.Add(attachment.Value, "file", attachment.Key);
-
-                        using (var response = await client.PostAsync($"tasks/{id}/attachments", content).ConfigureAwait(false))
+                        try
                         {
-                            response.EnsureSuccessStatusCode();
+                            using (var response = await client.PostAsync("tasks", new FormUrlEncodedContent(new Dictionary<string, string>
+                        {
+                            { "projects", ProjectId.ToString() },
+                            { "name", name },
+                            { "notes", notes },
+                            { "tags", tagID.ToString() }
+                        })).ConfigureAwait(false))
+                            {
+                                response.EnsureSuccessStatusCode();
+
+                                var content = JsonConvert.DeserializeAnonymousType(await response.Content.ReadAsStringAsync().ConfigureAwait(false), new { data = new { id = 0L } });
+                                id = content.data.id;
+                            }
+                            break;
+                        }
+                        catch
+                        {
+                            if (attempts < 5)
+                            {
+                                continue;
+                            }
+                            throw;
                         }
                     }
+
+                    foreach (var attachment in attachments)
+                    {
+                        using (var content = new MultipartFormDataContent())
+                        {
+                            for (int attempts = 0; ; attempts++)
+                            {
+                                try
+                                {
+                                    content.Add(attachment.Value, "file", attachment.Key);
+
+                                    using (var response = await client.PostAsync($"tasks/{id}/attachments", content).ConfigureAwait(false))
+                                    {
+                                        response.EnsureSuccessStatusCode();
+                                    }
+                                    break;
+                                }
+                                catch
+                                {
+                                    if (attempts < 5)
+                                    {
+                                        continue;
+                                    }
+                                    throw;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                using (var smtp = new SmtpClient(Config.Wtf.Mail.Host, Config.Wtf.Mail.Port)
+                {
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(Config.Wtf.Mail.Username, Config.Wtf.Mail.Password)
+                })
+                {
+                    await smtp.SendMailAsync(new MailMessage(Config.Wtf.Mail.FromAddress, Config.Wtf.Mail.ToAddress, "uploading to Asana failed: " + name, ex.ToString() + "\n\nBody of message that failed to send (should already be in the inbox):\n\n" + notes));
                 }
             }
         }

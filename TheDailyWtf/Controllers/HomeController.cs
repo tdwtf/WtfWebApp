@@ -173,10 +173,9 @@ namespace TheDailyWtf.Controllers
                     message.Subject = title;
                     message.Body = writer.ToString();
 
-                    await Task.WhenAll(
-                        AsanaClient.Instance.CreateTaskAsync(tag, title, writer.ToString(), attachments),
-                        this.SendMailAsync(message)
-                    );
+                    _ = AsanaClient.Instance.CreateTaskAsync(tag, title, writer.ToString(), attachments);
+
+                    await this.SendMailAsync(message);
                 }
 
                 return View(new SubmitWtfViewModel { ShowLeaderboardAd = false, SuccessMessage = "Your submission was sent, thank you!" });
