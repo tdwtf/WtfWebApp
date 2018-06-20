@@ -140,6 +140,10 @@ namespace TheDailyWtf
                 {
                     node.SetAttributeValue("src", src.Substring("http:".Length));
                 }
+                else if (src.StartsWith("/uploads/"))
+                {
+                    node.SetAttributeValue("src", "https://what.thedailywtf.com" + src);
+                }
             }
             foreach (var node in doc.Descendants("a"))
             {
@@ -147,6 +151,10 @@ namespace TheDailyWtf
                 if (href.StartsWith("http://thedailywtf.com/"))
                 {
                     node.SetAttributeValue("href", href.Substring("http:".Length));
+                }
+                else if (href.StartsWith("/uploads/"))
+                {
+                    node.SetAttributeValue("href", "https://what.thedailywtf.com" + href);
                 }
             }
             foreach (var node in doc.Descendants("script"))
