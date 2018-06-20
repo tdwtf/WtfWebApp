@@ -53,7 +53,7 @@
                         @Html.Hidden("comment", comment.Id)
                         @Html.Hidden("article", comment.ArticleId)
                         @Html.AntiForgeryToken()
-                        <button>Approve</button>
+                        <button class="approve-comment-button">Approve</button>
                     }
                 }
                 @if (Model.CanEditDelete)

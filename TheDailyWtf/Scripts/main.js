@@ -17,5 +17,15 @@ function qtipInit(){
 }
 
 $(window).ready(function(){
-    qtipInit()
+    qtipInit();
+
+    $('.approve-comment-button').parent().on('submit', function (e) {
+        e.preventDefault();
+        var form = $(this);
+        $.post(form.attr('action') + '?no-redirect=1', form.serialize(), function () {
+            form.parents('li').find('.comment-moderation').slideUp();
+        }).fail(function () {
+            form.off('submit').submit();
+        });
+    });
 });

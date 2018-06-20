@@ -292,6 +292,9 @@ namespace TheDailyWtf.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             if (!StoredProcs.Articles_ApproveComment(article.Id, post.Comment).Execute().Value)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            if (!string.IsNullOrEmpty(Request.QueryString["no-redirect"]))
+                return new HttpStatusCodeResult(HttpStatusCode.Accepted);
             return RedirectToRoute("CommentModerationAdmin");
         }
 
