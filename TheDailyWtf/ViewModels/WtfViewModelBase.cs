@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Web.Configuration;
 using TheDailyWtf.Forum;
 using TheDailyWtf.Models;
@@ -28,6 +29,8 @@ namespace TheDailyWtf.ViewModels
         public string Copyright { get { return copyright; } }
         public string Version { get { return version; } }
         public OpenGraphData OpenGraph { get; set; }
+        public bool IsWrongHost { get { return HttpContext.Current.Request.Url.Host != Config.Wtf.Host; } }
+        public string CurrentUrlWithCorrectHost { get { return $"https://{Config.Wtf.Host}{HttpContext.Current.Request.Url.PathAndQuery}"; } }
 
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
