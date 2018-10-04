@@ -47,12 +47,12 @@ namespace TheDailyWtf.Common.Asana
                         try
                         {
                             using (var response = await client.PostAsync("tasks", new FormUrlEncodedContent(new Dictionary<string, string>
-                        {
-                            { "projects", ProjectId.ToString() },
-                            { "name", name },
-                            { "notes", notes },
-                            { "tags", tagID.ToString() }
-                        })).ConfigureAwait(false))
+                            {
+                                { "projects", ProjectId.ToString() },
+                                { "name", name },
+                                { "notes", notes },
+                                { "tags", tagID.ToString() }
+                            })).ConfigureAwait(false))
                             {
                                 response.EnsureSuccessStatusCode();
 
@@ -73,28 +73,25 @@ namespace TheDailyWtf.Common.Asana
 
                     foreach (var attachment in attachments)
                     {
-                        using (var content = new MultipartFormDataContent())
+                        for (int attempts = 0; ; attempts++)
                         {
-                            for (int attempts = 0; ; attempts++)
+                            try
                             {
-                                try
+                                var content = new MultipartFormDataContent();
+                                content.Add(attachment.Value, "file", attachment.Key);
+                                using (var response = await client.PostAsync($"tasks/{id}/attachments", content).ConfigureAwait(false))
                                 {
-                                    content.Add(attachment.Value, "file", attachment.Key);
-
-                                    using (var response = await client.PostAsync($"tasks/{id}/attachments", content).ConfigureAwait(false))
-                                    {
-                                        response.EnsureSuccessStatusCode();
-                                    }
-                                    break;
+                                    response.EnsureSuccessStatusCode();
                                 }
-                                catch
+                                break;
+                            }
+                            catch
+                            {
+                                if (attempts < 5)
                                 {
-                                    if (attempts < 5)
-                                    {
-                                        continue;
-                                    }
-                                    throw;
+                                    continue;
                                 }
+                                throw;
                             }
                         }
                     }
