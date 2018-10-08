@@ -1,4 +1,4 @@
-﻿User-agent: *
+User-agent: *
 Disallow: /Resources/
 Disallow: /Admin/
 Disallow: /Comments/AddComment.aspx
