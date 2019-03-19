@@ -54,26 +54,26 @@ namespace TheDailyWtf.Forum
                 request.Method = method;
                 request.Timeout = Config.NodeBB.ApiRequestTimeout;
 
-                Logger.Debug("Sending forum {0} request to URL: {1}", method, request.RequestUri);
+                Logger.Debug($"Sending forum {method} request to URL: {request.RequestUri}");
 
                 try
                 {
                     using (var response = request.GetResponse())
                     using (var stream = response.GetResponseStream())
                     {
-                        Logger.Debug("Response received, response code was: {0}", GetResponseCode(response));
+                        Logger.Debug($"Response received, response code was: {GetResponseCode(response)}");
                         return new StreamReader(stream).ReadToEnd();
                     }
                 }
                 catch (TimeoutException tex)
                 {
-                    Logger.Debug("Timeout exception for {0} request to URL: {1}", method, request.RequestUri);
+                    Logger.Debug($"Timeout exception for {method} request to URL: {request.RequestUri}");
                     ForumHelper.PauseConnections(tex, 10);
                     throw;
                 }
                 catch (WebException wex)
                 {
-                    Logger.Debug("Web exception for {0} request to URL: {1}", method, request.RequestUri);
+                    Logger.Debug($"Web exception for {method} request to URL: {request.RequestUri}");
                     ForumHelper.PauseConnections(wex, 10);
                     throw ParseFirstError(wex);
                 }
@@ -101,7 +101,7 @@ namespace TheDailyWtf.Forum
                 request.Timeout = Config.NodeBB.ApiRequestTimeout;
                 request.ContentType = "application/x-www-form-urlencoded";
 
-                Logger.Debug("Sending forum {0} request to URL: {1}", method, request.RequestUri);
+                Logger.Debug($"Sending forum {method} request to URL: {request.RequestUri}");
 
                 try
                 {
@@ -117,19 +117,19 @@ namespace TheDailyWtf.Forum
                     using (var response = request.GetResponse())
                     using (var stream = response.GetResponseStream())
                     {
-                        Logger.Debug("Response received, response code was: {0}", GetResponseCode(response));
+                        Logger.Debug($"Response received, response code was: {GetResponseCode(response)}");
                         return new StreamReader(stream).ReadToEnd();
                     }
                 }
                 catch (TimeoutException tex)
                 {
-                    Logger.Debug("Timeout exception for {0} request to URL: {1}", method, request.RequestUri);
+                    Logger.Debug($"Timeout exception for {method} request to URL: {request.RequestUri}");
                     ForumHelper.PauseConnections(tex, 10);
                     throw;
                 }
                 catch (WebException wex)
                 {
-                    Logger.Debug("Web exception for {0} request to URL: {1}", method, request.RequestUri);
+                    Logger.Debug($"Web exception for {method} request to URL: {request.RequestUri}");
                     ForumHelper.PauseConnections(wex, 10);
                     throw ParseFirstError(wex);
                 }

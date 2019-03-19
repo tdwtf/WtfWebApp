@@ -20,7 +20,7 @@ namespace TheDailyWtf.Controllers
                 return File(ad.DiskPath, MimeMapping.GetMimeMapping(ad.DiskPath));
             }
 
-            Logger.Error("Invalid Ad attempted to be loaded from: /fblast/{0}", id);
+            Logger.Error($"Invalid Ad attempted to be loaded from: /fblast/{id}");
             return HttpNotFound();
         }
 
@@ -33,7 +33,7 @@ namespace TheDailyWtf.Controllers
                 return Redirect(url);
             }
 
-            Logger.Error("Invalid Ad URL redirect GUID: {0}", redirectGuid);
+            Logger.Error($"Invalid Ad URL redirect GUID: {redirectGuid}");
             return HttpNotFound();
         }
     }

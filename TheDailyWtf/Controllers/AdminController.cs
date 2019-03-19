@@ -181,7 +181,7 @@ namespace TheDailyWtf.Controllers
 
             try
             {
-                Logger.Information("Creating or updating article \"{0}\".", post.Article.Title);
+                Logger.Information($"Creating or updating article \"{post.Article.Title}\".");
                 int? articleId = StoredProcs.Articles_CreateOrUpdateArticle(
                     post.Article.Id,
                     post.Article.Slug ?? this.User.Identity.Name,
@@ -232,7 +232,7 @@ namespace TheDailyWtf.Controllers
         public ActionResult DeleteComments(DeleteCommentsModel post)
         {
             var commentIdsCsv = string.Join(",", post.Delete);
-            Logger.Information("Deleting comments with IDs \"{0}\".", commentIdsCsv);
+            Logger.Information($"Deleting comments with IDs \"{commentIdsCsv}\".");
 
             StoredProcs.Comments_DeleteComments(commentIdsCsv).Execute();
 
@@ -273,7 +273,7 @@ namespace TheDailyWtf.Controllers
                 name = commentModel.Username;
                 return View(new EditCommentViewModel { Article = articleModel, Comment = commentModel, Post = new CommentFormModel { Body = body, Name = name } });
             }
-            StoredProcs.Comments_CreateOrUpdateComment(comment, article, body, name, commentModel.PublishedDate, commentModel.UserIP, commentModel.UserToken, commentModel.ParentCommentId).ExecuteNonQuery();
+            StoredProcs.Comments_CreateOrUpdateComment(comment, article, body, name, commentModel.PublishedDate, commentModel.UserIP, commentModel.UserToken, commentModel.ParentCommentId).Execute();
             return RedirectToRoute("ArticleCommentsAdmin", new { id = articleModel.Id });
         }
 
@@ -406,7 +406,7 @@ namespace TheDailyWtf.Controllers
                 post.Author.IsAdmin,
                 post.Author.DescriptionHtml,
                 post.Author.ShortDescription,
-                Inedo.InedoLib.Util.NullIf(post.Author.ImageUrl, string.Empty),
+                Inedo.AH.NullIf(post.Author.ImageUrl, string.Empty),
                 post.Author.IsActive
               ).Execute();
 

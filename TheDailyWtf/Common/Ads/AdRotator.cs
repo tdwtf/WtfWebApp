@@ -22,7 +22,7 @@ namespace TheDailyWtf
 
         public static void Initialize(string rootPath)
         {
-            Logger.Information("Initializing the AdRotator at path \"{0}\"...", rootPath);
+            Logger.Information($"Initializing the AdRotator at path \"{rootPath}\"...");
             try
             {
                 var dirInfo = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, rootPath));
@@ -101,7 +101,7 @@ namespace TheDailyWtf
         public static Dimensions? TryParse(string s)
         {
             var parts = s.Split(new[] { "x" }, 2, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(p => InedoLib.Util.Int.ParseN(p))
+                    .Select(p => AH.ParseInt(p))
                     .ToArray();
             if (parts[0] == null || parts[1] == null)
                  return null;
