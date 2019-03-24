@@ -37,7 +37,7 @@ namespace TheDailyWtf.ViewModels
         public AuthorPrincipal User { get; set; }
         public bool ShowStatusDropdown { get { return this.User == null || this.User.IsAdmin || this.Article.Status != Domains.PublishedStatus.Published; } }
         public bool UserCanEdit { get { return this.ArticleId == null || this.User != null && (this.User.IsAdmin || this.Article.Author.Slug == this.User.Identity.Name); } }
-        public int? ArticleId { get { return Inedo.InedoLib.Util.NullIf(this.Article.Id, 0); } }
+        public int? ArticleId { get { return Inedo.AH.NullIf(this.Article.Id, 0); } }
         public string Heading { get { return this.ArticleId != null ? string.Format("Edit Article - {0}", this.Article.Title) : "Create New Article"; } }
         public ArticleModel Article { get; private set; }
         public bool UseCustomSlug { get; set; }
@@ -45,7 +45,7 @@ namespace TheDailyWtf.ViewModels
         {
             get
             {
-                var date = Inedo.InedoLib.Util.DateTime.ParseN(this.Date);
+                var date = Inedo.AH.ParseDate(this.Date);
                 TimeSpan time;
                 if (date != null && TimeSpan.TryParse(this.Time, out time))
                     return date.Value.Date.Add(time);

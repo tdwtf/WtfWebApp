@@ -17,9 +17,9 @@ namespace TheDailyWtf.Forum
         internal static void PauseConnections(Exception ex, int minutes)
         {
             if (LastException == null)
-                Logger.Error("Pausing forum connections for {0} minutes, error: {1}", minutes, ex);
+                Logger.Error($"Pausing forum connections for {minutes} minutes, error: {ex}");
             else
-                Logger.Information("Forum connections already paused, new error is: {0}", ex);
+                Logger.Information($"Forum connections already paused, new error is: {ex}");
 
             LastException = ex;
             nextConnectionAttemptDate = DateTime.UtcNow.AddMinutes(minutes);
@@ -84,7 +84,7 @@ namespace TheDailyWtf.Forum
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("Error getting Side Bar WTFs, error: {0}", ex);
+                    Logger.Error($"Error getting Side Bar WTFs, error: {ex}");
                     return Enumerable.Empty<Topic>();
                 }
             }

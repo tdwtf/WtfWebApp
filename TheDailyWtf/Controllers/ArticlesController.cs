@@ -340,7 +340,7 @@ namespace TheDailyWtf.Controllers
             if (ModelState.IsValid)
             {
                 StoredProcs.Comments_CreateOrUpdateComment(comment.Id, article.Id, string.Format("{0}\n\n**Addendum {1}:**\n{2}", comment.BodyRaw, DateTime.Now, post.Body),
-                    comment.Username, comment.PublishedDate, comment.UserIP, comment.UserToken, comment.ParentCommentId).ExecuteNonQuery();
+                    comment.Username, comment.PublishedDate, comment.UserIP, comment.UserToken, comment.ParentCommentId).Execute();
                 return Redirect(article.Url);
             }
 

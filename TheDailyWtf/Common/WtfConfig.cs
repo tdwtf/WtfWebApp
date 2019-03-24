@@ -25,7 +25,7 @@ namespace TheDailyWtf
             {
                 public static string BaseDirectory { get { return ReadFromFile(); } }
                 public static bool Enabled { get { bool b; return bool.TryParse(ReadFromFile(), out b) ? b : false; } }
-                public static MessageLevel MinimumLevel { get { return (MessageLevel)InedoLib.Util.Int.ParseZ(ReadFromFile()); } }
+                public static MessageLevel MinimumLevel { get { return (MessageLevel)(AH.ParseInt(ReadFromFile()) ?? 0); } }
 
                 private static string ReadFromFile([CallerMemberName] string key = null)
                 {
