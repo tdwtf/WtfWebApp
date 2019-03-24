@@ -33,7 +33,9 @@ namespace TheDailyWtf
             {
                 Logger.AddMessenger(new FileSystemMessenger(Config.Wtf.Logs.BaseDirectory, Config.Wtf.Logs.MinimumLevel));
             }
-            
+
+            Inedo.Diagnostics.Loupe.Enable("TheDailyWtf", "WtfWebApp", typeof(MvcApplication).Assembly.GetName().Version);
+
             AreaRegistration.RegisterAllAreas();
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
