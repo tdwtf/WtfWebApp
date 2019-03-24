@@ -9,12 +9,11 @@ namespace TheDailyWtf.Models
     {
         private static readonly Lazy<Dictionary<string, SeriesModel>> seriesMap = new Lazy<Dictionary<string, SeriesModel>>(() =>
         {
-            return StoredProcs.Series_GetSeries()
-                .Execute()
+            return DB.Series_GetSeries()
                 .ToDictionary(s => s.Title_Text, s => FromTable(s), StringComparer.OrdinalIgnoreCase);
         });
 
-        internal static Dictionary<string, SeriesModel> LegacySeriesMap { get { return seriesMap.Value; } }
+        internal static Dictionary<string, SeriesModel> LegacySeriesMap => seriesMap.Value;
 
         public string Slug { get; set; }
         public string Title { get; set; }
@@ -57,7 +56,7 @@ namespace TheDailyWtf.Models
 
         public static SeriesModel GetSeriesBySlug(string slug)
         {
-            var series = StoredProcs.Series_GetSeriesBySlug(slug).Execute();
+            var series = DB.Series_GetSeriesBySlug(slug);
             if (series == null)
                 return null;
             return SeriesModel.FromTable(series);
@@ -65,7 +64,7 @@ namespace TheDailyWtf.Models
 
         public static IEnumerable<SeriesModel> GetAllSeries()
         {
-            var series = StoredProcs.Series_GetSeries().Execute();
+            var series = DB.Series_GetSeries();
             return series.Select(s => SeriesModel.FromTable(s));
         }
     }

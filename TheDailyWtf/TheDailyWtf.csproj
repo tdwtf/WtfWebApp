@@ -174,7 +174,6 @@
     <Compile Include="Common\Views.cs" />
     <Compile Include="Data\DB.cs" />
     <Compile Include="Data\Domains.cs" />
-    <Compile Include="Data\StoredProcShims.cs" />
     <Compile Include="Data\TableDefs.cs" />
     <Compile Include="Data\TableNames.cs" />
     <Compile Include="Data\Tables.cs" />

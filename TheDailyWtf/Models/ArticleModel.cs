@@ -91,20 +91,20 @@ namespace TheDailyWtf.Models
 
         public static IEnumerable<ArticleModel> GetAllArticlesBySeries(string series)
         {
-            var articles = StoredProcs.Articles_GetArticles(series, Domains.PublishedStatus.Published, null, null).Execute();
+            var articles = DB.Articles_GetArticles(series, Domains.PublishedStatus.Published, null, null);
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
         private static IEnumerable<ArticleModel> GetArticlesByMonth(DateTime month, string series = null, string author = null)
         {
             var monthStart = new DateTime(month.Year, month.Month, 1);
-            var articles = StoredProcs.Articles_GetArticles(
+            var articles = DB.Articles_GetArticles(
                 Series_Slug: series,
                 PublishedStatus_Name: Domains.PublishedStatus.Published,
                 RangeStart_Date: monthStart,
                 RangeEnd_Date: monthStart.AddMonths(1).AddSeconds(-1.0),
                 Author_Slug: author
-              ).Execute();
+              );
 
             return articles.Select(a => ArticleModel.FromTable(a));
         }
@@ -131,19 +131,19 @@ namespace TheDailyWtf.Models
 
         public static IEnumerable<ArticleModel> GetRecentArticles(int count)
         {
-            var articles = StoredProcs.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Article_Count: count).Execute();
+            var articles = DB.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Article_Count: count);
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
         public static IEnumerable<ArticleModel> GetRecentArticlesBySeries(string slug, int? articleCount = 8)
         {
-            var articles = StoredProcs.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Series_Slug: slug, Article_Count: articleCount).Execute();
+            var articles = DB.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Series_Slug: slug, Article_Count: articleCount);
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
         public static IEnumerable<ArticleModel> GetRecentArticlesByAuthor(string slug, int? articleCount = 8)
         {
-            var articles = StoredProcs.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Author_Slug: slug, Article_Count: articleCount).Execute();
+            var articles = DB.Articles_GetRecentArticles(Domains.PublishedStatus.Published, Author_Slug: slug, Article_Count: articleCount);
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
@@ -154,7 +154,7 @@ namespace TheDailyWtf.Models
 
         public static IEnumerable<ArticleModel> GetUnpublishedArticles(string authorSlug = null)
         {
-            var articles = StoredProcs.Articles_GetUnpublishedArticles(authorSlug).Execute();
+            var articles = DB.Articles_GetUnpublishedArticles(authorSlug);
             return articles.Select(a => ArticleModel.FromTable(a));
         }
 
@@ -165,7 +165,7 @@ namespace TheDailyWtf.Models
 
         public static ArticleModel GetArticleById(int id)
         {
-            var article = StoredProcs.Articles_GetArticleById(id).Execute();
+            var article = DB.Articles_GetArticleById(id);
             if (article == null)
                 return null;
             return ArticleModel.FromTable(article);
@@ -173,7 +173,7 @@ namespace TheDailyWtf.Models
 
         public static ArticleModel GetArticleBySlug(string slug)
         {
-            var article = StoredProcs.Articles_GetArticleBySlug(slug).Execute();
+            var article = DB.Articles_GetArticleBySlug(slug);
             if (article == null)
                 return null;
             return ArticleModel.FromTable(article);
@@ -181,7 +181,7 @@ namespace TheDailyWtf.Models
 
         public static ArticleModel GetArticleByLegacyPost(int postId)
         {
-            var article = StoredProcs.Articles_GetArticleByLegacyPost(postId).Execute();
+            var article = DB.Articles_GetArticleByLegacyPost(postId);
             if (article == null)
                 return null;
             return ArticleModel.FromTable(article);
@@ -189,7 +189,7 @@ namespace TheDailyWtf.Models
 
         public static ArticleModel GetRandomArticle()
         {
-            var article = StoredProcs.Articles_GetRandomArticle().Execute();
+            var article = DB.Articles_GetRandomArticle();
             return ArticleModel.FromTable(article);
         }
 

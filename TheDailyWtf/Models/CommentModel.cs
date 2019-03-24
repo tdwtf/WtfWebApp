@@ -17,8 +17,8 @@ namespace TheDailyWtf.Models
 
         public CommentModel()
         {
-            this.index = new Lazy<int>(() => StoredProcs.Comments_GetCommentIndex(this.Id).Execute().Value);
-            this.parentCommentIndex = new Lazy<int?>(() => this.ParentCommentId.HasValue ? StoredProcs.Comments_GetCommentIndex(this.ParentCommentId).Execute() : null);
+            this.index = new Lazy<int>(() => DB.Comments_GetCommentIndex(this.Id).Value);
+            this.parentCommentIndex = new Lazy<int?>(() => this.ParentCommentId.HasValue ? DB.Comments_GetCommentIndex(this.ParentCommentId) : null);
             this.getLinks = new Lazy<IList<string>>(() => HtmlCleaner.GetLinkUrls(this.BodyHtml).ToList());
         }
 
@@ -63,53 +63,53 @@ namespace TheDailyWtf.Models
 
         public static IList<CommentModel> GetFeaturedCommentsForArticle(ArticleModel article)
         {
-            var comments = StoredProcs.Articles_GetFeaturedComments(article.Id).Execute();
+            var comments = DB.Articles_GetFeaturedComments(article.Id);
             return comments.Select(c => FromTable(c)).ToList();
         }
 
         public static CommentModel GetCommentById(int id)
         {
-            var comments = StoredProcs.Comments_GetCommentById(Comment_Id: id).Execute();
+            var comments = DB.Comments_GetCommentById(Comment_Id: id);
             return comments.Select(c => FromTable(c)).FirstOrDefault();
         }
 
         public static IList<CommentModel> FromArticle(ArticleModel article, int? offset = null, int? limit = null)
         {
-            var comments = StoredProcs.Comments_GetComments(Article_Id: article.Id, Skip_Count: offset, Limit_Count: limit).Execute();
+            var comments = DB.Comments_GetComments(Article_Id: article.Id, Skip_Count: offset, Limit_Count: limit);
             return comments.Select(c => FromTable(c)).ToList();
         }
 
         public static IList<CommentModel> GetCommentsByIP(string ip, int? offset = null, int? limit = null)
         {
-            var comments = StoredProcs.Comments_GetCommentsByIP(User_IP: ip, Skip_Count: offset, Limit_Count: limit).Execute();
+            var comments = DB.Comments_GetCommentsByIP(User_IP: ip, Skip_Count: offset, Limit_Count: limit);
             return comments.Select(c => FromTable(c)).ToList();
         }
 
         public static IList<CommentModel> GetCommentsByToken(string token, int? offset = null, int? limit = null)
         {
-            var comments = StoredProcs.Comments_GetCommentsByToken(User_Token: token, Skip_Count: offset, Limit_Count: limit).Execute();
+            var comments = DB.Comments_GetCommentsByToken(User_Token: token, Skip_Count: offset, Limit_Count: limit);
             return comments.Select(c => FromTable(c)).ToList();
         }
 
         public static IList<CommentModel> GetHiddenComments(string authorSlug = null, int? offset = null, int? limit = null)
         {
-            var comments = StoredProcs.Comments_GetHiddenComments(Author_Slug: authorSlug, Skip_Count: offset, Limit_Count: limit).Execute();
+            var comments = DB.Comments_GetHiddenComments(Author_Slug: authorSlug, Skip_Count: offset, Limit_Count: limit);
             return comments.Select(c => FromTable(c)).ToList();
         }
 
         public static int CountCommentsByIP(string ip)
         {
-            return StoredProcs.Comments_CountCommentsByIP(User_IP: ip).Execute().Value;
+            return DB.Comments_CountCommentsByIP(User_IP: ip).Value;
         }
 
         public static int CountCommentsByToken(string token)
         {
-            return StoredProcs.Comments_CountCommentsByToken(User_Token: token).Execute().Value;
+            return DB.Comments_CountCommentsByToken(User_Token: token).Value;
         }
 
         public static int CountHiddenComments(string authorSlug = null)
         {
-            return StoredProcs.Comments_CountHiddenComments(Author_Slug: authorSlug).Execute().Value;
+            return DB.Comments_CountHiddenComments(Author_Slug: authorSlug).Value;
         }
 
         private static CommentModel FromTable(Tables.Comments_Extended comment)

@@ -3,7 +3,6 @@ using System.Web;
 using System.Web.Mvc;
 using Inedo.Diagnostics;
 using TheDailyWtf.Data;
-using TheDailyWtf.ViewModels;
 
 namespace TheDailyWtf.Controllers
 {
@@ -16,7 +15,7 @@ namespace TheDailyWtf.Controllers
             {
                 bool addImpression = this.Request.QueryString["noimpression"] == null;
                 if (addImpression)
-                    StoredProcs.AdImpressions_IncrementCount(ad.FileName, DateTime.Now.Date, 1).Execute();
+                    DB.AdImpressions_IncrementCount(ad.FileName, DateTime.Now.Date, 1);
                 return File(ad.DiskPath, MimeMapping.GetMimeMapping(ad.DiskPath));
             }
 
@@ -29,7 +28,7 @@ namespace TheDailyWtf.Controllers
             var url = AdRotator.GetOriginalUrlByRedirectGuid(redirectGuid);
             if (url != null)
             {
-                StoredProcs.AdRedirectUrls_IncrementClickCount(Guid.Parse(redirectGuid), 1).Execute();
+                DB.AdRedirectUrls_IncrementClickCount(Guid.Parse(redirectGuid), 1);
                 return Redirect(url);
             }
 

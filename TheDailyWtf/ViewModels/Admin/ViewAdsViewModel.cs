@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using TheDailyWtf.Data;
 
 namespace TheDailyWtf.ViewModels
@@ -22,16 +21,15 @@ namespace TheDailyWtf.ViewModels
             DateTime now = DateTime.Now;
             this.Start = start ?? new DateTime(now.Year, now.Month, 1);
             this.End = end ?? new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
-            this.impressions = StoredProcs
+            this.impressions = DB
                 .AdImpressions_GetImpressions(this.Start, this.End)
-                .Execute()
                 .OrderBy(i => i.Impression_Date)
                 .ThenBy(i => i.Banner_Name);
         }
 
         public IEnumerable<Tables.AdRedirectUrls> GetAdClicks()
         {
-            return StoredProcs.AdRedirectUrls_GetRedirectUrls().Execute().OrderBy(url => url.Redirect_Url);
+            return DB.AdRedirectUrls_GetRedirectUrls().OrderBy(url => url.Redirect_Url);
         }
 
         public IEnumerable<Tables.AdImpressions> GetAdImpressions()

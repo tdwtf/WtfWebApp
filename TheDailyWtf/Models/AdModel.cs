@@ -13,7 +13,7 @@ namespace TheDailyWtf.Models
 
         public static IEnumerable<AdModel> GetAllFooterAds()
         {
-            var ads = StoredProcs.Ads_GetAds().Execute();
+            var ads = DB.Ads_GetAds();
             return ads.Select(ad => new AdModel { Id = ad.Ad_Id, BodyHtml = ad.Ad_Html });
         }
 

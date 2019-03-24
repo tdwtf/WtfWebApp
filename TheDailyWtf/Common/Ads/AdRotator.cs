@@ -309,19 +309,22 @@ namespace TheDailyWtf
     {
         public AdUrlRedirects(IEnumerable<string> originalAdUrls)
         {
-            foreach (string url in originalAdUrls)
-                StoredProcs.AdRedirectUrls_AddRedirectUrl(url).Execute();
+            using (var db = new DB.Context())
+            {
+                foreach (var url in originalAdUrls)
+                    db.AdRedirectUrls_AddRedirectUrl(url);
 
-            var urls = StoredProcs.AdRedirectUrls_GetRedirectUrls().Execute().ToList();
+                var urls = db.AdRedirectUrls_GetRedirectUrls().ToList();
 
-            this.OriginalUrlsByGuid = urls
-                .ToDictionary(r => r.Ad_Guid.ToString("N"), r => r.Redirect_Url, StringComparer.OrdinalIgnoreCase);
+                this.OriginalUrlsByGuid = urls
+                    .ToDictionary(r => r.Ad_Guid.ToString("N"), r => r.Redirect_Url, StringComparer.OrdinalIgnoreCase);
 
-            this.GuidsByOriginalUrl = urls
-                .ToDictionary(r => r.Redirect_Url, r => r.Ad_Guid.ToString("N"), StringComparer.OrdinalIgnoreCase);
+                this.GuidsByOriginalUrl = urls
+                    .ToDictionary(r => r.Redirect_Url, r => r.Ad_Guid.ToString("N"), StringComparer.OrdinalIgnoreCase);
+            }
         }
 
-        public Dictionary<string, string> OriginalUrlsByGuid { get; private set; }
-        public Dictionary<string, string> GuidsByOriginalUrl { get; private set; }
+        public Dictionary<string, string> OriginalUrlsByGuid { get; }
+        public Dictionary<string, string> GuidsByOriginalUrl { get; }
     }
 }

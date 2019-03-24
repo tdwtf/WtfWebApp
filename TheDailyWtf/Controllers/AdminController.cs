@@ -106,7 +106,7 @@ namespace TheDailyWtf.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(string username, string password)
         {
-            bool validLogin = StoredProcs.Authors_ValidateLogin(username, password).Execute().Value;
+            bool validLogin = DB.Authors_ValidateLogin(username, password).Value;
 
             if (validLogin)
             {
@@ -182,7 +182,7 @@ namespace TheDailyWtf.Controllers
             try
             {
                 Logger.Information($"Creating or updating article \"{post.Article.Title}\".");
-                int? articleId = StoredProcs.Articles_CreateOrUpdateArticle(
+                int? articleId = DB.Articles_CreateOrUpdateArticle(
                     post.Article.Id,
                     post.Article.Slug ?? this.User.Identity.Name,
                     post.PublishedDate,
@@ -192,7 +192,7 @@ namespace TheDailyWtf.Controllers
                     post.Article.Series.Slug,
                     post.Article.BodyHtml,
                     post.Article.DiscourseTopicId
-                  ).Execute();
+                );
 
                 post.Article.Id = post.Article.Id ?? articleId;
 
@@ -234,7 +234,7 @@ namespace TheDailyWtf.Controllers
             var commentIdsCsv = string.Join(",", post.Delete);
             Logger.Information($"Deleting comments with IDs \"{commentIdsCsv}\".");
 
-            StoredProcs.Comments_DeleteComments(commentIdsCsv).Execute();
+            DB.Comments_DeleteComments(commentIdsCsv);
 
             return Redirect(Request.UrlReferrer.ToString());
         }
@@ -273,7 +273,7 @@ namespace TheDailyWtf.Controllers
                 name = commentModel.Username;
                 return View(new EditCommentViewModel { Article = articleModel, Comment = commentModel, Post = new CommentFormModel { Body = body, Name = name } });
             }
-            StoredProcs.Comments_CreateOrUpdateComment(comment, article, body, name, commentModel.PublishedDate, commentModel.UserIP, commentModel.UserToken, commentModel.ParentCommentId).Execute();
+            DB.Comments_CreateOrUpdateComment(comment, article, body, name, commentModel.PublishedDate, commentModel.UserIP, commentModel.UserToken, commentModel.ParentCommentId);
             return RedirectToRoute("ArticleCommentsAdmin", new { id = articleModel.Id });
         }
 
@@ -290,7 +290,7 @@ namespace TheDailyWtf.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             if (!this.User.IsAdmin && this.User.Identity.Name != article.Author.Slug)
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            if (!StoredProcs.Articles_ApproveComment(article.Id, post.Comment).Execute().Value)
+            if (!DB.Articles_ApproveComment(article.Id, post.Comment).Value)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             if (!string.IsNullOrEmpty(Request.QueryString["no-redirect"]))
@@ -311,7 +311,7 @@ namespace TheDailyWtf.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             if (!this.User.IsAdmin && this.User.Identity.Name != article.Author.Slug)
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            if (!StoredProcs.Articles_FeatureComment(article.Id, post.Comment).Execute().Value)
+            if (!DB.Articles_FeatureComment(article.Id, post.Comment).Value)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             return RedirectToRoute("ArticleCommentsAdmin", new { id = article.Id });
         }
@@ -329,7 +329,7 @@ namespace TheDailyWtf.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             if (!this.User.IsAdmin && this.User.Identity.Name != article.Author.Slug)
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            if (!StoredProcs.Articles_UnfeatureComment(article.Id, post.Comment).Execute().Value)
+            if (!DB.Articles_UnfeatureComment(article.Id, post.Comment).Value)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             return RedirectToRoute("ArticleCommentsAdmin", new { id = article.Id });
         }
@@ -345,11 +345,11 @@ namespace TheDailyWtf.Controllers
         [RequiresAdmin]
         public ActionResult EditSeries(EditSeriesViewModel post)
         {
-            StoredProcs.Series_CreateOrUpdateSeries(
+            DB.Series_CreateOrUpdateSeries(
                 post.Series.Slug,
                 post.Series.Title,
                 post.Series.Description
-              ).Execute();
+            );
 
             return RedirectToRoute("SeriesListAdmin");
         }
@@ -365,7 +365,7 @@ namespace TheDailyWtf.Controllers
         [RequiresAdmin]
         public ActionResult EditAd(EditAdViewModel post)
         {
-            StoredProcs.Ads_CreateOrUpdateAd(post.Ad.BodyHtml, post.Ad.Id).Execute();
+            DB.Ads_CreateOrUpdateAd(post.Ad.BodyHtml, post.Ad.Id);
 
             return RedirectToRoute("FooterAdListAdmin");
         }
@@ -375,7 +375,7 @@ namespace TheDailyWtf.Controllers
         [HttpPost]
         public ActionResult DeleteAd(int id)
         {
-            StoredProcs.Ads_DeleteAd(id).Execute();
+            DB.Ads_DeleteAd(id);
 
             return RedirectToRoute("FooterAdListAdmin");
         }
@@ -385,7 +385,7 @@ namespace TheDailyWtf.Controllers
         [HttpPost]
         public ActionResult ReassignAds()
         {
-            StoredProcs.Articles_FixMissingAds().Execute();
+            DB.Articles_FixMissingAds();
 
             return RedirectToRoute("FooterAdListAdmin");
         }
@@ -400,7 +400,7 @@ namespace TheDailyWtf.Controllers
         [RequiresAdmin]
         public ActionResult EditAuthor(EditAuthorViewModel post)
         {
-            StoredProcs.Authors_CreateOrUpdateAuthor(
+            DB.Authors_CreateOrUpdateAuthor(
                 post.Author.Slug,
                 post.Author.Name,
                 post.Author.IsAdmin,
@@ -408,11 +408,11 @@ namespace TheDailyWtf.Controllers
                 post.Author.ShortDescription,
                 Inedo.AH.NullIf(post.Author.ImageUrl, string.Empty),
                 post.Author.IsActive
-              ).Execute();
+            );
 
             if (!string.IsNullOrEmpty(post.Password))
             {
-                StoredProcs.Authors_SetPassword(post.Author.Slug, post.Password).Execute();
+                DB.Authors_SetPassword(post.Author.Slug, post.Password);
             }
 
             return RedirectToRoute("LoginListAdmin");

@@ -260,8 +260,8 @@ namespace TheDailyWtf.Controllers
             if (ModelState.IsValid)
             {
                 var containsLinks = CommonMarkConverter.Parse(form.Body).AsEnumerable().Any(n => n.Inline?.Tag == CommonMark.Syntax.InlineTag.Link || n.Inline?.Tag == CommonMark.Syntax.InlineTag.Image || n.Inline?.Tag == CommonMark.Syntax.InlineTag.RawHtml || n.Block?.Tag == CommonMark.Syntax.BlockTag.HtmlBlock);
-                var shouldHide = containsLinks || StoredProcs.Comments_UserHasApprovedComment(ip, token).Execute() != true;
-                int commentId = StoredProcs.Comments_CreateOrUpdateComment(null, article.Id, form.Body, form.Name, DateTime.Now, ip, token, form.Parent, shouldHide).Execute().Value;
+                var shouldHide = containsLinks || DB.Comments_UserHasApprovedComment(ip, token) != true;
+                int commentId = DB.Comments_CreateOrUpdateComment(null, article.Id, form.Body, form.Name, DateTime.Now, ip, token, form.Parent, shouldHide).Value;
                 return Redirect(string.Format("{0}/{1}#comment-{2}", article.CommentsUrl, article.CachedCommentCount / ViewCommentsViewModel.CommentsPerPage + 1, commentId));
             }
 
@@ -339,8 +339,8 @@ namespace TheDailyWtf.Controllers
                 ModelState.AddModelError(string.Empty, "Comment too long.");
             if (ModelState.IsValid)
             {
-                StoredProcs.Comments_CreateOrUpdateComment(comment.Id, article.Id, string.Format("{0}\n\n**Addendum {1}:**\n{2}", comment.BodyRaw, DateTime.Now, post.Body),
-                    comment.Username, comment.PublishedDate, comment.UserIP, comment.UserToken, comment.ParentCommentId).Execute();
+                DB.Comments_CreateOrUpdateComment(comment.Id, article.Id, $"{comment.BodyRaw}\n\n**Addendum {DateTime.Now}:**\n{post.Body}",
+                    comment.Username, comment.PublishedDate, comment.UserIP, comment.UserToken, comment.ParentCommentId);
                 return Redirect(article.Url);
             }
 
