@@ -147,6 +147,13 @@ namespace TheDailyWtf.Data
         /// <summary>
         /// 
         /// </summary>
+        public static IList<Tables.Articles_Slim> Articles_GetArticlesSlim()
+        {
+            return new Context(false).Articles_GetArticlesSlim().ToList();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public static IList<Tables.Comments_Extended> Articles_GetFeaturedComments(int? Article_Id)
         {
             return new Context(false).Articles_GetFeaturedComments(Article_Id).ToList();
@@ -157,13 +164,6 @@ namespace TheDailyWtf.Data
         public static IList<Tables.Articles_Extended> Articles_GetOtherRecentArticles(string PublishedStatus_Name, int? Article_Count = null)
         {
             return new Context(false).Articles_GetOtherRecentArticles(PublishedStatus_Name, Article_Count).ToList();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public static Tables.Articles_Extended Articles_GetRandomArticle()
-        {
-            return new Context(false).Articles_GetRandomArticle();
         }
         /// <summary>
         /// 
@@ -262,13 +262,6 @@ namespace TheDailyWtf.Data
         public static IList<Tables.Comments_Extended> Comments_GetCommentById(int? Comment_Id)
         {
             return new Context(false).Comments_GetCommentById(Comment_Id).ToList();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public static int? Comments_GetCommentIndex(int? Comment_Id, int? Comment_Index = null)
-        {
-            return new Context(false).Comments_GetCommentIndex(Comment_Id, Comment_Index);
         }
         /// <summary>
         /// 
@@ -772,6 +765,26 @@ namespace TheDailyWtf.Data
             /// <summary>
             /// 
             /// </summary>
+            public IEnumerable<Tables.Articles_Slim> Articles_GetArticlesSlim()
+            {
+                var list = new GenericDbParameter[0]
+                {
+                };
+                return this.EnumerateTable<Tables.Articles_Slim>("Articles_GetArticlesSlim", list);
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            public Task<IList<Tables.Articles_Slim>> Articles_GetArticlesSlimAsync()
+            {
+                var list = new GenericDbParameter[0]
+                {
+                };
+                return this.ExecuteTableAsync<Tables.Articles_Slim>("Articles_GetArticlesSlim", list);
+            }
+            /// <summary>
+            /// 
+            /// </summary>
             public IEnumerable<Tables.Comments_Extended> Articles_GetFeaturedComments(int? Article_Id)
             {
                 var list = new GenericDbParameter[1]
@@ -814,26 +827,6 @@ namespace TheDailyWtf.Data
                     new GenericDbParameter("@Article_Count", DbType.Int32, 0, ParameterDirection.Input, Article_Count)
                 };
                 return this.ExecuteTableAsync<Tables.Articles_Extended>("Articles_GetOtherRecentArticles", list);
-            }
-            /// <summary>
-            /// 
-            /// </summary>
-            public Tables.Articles_Extended Articles_GetRandomArticle()
-            {
-                var list = new GenericDbParameter[0]
-                {
-                };
-                return this.EnumerateTable<Tables.Articles_Extended>("Articles_GetRandomArticle", list).FirstOrDefault();
-            }
-            /// <summary>
-            /// 
-            /// </summary>
-            public async Task<Tables.Articles_Extended> Articles_GetRandomArticleAsync()
-            {
-                var list = new GenericDbParameter[0]
-                {
-                };
-                return (await this.ExecuteTableAsync<Tables.Articles_Extended>("Articles_GetRandomArticle", list).ConfigureAwait(false)).FirstOrDefault();
             }
             /// <summary>
             /// 
@@ -1214,34 +1207,6 @@ namespace TheDailyWtf.Data
                     new GenericDbParameter("@Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Comment_Id)
                 };
                 return this.ExecuteTableAsync<Tables.Comments_Extended>("Comments_GetCommentById", list);
-            }
-            /// <summary>
-            /// 
-            /// </summary>
-            public int? Comments_GetCommentIndex(int? Comment_Id, int? Comment_Index = null)
-            {
-                var list = new GenericDbParameter[2]
-                {
-                    new GenericDbParameter("@Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Comment_Id),
-                    new GenericDbParameter("@Comment_Index", DbType.Int32, 0, ParameterDirection.InputOutput, Comment_Index)
-                };
-                this.ExecuteNonQuery("Comments_GetCommentIndex", list);
-                if (Convert.IsDBNull(list[1].Value))
-                    return default(int?);
-                else
-                    return (int?)list[1].Value;
-            }
-            /// <summary>
-            /// 
-            /// </summary>
-            public Task<int?> Comments_GetCommentIndexAsync(int? Comment_Id, int? Comment_Index = null)
-            {
-                var list = new GenericDbParameter[2]
-                {
-                    new GenericDbParameter("@Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Comment_Id),
-                    new GenericDbParameter("@Comment_Index", DbType.Int32, 0, ParameterDirection.InputOutput, Comment_Index)
-                };
-                return this.ExecuteScalarAsync<int?>("Comments_GetCommentIndex", list, 1);
             }
             /// <summary>
             /// 

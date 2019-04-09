@@ -1,8 +1,12 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.Caching;
 using System.Web.Mvc;
+using TheDailyWtf.Data;
 using TheDailyWtf.Security;
 
 namespace TheDailyWtf
@@ -12,6 +16,18 @@ namespace TheDailyWtf
         protected virtual new AuthorPrincipal User
         {
             get { return base.User as AuthorPrincipal; }
+        }
+
+        protected Tables.Articles_Slim GetRandomArticleInternal()
+        {
+            if (!(this.HttpContext.Cache["ArticleList"] is Tables.Articles_Slim[] allArticles))
+            {
+                allArticles = DB.Articles_GetArticlesSlim().ToArray();
+                this.HttpContext.Cache.Add("ArticleList", allArticles, null, DateTime.UtcNow.AddHours(1), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
+            }
+
+            int i = new Random().Next(allArticles.Length);
+            return allArticles[i];
         }
 
         private class RecaptchaResponse

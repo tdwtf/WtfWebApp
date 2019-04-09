@@ -29,7 +29,10 @@ CREATE PROCEDURE [Comments_CreateOrUpdateComment]
 AS
 BEGIN
 
-    IF (EXISTS(SELECT * FROM [Comments] WHERE [Comment_Id] = @Comment_Id))
+BEGIN TRY
+	BEGIN TRANSACTION
+
+    IF (EXISTS(SELECT * FROM [Comments] WITH (UPDLOCK) WHERE [Comment_Id] = @Comment_Id))
     BEGIN
 
         UPDATE [Comments]
@@ -52,10 +55,10 @@ BEGIN
             [User_IP],
             [User_Token],
             [Parent_Comment_Id],
-            [Hidden_Indicator]
+            [Hidden_Indicator],
+			[Comment_Index]
         )
-        VALUES
-        (
+		SELECT
             @Article_Id,
             @Body_Html,
             @User_Name,
@@ -64,12 +67,20 @@ BEGIN
             @User_IP,
             @User_Token,
             @Parent_Comment_Id,
-            COALESCE(@Hidden_Indicator, 'N')
-        )
+            COALESCE(@Hidden_Indicator, 'N'),
+			COALESCE(MAX(C.[Comment_Index]), 0) + 1
+		 FROM [Comments] C
+		WHERE [Article_Id] = @Article_Id
 
         SET @Comment_Id = SCOPE_IDENTITY()
 
     END
+
+	COMMIT
+END TRY BEGIN CATCH
+	IF XACT_STATE()<>0 ROLLBACK
+	EXEC [HandleError]
+END CATCH
 
 END
 GO

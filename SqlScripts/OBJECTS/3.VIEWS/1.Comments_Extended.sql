@@ -19,7 +19,9 @@ CREATE VIEW [Comments_Extended] AS
            C.[User_IP],
            C.[User_Token],
            C.[Parent_Comment_Id],
-           P.[User_Name] [Parent_Comment_User_Name]
+           P.[User_Name] [Parent_Comment_User_Name],
+		   C.[Comment_Index],
+		   [Parent_Comment_Index] = P.[Comment_Index]
       FROM [Comments] C
      INNER JOIN [Articles] A
              ON C.[Article_Id] = A.[Article_Id]

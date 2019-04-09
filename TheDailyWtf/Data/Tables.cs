@@ -90,6 +90,11 @@ namespace TheDailyWtf.Data
             public DateTime? Last_Comment_Date { get; set; }
             public string Ad_Html { get; set; }
         }
+        public partial class Articles_Slim
+        {
+            public int Article_Id { get; set; }
+            public string Article_Slug { get; set; }
+        }
         public partial class Authors
         {
             public string Author_Slug { get; set; }
@@ -116,6 +121,7 @@ namespace TheDailyWtf.Data
             public string User_Token { get; set; }
             public int? Parent_Comment_Id { get; set; }
             public YNIndicator Hidden_Indicator { get; set; }
+            public int Comment_Index { get; set; }
         }
         public partial class Comments_Extended
         {
@@ -132,6 +138,8 @@ namespace TheDailyWtf.Data
             public string User_Token { get; set; }
             public int? Parent_Comment_Id { get; set; }
             public string Parent_Comment_User_Name { get; set; }
+            public int Comment_Index { get; set; }
+            public int? Parent_Comment_Index { get; set; }
         }
         public partial class FeaturedComments
         {

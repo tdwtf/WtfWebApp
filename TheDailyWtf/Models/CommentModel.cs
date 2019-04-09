@@ -11,19 +11,15 @@ namespace TheDailyWtf.Models
     {
         private static readonly Regex ImgSrcRegex = new Regex(@"src=""(?<comment>[^""]+)""", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
-        private readonly Lazy<int> index;
-        private readonly Lazy<int?> parentCommentIndex;
         private readonly Lazy<IList<string>> getLinks;
 
         public CommentModel()
         {
-            this.index = new Lazy<int>(() => DB.Comments_GetCommentIndex(this.Id).Value);
-            this.parentCommentIndex = new Lazy<int?>(() => this.ParentCommentId.HasValue ? DB.Comments_GetCommentIndex(this.ParentCommentId) : null);
             this.getLinks = new Lazy<IList<string>>(() => HtmlCleaner.GetLinkUrls(this.BodyHtml).ToList());
         }
 
         public int Id { get; set; }
-        public int Index => this.index.Value;
+        public int Index { get; set; }
         public int ArticleId { get; set; }
         public string ArticleTitle { get; set; }
         public string BodyRaw { get; set; }
@@ -35,7 +31,7 @@ namespace TheDailyWtf.Models
         public bool Anonymous { get { return UserToken == null; } }
         public bool Hidden { get; set; }
         public int? ParentCommentId { get; set; }
-        public int? ParentCommentIndex => this.parentCommentIndex.Value;
+        public int? ParentCommentIndex { get; set; }
         public string ParentCommentUsername { get; set; }
         [NonSerialized]
         public string UserIP;
@@ -129,7 +125,9 @@ namespace TheDailyWtf.Models
                 ParentCommentId = comment.Parent_Comment_Id,
                 ParentCommentUsername = comment.Parent_Comment_User_Name,
                 UserIP = comment.User_IP,
-                UserToken = comment.User_Token
+                UserToken = comment.User_Token,
+                Index = comment.Comment_Index,
+                ParentCommentIndex = comment.Parent_Comment_Index
             };
         }
 

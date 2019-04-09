@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using TheDailyWtf.Data;
 
 namespace TheDailyWtf.Controllers
 {
@@ -41,11 +42,14 @@ namespace TheDailyWtf.Controllers
 
         public ActionResult ViewRandomArticle()
         {
-            var article = ArticleModel.GetRandomArticle();
-            if (article == null)
+            var articleSlim = this.GetRandomArticleInternal();
+
+            if (articleSlim == null)
             {
                 return ErrorStatus(HttpStatusCode.ServiceUnavailable, "Service Unavailable");
             }
+
+            var article = ArticleModel.FromTable(DB.Articles_GetArticleById(articleSlim.Article_Id));
 
             return FormatOutput(article, false);
         }

@@ -187,12 +187,6 @@ namespace TheDailyWtf.Models
             return ArticleModel.FromTable(article);
         }
 
-        public static ArticleModel GetRandomArticle()
-        {
-            var article = DB.Articles_GetRandomArticle();
-            return ArticleModel.FromTable(article);
-        }
-
         public static ArticleModel FromTable(Tables.Articles_Extended article)
         {
             // add microdata to take advantage of Google's rich snippets for articles:

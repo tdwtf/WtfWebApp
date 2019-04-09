@@ -424,8 +424,8 @@ namespace TheDailyWtf.Controllers
 
         public ActionResult RandomArticle()
         {
-            var article = ArticleModel.GetRandomArticle();
-            return RedirectToAction("ViewArticle", new { articleSlug = article.Slug });
+            var article = this.GetRandomArticleInternal();
+            return RedirectToAction("ViewArticle", new { articleSlug = article.Article_Slug });
         }
     }
 }
