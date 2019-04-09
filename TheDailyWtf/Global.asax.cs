@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using Gibraltar.Agent.Web.Mvc.Filters;
 using Inedo.Diagnostics;
 using Newtonsoft.Json;
 using TheDailyWtf.Logs;
@@ -35,6 +36,9 @@ namespace TheDailyWtf
             }
 
             Inedo.Diagnostics.Loupe.Enable("TheDailyWtf", "WtfWebApp", typeof(MvcApplication).Assembly.GetName().Version);
+
+            GlobalFilters.Filters.Add(new MvcRequestMonitorAttribute());
+            GlobalFilters.Filters.Add(new UnhandledExceptionAttribute());
 
             AreaRegistration.RegisterAllAreas();
 
