@@ -273,7 +273,18 @@ namespace TheDailyWtf.Controllers
                 name = commentModel.Username;
                 return View(new EditCommentViewModel { Article = articleModel, Comment = commentModel, Post = new CommentFormModel { Body = body, Name = name } });
             }
-            DB.Comments_CreateOrUpdateComment(comment, article, body, name, commentModel.PublishedDate, commentModel.UserIP, commentModel.UserToken, commentModel.ParentCommentId);
+
+            DB.Comments_CreateOrUpdateComment(
+                Article_Id: article,
+                Body_Html: body,
+                User_Name: name,
+                Posted_Date: commentModel.PublishedDate,
+                User_IP: commentModel.UserIP,
+                User_Token: commentModel.UserToken,
+                Parent_Comment_Id: commentModel.ParentCommentId,
+                Comment_Id: comment
+            );
+
             return RedirectToRoute("ArticleCommentsAdmin", new { id = articleModel.Id });
         }
 

@@ -118,7 +118,6 @@ namespace TheDailyWtf.Models
                 BodyRaw = comment.Body_Html,
                 BodyHtml = MarkdownFormatContent(comment.Body_Html),
                 Username = comment.User_Name,
-                DiscoursePostId = comment.Discourse_Post_Id,
                 PublishedDate = comment.Posted_Date,
                 Featured = comment.Featured_Indicator,
                 Hidden = comment.Hidden_Indicator,

@@ -115,7 +115,6 @@ namespace TheDailyWtf.Data
             public string Body_Html { get; set; }
             public string User_Name { get; set; }
             public DateTime Posted_Date { get; set; }
-            public int? Discourse_Post_Id { get; set; }
             public YNIndicator Featured_Indicator { get; set; }
             public string User_IP { get; set; }
             public string User_Token { get; set; }
@@ -131,7 +130,6 @@ namespace TheDailyWtf.Data
             public string Body_Html { get; set; }
             public string User_Name { get; set; }
             public DateTime Posted_Date { get; set; }
-            public int? Discourse_Post_Id { get; set; }
             public YNIndicator Featured_Indicator { get; set; }
             public YNIndicator Hidden_Indicator { get; set; }
             public string User_IP { get; set; }

@@ -8,6 +8,8 @@ namespace TheDailyWtf.ViewModels
 {
     public class ViewAuthorViewModel : WtfViewModelBase
     {
+        private readonly Lazy<IEnumerable<ArticleItemViewModel>> getArticles;
+
         public ViewAuthorViewModel(string slug, DateTime? month = null)
         {
             this.Author = AuthorModel.GetAuthorBySlug(slug);
@@ -26,31 +28,33 @@ namespace TheDailyWtf.ViewModels
                 Url = "http://" + Config.Wtf.Host + "/authors/" + this.Author.Slug,
                 Author = this.Author
             };
+
+            this.getArticles = new Lazy<IEnumerable<ArticleItemViewModel>>(this.GetArticles);
         }
 
         public AuthorModel Author { get; set; }
         public ArticlesIndexViewModel.DateInfo ReferenceDate { get; set; }
-        public IEnumerable<ArticleItemViewModel> Articles
+        public IEnumerable<ArticleItemViewModel> Articles => this.getArticles.Value;
+
+        private IEnumerable<ArticleItemViewModel> GetArticles()
         {
-            get
+            if (this.ReferenceDate != null)
             {
-                if (this.ReferenceDate != null)
-                {
-                    return ArticleModel.GetAuthorArticlesByMonth(this.Author.Slug, this.ReferenceDate.Reference)
-                        .Select(a => new ArticleItemViewModel(a));
-                }
-                return ArticleModel.GetRecentArticlesByAuthor(this.Author.Slug)
+                return ArticleModel.GetAuthorArticlesByMonth(this.Author.Slug, this.ReferenceDate.Reference)
                     .Select(a => new ArticleItemViewModel(a));
             }
+
+            return ArticleModel.GetRecentArticlesByAuthor(this.Author.Slug)
+                .Select(a => new ArticleItemViewModel(a));
         }
 
         private string FormatUrl(DateTime date)
         {
-            return string.Format("/authors/{0}/{1}/{2}", date.Year, date.Month, this.Author.Slug);
+            return $"/authors/{date.Year}/{date.Month}/{this.Author.Slug}";
         }
 
-        public string ArchivesUrl { get { return this.FormatUrl(this.Articles.Last().Article.PublishedDate.Value); } }
-        public string PreviousMonthUrl { get { return this.FormatUrl(this.ReferenceDate.PrevMonth); } }
-        public string NextMonthUrl { get { return this.FormatUrl(this.ReferenceDate.NextMonth); } }
+        public string ArchivesUrl => this.FormatUrl(this.Articles.Last().Article.PublishedDate.Value);
+        public string PreviousMonthUrl => this.FormatUrl(this.ReferenceDate.PrevMonth);
+        public string NextMonthUrl => this.FormatUrl(this.ReferenceDate.NextMonth);
     }
 }

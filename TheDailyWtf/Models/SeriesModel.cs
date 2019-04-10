@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Inedo;
 using TheDailyWtf.Data;
 
 namespace TheDailyWtf.Models
 {
     public sealed class SeriesModel
     {
+        private static readonly LazyCached<List<SeriesModel>> allSeries = new LazyCached<List<SeriesModel>>(
+            () => DB.Series_GetSeries().Select(FromTable).ToList(),
+            TimeSpan.FromHours(2)
+        );
+
         private static readonly Lazy<Dictionary<string, SeriesModel>> seriesMap = new Lazy<Dictionary<string, SeriesModel>>(() =>
         {
             return DB.Series_GetSeries()
@@ -62,10 +68,6 @@ namespace TheDailyWtf.Models
             return SeriesModel.FromTable(series);
         }
 
-        public static IEnumerable<SeriesModel> GetAllSeries()
-        {
-            var series = DB.Series_GetSeries();
-            return series.Select(s => SeriesModel.FromTable(s));
-        }
+        public static IEnumerable<SeriesModel> GetAllSeries() => allSeries.Value;
     }
 }

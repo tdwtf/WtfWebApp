@@ -261,7 +261,18 @@ namespace TheDailyWtf.Controllers
             {
                 var containsLinks = CommonMarkConverter.Parse(form.Body).AsEnumerable().Any(n => n.Inline?.Tag == CommonMark.Syntax.InlineTag.Link || n.Inline?.Tag == CommonMark.Syntax.InlineTag.Image || n.Inline?.Tag == CommonMark.Syntax.InlineTag.RawHtml || n.Block?.Tag == CommonMark.Syntax.BlockTag.HtmlBlock);
                 var shouldHide = containsLinks || DB.Comments_UserHasApprovedComment(ip, token) != true;
-                int commentId = DB.Comments_CreateOrUpdateComment(null, article.Id, form.Body, form.Name, DateTime.Now, ip, token, form.Parent, shouldHide).Value;
+
+                int commentId = DB.Comments_CreateOrUpdateComment(
+                    Article_Id: article.Id, 
+                    Body_Html: form.Body,
+                    User_Name: form.Name,
+                    Posted_Date: DateTime.Now,
+                    User_IP: ip,
+                    User_Token: token,
+                    Parent_Comment_Id: form.Parent,
+                    Hidden_Indicator: shouldHide
+                ).Value;
+
                 return Redirect(string.Format("{0}/{1}#comment-{2}", article.CommentsUrl, article.CachedCommentCount / ViewCommentsViewModel.CommentsPerPage + 1, commentId));
             }
 
@@ -339,8 +350,17 @@ namespace TheDailyWtf.Controllers
                 ModelState.AddModelError(string.Empty, "Comment too long.");
             if (ModelState.IsValid)
             {
-                DB.Comments_CreateOrUpdateComment(comment.Id, article.Id, $"{comment.BodyRaw}\n\n**Addendum {DateTime.Now}:**\n{post.Body}",
-                    comment.Username, comment.PublishedDate, comment.UserIP, comment.UserToken, comment.ParentCommentId);
+                DB.Comments_CreateOrUpdateComment(
+                    Comment_Id: comment.Id,
+                    Article_Id: article.Id,
+                    Body_Html: $"{comment.BodyRaw}\n\n**Addendum {DateTime.Now}:**\n{post.Body}",
+                    User_Name: comment.Username,
+                    Posted_Date: comment.PublishedDate,
+                    User_IP: comment.UserIP,
+                    User_Token: comment.UserToken,
+                    Parent_Comment_Id: comment.ParentCommentId
+                );
+
                 return Redirect(article.Url);
             }
 

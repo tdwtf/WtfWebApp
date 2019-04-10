@@ -13,7 +13,6 @@ CREATE VIEW [Comments_Extended] AS
            C.[Body_Html],
            C.[User_Name],
            C.[Posted_Date],
-           C.[Discourse_Post_Id],
            C.[Featured_Indicator],
            C.[Hidden_Indicator],
            C.[User_IP],

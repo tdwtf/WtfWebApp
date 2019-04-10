@@ -16,7 +16,6 @@ GO
 
 CREATE PROCEDURE [Comments_CreateOrUpdateComment]
 (
-    @Comment_Id INT OUT,
     @Article_Id INT,
     @Body_Html NVARCHAR(MAX),
     @User_Name NVARCHAR(255),
@@ -24,15 +23,13 @@ CREATE PROCEDURE [Comments_CreateOrUpdateComment]
     @User_IP VARCHAR(45),
     @User_Token VARCHAR(MAX),
     @Parent_Comment_Id INT = NULL,
-    @Hidden_Indicator YNINDICATOR = NULL
+    @Hidden_Indicator YNINDICATOR = NULL,
+    @Comment_Id INT = NULL OUT
 )
 AS
 BEGIN
 
-BEGIN TRY
-	BEGIN TRANSACTION
-
-    IF (EXISTS(SELECT * FROM [Comments] WITH (UPDLOCK) WHERE [Comment_Id] = @Comment_Id))
+    IF @Comment_Id IS NOT NULL
     BEGIN
 
         UPDATE [Comments]
@@ -75,12 +72,6 @@ BEGIN TRY
         SET @Comment_Id = SCOPE_IDENTITY()
 
     END
-
-	COMMIT
-END TRY BEGIN CATCH
-	IF XACT_STATE()<>0 ROLLBACK
-	EXEC [HandleError]
-END CATCH
 
 END
 GO

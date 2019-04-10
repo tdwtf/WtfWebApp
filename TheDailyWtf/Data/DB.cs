@@ -245,9 +245,9 @@ namespace TheDailyWtf.Data
         /// <summary>
         /// 
         /// </summary>
-        public static int? Comments_CreateOrUpdateComment(int? Comment_Id, int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id = null, YNIndicator? Hidden_Indicator = null)
+        public static int? Comments_CreateOrUpdateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id = null, YNIndicator? Hidden_Indicator = null, int? Comment_Id = null)
         {
-            return new Context(false).Comments_CreateOrUpdateComment(Comment_Id, Article_Id, Body_Html, User_Name, Posted_Date, User_IP, User_Token, Parent_Comment_Id, Hidden_Indicator);
+            return new Context(false).Comments_CreateOrUpdateComment(Article_Id, Body_Html, User_Name, Posted_Date, User_IP, User_Token, Parent_Comment_Id, Hidden_Indicator, Comment_Id);
         }
         /// <summary>
         /// 
@@ -1125,11 +1125,10 @@ namespace TheDailyWtf.Data
             /// <summary>
             /// 
             /// </summary>
-            public int? Comments_CreateOrUpdateComment(int? Comment_Id, int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id = null, YNIndicator? Hidden_Indicator = null)
+            public int? Comments_CreateOrUpdateComment(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id = null, YNIndicator? Hidden_Indicator = null, int? Comment_Id = null)
             {
                 var list = new GenericDbParameter[9]
                 {
-                    new GenericDbParameter("@Comment_Id", DbType.Int32, 0, ParameterDirection.InputOutput, Comment_Id),
                     new GenericDbParameter("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id),
                     new GenericDbParameter("@Body_Html", DbType.String, -1, ParameterDirection.Input, Body_Html),
                     new GenericDbParameter("@User_Name", DbType.String, 255, ParameterDirection.Input, User_Name),
@@ -1137,22 +1136,22 @@ namespace TheDailyWtf.Data
                     new GenericDbParameter("@User_IP", DbType.AnsiString, 45, ParameterDirection.Input, User_IP),
                     new GenericDbParameter("@User_Token", DbType.AnsiString, -1, ParameterDirection.Input, User_Token),
                     new GenericDbParameter("@Parent_Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Parent_Comment_Id),
-                    new GenericDbParameter("@Hidden_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Input, Hidden_Indicator?.ToString())
+                    new GenericDbParameter("@Hidden_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Input, Hidden_Indicator?.ToString()),
+                    new GenericDbParameter("@Comment_Id", DbType.Int32, 0, ParameterDirection.InputOutput, Comment_Id)
                 };
                 this.ExecuteNonQuery("Comments_CreateOrUpdateComment", list);
-                if (Convert.IsDBNull(list[0].Value))
+                if (Convert.IsDBNull(list[8].Value))
                     return default(int?);
                 else
-                    return (int?)list[0].Value;
+                    return (int?)list[8].Value;
             }
             /// <summary>
             /// 
             /// </summary>
-            public Task<int?> Comments_CreateOrUpdateCommentAsync(int? Comment_Id, int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id = null, YNIndicator? Hidden_Indicator = null)
+            public Task<int?> Comments_CreateOrUpdateCommentAsync(int? Article_Id, string Body_Html, string User_Name, DateTime? Posted_Date, string User_IP, string User_Token, int? Parent_Comment_Id = null, YNIndicator? Hidden_Indicator = null, int? Comment_Id = null)
             {
                 var list = new GenericDbParameter[9]
                 {
-                    new GenericDbParameter("@Comment_Id", DbType.Int32, 0, ParameterDirection.InputOutput, Comment_Id),
                     new GenericDbParameter("@Article_Id", DbType.Int32, 0, ParameterDirection.Input, Article_Id),
                     new GenericDbParameter("@Body_Html", DbType.String, -1, ParameterDirection.Input, Body_Html),
                     new GenericDbParameter("@User_Name", DbType.String, 255, ParameterDirection.Input, User_Name),
@@ -1160,9 +1159,10 @@ namespace TheDailyWtf.Data
                     new GenericDbParameter("@User_IP", DbType.AnsiString, 45, ParameterDirection.Input, User_IP),
                     new GenericDbParameter("@User_Token", DbType.AnsiString, -1, ParameterDirection.Input, User_Token),
                     new GenericDbParameter("@Parent_Comment_Id", DbType.Int32, 0, ParameterDirection.Input, Parent_Comment_Id),
-                    new GenericDbParameter("@Hidden_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Input, Hidden_Indicator?.ToString())
+                    new GenericDbParameter("@Hidden_Indicator", DbType.AnsiStringFixedLength, 1, ParameterDirection.Input, Hidden_Indicator?.ToString()),
+                    new GenericDbParameter("@Comment_Id", DbType.Int32, 0, ParameterDirection.InputOutput, Comment_Id)
                 };
-                return this.ExecuteScalarAsync<int?>("Comments_CreateOrUpdateComment", list, 0);
+                return this.ExecuteScalarAsync<int?>("Comments_CreateOrUpdateComment", list, 8);
             }
             /// <summary>
             /// 

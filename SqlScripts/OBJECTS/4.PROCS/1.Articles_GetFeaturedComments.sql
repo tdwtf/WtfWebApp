@@ -26,7 +26,7 @@ BEGIN
       FROM [Comments_Extended] C
      WHERE C.[Article_Id] = @Article_Id
        AND C.[Featured_Indicator] = 'Y'
-     ORDER BY C.[Posted_Date] ASC, C.[Comment_Id] ASC
+     ORDER BY C.[Comment_Index]
 
 END
 GO

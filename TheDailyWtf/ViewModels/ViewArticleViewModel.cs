@@ -9,18 +9,21 @@ namespace TheDailyWtf.ViewModels
 {
     public class ViewArticleViewModel : WtfViewModelBase
     {
+        private readonly Lazy<ViewCommentsViewModel> getFeaturedComments;
+
         public ViewArticleViewModel(string slug)
         {
             this.Slug = slug;
             this.Article = ArticleModel.GetArticleBySlug(slug);
+
+            this.getFeaturedComments = new Lazy<ViewCommentsViewModel>(() => new ViewCommentsViewModel(this.Article, this.Article.GetFeaturedComments()));
         }
 
         public ViewArticleViewModel(ArticleModel article)
         {
             this.Slug = article.Slug;
             this.Article = article;
-            string description, image;
-            ParseSummaryAndImage(article.SummaryHtml, out description, out image);
+            ParseSummaryAndImage(article.SummaryHtml, out var description, out var image);
             this.OpenGraph = new OpenGraphData
             {
                 AuthorName = article.Author.Name,
@@ -40,16 +43,10 @@ namespace TheDailyWtf.ViewModels
             image = node.Descendants("img").FirstOrDefault()?.GetAttributeValue("src", null);
         }
 
-        public string Slug { get; private set; }
-        public ArticleModel Article { get; private set; }
-        public ViewCommentsViewModel FeaturedComments { get { return new ViewCommentsViewModel(this.Article, this.Article.GetFeaturedComments()); } }
-        public IEnumerable<ArticleModel> SimilarArticles { get { return this.RecentArticles; } }
-        public string ViewCommentsText
-        {
-            get
-            {
-                return string.Format("View All {0} Comments", this.Article.CachedCommentCount);
-            }
-        }
+        public string Slug { get; }
+        public ArticleModel Article { get; }
+        public ViewCommentsViewModel FeaturedComments => this.getFeaturedComments.Value;
+        public IEnumerable<ArticleModel> SimilarArticles => this.RecentArticles;
+        public string ViewCommentsText => $"View All {this.Article.CachedCommentCount} Comments";
     }
 }
