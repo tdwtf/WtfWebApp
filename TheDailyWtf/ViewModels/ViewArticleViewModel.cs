@@ -34,6 +34,8 @@ namespace TheDailyWtf.ViewModels
                 Type = "article",
                 Article = article
             };
+
+            this.getFeaturedComments = new Lazy<ViewCommentsViewModel>(() => new ViewCommentsViewModel(this.Article, this.Article.GetFeaturedComments()));
         }
 
         private static void ParseSummaryAndImage(string summaryHtml, out string description, out string image)
