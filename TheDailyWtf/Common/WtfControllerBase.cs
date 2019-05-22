@@ -22,11 +22,14 @@ namespace TheDailyWtf
         {
             if (!(this.HttpContext.Cache["ArticleList"] is Tables.Articles_Slim[] allArticles))
             {
-                allArticles = DB.Articles_GetArticlesSlim().ToArray();
+                allArticles = DB.Articles_GetArticles().ToArray();
                 this.HttpContext.Cache.Add("ArticleList", allArticles, null, DateTime.UtcNow.AddHours(1), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
             }
-
-            int i = new Random().Next(allArticles.Length);
+           
+            while (allArticles.Published_Date != null) 
+            {
+                 int i = new Random().Next(allArticles.Length);
+            }
             return allArticles[i];
         }
 
