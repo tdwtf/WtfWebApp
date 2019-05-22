@@ -25,8 +25,8 @@ namespace TheDailyWtf
                 allArticles = DB.Articles_GetArticles().ToArray();
                 this.HttpContext.Cache.Add("ArticleList", allArticles, null, DateTime.UtcNow.AddHours(1), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
             }
-           
-            while (allArticles.Published_Date != null) 
+            i.Published_Date = null;
+            while (i.Published_Date == null) 
             {
                  int i = new Random().Next(allArticles.Length);
             }
