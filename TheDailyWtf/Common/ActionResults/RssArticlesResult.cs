@@ -57,7 +57,7 @@ namespace TheDailyWtf
                 )
             );
 
-            using (var writer = XmlWriter.Create(response.OutputStream, new XmlWriterSettings { Encoding = Encoding.UTF8, Indent = false }))
+            using (var writer = XmlWriter.Create(response.OutputStream, new XmlWriterSettings { Encoding = Encoding.UTF8, Indent = false, CheckCharacters = false }))
             {
                 xdoc.WriteTo(writer);
             }
