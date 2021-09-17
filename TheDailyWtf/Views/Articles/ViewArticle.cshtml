@@ -1,7 +1,7 @@
 ﻿@model ViewArticleViewModel
 @{
-   Layout = "~/Views/Shared/_Layout.cshtml";
-   Model.PageTitle = Model.Article.Title + " - The Daily WTF";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Model.PageTitle = Model.Article.Title + " - The Daily WTF";
 }
 
 <div class="content" id="article-page">
@@ -29,12 +29,19 @@
                 <a itemprop="discussionUrl" class="comments" href="@Model.Article.CommentsUrl">View all <span itemprop="commentCount" class="number-of-comments">@Model.Article.CachedCommentCount</span> comments &raquo;</a>
             </div>
 
-            <ul class="sm-link-bar">
-                <li><a href="@Model.Article.EmailUrl"><img src="~/Content/Images/email-24.png" class="email" /></a></li>
-                <li><a href="@Model.Article.GooglePlusUrl"><img src="~/Content/Images/googleplus-24.png" class="googleplus" /></a></li>
-                <li><a href="@Model.Article.FacebookUrl"><img src="~/Content/Images/facebook-24.png" class="facebook" /></a></li>
-                <li><a href="@Model.Article.TwitterUrl"><img src="~/Content/Images/twitter-24.png" class="twitter" /></a></li>
-            </ul>
+            <!-- AddToAny BEGIN -->
+            <div class="a2a_kit a2a_kit_size_32 a2a_default_style" style="padding:5px;">
+                <a class="a2a_button_hacker_news"></a>
+                <a class="a2a_button_reddit"></a>
+                <a class="a2a_button_twitter"></a>
+                <a class="a2a_button_facebook"></a>
+                <a class="a2a_button_linkedin"></a>
+                <a class="a2a_button_email"></a>
+                <a class="a2a_button_myspace"></a>
+                <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+                <script async src="https://static.addtoany.com/menu/page.js"></script>
+            </div>
+            <!-- AddToAny END -->
 
             @if (Model.FeaturedComments.Comments.Any())
             {
