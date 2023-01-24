@@ -28,7 +28,9 @@
             <div class="comment-container">
                 <a itemprop="discussionUrl" class="comments" href="@Model.Article.CommentsUrl">View all <span itemprop="commentCount" class="number-of-comments">@Model.Article.CachedCommentCount</span> comments &raquo;</a>
             </div>
-
+            <link rel="stylesheet" href="//thedailywtf.com/images/highlight/styles/github.css"/>
+            <script src="//thedailywtf.com/images/highlight/highlight.pack.js"></script>
+            <script>hljs.initHighlightingOnLoad();</script>
             <!-- AddToAny BEGIN -->
             <div class="a2a_kit a2a_kit_size_32 a2a_default_style" style="padding:5px;">
                 <a class="a2a_button_hacker_news"></a>
